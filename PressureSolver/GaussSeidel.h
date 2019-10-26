@@ -6,7 +6,8 @@
 #define CODE_NUMSIM_GAUSSSEIDEL_H
 
 
-class GaussSeidel {
+class GaussSeidel : public PressureSolver {
+    void solve();
 
 };
 

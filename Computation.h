@@ -7,7 +7,38 @@
 
 
 class Computation {
+public:
+    void intitialize(int argc, char *argv[]);
 
+    void runSimulation();
+
+private:
+    void computeTimeStepWidth();
+
+    void applyBoundaryValues();
+
+    void PreliminaryVelocities;
+
+    void computeRightHandSide();
+
+    void computePressure();
+
+    void computeVelocities();
+
+    // Attributes
+    Settings settings_
+
+    std::shared_ptr <Discretization> discretization_
+
+    std::unique_ptr <PressureSolver> pressureSolver_
+
+    std::unique_ptr <OutputWriterParaview> outputWriterParaview_
+
+    std::unique_ptr <OutputWriterText> outputWriterText_
+
+    std::array<double, 2> meshWidth_
+
+    double dt_
 };
 
 
