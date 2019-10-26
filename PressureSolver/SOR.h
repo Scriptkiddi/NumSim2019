@@ -6,8 +6,14 @@
 #define CODE_NUMSIM_SOR_H
 
 
-class SOR {
+class SOR : public PressureSolver {
+public:
+    SOR(std::shared_ptr <Discretization> discretization, double epsilon, int maximumNumberOfIterations, double omega);
 
+    void solve;
+
+private:
+    double omega;
 };
 
 
