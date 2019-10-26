@@ -6,8 +6,12 @@
 #define CODE_NUMSIM_CENTRALDIFFERENCES_H
 
 
-class CentralDifferences {
-
+class CentralDifferences : public Discretization {
+public:
+    virtual double 	computeDu2Dx (int i, int j) const;
+    virtual double 	computeDv2Dy (int i, int j) const;
+    virtual double 	computeDuvDx (int i, int j) const;
+    virtual double 	computeDuvDy (int i, int j) const;
 };
 
 
