@@ -3,7 +3,8 @@
 //
 
 #include "FieldVariable.h"
-#include "math.h"
+#include <cmath>
+#include <cassert>
 
 
 const std::array<double, 2> origin_{};
@@ -14,17 +15,19 @@ FieldVariable::FieldVariable(std::array<int, 2> size, std::array<double, 2> orig
         Array2D(size), origin_(origin), meshWidth_(meshWidth) {}
 
 double FieldVariable::interpolateAt(double x, double y) const {
-    int i = floor((x - origin_[1]) / meshWidth_[1]);
-    double x_rest = x - origin_[1] - i * meshWidth_[1];
 
-    int j = floor((y - origin_[2]) / meshWidth_[2]);
-    double y_rest = y - origin_[2] - j * meshWidth_[2];
+    assert(x>=0 && x<= meshWidth_[0]*(size_[0]-1) && y>=0 && y<=meshWidth_[1]*(size_[1]-1));
 
-    double alpha = x_rest / meshWidth_[1];
-    double beta = y_rest / meshWidth_[2];
+    int i = floor((x - origin_[0]) / meshWidth_[0]);
+    double alpha = (x - origin_[0] - i * meshWidth_[0]) / meshWidth_[0];
 
-    double value = 0; // to be continued
+    int j = floor((y - origin_[1]) / meshWidth_[1]);
+    double beta = (y - origin_[1] - j * meshWidth_[1]) / meshWidth_[1];
 
-    return value;
+    const int index = j * size_[0] + i;
+
+
+    return ((1 - beta) * ((1 - alpha) * data_[index] + alpha * data_[index + 1]) +
+            beta * ((1 - alpha) * data_[index + size_[0]] + alpha * data_[index + size_[0] + 1]));
+
 }
-
