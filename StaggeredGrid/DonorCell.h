@@ -5,6 +5,8 @@
 #ifndef CODE_NUMSIM_DONORCELL_H
 #define CODE_NUMSIM_DONORCELL_H
 
+#include "Discretization.h"
+
 
 class DonorCell : public Discretization {
 private:
