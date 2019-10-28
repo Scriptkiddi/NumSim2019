@@ -10,7 +10,7 @@ class SOR : public PressureSolver {
 public:
     SOR(std::shared_ptr <Discretization> discretization, double epsilon, int maximumNumberOfIterations, double omega);
 
-    void solve;
+    void solve();
 
 private:
     double omega;

@@ -2,20 +2,32 @@
 // Created by Julia Pelzer on 26.10.2019.
 //
 
-#ifndef CODE_NUMSIM_ARRAY2D_H
-#define CODE_NUMSIM_ARRAY2D_H
+#pragma once
 
+#include <vector>
+#include <array>
 
-class Array2D {
-protected:
-    std::vector<double> data_;
-    const std::array< int, 2 > 	size_;
+/** This class represents a 2D array of double values.
+ *  Internally they are stored consecutively in memory.
+ *  The entries can be accessed by two indices i,j.
+ */
+class Array2D
+{
 public:
-    Array2D (std::array< int, 2 > size);
-    std::array< int, 2 > 	size () const;
-    double & 	operator() (int i, int j);
-    double 	operator() (int i, int j) const;
+    //! constructor
+    explicit Array2D(std::array<int,2> size);
+
+    //! get the size
+    std::array<int,2> size() const;
+
+    //! access the value at coordinate (i,j), declared not const, i.e. the value can be changed
+    double &operator()(int i, int j);
+
+    //! get the value at coordinate (i,j), declared const, i.e. it is not possible to change the value
+    double operator()(int i, int j) const;
+
+protected:
+
+    std::vector<double> data_;  //< storage array values, in row-major order
+    const std::array<int,2> size_;    //< width, height of the domain
 };
-
-
-#endif //CODE_NUMSIM_ARRAY2D_H

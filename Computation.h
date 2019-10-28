@@ -17,7 +17,7 @@ private:
 
     void applyBoundaryValues();
 
-    void PreliminaryVelocities;
+    void PreliminaryVelocities();
 
     void computeRightHandSide();
 
