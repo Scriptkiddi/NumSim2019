@@ -47,10 +47,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Fabian\CLionProjects\NumSim2019
+CMAKE_SOURCE_DIR = D:\Daten\Studium\Master_Semester1\NumSim\code_numsim
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug
+CMAKE_BINARY_DIR = D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles\progress.marks
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -122,32 +122,140 @@ NumSim2019/fast:
 	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/build
 .PHONY : NumSim2019/fast
 
-Array2D.obj: Array2D.cpp.obj
+Array2D/Array2D.obj: Array2D/Array2D.cpp.obj
 
-.PHONY : Array2D.obj
+.PHONY : Array2D/Array2D.obj
 
 # target to build an object file
-Array2D.cpp.obj:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D.cpp.obj
-.PHONY : Array2D.cpp.obj
+Array2D/Array2D.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj
+.PHONY : Array2D/Array2D.cpp.obj
 
-Array2D.i: Array2D.cpp.i
+Array2D/Array2D.i: Array2D/Array2D.cpp.i
 
-.PHONY : Array2D.i
+.PHONY : Array2D/Array2D.i
 
 # target to preprocess a source file
-Array2D.cpp.i:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D.cpp.i
-.PHONY : Array2D.cpp.i
+Array2D/Array2D.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.i
+.PHONY : Array2D/Array2D.cpp.i
 
-Array2D.s: Array2D.cpp.s
+Array2D/Array2D.s: Array2D/Array2D.cpp.s
 
-.PHONY : Array2D.s
+.PHONY : Array2D/Array2D.s
 
 # target to generate assembly for a file
-Array2D.cpp.s:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D.cpp.s
-.PHONY : Array2D.cpp.s
+Array2D/Array2D.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.s
+.PHONY : Array2D/Array2D.cpp.s
+
+Array2D/FieldVariable.obj: Array2D/FieldVariable.cpp.obj
+
+.PHONY : Array2D/FieldVariable.obj
+
+# target to build an object file
+Array2D/FieldVariable.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj
+.PHONY : Array2D/FieldVariable.cpp.obj
+
+Array2D/FieldVariable.i: Array2D/FieldVariable.cpp.i
+
+.PHONY : Array2D/FieldVariable.i
+
+# target to preprocess a source file
+Array2D/FieldVariable.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.i
+.PHONY : Array2D/FieldVariable.cpp.i
+
+Array2D/FieldVariable.s: Array2D/FieldVariable.cpp.s
+
+.PHONY : Array2D/FieldVariable.s
+
+# target to generate assembly for a file
+Array2D/FieldVariable.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.s
+.PHONY : Array2D/FieldVariable.cpp.s
+
+StaggeredGrid/Discretization.obj: StaggeredGrid/Discretization.cpp.obj
+
+.PHONY : StaggeredGrid/Discretization.obj
+
+# target to build an object file
+StaggeredGrid/Discretization.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.obj
+.PHONY : StaggeredGrid/Discretization.cpp.obj
+
+StaggeredGrid/Discretization.i: StaggeredGrid/Discretization.cpp.i
+
+.PHONY : StaggeredGrid/Discretization.i
+
+# target to preprocess a source file
+StaggeredGrid/Discretization.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.i
+.PHONY : StaggeredGrid/Discretization.cpp.i
+
+StaggeredGrid/Discretization.s: StaggeredGrid/Discretization.cpp.s
+
+.PHONY : StaggeredGrid/Discretization.s
+
+# target to generate assembly for a file
+StaggeredGrid/Discretization.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.s
+.PHONY : StaggeredGrid/Discretization.cpp.s
+
+StaggeredGrid/DonorCell.obj: StaggeredGrid/DonorCell.cpp.obj
+
+.PHONY : StaggeredGrid/DonorCell.obj
+
+# target to build an object file
+StaggeredGrid/DonorCell.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.obj
+.PHONY : StaggeredGrid/DonorCell.cpp.obj
+
+StaggeredGrid/DonorCell.i: StaggeredGrid/DonorCell.cpp.i
+
+.PHONY : StaggeredGrid/DonorCell.i
+
+# target to preprocess a source file
+StaggeredGrid/DonorCell.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.i
+.PHONY : StaggeredGrid/DonorCell.cpp.i
+
+StaggeredGrid/DonorCell.s: StaggeredGrid/DonorCell.cpp.s
+
+.PHONY : StaggeredGrid/DonorCell.s
+
+# target to generate assembly for a file
+StaggeredGrid/DonorCell.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.s
+.PHONY : StaggeredGrid/DonorCell.cpp.s
+
+StaggeredGrid/StaggeredGrid.obj: StaggeredGrid/StaggeredGrid.cpp.obj
+
+.PHONY : StaggeredGrid/StaggeredGrid.obj
+
+# target to build an object file
+StaggeredGrid/StaggeredGrid.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj
+.PHONY : StaggeredGrid/StaggeredGrid.cpp.obj
+
+StaggeredGrid/StaggeredGrid.i: StaggeredGrid/StaggeredGrid.cpp.i
+
+.PHONY : StaggeredGrid/StaggeredGrid.i
+
+# target to preprocess a source file
+StaggeredGrid/StaggeredGrid.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.i
+.PHONY : StaggeredGrid/StaggeredGrid.cpp.i
+
+StaggeredGrid/StaggeredGrid.s: StaggeredGrid/StaggeredGrid.cpp.s
+
+.PHONY : StaggeredGrid/StaggeredGrid.s
+
+# target to generate assembly for a file
+StaggeredGrid/StaggeredGrid.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.s
+.PHONY : StaggeredGrid/StaggeredGrid.cpp.s
 
 main.obj: main.cpp.obj
 
@@ -185,9 +293,21 @@ help:
 	@echo ... NumSim2019
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... Array2D.obj
-	@echo ... Array2D.i
-	@echo ... Array2D.s
+	@echo ... Array2D/Array2D.obj
+	@echo ... Array2D/Array2D.i
+	@echo ... Array2D/Array2D.s
+	@echo ... Array2D/FieldVariable.obj
+	@echo ... Array2D/FieldVariable.i
+	@echo ... Array2D/FieldVariable.s
+	@echo ... StaggeredGrid/Discretization.obj
+	@echo ... StaggeredGrid/Discretization.i
+	@echo ... StaggeredGrid/Discretization.s
+	@echo ... StaggeredGrid/DonorCell.obj
+	@echo ... StaggeredGrid/DonorCell.i
+	@echo ... StaggeredGrid/DonorCell.s
+	@echo ... StaggeredGrid/StaggeredGrid.obj
+	@echo ... StaggeredGrid/StaggeredGrid.i
+	@echo ... StaggeredGrid/StaggeredGrid.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

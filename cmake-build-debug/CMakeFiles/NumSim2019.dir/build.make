@@ -42,10 +42,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Fabian\CLionProjects\NumSim2019
+CMAKE_SOURCE_DIR = D:\Daten\Studium\Master_Semester1\NumSim\code_numsim
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug
+CMAKE_BINARY_DIR = D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/NumSim2019.dir/depend.make
@@ -56,47 +56,107 @@ include CMakeFiles/NumSim2019.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/NumSim2019.dir/flags.make
 
-CMakeFiles/NumSim2019.dir/Array2D.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
-CMakeFiles/NumSim2019.dir/Array2D.cpp.obj: ../Array2D.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/NumSim2019.dir/Array2D.cpp.obj"
-	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\Array2D.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\Array2D.cpp
+CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj: ../Array2D/Array2D.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\Array2D\Array2D.cpp.obj -c D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\Array2D\Array2D.cpp
 
-CMakeFiles/NumSim2019.dir/Array2D.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/Array2D.cpp.i"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Fabian\CLionProjects\NumSim2019\Array2D.cpp > CMakeFiles\NumSim2019.dir\Array2D.cpp.i
+CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\Array2D\Array2D.cpp > CMakeFiles\NumSim2019.dir\Array2D\Array2D.cpp.i
 
-CMakeFiles/NumSim2019.dir/Array2D.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/Array2D.cpp.s"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\Array2D.cpp -o CMakeFiles\NumSim2019.dir\Array2D.cpp.s
+CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\Array2D\Array2D.cpp -o CMakeFiles\NumSim2019.dir\Array2D\Array2D.cpp.s
+
+CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj: ../Array2D/FieldVariable.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\Array2D\FieldVariable.cpp.obj -c D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\Array2D\FieldVariable.cpp
+
+CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\Array2D\FieldVariable.cpp > CMakeFiles\NumSim2019.dir\Array2D\FieldVariable.cpp.i
+
+CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\Array2D\FieldVariable.cpp -o CMakeFiles\NumSim2019.dir\Array2D\FieldVariable.cpp.s
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj: ../StaggeredGrid/StaggeredGrid.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\StaggeredGrid\StaggeredGrid.cpp.obj -c D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\StaggeredGrid.cpp
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\StaggeredGrid.cpp > CMakeFiles\NumSim2019.dir\StaggeredGrid\StaggeredGrid.cpp.i
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\StaggeredGrid.cpp -o CMakeFiles\NumSim2019.dir\StaggeredGrid\StaggeredGrid.cpp.s
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.obj: ../StaggeredGrid/Discretization.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\StaggeredGrid\Discretization.cpp.obj -c D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\Discretization.cpp
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\Discretization.cpp > CMakeFiles\NumSim2019.dir\StaggeredGrid\Discretization.cpp.i
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\Discretization.cpp -o CMakeFiles\NumSim2019.dir\StaggeredGrid\Discretization.cpp.s
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.obj: ../StaggeredGrid/DonorCell.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\StaggeredGrid\DonorCell.cpp.obj -c D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\DonorCell.cpp
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\DonorCell.cpp > CMakeFiles\NumSim2019.dir\StaggeredGrid\DonorCell.cpp.i
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\StaggeredGrid\DonorCell.cpp -o CMakeFiles\NumSim2019.dir\StaggeredGrid\DonorCell.cpp.s
 
 CMakeFiles/NumSim2019.dir/main.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
 CMakeFiles/NumSim2019.dir/main.cpp.obj: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/NumSim2019.dir/main.cpp.obj"
-	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\main.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/NumSim2019.dir/main.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\main.cpp.obj -c D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\main.cpp
 
 CMakeFiles/NumSim2019.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/main.cpp.i"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Fabian\CLionProjects\NumSim2019\main.cpp > CMakeFiles\NumSim2019.dir\main.cpp.i
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\main.cpp > CMakeFiles\NumSim2019.dir\main.cpp.i
 
 CMakeFiles/NumSim2019.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/main.cpp.s"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\main.cpp -o CMakeFiles\NumSim2019.dir\main.cpp.s
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\main.cpp -o CMakeFiles\NumSim2019.dir\main.cpp.s
 
 # Object files for target NumSim2019
 NumSim2019_OBJECTS = \
-"CMakeFiles/NumSim2019.dir/Array2D.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.obj" \
 "CMakeFiles/NumSim2019.dir/main.cpp.obj"
 
 # External object files for target NumSim2019
 NumSim2019_EXTERNAL_OBJECTS =
 
-NumSim2019.exe: CMakeFiles/NumSim2019.dir/Array2D.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.obj
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/main.cpp.obj
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/build.make
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/linklibs.rsp
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/objects1.rsp
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable NumSim2019.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable NumSim2019.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\NumSim2019.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -109,6 +169,6 @@ CMakeFiles/NumSim2019.dir/clean:
 .PHONY : CMakeFiles/NumSim2019.dir/clean
 
 CMakeFiles/NumSim2019.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Fabian\CLionProjects\NumSim2019 C:\Users\Fabian\CLionProjects\NumSim2019 C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles\NumSim2019.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Daten\Studium\Master_Semester1\NumSim\code_numsim D:\Daten\Studium\Master_Semester1\NumSim\code_numsim D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles\NumSim2019.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/NumSim2019.dir/depend
 

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Fabian/CLionProjects/NumSim2019
+# Install script for directory: D:/Daten/Studium/Master_Semester1/NumSim/code_numsim
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Fabian/CLionProjects/NumSim2019/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/Daten/Studium/Master_Semester1/NumSim/code_numsim/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
