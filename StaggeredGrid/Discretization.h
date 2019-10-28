@@ -5,6 +5,7 @@
 #ifndef CODE_NUMSIM_DISCRETIZATION_H
 #define CODE_NUMSIM_DISCRETIZATION_H
 
+#include "StaggeredGrid.h"
 
 class Discretization : public StaggeredGrid {
 public:

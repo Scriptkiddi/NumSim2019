@@ -26,19 +26,19 @@ private:
     void computeVelocities();
 
     // Attributes
-    Settings settings_
+    Settings settings_;
 
-    std::shared_ptr <Discretization> discretization_
+    std::shared_ptr <Discretization> discretization_;
 
-    std::unique_ptr <PressureSolver> pressureSolver_
+    std::unique_ptr <PressureSolver> pressureSolver_;
 
-    std::unique_ptr <OutputWriterParaview> outputWriterParaview_
+    std::unique_ptr <OutputWriterParaview> outputWriterParaview_;
 
-    std::unique_ptr <OutputWriterText> outputWriterText_
+    std::unique_ptr <OutputWriterText> outputWriterText_;
 
-    std::array<double, 2> meshWidth_
+    std::array<double, 2> meshWidth_;
 
-    double dt_
+    double dt_;
 };
 
 
