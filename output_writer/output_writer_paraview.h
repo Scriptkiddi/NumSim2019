@@ -1,9 +1,10 @@
 #pragma once
 
-#include "output_writer/output_writer.h"
+#include "output_writer.h"
 
 #include <vtkSmartPointer.h>
 #include <vtkXMLImageDataWriter.h>
+
 
 #include <memory>
 
@@ -12,7 +13,7 @@
  *  All values are given for the nodes of the mesh, i.e., the corners of each cell.
  *  This means, values will be interpolated because the values are stored at positions given by the staggered grid.
  */
-class OutputWriterParaview : 
+class OutputWriterParaview :
   public OutputWriter
 {
 public:
