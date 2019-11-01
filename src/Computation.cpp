@@ -43,10 +43,15 @@ void Computation::initialize(int argc, char **argv) {
         //pressureSolver_ = make_unique<PressureSolver>(pSolver);
         std::cout << "Please select SOR-solver" << std::endl;
     }
+    //initialize outputWriters
+    OutputWriterText outText(discretization_);
+    outputWriterText_ = make_unique<OutputWriterText>(outText);
+
+    OutputWriterParaview outPara(discretization_);
+    outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
 }
 
 void Computation::runSimulation() {
-    // initialize(); //todo fill
     double t = 0;
     while (t < settings_.endTime) {
         computeTimeStepWidth();
@@ -56,6 +61,7 @@ void Computation::runSimulation() {
         computePressure();
         computeVelocities();
         //outputwriter oÄ aufrufen
+
         t += dt_;
     }
 }
