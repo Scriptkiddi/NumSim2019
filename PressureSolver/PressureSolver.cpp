@@ -4,19 +4,16 @@
 
 #include "PressureSolver.h"
 
-PressureSolver(std::shared_ptr <Discretization>
-discretization,
-double epsilon,
-int maximumNumberOfIterations)
 
-virtual void solve() = 0
+PressureSolver::PressureSolver(std::shared_ptr<Discretization> discretization, double epsilon,
+                               int maximumNumberOfIterations) :
+        discretization_(discretization),
+        epsilon_(epsilon),
+        maximumNumberOfIterations_(maximumNumberOfIterations) {
 
-protected:
+}
 
-void setBoundaryValues()
+void PressureSolver::setBoundaryValues() {
 
-std::shared_ptr <Discretization> discretization_
 
-double epsilon_
-
-int maximumNumberOfIterations_
+}

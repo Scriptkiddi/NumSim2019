@@ -14,4 +14,9 @@ int main() {
             std::cout << a(i, j) << std::endl;
         }
     }
+    std::cout << a.interpolateAt(.5,.5) << std::endl;
+    std::cout << a.interpolateAt(1,1) << std::endl;
+    std::cout << a.interpolateAt(1,1) << std::endl;
+
 }
+

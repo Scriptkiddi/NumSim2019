@@ -80,10 +80,34 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/Array2D.cpp">
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/Array2D/Array2D.cpp">
 			<Option target="NumSim2019"/>
 		</Unit>
-		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/Array2D.h">
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/Array2D/Array2D.h">
+			<Option target="NumSim2019"/>
+		</Unit>
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/Array2D/FieldVariable.cpp">
+			<Option target="NumSim2019"/>
+		</Unit>
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/Array2D/FieldVariable.h">
+			<Option target="NumSim2019"/>
+		</Unit>
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/PressureSolver/PressureSolver.cpp">
+			<Option target="NumSim2019"/>
+		</Unit>
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/PressureSolver/PressureSolver.h">
+			<Option target="NumSim2019"/>
+		</Unit>
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/PressureSolver/SOR.cpp">
+			<Option target="NumSim2019"/>
+		</Unit>
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/PressureSolver/SOR.h">
+			<Option target="NumSim2019"/>
+		</Unit>
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/StaggeredGrid/StaggeredGrid.cpp">
+			<Option target="NumSim2019"/>
+		</Unit>
+		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/StaggeredGrid/StaggeredGrid.h">
 			<Option target="NumSim2019"/>
 		</Unit>
 		<Unit filename="C:/Users/Fabian/CLionProjects/NumSim2019/main.cpp">

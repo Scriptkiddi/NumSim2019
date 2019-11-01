@@ -56,22 +56,35 @@ include CMakeFiles/NumSim2019.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/NumSim2019.dir/flags.make
 
-CMakeFiles/NumSim2019.dir/Array2D.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
-CMakeFiles/NumSim2019.dir/Array2D.cpp.obj: ../Array2D.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/NumSim2019.dir/Array2D.cpp.obj"
-	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\Array2D.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\Array2D.cpp
+CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj: ../Array2D/Array2D.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\Array2D\Array2D.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\Array2D\Array2D.cpp
 
-CMakeFiles/NumSim2019.dir/Array2D.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/Array2D.cpp.i"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Fabian\CLionProjects\NumSim2019\Array2D.cpp > CMakeFiles\NumSim2019.dir\Array2D.cpp.i
+CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Fabian\CLionProjects\NumSim2019\Array2D\Array2D.cpp > CMakeFiles\NumSim2019.dir\Array2D\Array2D.cpp.i
 
-CMakeFiles/NumSim2019.dir/Array2D.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/Array2D.cpp.s"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\Array2D.cpp -o CMakeFiles\NumSim2019.dir\Array2D.cpp.s
+CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\Array2D\Array2D.cpp -o CMakeFiles\NumSim2019.dir\Array2D\Array2D.cpp.s
+
+CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj: ../Array2D/FieldVariable.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\Array2D\FieldVariable.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\Array2D\FieldVariable.cpp
+
+CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Fabian\CLionProjects\NumSim2019\Array2D\FieldVariable.cpp > CMakeFiles\NumSim2019.dir\Array2D\FieldVariable.cpp.i
+
+CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\Array2D\FieldVariable.cpp -o CMakeFiles\NumSim2019.dir\Array2D\FieldVariable.cpp.s
 
 CMakeFiles/NumSim2019.dir/main.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
 CMakeFiles/NumSim2019.dir/main.cpp.obj: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/NumSim2019.dir/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/NumSim2019.dir/main.cpp.obj"
 	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\main.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\main.cpp
 
 CMakeFiles/NumSim2019.dir/main.cpp.i: cmake_force
@@ -82,21 +95,68 @@ CMakeFiles/NumSim2019.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/main.cpp.s"
 	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\main.cpp -o CMakeFiles\NumSim2019.dir\main.cpp.s
 
+CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.obj: ../PressureSolver/PressureSolver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\PressureSolver\PressureSolver.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\PressureSolver\PressureSolver.cpp
+
+CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Fabian\CLionProjects\NumSim2019\PressureSolver\PressureSolver.cpp > CMakeFiles\NumSim2019.dir\PressureSolver\PressureSolver.cpp.i
+
+CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\PressureSolver\PressureSolver.cpp -o CMakeFiles\NumSim2019.dir\PressureSolver\PressureSolver.cpp.s
+
+CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.obj: ../PressureSolver/SOR.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\PressureSolver\SOR.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\PressureSolver\SOR.cpp
+
+CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Fabian\CLionProjects\NumSim2019\PressureSolver\SOR.cpp > CMakeFiles\NumSim2019.dir\PressureSolver\SOR.cpp.i
+
+CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\PressureSolver\SOR.cpp -o CMakeFiles\NumSim2019.dir\PressureSolver\SOR.cpp.s
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj: CMakeFiles/NumSim2019.dir/flags.make
+CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj: ../StaggeredGrid/StaggeredGrid.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\NumSim2019.dir\StaggeredGrid\StaggeredGrid.cpp.obj -c C:\Users\Fabian\CLionProjects\NumSim2019\StaggeredGrid\StaggeredGrid.cpp
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Fabian\CLionProjects\NumSim2019\StaggeredGrid\StaggeredGrid.cpp > CMakeFiles\NumSim2019.dir\StaggeredGrid\StaggeredGrid.cpp.i
+
+CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Fabian\CLionProjects\NumSim2019\StaggeredGrid\StaggeredGrid.cpp -o CMakeFiles\NumSim2019.dir\StaggeredGrid\StaggeredGrid.cpp.s
+
 # Object files for target NumSim2019
 NumSim2019_OBJECTS = \
-"CMakeFiles/NumSim2019.dir/Array2D.cpp.obj" \
-"CMakeFiles/NumSim2019.dir/main.cpp.obj"
+"CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/main.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.obj" \
+"CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj"
 
 # External object files for target NumSim2019
 NumSim2019_EXTERNAL_OBJECTS =
 
-NumSim2019.exe: CMakeFiles/NumSim2019.dir/Array2D.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/main.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.obj
+NumSim2019.exe: CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/build.make
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/linklibs.rsp
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/objects1.rsp
 NumSim2019.exe: CMakeFiles/NumSim2019.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable NumSim2019.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable NumSim2019.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\NumSim2019.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

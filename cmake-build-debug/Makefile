@@ -122,32 +122,140 @@ NumSim2019/fast:
 	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/build
 .PHONY : NumSim2019/fast
 
-Array2D.obj: Array2D.cpp.obj
+Array2D/Array2D.obj: Array2D/Array2D.cpp.obj
 
-.PHONY : Array2D.obj
+.PHONY : Array2D/Array2D.obj
 
 # target to build an object file
-Array2D.cpp.obj:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D.cpp.obj
-.PHONY : Array2D.cpp.obj
+Array2D/Array2D.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.obj
+.PHONY : Array2D/Array2D.cpp.obj
 
-Array2D.i: Array2D.cpp.i
+Array2D/Array2D.i: Array2D/Array2D.cpp.i
 
-.PHONY : Array2D.i
+.PHONY : Array2D/Array2D.i
 
 # target to preprocess a source file
-Array2D.cpp.i:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D.cpp.i
-.PHONY : Array2D.cpp.i
+Array2D/Array2D.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.i
+.PHONY : Array2D/Array2D.cpp.i
 
-Array2D.s: Array2D.cpp.s
+Array2D/Array2D.s: Array2D/Array2D.cpp.s
 
-.PHONY : Array2D.s
+.PHONY : Array2D/Array2D.s
 
 # target to generate assembly for a file
-Array2D.cpp.s:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D.cpp.s
-.PHONY : Array2D.cpp.s
+Array2D/Array2D.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/Array2D.cpp.s
+.PHONY : Array2D/Array2D.cpp.s
+
+Array2D/FieldVariable.obj: Array2D/FieldVariable.cpp.obj
+
+.PHONY : Array2D/FieldVariable.obj
+
+# target to build an object file
+Array2D/FieldVariable.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.obj
+.PHONY : Array2D/FieldVariable.cpp.obj
+
+Array2D/FieldVariable.i: Array2D/FieldVariable.cpp.i
+
+.PHONY : Array2D/FieldVariable.i
+
+# target to preprocess a source file
+Array2D/FieldVariable.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.i
+.PHONY : Array2D/FieldVariable.cpp.i
+
+Array2D/FieldVariable.s: Array2D/FieldVariable.cpp.s
+
+.PHONY : Array2D/FieldVariable.s
+
+# target to generate assembly for a file
+Array2D/FieldVariable.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.s
+.PHONY : Array2D/FieldVariable.cpp.s
+
+PressureSolver/PressureSolver.obj: PressureSolver/PressureSolver.cpp.obj
+
+.PHONY : PressureSolver/PressureSolver.obj
+
+# target to build an object file
+PressureSolver/PressureSolver.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.obj
+.PHONY : PressureSolver/PressureSolver.cpp.obj
+
+PressureSolver/PressureSolver.i: PressureSolver/PressureSolver.cpp.i
+
+.PHONY : PressureSolver/PressureSolver.i
+
+# target to preprocess a source file
+PressureSolver/PressureSolver.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.i
+.PHONY : PressureSolver/PressureSolver.cpp.i
+
+PressureSolver/PressureSolver.s: PressureSolver/PressureSolver.cpp.s
+
+.PHONY : PressureSolver/PressureSolver.s
+
+# target to generate assembly for a file
+PressureSolver/PressureSolver.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.s
+.PHONY : PressureSolver/PressureSolver.cpp.s
+
+PressureSolver/SOR.obj: PressureSolver/SOR.cpp.obj
+
+.PHONY : PressureSolver/SOR.obj
+
+# target to build an object file
+PressureSolver/SOR.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.obj
+.PHONY : PressureSolver/SOR.cpp.obj
+
+PressureSolver/SOR.i: PressureSolver/SOR.cpp.i
+
+.PHONY : PressureSolver/SOR.i
+
+# target to preprocess a source file
+PressureSolver/SOR.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.i
+.PHONY : PressureSolver/SOR.cpp.i
+
+PressureSolver/SOR.s: PressureSolver/SOR.cpp.s
+
+.PHONY : PressureSolver/SOR.s
+
+# target to generate assembly for a file
+PressureSolver/SOR.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.s
+.PHONY : PressureSolver/SOR.cpp.s
+
+StaggeredGrid/StaggeredGrid.obj: StaggeredGrid/StaggeredGrid.cpp.obj
+
+.PHONY : StaggeredGrid/StaggeredGrid.obj
+
+# target to build an object file
+StaggeredGrid/StaggeredGrid.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.obj
+.PHONY : StaggeredGrid/StaggeredGrid.cpp.obj
+
+StaggeredGrid/StaggeredGrid.i: StaggeredGrid/StaggeredGrid.cpp.i
+
+.PHONY : StaggeredGrid/StaggeredGrid.i
+
+# target to preprocess a source file
+StaggeredGrid/StaggeredGrid.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.i
+.PHONY : StaggeredGrid/StaggeredGrid.cpp.i
+
+StaggeredGrid/StaggeredGrid.s: StaggeredGrid/StaggeredGrid.cpp.s
+
+.PHONY : StaggeredGrid/StaggeredGrid.s
+
+# target to generate assembly for a file
+StaggeredGrid/StaggeredGrid.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/StaggeredGrid.cpp.s
+.PHONY : StaggeredGrid/StaggeredGrid.cpp.s
 
 main.obj: main.cpp.obj
 
@@ -185,9 +293,21 @@ help:
 	@echo ... NumSim2019
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... Array2D.obj
-	@echo ... Array2D.i
-	@echo ... Array2D.s
+	@echo ... Array2D/Array2D.obj
+	@echo ... Array2D/Array2D.i
+	@echo ... Array2D/Array2D.s
+	@echo ... Array2D/FieldVariable.obj
+	@echo ... Array2D/FieldVariable.i
+	@echo ... Array2D/FieldVariable.s
+	@echo ... PressureSolver/PressureSolver.obj
+	@echo ... PressureSolver/PressureSolver.i
+	@echo ... PressureSolver/PressureSolver.s
+	@echo ... PressureSolver/SOR.obj
+	@echo ... PressureSolver/SOR.i
+	@echo ... PressureSolver/SOR.s
+	@echo ... StaggeredGrid/StaggeredGrid.obj
+	@echo ... StaggeredGrid/StaggeredGrid.i
+	@echo ... StaggeredGrid/StaggeredGrid.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
