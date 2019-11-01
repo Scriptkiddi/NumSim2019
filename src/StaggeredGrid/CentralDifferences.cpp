@@ -2,7 +2,14 @@
 // Created by Julia Pelzer on 26.10.2019.
 //
 
+#include <array>
 #include "CentralDifferences.h"
+
+CentralDifferences::CentralDifferences(std::array<int, 2> nCells, std::array<double, 2> meshWidth) : Discretization(
+        nCells,
+        meshWidth) {
+
+}
 
 double CentralDifferences::computeDu2Dx(int i, int j) const {
     return 0;
