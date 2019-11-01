@@ -1,4 +1,4 @@
-#include "output_writer/output_writer_text.h"
+#include "output_writer_text.h"
 
 #include <iostream>
 #include <fstream>
@@ -220,3 +220,4 @@ void OutputWriterText::writePressureFile()
   file << std::endl;
 
 }
+

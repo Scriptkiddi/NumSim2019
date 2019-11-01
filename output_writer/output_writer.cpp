@@ -1,4 +1,4 @@
-#include "output_writer/output_writer.h"
+#include "output_writer.h"
 
 #include <iostream>
 
@@ -10,3 +10,4 @@ OutputWriter::OutputWriter(std::shared_ptr<Discretization> discretization)
   if (returnValue != 0)
     std::cout << "Could not create subdirectory \"out\"." << std::endl;
 }
+

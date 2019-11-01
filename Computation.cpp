@@ -12,4 +12,5 @@ void Computation::intitialize(int argc, char **argv) {
     Settings settings;
     settings.loadFromFile(argv[1]);
     settings_(settings);
+
 }
