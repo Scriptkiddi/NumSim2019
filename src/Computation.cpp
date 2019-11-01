@@ -5,6 +5,7 @@
 #include "Computation.h"
 #include "Settings.h"
 #include <cmath>
+#include <StaggeredGrid/CentralDifferences.h>
 
 using namespace std;
 
@@ -14,8 +15,6 @@ void Computation::initialize(int argc, char **argv) {
     settings_ = settings;
     settings.loadFromFile(argv[1]);
     settings_.printSettings();
-    //StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
-    settings_(settings);
     StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
 
     //initialize meshWidth
@@ -23,23 +22,24 @@ void Computation::initialize(int argc, char **argv) {
     meshWidth[1] = settings_.physicalSize[1] /
                    (settings_.nCells[1] - 2); //todo stimmt das mit der Anzahl der Zellen? (mit 2 Ghostcells)
     meshWidth[2] = settings_.physicalSize[2] / (settings_.nCells[2] - 2);
-    meshWidth_ = meshWidth;
+    meshWidth_[0] = meshWidth[0];
+    meshWidth_[1] = meshWidth[1];
 
     //initialize discretization
-    if (settings_.useDonorCell == "false") {
-        CentralDifferences grid(settings_.nCells, meshWidth_);
-    } else {
-        DonorCell grid(settings_.nCells, meshWidth_, settings_.alpha);
-    }
-    discretization_ = grid;
+    //if (settings_.useDonorCell == false) {
+    //    CentralDifferences grid(settings_.nCells, meshWidth_);
+    //} else {
+    //    DonorCell grid(settings_.nCells, meshWidth_, settings_.alpha);
+    //}
+    //discretization_ = grid;
 
-    //initialize explicit pressureSolver
-    if (settings_.pressureSolver == "SOR") {
-        SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
-    } else {
-        GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
-    }
-    pressureSolver_ = pSolver;
+    ////initialize explicit pressureSolver
+    //if (settings_.pressureSolver == "SOR") {
+    //    SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+    //} else {
+    //    GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
+    //}
+    //pressureSolver_ = pSolver;
 }
 
 void Computation::runSimulation() {
@@ -80,8 +80,8 @@ void Computation::computeTimeStepWidth() {
     double condition_convection1 = discretization_->dx() / uMaximum;
     double condition_convection2 = discretization_->dy() / vMaximum;
 
-    dt_ = std::min(condition_diffusion, condition_convection1, condition_convection2);
-    dt_ = std::min(settings_.maximumDt, dt_) * .9;//*0.9, damit echt kleiner
+    //dt_ = std::min(condition_diffusion, condition_convection1, condition_convection2);
+    //dt_ = std::min(settings_.maximumDt, dt_) * .9;//*0.9, damit echt kleiner
 }
 
 void Computation::applyBoundaryValues() {
@@ -168,13 +168,13 @@ void Computation::computePressure() {
 void Computation::computeVelocities() {
     for (int j = discretization_->uJBegin(); j <= discretization_->uJEnd(); j++) {
         for (int i = discretization_->uIBegin(); i <= discretization_->uIEnd(); i++) {
-            discretization_->u(i, j) = discretization_->f(i, j) - dt_ *;// todo dp/dx (i,j) von Schritt n+1
+            //discretization_->u(i, j) = discretization_->f(i, j) - dt_ *;// todo dp/dx (i,j) von Schritt n+1
         }
     }
 
     for (int j = discretization_->vJBegin(); j <= discretization_->vJEnd(); j++) {
         for (int i = discretization_->vIBegin(); i <= discretization_->vIEnd(); i++) {
-            discretization_->v(i, j) = discretization_->g(i, j) - dt_ *;//todo  dp/dx (i,j) von Schritt n+1
+            //discretization_->v(i, j) = discretization_->g(i, j) - dt_ *;//todo  dp/dx (i,j) von Schritt n+1
         }
     }
 }
