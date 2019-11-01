@@ -13,10 +13,9 @@
 #include "output_writer/output_writer_paraview.h"
 #include "output_writer/output_writer_text.h"
 
-
 class Computation {
 public:
-    void intitialize(int argc, char *argv[]);
+    void initialize(int argc, char *argv[]);
 
     void runSimulation();
 
