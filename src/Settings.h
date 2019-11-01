@@ -1,10 +1,13 @@
 //
 // Created by Fabian on 26.10.2019.
 //
+using namespace std;
 
 #ifndef NUMSIM2019_SETTINGS_H
 #define NUMSIM2019_SETTINGS_H
 
+#include <string>
+#include <array>
 
 struct Settings {
     void loadFromFile(std::string filename);

@@ -2,7 +2,6 @@
 // Created by Fabian on 26.10.2019.
 //
 #include <iostream>
-#include "Array2D/FieldVariable.h"
 #include "Computation.h"
 
 int main(int argc, char *argv[]) {
@@ -11,8 +10,9 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    //Computation computation = Computation();
-    //computation.intitialize(argc, argv);
+    Computation computation;
+    computation.initialize(argc, argv);
+
 
     return EXIT_SUCCESS;
 
