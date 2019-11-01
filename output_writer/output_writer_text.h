@@ -12,8 +12,8 @@ public:
     //! use constructor of base class
     using OutputWriter::OutputWriter;
 
-    //! write current velocities to file, filename is output_<count>.txt
-    void writeFile(double currentTime);
+    virtual //! write current velocities to file, filename is output_<count>.txt
+    void writeFile(double currentTime) = 0;
 
     //! write only current values of pressure to file, filename is pressure_<count>.txt
     void writePressureFile();
