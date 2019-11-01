@@ -39,11 +39,10 @@ void Settings::loadFromFile(std::string filename) {
         }
         const char *parameterValue = parameterValueString.c_str();
         if (parameterName == "physicalSizeX") {
-            cout << atof(parameterValue) << endl;
-            //this->physicalSize[0] = atof(parameterValue);
+            this->physicalSize[0] = atof(parameterValue);
         }
         else if ( parameterName == "physicalSizeY") {
-            //this->physicalSize[1] = atof(parameterValue);
+            this->physicalSize[1] = atof(parameterValue);
         }
         else if ( parameterName == "endTime") {
             this->endTime = atof(parameterValue);

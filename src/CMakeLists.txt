@@ -12,6 +12,9 @@ add_executable(${PROJECT_NAME}
         StaggeredGrid/CentralDifferences.h StaggeredGrid/CentralDifferences.cpp
         PressureSolver/SOR.h PressureSolver/SOR.cpp
         PressureSolver/PressureSolver.cpp PressureSolver/PressureSolver.h
+        output_writer/output_writer_paraview.cpp output_writer/output_writer_paraview.h
+        output_writer/output_writer_text.cpp output_writer/output_writer_text.h
+        output_writer/output_writer.cpp output_writer/output_writer.h
         Array2D/Array2D.cpp Array2D/Array2D.h
         Array2D/FieldVariable.cpp Array2D/FieldVariable.h)
 set_property(TARGET NumSim2019 PROPERTY CXX_STANDARD 11)

@@ -8,7 +8,7 @@
 
 //todo skript seite 10 ff?
 
-Discretization::Discretization(std::array<int, 2> nCells, std::array<double, 2> meshWidth) : StaggeredGrid(nCells_, meshWidth_){
+Discretization::Discretization(std::array<int, 2> nCells, std::array<double, 2> meshWidth) : StaggeredGrid(nCells, meshWidth){
 
 }
 

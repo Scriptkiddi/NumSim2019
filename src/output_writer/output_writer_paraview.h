@@ -21,8 +21,8 @@ public:
   //! @param discretization shared pointer to the discretization object that will contain all the data to be written to the file
   OutputWriterParaview(std::shared_ptr<Discretization> discretization);
 
-    virtual //! write current velocities to file, filename is output_<count>.vti
-  void writeFile(double currentTime) = 0;
+  //! write current velocities to file, filename is output_<count>.vti
+  void writeFile(double currentTime);
 
 private:
 

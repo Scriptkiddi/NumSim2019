@@ -2,7 +2,7 @@
 # Run ./numsim lid_driven_cavity.txt
 
 # Problem description
-physicalSizeX = 3.0   # physical size of the domain
+physicalSizeX = 2.0   # physical size of the domain
 physicalSizeY = 2.0
 endTime = 10.0        # duration of the simulation
 re = 1000             # Reynolds number

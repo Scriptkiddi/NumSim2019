@@ -32,4 +32,15 @@ void PressureSolver::setBoundaryValues() {
     for (int i = discretization_.get()->pIBegin() + 1; i <= discretization_.get()->pIEnd() - 1; i++) {
         discretization_.get()->p(i, j) = discretization_.get()->p(i, j - 1);
     }
+    discretization_.get()->p(discretization_.get()->pIBegin(), discretization_.get()->pJBegin()) =
+            discretization_.get()->p(discretization_.get()->pIBegin()+1, discretization_.get()->pJBegin()+1);
+
+    discretization_.get()->p(discretization_.get()->pIBegin(), discretization_.get()->pJEnd()) =
+            discretization_.get()->p(discretization_.get()->pIBegin()+1, discretization_.get()->pJEnd()-1);
+
+    discretization_.get()->p(discretization_.get()->pIEnd(), discretization_.get()->pJBegin()) =
+            discretization_.get()->p(discretization_.get()->pIEnd()-1, discretization_.get()->pJBegin()+1);
+
+    discretization_.get()->p(discretization_.get()->pIEnd(), discretization_.get()->pJEnd()) =
+            discretization_.get()->p(discretization_.get()->pIEnd()-1, discretization_.get()->pJEnd()-1);
 }
