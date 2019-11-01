@@ -7,31 +7,15 @@
 #include "../Array2D/FieldVariable.h"
 
 StaggeredGrid::StaggeredGrid(std::array<int, 2> nCells, std::array<double, 2> meshWidth) :
-    meshWidth_(meshWidth),  nCells_(nCells),
-    u_(nCells_, {1*meshWidth_[1], 0.5*meshWidth_[2]},meshWidth_),
-    v_(nCells_, {0.5*meshWidth_[1], 1*meshWidth_[2]},meshWidth_),
-    p_(nCells_, {0.5*meshWidth_[1], 0.5*meshWidth_[2]},meshWidth_),
-    rhs_(nCells_, {0.5*meshWidth_[1], 0.5*meshWidth_[2]},meshWidth_),
-    f_(nCells_, {0.5*meshWidth_[1], 0.5*meshWidth_[2]},meshWidth_),
-    g_(nCells_, {0.5*meshWidth_[1], 0.5*meshWidth_[2]},meshWidth_)
-
-    {
-
-    Array2D mesh_x(nCells_);
-    Array2D mesh_y(nCells_);
-
-    for (int j = 0; j < nCells[0]; j++) {
-        for (int i = 0; i < nCells[1]; i++) {
-            mesh_x(i,j) = i * meshWidth[0];
-        }
-    }
-
-    for (int j = 0; j < nCells[0]; j++) {
-        for (int i = 0; i < nCells[1]; i++) {
-            mesh_y(i,j) = j * meshWidth[1];
-        }
-    }
-};
+        meshWidth_(meshWidth),
+        nCells_(nCells),
+        u_(nCells, {1 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
+        v_(nCells, {0.5 * meshWidth[0], 1 * meshWidth[1]}, meshWidth),
+        p_(nCells, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
+        rhs_(nCells, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
+        f_(nCells, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
+        g_(nCells, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth) {
+}
 
 const std::array<double, 2> StaggeredGrid::meshWidth() const {
     return meshWidth_;
@@ -54,39 +38,39 @@ const FieldVariable &StaggeredGrid::p() const {
 }
 
 double StaggeredGrid::u(int i, int j) const {
-    return u_(i,j);
+    return u_(i, j);
 }
 
 double StaggeredGrid::v(int i, int j) const {
-    return v_(i,j);
+    return v_(i, j);
 }
 
 double &StaggeredGrid::u(int i, int j) {
-    return u_(i,j);
+    return u_(i, j);
 }
 
 double &StaggeredGrid::v(int i, int j) {
-    return v_(i,j);
+    return v_(i, j);
 }
 
 double StaggeredGrid::p(int i, int j) const {
-    return p_(i,j);
+    return p_(i, j);
 }
 
 double &StaggeredGrid::p(int i, int j) {
-    return p_(i,j);
+    return p_(i, j);
 }
 
 double &StaggeredGrid::rhs(int i, int j) {
-    return rhs_(i,j);
+    return rhs_(i, j);
 }
 
 double &StaggeredGrid::f(int i, int j) {
-    return f_(i,j);
+    return f_(i, j);
 }
 
 double &StaggeredGrid::g(int i, int j) {
-    return g_(i,j);
+    return g_(i, j);
 }
 
 double StaggeredGrid::dx() const {
@@ -102,7 +86,7 @@ int StaggeredGrid::uIBegin() const {
 }
 
 int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direction
-    return nCells_[0]; //todo anfassen, falls wir Zahl der Zellen (N+1 vs N+2) ändern
+    return nCells_[0] - 1; //todo anfassen, falls wir Zahl der Zellen (N+1 vs N+2) ändern
 }
 
 int StaggeredGrid::uJBegin() const {
@@ -110,7 +94,7 @@ int StaggeredGrid::uJBegin() const {
 }
 
 int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
-    return nCells_[1]; //todo anfassen, falls wir Zahl der Zellen (N+1 vs N+2) ändern
+    return nCells_[1] - 1; //todo anfassen, falls wir Zahl der Zellen (N+1 vs N+2) ändern
 }
 
 int StaggeredGrid::vIBegin() const {
@@ -118,7 +102,7 @@ int StaggeredGrid::vIBegin() const {
 }
 
 int StaggeredGrid::vIEnd() const {
-    return nCells_[0];
+    return nCells_[0] - 1;
 }
 
 int StaggeredGrid::vJBegin() const {
@@ -126,7 +110,7 @@ int StaggeredGrid::vJBegin() const {
 }
 
 int StaggeredGrid::vJEnd() const {
-    return nCells_[1];
+    return nCells_[1] - 1;
 }
 
 int StaggeredGrid::pIBegin() const {
@@ -134,7 +118,7 @@ int StaggeredGrid::pIBegin() const {
 }
 
 int StaggeredGrid::pIEnd() const {
-    return nCells_[0];
+    return nCells_[0] - 1;
 }
 
 int StaggeredGrid::pJBegin() const {
@@ -142,5 +126,5 @@ int StaggeredGrid::pJBegin() const {
 }
 
 int StaggeredGrid::pJEnd() const {
-    return nCells_[1];
+    return nCells_[1] - 1;
 }

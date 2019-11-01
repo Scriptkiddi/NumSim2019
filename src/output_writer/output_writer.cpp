@@ -11,6 +11,3 @@ OutputWriter::OutputWriter(std::shared_ptr<Discretization> discretization)
     std::cout << "Could not create subdirectory \"out\"." << std::endl;
 }
 
-OutputWriter::OutputWriter(std::shared_ptr<Discretization> discretization) {
-
-}
