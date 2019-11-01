@@ -11,11 +11,11 @@ DonorCell::DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth,
                                                                                                  alpha_(alpha) {
 
 }
-
+ //todo korrigiere die Link-Fehler von u(), dx(), array,...
 double DonorCell::computeDu2Dx(int i, int j) const {
 
-    return 1 / dx() * (sqrt((u_(i, j) + u(i + 1, j)) / 2) - sqrt((u(i - 1, j) + u(i, j)) / 2))
-           + alpha_ * 1 / dx() * (std::fabs(u(i, j) + u(i + 1, j)) / 2 * (u(i, j) - u(i + 1, j)) / 2 -
+    return 1 / dx() * (sqrt((u(i, j) + u(i + 1, j)) / 2) - sqrt((u(i - 1, j) + u(i, j)) / 2))
+           + alpha_ * 1 / dx() * (std::fabs(u(i, j) + u_(i + 1, j)) / 2 * (u(i, j) - u(i + 1, j)) / 2 -
                                   std::fabs(u(i - 1, j) + u(i, j)) / 2 * (u(i - 1, j) - u(i, j)) / 2);
 }
 
