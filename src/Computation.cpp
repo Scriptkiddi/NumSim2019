@@ -9,10 +9,14 @@
 using namespace std;
 
 void Computation::initialize(int argc, char **argv) {
-    cout << "Running with" << settingsFilename << endl;
+    cout << "Running with" << argv[0] << endl;
     Settings settings;
+    settings_ = settings;
     settings.loadFromFile(argv[1]);
+    settings_.printSettings();
+    //StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
     settings_(settings);
+    StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
 
     //initialize meshWidth
     std::array<int, 2> meshWidth;
@@ -104,12 +108,6 @@ void Computation::PreliminaryVelocities() {
 }
 
 void Computation::computeRightHandSide() {
-    for (int j = grid.uJBegin; j <= grid.uJEnd; j++) {
-        for (int i = grid.uIBegin; i <= grid.uIEnd; i++) {
-            grid.rhs(i, j) = 1 / dt_ * ((grid.f(i, j) - grid.f(i - 1, j)) / grid.dx() +
-                                        (grid.g(i, j) - grid.g(i, j - 1)) / grid.dy());
-        }
-    }
 }
 
 void Computation::computePressure() {
@@ -118,15 +116,4 @@ void Computation::computePressure() {
 }
 
 void Computation::computeVelocities() {
-    for (int j = grid.uJBegin; j <= grid.uJEnd; j++) {
-        for (int i = grid.uIBegin; i <= grid.uIEnd; i++) {
-            grid.u(i, j) = grid.f(i, j) - dt_ *;// todo dp/dx (i,j) von Schritt n+1
-        }
-    }
-
-    for (int j = grid.vJBegin; j <= grid.vJEnd; j++) {
-        for (int i = grid.vIBegin; i <= grid.vIEnd; i++) {
-            grid.v(i, j) = grid.g(i, j) - dt_ *;//todo  dp/dx (i,j) von Schritt n+1
-        }
-    }
 }
