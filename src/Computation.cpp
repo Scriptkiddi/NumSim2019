@@ -67,6 +67,7 @@ void Computation::runSimulation() {
         computeVelocities();
         //outputwriter oÄ aufrufen
         t += dt_;
+        outputWriterParaview_.get()->writeFile(t);
         cout << t << endl;
     }
 }
