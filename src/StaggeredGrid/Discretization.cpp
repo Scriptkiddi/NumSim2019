@@ -4,6 +4,7 @@
 
 #include "Discretization.h"
 #include "StaggeredGrid.h"
+#include <math.h>
 
 //todo skript seite 10 ff?
 

@@ -37,7 +37,7 @@ void Computation::initialize(int argc, char **argv) {
     //initialize explicit pressureSolver
     if (settings_.pressureSolver == "SOR") {
         SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
-        //pressureSolver_ = make_unique<PressureSolver>(pSolver);
+        pressureSolver_ = make_unique<SOR>(pSolver);
     } else {
         //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
         //pressureSolver_ = make_unique<PressureSolver>(pSolver);
