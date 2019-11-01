@@ -20,14 +20,14 @@ StaggeredGrid::StaggeredGrid(std::array<int, 2> nCells, std::array<double, 2> me
     Array2D mesh_x(nCells_);
     Array2D mesh_y(nCells_);
 
-    for (int i = 0; i < nCells[0]; i++) {
-        for (int j = 0; j < nCells[1]; j++) {
+    for (int j = 0; j < nCells[0]; j++) {
+        for (int i = 0; i < nCells[1]; i++) {
             mesh_x(i,j) = i * meshWidth[0];
         }
     }
 
-    for (int i = 0; i < nCells[0]; i++) {
-        for (int j = 0; j < nCells[1]; j++) {
+    for (int j = 0; j < nCells[0]; j++) {
+        for (int i = 0; i < nCells[1]; i++) {
             mesh_y(i,j) = j * meshWidth[1];
         }
     }
