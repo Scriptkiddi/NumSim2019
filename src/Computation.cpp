@@ -15,6 +15,30 @@ void Computation::initialize(int argc, char **argv) {
     settings.loadFromFile(argv[1]);
     settings_.printSettings();
     //StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
+    settings_(settings);
+    StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
+
+    //initialize meshWidth
+    std::array<int, 2> meshWidth;
+    meshWidth[1] = settings_.physicalSize[1]/(settings_.nCells[1]-2); //todo stimmt das mit der Anzahl der Zellen? (mit 2 Ghostcells)
+    meshWidth[2] = settings_.physicalSize[2]/(settings_.nCells[2]-2);
+    meshWidth_ = meshWidth;
+
+    //initialize discretization
+    if (settings_.useDonorCell == "false") {
+        CentralDifferences grid(settings_.nCells, meshWidth_);
+    } else {
+        DonorCell grid(settings_.nCells, meshWidth_, settings_.alpha);
+    }
+    discretization_ = grid;
+
+    //initialize explicit pressureSolver
+    if (settings_.pressureSolver == "SOR") {
+        SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+    } else {
+        GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
+    }
+    pressureSolver_ = pSolver;
 }
 
 void Computation::runSimulation() {
@@ -33,6 +57,29 @@ void Computation::runSimulation() {
 }
 
 void Computation::computeTimeStepWidth() {
+    double uMaximum = grid.u(0, 0);
+    for (int j = grid.uJBegin; j <= grid.uJEnd; j++) {
+        for (int i = grid.uIBegin; i <= grid.uIEnd; i++) {
+            if (uMaximum < grid.u(i, j)) {
+                uMaximum = grid.u(i, j);
+            }
+        }
+    }
+    double vMaximum = grid.u(0, 0);
+    for (int j = grid.uJBegin; j <= grid.uJEnd; j++) {
+        for (int i = grid.uIBegin; i <= grid.uIEnd; i++) {
+            if (vMaximum < grid.u(i, j)) {
+                vMaximum = grid.u(i, j);
+            }
+        }
+    }
+    double condition_diffusion = pow(grid.dx()) * pow(grid.dy()) / (pow(grid.dx()) + pow(grid.dy())) * Re_ / 2 *
+                                 0.99; //*0.99, damit echt kleiner
+    double condition_convection1 = grid.dx() / uMaximum;
+    double condition_convection2 = grid.dy() / vMaximum;
+
+    dt_ = std::min(condition_diffusion, condition_convection1, condition_convection2);
+    dt_ = std::min(settings_.maximumDt, dt_);
 }
 
 void Computation::applyBoundaryValues() {
@@ -41,12 +88,31 @@ void Computation::applyBoundaryValues() {
 }
 
 void Computation::PreliminaryVelocities() {
+    for (int j = grid.uJBegin; j <= grid.uJEnd; j++) {
+        for (int i = grid.uIBegin; i <= grid.uIEnd; i++) {
+            grid.f(i, j) = grid.u(i, j) + dt_ * (1 / settings_.re * (discretization_.computeD2uDx2(i, j) +
+                                                                     discretization_.computeD2uDy2(i, j)) -
+                                                 discretization_.computeDu2Dx(i, j) -
+                                                 discretization_.computeDuvDy(i, j) + settings_.g[0]);
+        }
+    }
+
+    for (int j = grid.vJBegin; j <= grid.vJEnd; j++) {
+        for (int i = grid.vIBegin; i <= grid.vIEnd; i++) {
+            grid.g(i, j) = grid.v(i, j) + dt_ * (1 / settings_.re * (discretization_.computeD2vDy2(i, j) +
+                                                                     discretization_.computeD2vDx2(i, j)) -
+                                                 discretization_.computeDv2Dy(i, j) -
+                                                 discretization_.computeDuvDx(i, j) + settings_.g[1]);
+        }
+    }
 }
 
 void Computation::computeRightHandSide() {
 }
 
 void Computation::computePressure() {
+
+    pressureSolver_.solve();
 }
 
 void Computation::computeVelocities() {
