@@ -86,7 +86,8 @@ int StaggeredGrid::uIBegin() const {
 }
 
 int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direction
-    return nCells_[0] - 1; //todo anfassen, falls wir Zahl der Zellen (N+1 vs N+2) ändern
+    // minus 1 für size to index und nochmal -1 weil der wert der letzten richtigen zelle auf 0 gesetzt wird anstelle der in der ghost cell
+    return nCells_[0] - 2;
 }
 
 int StaggeredGrid::uJBegin() const {
@@ -94,7 +95,7 @@ int StaggeredGrid::uJBegin() const {
 }
 
 int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
-    return nCells_[1] - 1; //todo anfassen, falls wir Zahl der Zellen (N+1 vs N+2) ändern
+    return nCells_[1] - 1;
 }
 
 int StaggeredGrid::vIBegin() const {
@@ -110,7 +111,7 @@ int StaggeredGrid::vJBegin() const {
 }
 
 int StaggeredGrid::vJEnd() const {
-    return nCells_[1] - 1;
+    return nCells_[1] - 2;
 }
 
 int StaggeredGrid::pIBegin() const {
