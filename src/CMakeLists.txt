@@ -5,7 +5,10 @@ add_executable(${PROJECT_NAME}
         main.cpp
         Computation.cpp
         Settings.cpp
-        )
+        Util/Utils.cpp Util/Utils.h
+        StaggeredGrid/StaggeredGrid.h StaggeredGrid/StaggeredGrid.cpp
+        Array2D/Array2D.cpp Array2D/Array2D.h
+        Array2D/FieldVariable.cpp Array2D/FieldVariable.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 message("Including ${PROJECT_SOURCE_DIR}")
