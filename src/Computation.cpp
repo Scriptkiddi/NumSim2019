@@ -13,7 +13,17 @@ void Computation::intitialize(int argc, char **argv) {
     Settings settings;
     settings.loadFromFile(argv[1]);
     settings_(settings);
+
     StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
+    //todo initialize discretization
+
+    //initialize explicit pressureSolver
+    if (settings_.pressureSolver == "SOR") {
+        SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+    } else {
+        GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+    }
+    pressureSolver_ = pSolver;
 }
 
 void Computation::runSimulation() {
@@ -54,7 +64,7 @@ void Computation::computeTimeStepWidth() {
     double condition_convection2 = grid.dy() / vMaximum;
 
     dt_ = std::min(condition_diffusion, condition_convection1, condition_convection2);
-    dt_ = std::max(settings_.maximumDt, dt_); //todo korrekt?
+    dt_ = std::min(settings_.maximumDt, dt_);
 }
 
 void Computation::applyBoundaryValues() {
@@ -65,13 +75,19 @@ void Computation::applyBoundaryValues() {
 void Computation::PreliminaryVelocities() {
     for (int j = grid.uJBegin; j <= grid.uJEnd; j++) {
         for (int i = grid.uIBegin; i <= grid.uIEnd; i++) {
-            grid.f(i, j) = grid.u(i,j) + dt_ * (1/Re_ * (discretization_.computeD2uDx2(i,j) + discretization_.computeD2uDy2(i,j)) - discretization_.computeDu2Dx(i,j) - discretization_.computeDuvDy(i,j) + settings_.g[0]);
+            grid.f(i, j) = grid.u(i, j) + dt_ * (1 / settings_.re * (discretization_.computeD2uDx2(i, j) +
+                                                                     discretization_.computeD2uDy2(i, j)) -
+                                                 discretization_.computeDu2Dx(i, j) -
+                                                 discretization_.computeDuvDy(i, j) + settings_.g[0]);
         }
     }
 
     for (int j = grid.vJBegin; j <= grid.vJEnd; j++) {
         for (int i = grid.vIBegin; i <= grid.vIEnd; i++) {
-            grid.g(i, j) = grid.v(i,j) + dt_ * (1/Re_ * (discretization_.computeD2vDy2(i,j) + discretization_.computeD2vDx2(i,j)) - discretization_.computeDv2Dy(i,j) - discretization_.computeDuvDx(i,j) + settings_.g[1]);
+            grid.g(i, j) = grid.v(i, j) + dt_ * (1 / settings_.re * (discretization_.computeD2vDy2(i, j) +
+                                                                     discretization_.computeD2vDx2(i, j)) -
+                                                 discretization_.computeDv2Dy(i, j) -
+                                                 discretization_.computeDuvDx(i, j) + settings_.g[1]);
         }
     }
 }
@@ -86,9 +102,8 @@ void Computation::computeRightHandSide() {
 }
 
 void Computation::computePressure() {
-    while (it < itmax && residuum > epsilon) {
-        //todo compute sor(..);
-    }
+
+    pressureSolver_.solve();
 }
 
 void Computation::computeVelocities() {
