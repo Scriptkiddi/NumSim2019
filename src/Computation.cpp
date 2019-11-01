@@ -95,7 +95,7 @@ void Computation::applyBoundaryValues() {
     int i_low = discretization_.get()->uIBegin();
     int i_high = discretization_.get()->uIEnd();
     for (j = discretization_.get()->uJBegin() + 1; j <= discretization_.get()->uJEnd() - 1; j++) {
-        discretization_.get()->u(i_low, j) = settings_.dirichletBcLeft[0];
+        discretization_->u(i_low, j) = settings_.dirichletBcLeft[0];
         discretization_.get()->u(i_high, j) = settings_.dirichletBcRight[0];
     }
     // oberer Rand
