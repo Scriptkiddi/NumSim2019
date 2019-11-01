@@ -47,10 +47,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Daten\Studium\Master_Semester1\NumSim\code_numsim
+CMAKE_SOURCE_DIR = C:\Users\Fabian\CLionProjects\NumSim2019
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles\progress.marks
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Daten\Studium\Master_Semester1\NumSim\code_numsim\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Fabian\CLionProjects\NumSim2019\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -176,59 +176,59 @@ Array2D/FieldVariable.cpp.s:
 	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/Array2D/FieldVariable.cpp.s
 .PHONY : Array2D/FieldVariable.cpp.s
 
-StaggeredGrid/Discretization.obj: StaggeredGrid/Discretization.cpp.obj
+PressureSolver/PressureSolver.obj: PressureSolver/PressureSolver.cpp.obj
 
-.PHONY : StaggeredGrid/Discretization.obj
-
-# target to build an object file
-StaggeredGrid/Discretization.cpp.obj:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.obj
-.PHONY : StaggeredGrid/Discretization.cpp.obj
-
-StaggeredGrid/Discretization.i: StaggeredGrid/Discretization.cpp.i
-
-.PHONY : StaggeredGrid/Discretization.i
-
-# target to preprocess a source file
-StaggeredGrid/Discretization.cpp.i:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.i
-.PHONY : StaggeredGrid/Discretization.cpp.i
-
-StaggeredGrid/Discretization.s: StaggeredGrid/Discretization.cpp.s
-
-.PHONY : StaggeredGrid/Discretization.s
-
-# target to generate assembly for a file
-StaggeredGrid/Discretization.cpp.s:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/Discretization.cpp.s
-.PHONY : StaggeredGrid/Discretization.cpp.s
-
-StaggeredGrid/DonorCell.obj: StaggeredGrid/DonorCell.cpp.obj
-
-.PHONY : StaggeredGrid/DonorCell.obj
+.PHONY : PressureSolver/PressureSolver.obj
 
 # target to build an object file
-StaggeredGrid/DonorCell.cpp.obj:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.obj
-.PHONY : StaggeredGrid/DonorCell.cpp.obj
+PressureSolver/PressureSolver.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.obj
+.PHONY : PressureSolver/PressureSolver.cpp.obj
 
-StaggeredGrid/DonorCell.i: StaggeredGrid/DonorCell.cpp.i
+PressureSolver/PressureSolver.i: PressureSolver/PressureSolver.cpp.i
 
-.PHONY : StaggeredGrid/DonorCell.i
+.PHONY : PressureSolver/PressureSolver.i
 
 # target to preprocess a source file
-StaggeredGrid/DonorCell.cpp.i:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.i
-.PHONY : StaggeredGrid/DonorCell.cpp.i
+PressureSolver/PressureSolver.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.i
+.PHONY : PressureSolver/PressureSolver.cpp.i
 
-StaggeredGrid/DonorCell.s: StaggeredGrid/DonorCell.cpp.s
+PressureSolver/PressureSolver.s: PressureSolver/PressureSolver.cpp.s
 
-.PHONY : StaggeredGrid/DonorCell.s
+.PHONY : PressureSolver/PressureSolver.s
 
 # target to generate assembly for a file
-StaggeredGrid/DonorCell.cpp.s:
-	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/StaggeredGrid/DonorCell.cpp.s
-.PHONY : StaggeredGrid/DonorCell.cpp.s
+PressureSolver/PressureSolver.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/PressureSolver.cpp.s
+.PHONY : PressureSolver/PressureSolver.cpp.s
+
+PressureSolver/SOR.obj: PressureSolver/SOR.cpp.obj
+
+.PHONY : PressureSolver/SOR.obj
+
+# target to build an object file
+PressureSolver/SOR.cpp.obj:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.obj
+.PHONY : PressureSolver/SOR.cpp.obj
+
+PressureSolver/SOR.i: PressureSolver/SOR.cpp.i
+
+.PHONY : PressureSolver/SOR.i
+
+# target to preprocess a source file
+PressureSolver/SOR.cpp.i:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.i
+.PHONY : PressureSolver/SOR.cpp.i
+
+PressureSolver/SOR.s: PressureSolver/SOR.cpp.s
+
+.PHONY : PressureSolver/SOR.s
+
+# target to generate assembly for a file
+PressureSolver/SOR.cpp.s:
+	$(MAKE) -f CMakeFiles\NumSim2019.dir\build.make CMakeFiles/NumSim2019.dir/PressureSolver/SOR.cpp.s
+.PHONY : PressureSolver/SOR.cpp.s
 
 StaggeredGrid/StaggeredGrid.obj: StaggeredGrid/StaggeredGrid.cpp.obj
 
@@ -299,12 +299,12 @@ help:
 	@echo ... Array2D/FieldVariable.obj
 	@echo ... Array2D/FieldVariable.i
 	@echo ... Array2D/FieldVariable.s
-	@echo ... StaggeredGrid/Discretization.obj
-	@echo ... StaggeredGrid/Discretization.i
-	@echo ... StaggeredGrid/Discretization.s
-	@echo ... StaggeredGrid/DonorCell.obj
-	@echo ... StaggeredGrid/DonorCell.i
-	@echo ... StaggeredGrid/DonorCell.s
+	@echo ... PressureSolver/PressureSolver.obj
+	@echo ... PressureSolver/PressureSolver.i
+	@echo ... PressureSolver/PressureSolver.s
+	@echo ... PressureSolver/SOR.obj
+	@echo ... PressureSolver/SOR.i
+	@echo ... PressureSolver/SOR.s
 	@echo ... StaggeredGrid/StaggeredGrid.obj
 	@echo ... StaggeredGrid/StaggeredGrid.i
 	@echo ... StaggeredGrid/StaggeredGrid.s

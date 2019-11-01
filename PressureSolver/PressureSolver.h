@@ -5,20 +5,23 @@
 #ifndef CODE_NUMSIM_PRESSURESOLVER_H
 #define CODE_NUMSIM_PRESSURESOLVER_H
 
+#include <memory>
+#include "../StaggeredGrid/Discretization.h"
 
 class PressureSolver {
-    PressureSolver(std::shared_ptr <Discretization> discretization, double epsilon, int maximumNumberOfIterations)
+public:
+    PressureSolver(std::shared_ptr <Discretization> discretization, double epsilon, int maximumNumberOfIterations);
 
-    virtual void solve() = 0
+    virtual void solve() = 0;
 
 protected:
-    void setBoundaryValues()
+    void setBoundaryValues();
 
-    std::shared_ptr <Discretization> discretization_
+    std::shared_ptr <Discretization> discretization_;
 
-    double epsilon_
+    double epsilon_;
 
-    int maximumNumberOfIterations_
+    int maximumNumberOfIterations_;
 };
 
 
