@@ -6,6 +6,8 @@ add_executable(${PROJECT_NAME}
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
+message("Including ${PROJECT_SOURCE_DIR}")
+
 # Search for the external package "VTK"
 find_package(VTK)
 
