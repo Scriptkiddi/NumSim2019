@@ -1,6 +1,6 @@
 #pragma once
 
-#include "discretization/1_discretization.h"
+#include "../StaggeredGrid/Discretization.h"
 
 #include <memory>
 

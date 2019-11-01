@@ -6,6 +6,13 @@
 #define CODE_NUMSIM_COMPUTATION_H
 
 #include "StaggeredGrid/StaggeredGrid.h"
+#include "Settings.h"
+#include "memory"
+#include "StaggeredGrid/Discretization.h"
+#include "PressureSolver/PressureSolver.h"
+#include "output_writer/output_writer_paraview.h"
+#include "output_writer/output_writer_text.h"
+
 
 class Computation {
 public:

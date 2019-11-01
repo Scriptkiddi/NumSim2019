@@ -21,6 +21,8 @@ protected:
     FieldVariable f_;
     FieldVariable g_;
 
+    //todo: wie werden u,v,p usw. gesetzt?
+
 public:
     StaggeredGrid(std::array<int, 2> nCells, std::array<double, 2> meshWidth); //todo am Ende wieder nach oben nach PROTECTED verschieben
 

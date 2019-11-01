@@ -5,12 +5,13 @@
 #ifndef CODE_NUMSIM_SOR_H
 #define CODE_NUMSIM_SOR_H
 
+#include "PressureSolver.h"
 
 class SOR : public PressureSolver {
 public:
     SOR(std::shared_ptr <Discretization> discretization, double epsilon, int maximumNumberOfIterations, double omega);
 
-    void solve();
+    void solve() override;
 
 private:
     double omega;

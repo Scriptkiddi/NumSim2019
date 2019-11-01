@@ -3,9 +3,16 @@
 //
 
 #include "Computation.h"
+#include "Settings.h"
 #include <cmath>
 
+using namespace std;
+
 void Computation::intitialize(int argc, char **argv) {
+    cout << "Running with" << settingsFilename << endl;
+    Settings settings;
+    settings.loadFromFile(argv[1]);
+    settings_(settings);
     StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
 }
 
