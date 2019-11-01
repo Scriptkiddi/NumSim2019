@@ -7,6 +7,11 @@ add_executable(${PROJECT_NAME}
         Settings.cpp
         Util/Utils.cpp Util/Utils.h
         StaggeredGrid/StaggeredGrid.h StaggeredGrid/StaggeredGrid.cpp
+        StaggeredGrid/Discretization.cpp StaggeredGrid/Discretization.h
+        StaggeredGrid/DonorCell.cpp StaggeredGrid/DonorCell.h
+        StaggeredGrid/CentralDifferences.h StaggeredGrid/CentralDifferences.cpp
+        PressureSolver/SOR.h PressureSolver/SOR.cpp
+        PressureSolver/PressureSolver.cpp PressureSolver/PressureSolver.h
         Array2D/Array2D.cpp Array2D/Array2D.h
         Array2D/FieldVariable.cpp Array2D/FieldVariable.h)
 

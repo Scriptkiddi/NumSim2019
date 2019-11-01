@@ -26,18 +26,18 @@ void Computation::initialize(int argc, char **argv) {
     meshWidth_[2] = settings_.physicalSize[2] / (settings_.nCells[2] - 2);
 
     //initialize discretization
-    if (settings_.useDonorCell == false) {
+    if (!settings_.useDonorCell) {
         CentralDifferences grid(settings_.nCells, meshWidth_);
         discretization_ = make_shared<CentralDifferences>(grid);
     } else {
         DonorCell grid(settings_.nCells, meshWidth_, settings_.alpha);
-        discretization_ = make_shared<CentralDifferences>(grid);
+        discretization_ = make_shared<DonorCell>(grid);
     }
 
     //initialize explicit pressureSolver
     if (settings_.pressureSolver == "SOR") {
         SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
-        pressureSolver_ = make_unique<PressureSolver>(pSolver);
+        //pressureSolver_ = make_unique<PressureSolver>(pSolver);
     } else {
         //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
         //pressureSolver_ = make_unique<PressureSolver>(pSolver);
@@ -83,8 +83,8 @@ void Computation::computeTimeStepWidth() {
     double condition_convection1 = discretization_->dx() / uMaximum;
     double condition_convection2 = discretization_->dy() / vMaximum;
 
-    dt_ = std::min(condition_diffusion, condition_convection1, condition_convection2);
-    dt_ = std::min(settings_.maximumDt, dt_) * .9;//*0.9, damit echt kleiner
+    //dt_ = std::min(condition_diffusion, condition_convection1, condition_convection2);
+    //dt_ = std::min(settings_.maximumDt, dt_) * .9;//*0.9, damit echt kleiner
 }
 
 void Computation::applyBoundaryValues() {
