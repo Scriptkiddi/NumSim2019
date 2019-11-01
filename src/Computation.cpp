@@ -8,20 +8,31 @@
 
 using namespace std;
 
-void Computation::intitialize(int argc, char **argv) {
+void Computation::initialize(int argc, char **argv) {
     cout << "Running with" << settingsFilename << endl;
     Settings settings;
     settings.loadFromFile(argv[1]);
     settings_(settings);
 
-    StaggeredGrid grid({2, 2}, {1, 1}); // einmal anlegen und füllen, dann nur noch überschreiben
-    //todo initialize discretization
+    //initialize meshWidth
+    std::array<int, 2> meshWidth;
+    meshWidth[1] = settings_.physicalSize[1]/(settings_.nCells[1]-2); //todo stimmt das mit der Anzahl der Zellen? (mit 2 Ghostcells)
+    meshWidth[2] = settings_.physicalSize[2]/(settings_.nCells[2]-2);
+    meshWidth_ = meshWidth;
+
+    //initialize discretization
+    if (settings_.useDonorCell == "false") {
+        CentralDifferences grid(settings_.nCells, meshWidth_);
+    } else {
+        DonorCell grid(settings_.nCells, meshWidth_, settings_.alpha);
+    }
+    discretization_ = grid;
 
     //initialize explicit pressureSolver
     if (settings_.pressureSolver == "SOR") {
         SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
     } else {
-        GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+        GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
     }
     pressureSolver_ = pSolver;
 }
