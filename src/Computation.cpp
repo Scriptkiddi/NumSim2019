@@ -17,7 +17,7 @@ void Computation::initialize(int argc, char **argv) {
     std::cout << "Running with" << argv[0] << std::endl;
     Settings settings;
     settings_ = settings;
-    settings.loadFromFile(argv[1]);
+    settings_.loadFromFile(argv[1]);
     settings_.printSettings();
 
     //initialize meshWidth
