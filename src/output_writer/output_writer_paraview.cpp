@@ -1,4 +1,5 @@
 #include "output_writer_paraview.h"
+#include "output_writer.h"
 #include "../StaggeredGrid/StaggeredGrid.h"
 
 #include <vtkImageData.h>
