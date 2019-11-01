@@ -102,7 +102,7 @@ int StaggeredGrid::uIBegin() const {
 }
 
 int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direction
-    return nCells_[0]+1;
+    return nCells_[0]; //todo anfassen, falls wir Zahl der Zellen (N+1 vs N+2) ändern
 }
 
 int StaggeredGrid::uJBegin() const {
@@ -110,7 +110,7 @@ int StaggeredGrid::uJBegin() const {
 }
 
 int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
-    return nCells_[1]+1;
+    return nCells_[1]; //todo anfassen, falls wir Zahl der Zellen (N+1 vs N+2) ändern
 }
 
 int StaggeredGrid::vIBegin() const {
@@ -118,7 +118,7 @@ int StaggeredGrid::vIBegin() const {
 }
 
 int StaggeredGrid::vIEnd() const {
-    return nCells_[0]+1;
+    return nCells_[0];
 }
 
 int StaggeredGrid::vJBegin() const {
@@ -126,7 +126,7 @@ int StaggeredGrid::vJBegin() const {
 }
 
 int StaggeredGrid::vJEnd() const {
-    return nCells_[1]+1;
+    return nCells_[1];
 }
 
 int StaggeredGrid::pIBegin() const {
@@ -134,7 +134,7 @@ int StaggeredGrid::pIBegin() const {
 }
 
 int StaggeredGrid::pIEnd() const {
-    return nCells_[0]+1;
+    return nCells_[0];
 }
 
 int StaggeredGrid::pJBegin() const {
@@ -142,5 +142,5 @@ int StaggeredGrid::pJBegin() const {
 }
 
 int StaggeredGrid::pJEnd() const {
-    return nCells_[1]+1;
+    return nCells_[1];
 }

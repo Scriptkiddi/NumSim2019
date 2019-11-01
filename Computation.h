@@ -5,6 +5,7 @@
 #ifndef CODE_NUMSIM_COMPUTATION_H
 #define CODE_NUMSIM_COMPUTATION_H
 
+#include "StaggeredGrid/StaggeredGrid.h"
 
 class Computation {
 public:

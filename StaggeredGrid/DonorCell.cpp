@@ -31,7 +31,7 @@ double DonorCell::computeDuvDx(int i, int j) const {
            + alpha_ * 1 / dx() * (std::fabs(u(i, j) + u(i + 1, j)) / 2 * (v(i, j) - v(i, j + 1)) / 2 -
                                 std::fabs(u(i, j - 1) + u(i + 1, j - 1)) / 2 * (v(i, j - 1) - v(i, j)) / 2);
 }
-//todo Problem mit Konvertierung von double zu int?? andere Funktion als abs??
+//todo Problem mit Konvertierung von double zu int?? andere Funktion als abs?? oder doch nicht?
 
 double DonorCell::computeDuvDy(int i, int j) const {
     return 1 / dy() * ((v(i, j) + v(i + 1, j)) / 2 * (u(i, j) + u(i, j + 1)) / 2 -
