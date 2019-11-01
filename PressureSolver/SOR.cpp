@@ -16,7 +16,7 @@ void SOR::solve() {
         a++;
         for(int j =0; j<1; j++){
             for(int i=0; i<1; i++){
-                discretization_.get()->p(i,j) = discretization_.get()->p(i,j) + ;
+                //discretization_.get()->p(i,j) = discretization_.get()->p(i,j) + ;
             }
         }
     }
