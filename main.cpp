@@ -11,8 +11,8 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    Computation computation = Computation();
-    computation.intitialize(argc, argv);
+    //Computation computation = Computation();
+    //computation.intitialize(argc, argv);
 
     return EXIT_SUCCESS;
 

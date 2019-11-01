@@ -29,8 +29,8 @@ void OutputWriterParaview::writeFile(double currentTime)
   dataSet->SetOrigin(0, 0, 0);
 
   // set spacing of mesh
-  const double dx = discretization_->meshWidth()[0];
-  const double dy = discretization_->meshWidth()[1];
+  const double dx = discretization_.get()->meshWidth()[0];
+  const double dy = discretization_.get()->meshWidth()[1];
   const double dz = 1;
   dataSet->SetSpacing(dx, dy, dz);
 
