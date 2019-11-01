@@ -121,6 +121,17 @@ void Computation::applyBoundaryValues() {
     for (int i = discretization_.get()->uIBegin() + 1; i <= discretization_.get()->uIEnd() - 1; i++) {
         discretization_.get()->u(i, j) = 2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j - 1);
     }
+    discretization_.get()->u(discretization_.get()->uIBegin(), discretization_.get()->uJBegin()) =
+            discretization_.get()->u(discretization_.get()->uIBegin()+1, discretization_.get()->uJBegin()+1);
+
+    discretization_.get()->u(discretization_.get()->uIBegin(), discretization_.get()->uJEnd()) =
+            discretization_.get()->u(discretization_.get()->uIBegin()+1, discretization_.get()->uJEnd()-1);
+
+    discretization_.get()->u(discretization_.get()->uIEnd(), discretization_.get()->uJBegin()) =
+            discretization_.get()->u(discretization_.get()->uIEnd()-1, discretization_.get()->uJBegin()+1);
+
+    discretization_.get()->u(discretization_.get()->uIEnd(), discretization_.get()->uJEnd()) =
+            discretization_.get()->u(discretization_.get()->uIEnd()-1, discretization_.get()->uJEnd()-1);
 
     // v
     //unterer Rand
@@ -141,6 +152,17 @@ void Computation::applyBoundaryValues() {
     for (int i = discretization_.get()->vIBegin() + 1; i <= discretization_.get()->vIEnd() - 1; i++) {
         discretization_.get()->v(i, j) = 2 * settings_.dirichletBcTop[1] - discretization_.get()->v(i, j - 1);
     }
+    discretization_.get()->v(discretization_.get()->vIBegin(), discretization_.get()->vJBegin()) =
+            discretization_.get()->v(discretization_.get()->vIBegin()+1, discretization_.get()->vJBegin()+1);
+
+    discretization_.get()->v(discretization_.get()->vIBegin(), discretization_.get()->vJEnd()) =
+            discretization_.get()->v(discretization_.get()->vIBegin()+1, discretization_.get()->vJEnd()-1);
+
+    discretization_.get()->v(discretization_.get()->vIEnd(), discretization_.get()->vJBegin()) =
+            discretization_.get()->p(discretization_.get()->pIEnd()-1, discretization_.get()->pJBegin()+1);
+
+    discretization_.get()->v(discretization_.get()->vIEnd(), discretization_.get()->vJEnd()) =
+            discretization_.get()->v(discretization_.get()->vIEnd()-1, discretization_.get()->vJEnd()-1);
 
 }
 
