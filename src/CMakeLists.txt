@@ -3,9 +3,9 @@ project(NumSim2019)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        output_writer/output_writer_paraview.cpp
         )
-#target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 # Search for the external package "VTK"
 find_package(VTK)
 
