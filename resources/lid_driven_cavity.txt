@@ -4,7 +4,7 @@
 # Problem description
 physicalSizeX = 2.0   # physical size of the domain
 physicalSizeY = 2.0
-endTime = 10.0        # duration of the simulation
+endTime = 30.0        # duration of the simulation
 re = 1000             # Reynolds number
 gX = 0.0              # external forces, set to (gX,gY) = (0,-9.81) to account for gravity
 gY = 0.0
@@ -29,7 +29,6 @@ maximumDt = 0.1       # maximum values for time step width
 
 # Solver parameters
 pressureSolver = SOR  # which pressure solver to use, possible values: GaussSeidel SOR CG
-omega = 1.6           # overrelaxation factor, only for SOR solver
+omega = 1.0           # overrelaxation factor, only for SOR solver
 epsilon = 1e-5        # tolerance for 2-norm of residual
 maximumNumberOfIterations = 1e4    # maximum number of iterations in the solver
-

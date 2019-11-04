@@ -6,15 +6,15 @@
 #include "../Array2D/Array2D.h"
 #include "../Array2D/FieldVariable.h"
 
-StaggeredGrid::StaggeredGrid(std::array<int, 2> nCells, std::array<double, 2> meshWidth) :
+StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth) :
         meshWidth_(meshWidth),
-        nCells_(nCells),
-        u_(nCells, {1 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
-        v_(nCells, {0.5 * meshWidth[0], 1 * meshWidth[1]}, meshWidth),
-        p_(nCells, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
-        rhs_(nCells, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
-        f_(nCells, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
-        g_(nCells, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth) {
+        nCells_(nCellsBoundary),
+        u_(nCellsBoundary, {0 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+        v_(nCellsBoundary, {-0.5 * meshWidth[0], 0 * meshWidth[1]}, meshWidth),
+        p_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+        rhs_(nCellsBoundary, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
+        f_(nCellsBoundary, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
+        g_(nCellsBoundary, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth) {
 }
 
 const std::array<double, 2> StaggeredGrid::meshWidth() const {
@@ -119,7 +119,7 @@ int StaggeredGrid::pIBegin() const {
 }
 
 int StaggeredGrid::pIEnd() const {
-    return nCells_[0] - 1;
+    return nCells_[0]-1 ;
 }
 
 int StaggeredGrid::pJBegin() const {
@@ -127,5 +127,5 @@ int StaggeredGrid::pJBegin() const {
 }
 
 int StaggeredGrid::pJEnd() const {
-    return nCells_[1] - 1;
+    return nCells_[1]-1;
 }

@@ -107,7 +107,9 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "epsilon") {
             this->epsilon = atof(parameterValue);
         }
-
+        else if ( parameterName == "maximumNumberOfIterations") {
+            this->maximumNumberOfIterations = atof(parameterValue);
+        }
     }
 };
 
