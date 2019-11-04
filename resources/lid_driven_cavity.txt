@@ -29,6 +29,6 @@ maximumDt = 0.1       # maximum values for time step width
 
 # Solver parameters
 pressureSolver = SOR  # which pressure solver to use, possible values: GaussSeidel SOR CG
-omega = 1.0           # overrelaxation factor, only for SOR solver
+omega = 1.6           # overrelaxation factor, only for SOR solver
 epsilon = 1e-5        # tolerance for 2-norm of residual
-maximumNumberOfIterations = 1e4    # maximum number of iterations in the solver
+maximumNumberOfIterations = 200    # maximum number of iterations in the solver

@@ -12,9 +12,9 @@ StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<doubl
         u_(nCellsBoundary, {0 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         v_(nCellsBoundary, {-0.5 * meshWidth[0], 0 * meshWidth[1]}, meshWidth),
         p_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        rhs_(nCellsBoundary, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
-        f_(nCellsBoundary, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth),
-        g_(nCellsBoundary, {0.5 * meshWidth[0], 0.5 * meshWidth[1]}, meshWidth) {
+        rhs_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+        f_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+        g_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth) {
 }
 
 const std::array<double, 2> StaggeredGrid::meshWidth() const {
@@ -82,7 +82,7 @@ double StaggeredGrid::dy() const {
 }
 
 int StaggeredGrid::uIBegin() const {
-    return 0; //todo evtl anpassen mit ghost cells
+    return 1; //todo evtl anpassen mit ghost cells
 }
 
 int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direction
@@ -91,7 +91,7 @@ int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direc
 }
 
 int StaggeredGrid::uJBegin() const {
-    return 0;
+    return 1;
 }
 
 int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
@@ -99,7 +99,7 @@ int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direc
 }
 
 int StaggeredGrid::vIBegin() const {
-    return 0;
+    return 1;
 }
 
 int StaggeredGrid::vIEnd() const {
@@ -107,7 +107,7 @@ int StaggeredGrid::vIEnd() const {
 }
 
 int StaggeredGrid::vJBegin() const {
-    return 0;
+    return 1;
 }
 
 int StaggeredGrid::vJEnd() const {
@@ -115,17 +115,17 @@ int StaggeredGrid::vJEnd() const {
 }
 
 int StaggeredGrid::pIBegin() const {
-    return 0;
+    return 1;
 }
 
 int StaggeredGrid::pIEnd() const {
-    return nCells_[0]-1 ;
+    return nCells_[0]-2 ;
 }
 
 int StaggeredGrid::pJBegin() const {
-    return 0;
+    return 1;
 }
 
 int StaggeredGrid::pJEnd() const {
-    return nCells_[1]-1;
+    return nCells_[1]-2;
 }
