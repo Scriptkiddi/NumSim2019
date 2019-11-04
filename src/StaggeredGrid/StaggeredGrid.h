@@ -24,7 +24,7 @@ protected:
     //todo: wie werden u,v,p usw. gesetzt?
 
 public:
-    StaggeredGrid(std::array<int, 2> nCells, std::array<double, 2> meshWidth); //todo am Ende wieder nach oben nach PROTECTED verschieben
+    StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth); //todo am Ende wieder nach oben nach PROTECTED verschieben
 
     const std::array<double, 2> meshWidth() const;
 

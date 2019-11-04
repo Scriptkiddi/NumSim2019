@@ -13,7 +13,7 @@ SOR::SOR(std::shared_ptr<Discretization> discretization, double epsilon, int max
 
 void SOR::solve() {
     int iter = 1;
-    double eps = 1;
+    double eps;
     while (iter <= maximumNumberOfIterations_ && eps > epsilon_) {
         iter++;
         setBoundaryValues();
