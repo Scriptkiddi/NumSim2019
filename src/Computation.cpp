@@ -64,7 +64,7 @@ void Computation::runSimulation() {
         computeVelocities();
         t += dt_;
         outputWriterParaview_.get()->writeFile(t);
-        //outputWriterText_.get()->writeFile(t);
+        outputWriterText_.get()->writeFile(t);
         cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
     }
 }

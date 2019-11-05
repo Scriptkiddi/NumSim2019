@@ -53,6 +53,7 @@ void SOR::solve() {
                           / pow(discretization_.get()->meshWidth()[1], 2), 2);
             }
         }
+        eps = sqrt(eps);
         iter++;
     }
     std::cout << "pressure solver iterations: " << iter << std::endl;
