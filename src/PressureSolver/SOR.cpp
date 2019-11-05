@@ -43,13 +43,14 @@ void SOR::solve() {
         eps = 0;
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
             for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-                eps += std::pow(
-                        discretization_->rhs(i,j)
-                        - (discretization_->p(i-1,j) - 2 * discretization_->p(i,j) + discretization_->p(i+1,j))
-                          / std::pow(discretization_.get()->meshWidth()[0],2)
-                        - (discretization_->p(i,j-1) - 2 * discretization_->p(i,j) + discretization_->p(i,j+1))
-                          / std::pow(discretization_.get()->meshWidth()[1],2)
-                        ,2);
+                eps = eps + pow(
+                        discretization_->rhs(i, j)
+                        - (discretization_.get()->p(i - 1, j) - 2 * discretization_.get()->p(i, j) +
+                           discretization_.get()->p(i + 1, j))
+                          / pow(discretization_.get()->meshWidth()[0], 2)
+                        - (discretization_.get()->p(i, j - 1) - 2 * discretization_.get()->p(i, j) +
+                           discretization_.get()->p(i, j + 1))
+                          / pow(discretization_.get()->meshWidth()[1], 2), 2);
             }
         }
         iter++;
