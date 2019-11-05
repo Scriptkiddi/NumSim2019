@@ -16,8 +16,7 @@ void SOR::solve() {
     int iter = 0;
     double eps = 1;
     while (iter <= maximumNumberOfIterations_ && eps > epsilon_) {
-        iter++;
-        setBoundaryValues();
+        //setBoundaryValues();
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
             for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
                 discretization_.get()->p(i, j) = (1 - omega) *
@@ -53,7 +52,8 @@ void SOR::solve() {
                         ,2);
             }
         }
-        std::cout << "pressure solver iterations: " << iter << std::endl;
+        iter++;
     }
+    std::cout << "pressure solver iterations: " << iter << std::endl;
     setBoundaryValues();
 }

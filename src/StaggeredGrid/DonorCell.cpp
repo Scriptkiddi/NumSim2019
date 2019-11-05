@@ -20,7 +20,7 @@ double DonorCell::computeDu2Dx(int i, int j) const {
 }
 
 double DonorCell::computeDv2Dy(int i, int j) const {
-    return 1 / dy() * (pow((v(i, j) + v(i, j + 1)) / 2, 2) - pow((v(i, j - 1) + u(i, j)) / 2, 2))
+    return 1 / dy() * (pow((v(i, j) + v(i, j + 1)) / 2, 2) - pow((v(i, j - 1) + v(i, j)) / 2, 2))
            + alpha_ * 1 / dy() * (std::fabs(v(i, j) + v(i, j + 1)) / 2 * (v(i, j) - v(i, j + 1)) / 2 -
                                   std::fabs(v(i, j - 1) + v(i, j)) / 2 * (v(i, j - 1) - v(i, j)) / 2);
 }

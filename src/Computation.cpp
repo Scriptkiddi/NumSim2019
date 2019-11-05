@@ -23,8 +23,8 @@ void Computation::initialize(int argc, char **argv) {
 
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] /
-                    (nCellsBoundary[0] - 2); //todo stimmt das mit der Anzahl der Zellen? (mit 2 Ghostcells)
-    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1] - 2);
+                    (nCellsBoundary[0]);
+    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]);
 
     //initialize discretization
     if (!settings_.useDonorCell) {
@@ -71,16 +71,16 @@ void Computation::runSimulation() {
 
 void Computation::computeTimeStepWidth() {
     double uMaximum = discretization_.get()->u(discretization_.get()->uIBegin(), discretization_.get()->uJEnd());
-    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
-        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
+    for (int j = discretization_.get()->uJBegin()-1; j <= discretization_.get()->uJEnd()+1; j++) {
+        for (int i = discretization_.get()->uIBegin()-1; i <= discretization_.get()->uIEnd()+1; i++) {
             if (uMaximum < fabs(discretization_.get()->u(i, j))) {
                 uMaximum = fabs(discretization_.get()->u(i, j));
             }
         }
     }
-    double vMaximum = discretization_.get()->v(discretization_.get()->vIBegin(), discretization_.get()->vJBegin());
-    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
-        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
+    double vMaximum = discretization_.get()->v(discretization_.get()->vIBegin(), discretization_.get()->vJEnd());
+    for (int j = discretization_.get()->vJBegin()-1; j <= discretization_.get()->vJEnd()+1; j++) {
+        for (int i = discretization_.get()->vIBegin()+1; i <= discretization_.get()->vIEnd()-1; i++) {
             if (vMaximum < fabs(discretization_.get()->v(i, j))) {
                 vMaximum = fabs(discretization_.get()->v(i, j));
             }
@@ -95,12 +95,10 @@ void Computation::computeTimeStepWidth() {
 
     dt_ = min(condition_convection1, condition_convection2);
     dt_ = min(condition_diffusion, dt_);
-    dt_ = min(settings_.maximumDt, dt_) * .9;//*0.9, damit echt kleiner
+    dt_ = min(settings_.maximumDt, dt_) * settings_.tau;
 }
 
 void Computation::applyBoundaryValues() {
-    //todo: Zellen in den Ecken werden noch ignoriert, evtl. nach Bedarf ergänzen
-
     //rechter und linker Rand
     int j;
     int i_low = discretization_.get()->uIBegin() - 1;
@@ -137,7 +135,6 @@ void Computation::applyBoundaryValues() {
         discretization_.get()->v(i_low, j) = 2 * settings_.dirichletBcLeft[1] - discretization_.get()->v(i_low + 1, j);
         discretization_.get()->v(i_high, j) = 2 * settings_.dirichletBcRight[1] - discretization_.get()->v(i_high - 1, j);
     }
-
 }
 
 void Computation::PreliminaryVelocities() {
@@ -182,15 +179,15 @@ void Computation::computePressure() {
 }
 
 void Computation::computeVelocities() {
-    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
-        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
+    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->u(i, j) =
                     discretization_.get()->f(i, j) - dt_ * discretization_.get()->computeDpDx(i, j);
         }
     }
 
-    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
-        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
+    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->v(i, j) =
                     discretization_.get()->g(i, j) - dt_ * discretization_.get()->computeDpDy(i, j);
         }

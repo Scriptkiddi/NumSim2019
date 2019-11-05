@@ -17,12 +17,16 @@ double CentralDifferences::computeDu2Dx(int i, int j) const {
 }
 
 double CentralDifferences::computeDv2Dy(int i, int j) const {
-    return 1 / dy() * (pow((v(i, j) + v(i, j + 1)) / 2, 2) - pow((v(i, j - 1) + u(i, j)) / 2, 2));
+    return 1 / dy() * (pow((v(i, j) + v(i, j + 1)) / 2, 2) - pow((v(i, j - 1) + v(i, j)) / 2, 2));
 }
 
 double CentralDifferences::computeDuvDx(int i, int j) const {
-    return 1 / dx() * ((u(i, j) + u(i, j + 1)) / 2 * (v(i, j) + v(i + 1, j)) / 2 -
-                       (u(i - 1, j) + u(i - 1, j + 1)) / 2 * (v(i - 1, j) + v(i, j)) / 2);
+    return 1 / dx()
+    * ((u(i, j) + u(i, j + 1)) / 2
+    * (v(i, j) + v(i + 1, j)) / 2
+    -
+    (u(i - 1, j) + u(i - 1, j + 1)) / 2
+    * (v(i - 1, j) + v(i, j)) / 2);
 }
 
 double CentralDifferences::computeDuvDy(int i, int j) const {
