@@ -114,7 +114,7 @@ void Computation::applyBoundaryValues() {
     //unterer Rand
     // oberer Rand
     int j_low = discretization_.get()->uJBegin() - 1;
-    int j_high = discretization_.get()->uJEnd();
+    int j_high = discretization_.get()->uJEnd() + 1;
     for (int i = discretization_.get()->uIBegin() - 1; i <= discretization_.get()->uIEnd() + 1; i++) {
         discretization_.get()->u(i, j_low) = 2 * settings_.dirichletBcBottom[0] - discretization_.get()->u(i, j_low + 1);
         discretization_.get()->u(i, j_high) = 2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
@@ -132,7 +132,7 @@ void Computation::applyBoundaryValues() {
 
     //rechter und linker Rand
     i_low = discretization_.get()->vIBegin() - 1;
-    i_high = discretization_.get()->vIEnd();
+    i_high = discretization_.get()->vIEnd() + 1;
     for (j = discretization_.get()->vJBegin()-1; j <= discretization_.get()->vJEnd()+1; j++) {
         discretization_.get()->v(i_low, j) = 2 * settings_.dirichletBcLeft[1] - discretization_.get()->v(i_low + 1, j);
         discretization_.get()->v(i_high, j) = 2 * settings_.dirichletBcRight[1] - discretization_.get()->v(i_high - 1, j);
@@ -141,8 +141,8 @@ void Computation::applyBoundaryValues() {
 }
 
 void Computation::PreliminaryVelocities() {
-    for (int j = discretization_.get()->uJBegin() + 1; j <= discretization_.get()->uJEnd() - 1; j++) {
-        for (int i = discretization_.get()->uIBegin() + 1; i <= discretization_.get()->uIEnd() - 1; i++) {
+    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->f(i, j) =
                     discretization_.get()->u(i, j) +
                     dt_ * (1 / settings_.re * (discretization_.get()->computeD2uDx2(i, j) +
@@ -152,8 +152,8 @@ void Computation::PreliminaryVelocities() {
         }
     }
 
-    for (int j = discretization_.get()->vJBegin() + 1; j <= discretization_.get()->vJEnd() - 1; j++) {
-        for (int i = discretization_.get()->vIBegin() + 1; i <= discretization_.get()->vIEnd() - 1; i++) {
+    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->g(i, j) =
                     discretization_.get()->v(i, j) +
                     dt_ * (1 / settings_.re * (discretization_.get()->computeD2vDy2(i, j) +
@@ -165,13 +165,13 @@ void Computation::PreliminaryVelocities() {
 }
 
 void Computation::computeRightHandSide() {
-    for (int j = discretization_.get()->uJBegin() + 1; j <= discretization_.get()->uJEnd() - 1; j++) {
-        for (int i = discretization_.get()->uIBegin() + 1; i <= discretization_.get()->uIEnd() - 1; i++) {
+    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->rhs(i, j) =
-                    1 / dt_ * ((discretization_.get()->f(i, j) - discretization_.get()->f(i - 1, j)) /
-                               discretization_.get()->dx() +
-                               (discretization_.get()->g(i, j) - discretization_.get()->g(i, j - 1)) /
-                               discretization_.get()->dy());
+                    1 / dt_ * (((discretization_.get()->f(i, j) - discretization_.get()->f(i - 1, j)) /
+                               discretization_.get()->dx()) +
+                            ((discretization_.get()->g(i, j) - discretization_.get()->g(i, j - 1)) /
+                               discretization_.get()->dy()));
         }
     }
 }
@@ -182,15 +182,15 @@ void Computation::computePressure() {
 }
 
 void Computation::computeVelocities() {
-    for (int j = discretization_.get()->uJBegin() + 1; j <= discretization_.get()->uJEnd() - 1; j++) {
-        for (int i = discretization_.get()->uIBegin() + 1; i <= discretization_.get()->uIEnd() - 1; i++) {
+    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
+        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
             discretization_.get()->u(i, j) =
                     discretization_.get()->f(i, j) - dt_ * discretization_.get()->computeDpDx(i, j);
         }
     }
 
-    for (int j = discretization_.get()->vJBegin() + 1; j <= discretization_.get()->vJEnd() - 1; j++) {
-        for (int i = discretization_.get()->vIBegin() + 1; i <= discretization_.get()->vIEnd() - 1; i++) {
+    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
+        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
             discretization_.get()->v(i, j) =
                     discretization_.get()->g(i, j) - dt_ * discretization_.get()->computeDpDy(i, j);
         }

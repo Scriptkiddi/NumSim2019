@@ -80,14 +80,16 @@ double StaggeredGrid::dx() const {
 double StaggeredGrid::dy() const {
     return meshWidth_[1];
 }
-
+// ncells beinhaltet ghost cells
+// https://numsim-exercises.readthedocs.io/en/latest/exercise1/hints.html
+// 1 weil uIBegin gibt uns die erste nicht ghost cell
 int StaggeredGrid::uIBegin() const {
-    return 1; //todo evtl anpassen mit ghost cells
+    return 1;
 }
 
 int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direction
     // minus 1 für size to index und nochmal -1 weil der wert der letzten richtigen zelle auf 0 gesetzt wird anstelle der in der ghost cell
-    return nCells_[0] - 2;
+    return nCells_[0] - 3;
 }
 
 int StaggeredGrid::uJBegin() const {
@@ -95,7 +97,7 @@ int StaggeredGrid::uJBegin() const {
 }
 
 int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
-    return nCells_[1] - 1;
+    return nCells_[1]-2;
 }
 
 int StaggeredGrid::vIBegin() const {
@@ -103,7 +105,7 @@ int StaggeredGrid::vIBegin() const {
 }
 
 int StaggeredGrid::vIEnd() const {
-    return nCells_[0] - 1;
+    return nCells_[0]-2;
 }
 
 int StaggeredGrid::vJBegin() const {
@@ -111,7 +113,7 @@ int StaggeredGrid::vJBegin() const {
 }
 
 int StaggeredGrid::vJEnd() const {
-    return nCells_[1] - 2;
+    return nCells_[1] - 3;
 }
 
 int StaggeredGrid::pIBegin() const {
@@ -119,7 +121,7 @@ int StaggeredGrid::pIBegin() const {
 }
 
 int StaggeredGrid::pIEnd() const {
-    return nCells_[0]-2 ;
+    return nCells_[0]-2;
 }
 
 int StaggeredGrid::pJBegin() const {
