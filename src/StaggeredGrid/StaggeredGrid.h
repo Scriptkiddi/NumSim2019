@@ -58,7 +58,7 @@ public:
 
     double dy() const;
 
-    int uIBegin() const; //Begin und End geben mir jeweils die Ghostcells aus
+    int uIBegin() const;
 
     int uIEnd() const;
 
