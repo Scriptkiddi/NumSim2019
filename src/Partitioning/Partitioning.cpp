@@ -69,19 +69,19 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
     }
 
     int Partitioning::getRankOfLeftNeighbour(){
-        return 0;//rankLeft;
+        return rankLeft;
     }
 
     int Partitioning::getRankOfRightNeighbour(){
-        return 0; //rankRight;
+        return rankRight;
     }
 
     int Partitioning::getRankOfBottomNeighbour(){
-        return 0; //rankBottom;
+        return rankBottom;
     }
 
     int Partitioning::getRankOfTopNeighbour(){
-        return 0; //rankTop;
+        return rankTop;
     }
 
 int Partitioning::getSize() {
