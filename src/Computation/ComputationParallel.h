@@ -19,7 +19,8 @@ public:
     //virtual void runSimulation();
 
 private:
-    //virtual void computeTimeStepWidth();
+    double dtAll_;
+    void computeTimeStepWidth();
 
     //virtual void applyBoundaryValues();
 

@@ -16,14 +16,16 @@ public:
     int getRankOfRightNeighbour();
     int getRankOfBottomNeighbour();
     int getRankOfTopNeighbour();
+    int getSize();
 
 private:
     std::array<int, 2> nCellsLocal;
-    const int rank;
-    const int rankLeft;
-    const int rankRight;
-    const int rankTop;
-    const int rankBottom;
+    int rank;
+    int rankLeft;
+    int rankRight;
+    int rankTop;
+    int rankBottom;
+    int size;
 };
 
 #endif //NUMSIM2019_PARTITIONING_H

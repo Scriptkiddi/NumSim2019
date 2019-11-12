@@ -15,11 +15,9 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
     nCellsLocal = nCells;
 
     //Determine partition
-    int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    int commSize;
-    MPI_Comm_size(MPI_COMM_WORLD, &commSize);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     int x = nCells[0];
     int y = nCells[1];
@@ -37,13 +35,31 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
             index = i;
         }
     }
-    int local_x = possibilities[index][0];
-    int local_y = possibilities[index][1];
+    int numberX = possibilities[index][0];
+    int numberY = possibilities[index][1];
 
-    std::cout << local_x << "x" << local_y << std::endl;
+    // Determine if special case (Left border, bottom, ...)
+    rankRight = rank +1;
+    rankLeft = rank - 1;
+    rankBottom = rank-numberX;
+    rankTop = rank+numberX;
+    if(rank < numberX ){ //Bottom Border
+        rankBottom = -1;
+    }
+    if(rank % numberX == numberX-1){ // Right Border -1 since numberX is a size value
+        rankRight = -1;
+    }
+    if (rank >= commSize-numberX) { //Top Border
+        rankTop = -1;
+    }
+    if(rank % numberX==0){ // Left Border
+        rankLeft = -1;
+    }
+    std::cout << "rank is " << rank << "/" << commSize << std::endl;
+    std::cout << rank << "|" << rankBottom << "|" << rankTop <<  "|" << rankLeft <<  "|" << rankRight << std::endl;
 
 
-    //cout << "rank is " << rank << "/" << commSize << endl;
+
 
 }
 
@@ -53,17 +69,21 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
     }
 
     int Partitioning::getRankOfLeftNeighbour(){
-        return rankLeft;
+        return 0;//rankLeft;
     }
 
     int Partitioning::getRankOfRightNeighbour(){
-        return rankRight;
+        return 0; //rankRight;
     }
 
     int Partitioning::getRankOfBottomNeighbour(){
-        return rankBottom;
+        return 0; //rankBottom;
     }
 
     int Partitioning::getRankOfTopNeighbour(){
-        return rankTop;
+        return 0; //rankTop;
     }
+
+int Partitioning::getSize() {
+    return size;
+}
