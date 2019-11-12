@@ -5,6 +5,7 @@
 #include "Computation/Computation.h"
 #include <chrono>
 #include <mpi.h>
+#include <Util/InputParser.h>
 
 using namespace std::chrono;
 
@@ -15,9 +16,23 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    int number_of_processes = 0;
+    InputParser input(argc, argv);
+    if(input.cmdOptionExists("-n")){
+        number_of_processes = stoi(input.getCmdOption("-n"));
+    }else{
+        cout << "Please supply the number of Processes to use" << endl;
+        return EXIT_FAILURE;
+    }
+    if(number_of_processes <= 0){
+        cout << "Please supply a number of Processes greater or equal to 1" << endl;
+        return EXIT_FAILURE;
+    }
+
+    cout << "Running with " << number_of_processes <<  " processes" << endl;
+
+    //Determine parition
     MPI_Init(NULL, NULL);
-
-
 
 
     Computation computation;
