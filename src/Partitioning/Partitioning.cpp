@@ -4,22 +4,27 @@
 
 #include "Partitioning.h"
 
-    int Partitioning::getRank(){
-        return rank;
-    }
+int Partitioning::getRank()
+{
+    return rank;
+}
 
-    int Partitioning::getRankOfLeftNeighbour(){
-        return rankLeft;
-    }
+int Partitioning::getRankOfLeftNeighbour()
+{
+    return rankLeft;
+}
 
-    int Partitioning::getRankOfRightNeighbour(){
-        return rankRight;
-    }
+int Partitioning::getRankOfRightNeighbour()
+{
+    return rankRight;
+}
 
-    int Partitioning::getRankOfBottomNeighbour(){
-        return rankBottom;
-    }
+int Partitioning::getRankOfBottomNeighbour()
+{
+    return rankBottom;
+}
 
-    int Partitioning::getRankOfTopNeighbour(){
-        return rankTop;
-    }
+int Partitioning::getRankOfTopNeighbour()
+{
+    return rankTop;
+}

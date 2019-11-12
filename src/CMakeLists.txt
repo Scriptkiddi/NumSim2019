@@ -19,7 +19,7 @@ add_executable(${PROJECT_NAME}
         output_writer/output_writer.cpp output_writer/output_writer.h
         Array2D/Array2D.cpp Array2D/Array2D.h
         Array2D/FieldVariable.cpp Array2D/FieldVariable.h
-        Computation/ComputationParallel.cpp Computation/ComputationParallel.h Partitioning/Partitioning.cpp Partitioning/Partitioning.h Util/InputParser.cpp Util/InputParser.h)
+        Computation/ComputationParallel.cpp Computation/ComputationParallel.h Partitioning/Partitioning.cpp Partitioning/Partitioning.h Util/InputParser.cpp Util/InputParser.h Communication.cpp Communication.h)
 
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
