@@ -5,7 +5,6 @@
 #include "Computation/Computation.h"
 #include <chrono>
 #include <mpi.h>
-#include <Util/InputParser.h>
 
 using namespace std::chrono;
 
@@ -16,24 +15,15 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    int number_of_processes = 0;
-    InputParser input(argc, argv);
-    if(input.cmdOptionExists("-n")){
-        number_of_processes = stoi(input.getCmdOption("-n"));
-    }else{
-        cout << "Please supply the number of Processes to use" << endl;
-        return EXIT_FAILURE;
-    }
-    if(number_of_processes <= 0){
-        cout << "Please supply a number of Processes greater or equal to 1" << endl;
-        return EXIT_FAILURE;
-    }
-
-    cout << "Running with " << number_of_processes <<  " processes" << endl;
+    //cout << "Running with " << number_of_processes <<  " processes" << endl;
 
     //Determine parition
-    MPI_Init(NULL, NULL);
-
+    MPI_Init(&argc, &argv);
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    cout << "rank is " << rank << endl;
+    MPI_Finalize();
+    return 0;
 
     Computation computation;
     computation.initialize(argc, argv);
@@ -41,8 +31,9 @@ int main(int argc, char *argv[]) {
     computation.runSimulation();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop -start);
-    cout << "Time in miliseconds: " << duration.count() << endl;
+    cout << "Time in milliseconds: " << duration.count() << endl;
 
+    MPI_Finalize();
     return EXIT_SUCCESS;
 
 
