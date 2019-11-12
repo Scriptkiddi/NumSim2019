@@ -10,22 +10,14 @@
 using namespace std::chrono;
 
 int main(int argc, char *argv[]) {
-    // Todo parse number of processes
+    MPI_Init(&argc, &argv);
     if (argc == 1 ){
         std::cout << "Please pass settings filename" << std::endl;
         return EXIT_FAILURE;
     }
 
-    //cout << "Running with " << number_of_processes <<  " processes" << endl;
 
-    //Determine parition
     MPI_Init(&argc, &argv);
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    cout << "rank is " << rank << endl;
-    MPI_Finalize();
-    return 0;
->>>>>>> cdb7b7649a52749a7826af0c88dc39e686b7fdb6
 
     ComputationParallel computation;
     computation.initialize(argc, argv);
