@@ -7,26 +7,29 @@
 
 #include "Computation.h"
 #include "../Partitioning/Partitioning.h"
+#include <string>
 
 class ComputationParallel : public Computation
 {
 public:
+    ComputationParallel(string settingsFilename);
+
     virtual void initialize(int argc, char *argv[]);
 
-    virtual void runSimulation();
+    //virtual void runSimulation();
 
 private:
-    virtual void computeTimeStepWidth();
+    //virtual void computeTimeStepWidth();
 
-    virtual void applyBoundaryValues();
+    //virtual void applyBoundaryValues();
 
-    virtual void PreliminaryVelocities();
+    //virtual void PreliminaryVelocities();
 
-    virtual void computeRightHandSide();
+    //virtual void computeRightHandSide();
 
-    virtual void computePressure();
+    //virtual void computePressure();
 
-    virtual void computeVelocities();
+    //virtual void computeVelocities();
 
     //Attributes
 
