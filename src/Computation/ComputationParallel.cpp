@@ -3,3 +3,7 @@
 //
 
 #include "ComputationParallel.h"
+
+void ComputationParallel::initialize(int argc, char **argv) {
+
+}

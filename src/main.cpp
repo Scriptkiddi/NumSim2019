@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "Computation/Computation.h"
+#include "Computation/ComputationParallel.h"
 #include <chrono>
 #include <mpi.h>
 #include <Util/InputParser.h>
@@ -31,11 +32,11 @@ int main(int argc, char *argv[]) {
 
     cout << "Running with " << number_of_processes <<  " processes" << endl;
 
-    //Determine parition
+    //Determine partition
     MPI_Init(NULL, NULL);
 
 
-    Computation computation;
+    ComputationParallel computation;
     computation.initialize(argc, argv);
     auto start = high_resolution_clock::now();
     computation.runSimulation();

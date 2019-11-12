@@ -5,8 +5,8 @@
 #ifndef NUMSIM2019_PARTITIONING_H
 #define NUMSIM2019_PARTITIONING_H
 
-
-class Partitioning {
+class Partitioning
+{
 public:
     int getRank();
     int getRankOfLeftNeighbour();
@@ -15,6 +15,5 @@ public:
     int getRankOfTopNeighbour();
     int nCellsLocal;
 };
-
 
 #endif //NUMSIM2019_PARTITIONING_H

@@ -13,40 +13,40 @@
 #include "output_writer/output_writer_paraview.h"
 #include "output_writer/output_writer_text.h"
 
-class Computation {
+class Computation
+{
 public:
-    void initialize(int argc, char *argv[]);
+    virtual void initialize(int argc, char *argv[]);
 
-    void runSimulation();
+    virtual void runSimulation();
 
 private:
-    void computeTimeStepWidth();
+    virtual void computeTimeStepWidth();
 
-    void applyBoundaryValues();
+    virtual void applyBoundaryValues();
 
-    void PreliminaryVelocities();
+    virtual void PreliminaryVelocities();
 
-    void computeRightHandSide();
+    virtual void computeRightHandSide();
 
-    void computePressure();
+    virtual void computePressure();
 
-    void computeVelocities();
+    virtual void computeVelocities();
 
     // Attributes
     Settings settings_;
 
-    std::shared_ptr <Discretization> discretization_;
+    std::shared_ptr<Discretization> discretization_;
 
-    std::unique_ptr <PressureSolver> pressureSolver_;
+    std::unique_ptr<PressureSolver> pressureSolver_;
 
-    std::unique_ptr <OutputWriterParaview> outputWriterParaview_;
+    std::unique_ptr<OutputWriterParaview> outputWriterParaview_;
 
-    std::unique_ptr <OutputWriterText> outputWriterText_;
+    std::unique_ptr<OutputWriterText> outputWriterText_;
 
     std::array<double, 2> meshWidth_;
 
     double dt_;
 };
-
 
 #endif //CODE_NUMSIM_COMPUTATION_H
