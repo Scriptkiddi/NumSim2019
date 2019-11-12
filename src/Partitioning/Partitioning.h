@@ -11,13 +11,19 @@ class Partitioning
 public:
     explicit Partitioning(std::array<int, 2> nCells);
 
-
     int getRank();
     int getRankOfLeftNeighbour();
     int getRankOfRightNeighbour();
     int getRankOfBottomNeighbour();
     int getRankOfTopNeighbour();
+
+private:
     std::array<int, 2> nCellsLocal;
+    const int rank;
+    const int rankLeft;
+    const int rankRight;
+    const int rankTop;
+    const int rankBottom;
 };
 
 #endif //NUMSIM2019_PARTITIONING_H
