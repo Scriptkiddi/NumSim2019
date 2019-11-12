@@ -31,6 +31,7 @@ private:
     //Attributes
 
     Partitioning partitioning_;
+    double dtAll_;
 
 };
 
