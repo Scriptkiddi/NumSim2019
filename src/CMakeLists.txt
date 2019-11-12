@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        Computation.cpp
-        Settings.cpp
+        Computation/Computation.cpp Computation/Computation.h
+        Settings.cpp Settings.h
         Util/Utils.cpp Util/Utils.h
         StaggeredGrid/StaggeredGrid.h StaggeredGrid/StaggeredGrid.cpp
         StaggeredGrid/Discretization.cpp StaggeredGrid/Discretization.h
@@ -37,6 +37,21 @@ if (VTK_FOUND)
     include_directories(${VTK_INCLUDE_DIRS})               # add the include directory where the header files are for the compiler
     target_link_libraries(${PROJECT_NAME} ${VTK_LIBRARIES}) # add the libraries for the linker
 endif(VTK_FOUND)
+
+find_package(MPI REQUIRED)
+
+include_directories(${MPI_INCLUDE_PATH})
+target_link_libraries(${PROJECT_NAME} ${MPI_LIBRARIES})
+
+if(MPI_COMPILE_FLAGS)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")
+endif()
+
+if(MPI_LINK_FLAGS)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            LINK_FLAGS "${MPI_LINK_FLAGS}")
+endif()
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/../build)
 # Add additonial compile options to enable more warnings
