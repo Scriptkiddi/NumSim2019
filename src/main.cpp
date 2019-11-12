@@ -10,19 +10,18 @@
 using namespace std::chrono;
 
 int main(int argc, char *argv[]) {
-    MPI_Init(&argc, &argv);
     if (argc == 1 ){
         std::cout << "Please pass settings filename" << std::endl;
         return EXIT_FAILURE;
     }
-
-
     MPI_Init(&argc, &argv);
 
-    ComputationParallel computation;
+    std:string settingsFilename = argv[1];
+    ComputationParallel computation(settingsFilename);
+
     computation.initialize(argc, argv);
     auto start = high_resolution_clock::now();
-    computation.runSimulation();
+    //computation.runSimulation();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop -start);
     cout << "Time in milliseconds: " << duration.count() << endl;
