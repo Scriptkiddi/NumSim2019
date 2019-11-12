@@ -1,3 +1,7 @@
+# stuff
+connect.sh
+.idea/deployment.xml
+.idea/webServers.xml
 # Cmake
 CMakeLists.txt.user
 CMakeCache.txt
