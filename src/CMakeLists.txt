@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME}
         Array2D/FieldVariable.cpp Array2D/FieldVariable.h
         Computation/ComputationParallel.cpp Computation/ComputationParallel.h Partitioning/Partitioning.cpp Partitioning/Partitioning.h)
 
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 message("Including ${PROJECT_SOURCE_DIR}")
 
@@ -39,6 +40,7 @@ if (VTK_FOUND)
 endif(VTK_FOUND)
 
 find_package(MPI REQUIRED)
+message("If MPI was found on the system: MPI_FOUND: ${MPI_FOUND}")
 
 include_directories(${MPI_INCLUDE_PATH})
 target_link_libraries(${PROJECT_NAME} ${MPI_LIBRARIES})

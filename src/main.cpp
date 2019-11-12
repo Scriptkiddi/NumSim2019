@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Computation/Computation.h"
 #include <chrono>
+#include <mpi.h>
 
 using namespace std::chrono;
 
@@ -14,7 +15,8 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    MPI_INIT(NULL, NULL);
+    MPI_Init(NULL, NULL);
+
 
 
 
