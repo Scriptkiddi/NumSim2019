@@ -7,6 +7,7 @@
 #include <array>
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 
 // Partitions are numbered from left to right starting with 0. After a line is finished you start for the next line again from the left side
@@ -23,12 +24,12 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
     int y = nCells[1];
     bool count_x;
     std::vector<std::array<int, 2>> possibilities;
-    for (int i = 1; i < commSize; i++) {
-        if (commSize % i == 0) {
-            possibilities.push_back({i, commSize / i});
+    for (int i = 1; i < size; i++) {
+        if (size % i == 0) {
+            possibilities.push_back({i, size / i});
         }
     }
-    int min = commSize;
+    int min = size;
     int index = 0;
     for (int i = 0; i < possibilities.size(); i++) {
         if (abs(possibilities[i][0] - possibilities[i][1]) < min) {
@@ -49,13 +50,27 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
     if(rank % numberX == numberX-1){ // Right Border -1 since numberX is a size value
         rankRight = -1;
     }
-    if (rank >= commSize-numberX) { //Top Border
+    if (rank >= size-numberX) { //Top Border
         rankTop = -1;
     }
     if(rank % numberX==0){ // Left Border
         rankLeft = -1;
     }
-    std::cout << "rank is " << rank << "/" << commSize << std::endl;
+
+    int localCellsX = 0;
+    int localCellsY = 0;
+
+    if(rankRight != -1){
+        localCellsX = floor(nCells[0]/numberX);
+    }else{
+        localCellsX = nCells[0] - floor(nCells[0]/numberX)*(numberX-1);
+    }
+    if(rankTop != -1){
+        localCellsY = floor(nCells[1]/numberY);
+    }else{
+        localCellsY = nCells[1] - floor(nCells[1]/numberY)*(numberY-1);
+    }
+    std::cout << rank << "|" << localCellsX << "x" << localCellsY << std::endl;
     std::cout << rank << "|" << rankBottom << "|" << rankTop <<  "|" << rankLeft <<  "|" << rankRight << std::endl;
 
 
