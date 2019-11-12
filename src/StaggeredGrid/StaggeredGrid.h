@@ -6,7 +6,6 @@
 #define CODE_NUMSIM_STAGGEREDGRID_H
 
 
-#include <array>
 #include "../Array2D/Array2D.h"
 #include "../Array2D/FieldVariable.h"
 

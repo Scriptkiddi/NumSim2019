@@ -7,6 +7,8 @@
 
 #include "StaggeredGrid.h"
 
+//TODO only init for reduced number of nCells
+
 class Discretization : public StaggeredGrid {
 public:
     Discretization (std::array< int, 2 > nCells, std::array< double, 2 > meshWidth);

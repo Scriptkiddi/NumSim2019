@@ -13,7 +13,8 @@ void Settings::loadFromFile(std::string filename) {
     std::ifstream file(filename.c_str(), std::ios::in);
 
     if (!file.is_open()) {
-        std::cout << "Can not open file" << filename << std::endl;
+        std::cout << "Can not open file " << filename << std::endl;
+        exit(1);
         return;
     }
 

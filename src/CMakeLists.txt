@@ -1,10 +1,12 @@
-cmake_minimum_required(VERSION 3.15)
-project(NumSim2019)
+cmake_minimum_required(VERSION 3.10)
+project(numsim)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        Computation.cpp
-        Settings.cpp
+        Computation/Computation.cpp Computation/Computation.h
+        Settings.cpp Settings.h
         Util/Utils.cpp Util/Utils.h
         StaggeredGrid/StaggeredGrid.h StaggeredGrid/StaggeredGrid.cpp
         StaggeredGrid/Discretization.cpp StaggeredGrid/Discretization.h
@@ -16,8 +18,8 @@ add_executable(${PROJECT_NAME}
         output_writer/output_writer_text.cpp output_writer/output_writer_text.h
         output_writer/output_writer.cpp output_writer/output_writer.h
         Array2D/Array2D.cpp Array2D/Array2D.h
-        Array2D/FieldVariable.cpp Array2D/FieldVariable.h)
-set_property(TARGET NumSim2019 PROPERTY CXX_STANDARD 11)
+        Array2D/FieldVariable.cpp Array2D/FieldVariable.h
+        Computation/ComputationParallel.cpp Computation/ComputationParallel.h Partitioning/Partitioning.cpp Partitioning/Partitioning.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 message("Including ${PROJECT_SOURCE_DIR}")
@@ -36,12 +38,25 @@ if (VTK_FOUND)
     target_link_libraries(${PROJECT_NAME} ${VTK_LIBRARIES}) # add the libraries for the linker
 endif(VTK_FOUND)
 
+find_package(MPI REQUIRED)
+
+include_directories(${MPI_INCLUDE_PATH})
+target_link_libraries(${PROJECT_NAME} ${MPI_LIBRARIES})
+
+if(MPI_COMPILE_FLAGS)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")
+endif()
+
+if(MPI_LINK_FLAGS)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            LINK_FLAGS "${MPI_LINK_FLAGS}")
+endif()
+
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/../build)
 # Add additonial compile options to enable more warnings
 add_compile_options(-Wall -Wextra)
 
 # Set the version of the C++ standard to use, we use C++14, published in 2014
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
