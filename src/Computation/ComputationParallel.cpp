@@ -27,14 +27,14 @@ void ComputationParallel::runSimulation() {
         communication_.get()->communicate(discretization_.get()->f(), "f");
         communication_.get()->communicate(discretization_.get()->g(), "g");
         computeRightHandSide();
-        //computePressure();
+        computePressure();
         computeVelocities();
         communication_.get()->communicate(discretization_.get()->f(), "u");
         communication_.get()->communicate(discretization_.get()->g(), "v");
         t += dt_;
         //outputWriterParaview_.get()->writeFile(t);
         //outputWriterText_.get()->writeFile(t);
-        //cout << partitioning_.getRank()  << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
+        cout << partitioning_.getRank()  << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
     }
 
 

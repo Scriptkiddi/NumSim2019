@@ -43,7 +43,7 @@ void SOR::solve()
             }
         }
         // communication of new "red" values
-        communication_.get()->communicate(discretization_.get()->p,"p1");
+        communication_.get()->communicate(discretization_.get()->p(),"p1");
 
         // second iteration over "black" values
         for (int j = discretization_.get()->pJBegin() + 1; j <= discretization_.get()->pJEnd(); j += 2)
@@ -67,7 +67,7 @@ void SOR::solve()
             }
         }
         // communication over new "black" values
-        communication_.get()->communicate(discretization_.get()->p,"p2");
+        communication_.get()->communicate(discretization_.get()->p(),"p2");
 
         // local residual
         eps = 0;
