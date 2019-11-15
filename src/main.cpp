@@ -19,9 +19,10 @@ int main(int argc, char *argv[]) {
     std:string settingsFilename = argv[1];
     ComputationParallel computation(settingsFilename);
 
+
     computation.initialize(argc, argv);
     auto start = high_resolution_clock::now();
-    //computation.runSimulation();
+    computation.runSimulation();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop -start);
     cout << "Time in milliseconds: " << duration.count() << endl;

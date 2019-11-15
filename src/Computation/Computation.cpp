@@ -62,6 +62,7 @@ void Computation::runSimulation() {
         computeTimeStepWidth();
         applyBoundaryValues();
         PreliminaryVelocities();
+
         computeRightHandSide();
         computePressure();
         computeVelocities();

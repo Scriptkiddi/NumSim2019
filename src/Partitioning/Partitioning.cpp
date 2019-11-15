@@ -13,7 +13,6 @@
 // Partitions are numbered from left to right starting with 0. After a line is finished you start for the next line again from the left side
 
 Partitioning::Partitioning(std::array<int, 2> nCells) {
-    nCellsLocal = nCells;
 
     //Determine partition
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -40,61 +39,62 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
     int numberY = possibilities[index][1];
 
     // Determine if special case (Left border, bottom, ...)
-    rankRight = rank +1;
+    rankRight = rank + 1;
     rankLeft = rank - 1;
-    rankBottom = rank-numberX;
-    rankTop = rank+numberX;
-    if(rank < numberX ){ //Bottom Border
+    rankBottom = rank - numberX;
+    rankTop = rank + numberX;
+    if (rank < numberX) { //Bottom Border
         rankBottom = -1;
     }
-    if(rank % numberX == numberX-1){ // Right Border -1 since numberX is a size value
+    if (rank % numberX == numberX - 1) { // Right Border -1 since numberX is a size value
         rankRight = -1;
     }
-    if (rank >= size-numberX) { //Top Border
+    if (rank >= size - numberX) { //Top Border
         rankTop = -1;
     }
-    if(rank % numberX==0){ // Left Border
+    if (rank % numberX == 0) { // Left Border
         rankLeft = -1;
     }
 
-    int localCellsX = 0;
-    int localCellsY = 0;
-
-    if(rankRight != -1){
-        localCellsX = floor(nCells[0]/numberX);
-    }else{
-        localCellsX = nCells[0] - floor(nCells[0]/numberX)*(numberX-1);
+    if (rankRight != -1) {
+        nCellsLocal[0] = floor(nCells[0] / numberX);
+    } else {
+        nCellsLocal[0] = nCells[0] - floor(nCells[0] / numberX) * (numberX - 1);
     }
-    if(rankTop != -1){
-        localCellsY = floor(nCells[1]/numberY);
-    }else{
-        localCellsY = nCells[1] - floor(nCells[1]/numberY)*(numberY-1);
+    if (rankTop != -1) {
+        nCellsLocal[1] = floor(nCells[1] / numberY);
+    } else {
+        nCellsLocal[1] = nCells[1] - floor(nCells[1] / numberY) * (numberY - 1);
     }
-    std::cout << rank << "|" << localCellsX << "x" << localCellsY << std::endl;
-    std::cout << rank << "|" << rankBottom << "|" << rankTop <<  "|" << rankLeft <<  "|" << rankRight << std::endl;
+    std::cout << rank << "|" << nCellsLocal[0] << "x" << nCellsLocal[1] << std::endl;
+    std::cout << rank << "|" << rankBottom << "|" << rankTop << "|" << rankLeft << "|" << rankRight << std::endl;
 
 }
 
+int Partitioning::getRank() {
+    return rank;
+}
 
-    int Partitioning::getRank(){
-        return rank;
-    }
+int Partitioning::getRankOfLeftNeighbour() {
+    return rankLeft;
+}
 
-    int Partitioning::getRankOfLeftNeighbour(){
-        return rankLeft;
-    }
+int Partitioning::getRankOfRightNeighbour() {
+    return rankRight;
+}
 
-    int Partitioning::getRankOfRightNeighbour(){
-        return rankRight;
-    }
+int Partitioning::getRankOfBottomNeighbour() {
+    return rankBottom;
+}
 
-    int Partitioning::getRankOfBottomNeighbour(){
-        return rankBottom;
-    }
+int Partitioning::getRankOfTopNeighbour() {
+    return rankTop;
+}
 
-    int Partitioning::getRankOfTopNeighbour(){
-        return rankTop;
-    }
+std::array<int, 2> Partitioning::getNCells() {
+    return nCellsLocal;;
+}
+
 
 int Partitioning::getSize() {
     return size;

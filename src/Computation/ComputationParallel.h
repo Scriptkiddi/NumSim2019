@@ -6,6 +6,7 @@
 #define NUMSIM2019_COMPUTATIONPARALLEL_H
 
 #include "Computation.h"
+#include "Communication.h"
 #include "../Partitioning/Partitioning.h"
 #include <string>
 
@@ -14,15 +15,15 @@ class ComputationParallel : public Computation
 public:
     ComputationParallel(string settingsFilename);
 
-    virtual void initialize(int argc, char *argv[]);
+    void initialize(int argc, char *argv[]);
 
-    //virtual void runSimulation();
+    void runSimulation();
 
 private:
     double dtAll_;
     void computeTimeStepWidth();
 
-    //virtual void applyBoundaryValues();
+    void applyBoundaryValues();
 
     //virtual void PreliminaryVelocities();
 
@@ -36,6 +37,7 @@ private:
 
     Partitioning partitioning_;
 
+    std::shared_ptr<Communication> communication_;
 };
 
 #endif //NUMSIM2019_COMPUTATIONPARALLEL_H

@@ -17,6 +17,8 @@ public:
     int getRankOfBottomNeighbour();
     int getRankOfTopNeighbour();
     int getSize();
+    std::array<int, 2> getNCells();
+
 
 private:
     std::array<int, 2> nCellsLocal;
@@ -26,6 +28,8 @@ private:
     int rankTop;
     int rankBottom;
     int size;
+
+
 };
 
 #endif //NUMSIM2019_PARTITIONING_H
