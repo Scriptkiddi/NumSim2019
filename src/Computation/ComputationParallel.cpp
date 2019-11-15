@@ -7,6 +7,8 @@
 #include <StaggeredGrid/DonorCell.h>
 #include <Communication.h>
 #include "ComputationParallel.h"
+#include <PressureSolver/SOR.h>
+
 
 ComputationParallel::ComputationParallel(std::string settingsFilename) : Computation(settingsFilename),
                                                                          partitioning_(
@@ -81,14 +83,14 @@ void ComputationParallel::initialize(int argc, char **argv) {
     communication_ = make_shared<Communication>(make_shared<Partitioning>(partitioning_), discretization_);
 
     //initialize explicit pressureSolver
-    //if (settings_.pressureSolver == "SOR") {
-    //    SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
-    //    pressureSolver_ = make_unique<SOR>(pSolver);
-    //} else {
-    //    //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
-    //    //pressureSolver_ = make_unique<PressureSolver>(pSolver);
-    //    std::cout << "Please select SOR-solver" << std::endl;
-    //}
+    if (settings_.pressureSolver == "SOR") {
+        SOR pSolver(discretization_, communication_,settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+        pressureSolver_ = make_unique<SOR>(pSolver);
+    } else {
+        //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
+        //pressureSolver_ = make_unique<PressureSolver>(pSolver);
+        std::cout << "Please select SOR-solver" << std::endl;
+    }
     //initialize outputWriters
     //OutputWriterText outText(discretization_);
     //outputWriterText_ = make_unique<OutputWriterText>(outText);

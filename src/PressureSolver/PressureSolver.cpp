@@ -5,9 +5,10 @@
 #include "PressureSolver.h"
 
 
-PressureSolver::PressureSolver(std::shared_ptr<Discretization> discretization, double epsilon,
+PressureSolver::PressureSolver(std::shared_ptr<Discretization> discretization,std::shared_ptr<Communication> communication ,double epsilon,
                                int maximumNumberOfIterations) :
         discretization_(discretization),
+        communication_(communication),
         epsilon_(epsilon),
         maximumNumberOfIterations_(maximumNumberOfIterations) {
 
