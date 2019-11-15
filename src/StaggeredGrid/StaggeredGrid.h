@@ -39,6 +39,10 @@ public:
 
     const FieldVariable &p() const;
 
+    const FieldVariable &f() const;
+
+    const FieldVariable &g() const;
+
     double u(int i, int j) const;
 
     double &u(int i, int j);

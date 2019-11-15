@@ -66,8 +66,8 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
     } else {
         nCellsLocal[1] = nCells[1] - floor(nCells[1] / numberY) * (numberY - 1);
     }
-    std::cout << rank << "|" << nCellsLocal[0] << "x" << nCellsLocal[1] << std::endl;
-    std::cout << rank << "|" << rankBottom << "|" << rankTop << "|" << rankLeft << "|" << rankRight << std::endl;
+    //std::cout << rank << "|" << nCellsLocal[0] << "x" << nCellsLocal[1] << std::endl;
+    //std::cout << rank << "|" << rankBottom << "|" << rankTop << "|" << rankLeft << "|" << rankRight << std::endl;
 
 }
 
