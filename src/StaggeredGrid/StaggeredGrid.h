@@ -6,8 +6,10 @@
 #define CODE_NUMSIM_STAGGEREDGRID_H
 
 
+#include <memory>
 #include "../Array2D/Array2D.h"
 #include "../Array2D/FieldVariable.h"
+#include "../Partitioning/Partitioning.h"
 
 class StaggeredGrid {
 protected:
@@ -19,11 +21,13 @@ protected:
     FieldVariable rhs_;
     FieldVariable f_;
     FieldVariable g_;
+    std::shared_ptr<Partitioning> partition_;
 
     //todo: wie werden u,v,p usw. gesetzt?
 
 public:
-    StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth); //todo am Ende wieder nach oben nach PROTECTED verschieben
+    StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth, std::shared_ptr<Partitioning> partitioning, FieldVariable u,
+                  FieldVariable v, FieldVariable p, FieldVariable f, FieldVariable g, FieldVariable rhs);
 
     const std::array<double, 2> meshWidth() const;
 

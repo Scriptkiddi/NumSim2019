@@ -29,29 +29,29 @@ void Computation::initialize(int argc, char **argv) {
     meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]-2);
 
     //initialize discretization
-    if (!settings_.useDonorCell) {
-        CentralDifferences grid(nCellsBoundary, meshWidth_);
-        discretization_ = make_shared<CentralDifferences>(grid);
-    } else {
-        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha);
-        discretization_ = make_shared<DonorCell>(grid);
-    }
+    //if (!settings_.useDonorCell) {
+    //    CentralDifferences grid(nCellsBoundary, meshWidth_);
+    //    discretization_ = make_shared<CentralDifferences>(grid);
+    //} else {
+    //    DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha);
+    //    discretization_ = make_shared<DonorCell>(grid);
+    //}
 
     //initialize explicit pressureSolver
-    if (settings_.pressureSolver == "SOR") {
-        SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
-        pressureSolver_ = make_unique<SOR>(pSolver);
-    } else {
-        //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
-        //pressureSolver_ = make_unique<PressureSolver>(pSolver);
-        std::cout << "Please select SOR-solver" << std::endl;
-    }
-    //initialize outputWriters
-    OutputWriterText outText(discretization_);
-    outputWriterText_ = make_unique<OutputWriterText>(outText);
+    //if (settings_.pressureSolver == "SOR") {
+    //    SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+    //    pressureSolver_ = make_unique<SOR>(pSolver);
+    //} else {
+    //    //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
+    //    //pressureSolver_ = make_unique<PressureSolver>(pSolver);
+    //    std::cout << "Please select SOR-solver" << std::endl;
+    //}
+    ////initialize outputWriters
+    //OutputWriterText outText(discretization_);
+    //outputWriterText_ = make_unique<OutputWriterText>(outText);
 
-    OutputWriterParaview outPara(discretization_);
-    outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
+    //OutputWriterParaview outPara(discretization_);
+    //outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
 }
 
 void Computation::runSimulation() {

@@ -16,12 +16,13 @@ public:
 
     void communicate_fg();
 
+    void communicate(FieldVariable variable, std::string type);
+
 private:
     std::shared_ptr<Partitioning> partitioning_;
     std::shared_ptr<Discretization> discretization_;
 
-
-    void exchangeValues(std::vector<double> &values, int receiverRank, std::vector<MPI_Request> &requests);
+    std::vector<double> exchangeValues(std::vector<double> values, int receiverRank, std::vector<MPI_Request> &requests);
 };
 
 #endif //NUMSIM2019_COMMUNICATION_H

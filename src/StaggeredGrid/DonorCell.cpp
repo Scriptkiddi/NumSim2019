@@ -6,9 +6,15 @@
 #include <cstdlib>
 #include <cmath>
 
-DonorCell::DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double alpha) : Discretization(nCells,
-                                                                                                                meshWidth),
-                                                                                                 alpha_(alpha) {
+DonorCell::DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double alpha,
+                     std::shared_ptr<Partitioning> partitioning,
+                     FieldVariable u,
+                     FieldVariable v, FieldVariable f, FieldVariable g, FieldVariable p,
+                     FieldVariable rhs) : Discretization(nCells, meshWidth, partitioning, u, v,
+                                                         p,
+                                                         f,
+                                                         g,
+                                                         rhs), alpha_(alpha) {
 
 }
 

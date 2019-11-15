@@ -10,9 +10,12 @@
 
 class DonorCell : public Discretization {
 private:
+
     double alpha_;
 public:
-    DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double alpha);
+    DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double alpha,
+              std::shared_ptr<Partitioning> partitioning, FieldVariable u,
+              FieldVariable v, FieldVariable f, FieldVariable g, FieldVariable p, FieldVariable rhs);
 
     virtual double computeDu2Dx(int i, int j) const;
 

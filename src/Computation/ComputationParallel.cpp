@@ -22,7 +22,7 @@ void ComputationParallel::runSimulation() {
         computeTimeStepWidth();
         applyBoundaryValues();
         PreliminaryVelocities();
-        communication_.get()->communicate_fg();
+        communication_.get()->communicate(discretization_.get()->u(), "u");
         //computeRightHandSide();
         //computePressure();
         //computeVelocities();
@@ -37,20 +37,45 @@ void ComputationParallel::runSimulation() {
 }
 
 void ComputationParallel::initialize(int argc, char **argv) {
-    array<int, 2> nCellsBoundary = {partitioning_.getNCells()[0] + 2,
-                                    partitioning_.getNCells()[1] + 2}; // Mit Ghost cells
+    array<int, 2> nCellsBoundary = {partitioning_.getNCells()[0],
+                                    partitioning_.getNCells()[1]};
 
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] /
-                    (nCellsBoundary[0] - 2);
-    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1] - 2);
+                    (nCellsBoundary[0]);
+    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]);
+
+
+    //init grid
+
+    int nX = partitioning_.getNCells()[0];
+    int nY = partitioning_.getNCells()[1];
+    FieldVariable u = FieldVariable({nX + 2, nY + 2}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable v = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0 * meshWidth_[1]}, meshWidth_);
+    if (partitioning_.getRankOfLeftNeighbour() == -1) {
+        FieldVariable u = FieldVariable({nX + 1, nY + 2}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    }
+    if (partitioning_.getRankOfBottomNeighbour() == -1) {
+        FieldVariable v = FieldVariable({nX + 1, nY + 2}, {-0.5 * meshWidth_[0], 0 * meshWidth_[1]}, meshWidth_);
+    }
+    FieldVariable p = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable rhs = FieldVariable({nX, nY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable f = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable g = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    if (partitioning_.getRankOfLeftNeighbour() == -1) {
+        FieldVariable f = FieldVariable({nX + 1, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    }
+    if (partitioning_.getRankOfBottomNeighbour() == -1) {
+        FieldVariable g = FieldVariable({nX + 1, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    }
+
 
     //initialize discretization
     if (!settings_.useDonorCell) {
-        CentralDifferences grid(nCellsBoundary, meshWidth_);
+        CentralDifferences grid(nCellsBoundary, meshWidth_, make_shared<Partitioning>(partitioning_), u, v, p, f, g, rhs);
         discretization_ = make_shared<CentralDifferences>(grid);
     } else {
-        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha);
+        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha, make_shared<Partitioning>(partitioning_), u, v, p, f, g, rhs);
         discretization_ = make_shared<DonorCell>(grid);
     }
     communication_ = make_shared<Communication>(make_shared<Partitioning>(partitioning_), discretization_);
@@ -142,7 +167,8 @@ void ComputationParallel::applyBoundaryValues() {
     if (partitioning_.getRankOfTopNeighbour() == -1) {
         int j_high = discretization_.get()->uJEnd() + 1;
         for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            discretization_.get()->u(i, j_high) = 2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
+            discretization_.get()->u(i, j_high) =
+                    2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
             discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
         }
     }
@@ -177,7 +203,8 @@ void ComputationParallel::applyBoundaryValues() {
     if (partitioning_.getRankOfRightNeighbour() == -1) {
         int i_low = discretization_.get()->vIBegin() - 1;
         for (int j = discretization_.get()->vJBegin() - 1; j <= discretization_.get()->vJEnd() + 1; j++) {
-            discretization_.get()->v(i_low, j) = 2 * settings_.dirichletBcLeft[1] - discretization_.get()->v(i_low + 1, j);
+            discretization_.get()->v(i_low, j) =
+                    2 * settings_.dirichletBcLeft[1] - discretization_.get()->v(i_low + 1, j);
             discretization_.get()->g(i_low, j) = discretization_.get()->v(i_low, j);
 
         }

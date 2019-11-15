@@ -10,7 +10,7 @@ Communication::Communication(std::shared_ptr<Partitioning> partitioning, std::sh
     discretization_ = ptr;
 }
 
-void Communication::exchangeValues(vector<double> &values, int receiverRank, vector<MPI_Request> &requests) {
+vector<double> Communication::exchangeValues(vector<double> values, int receiverRank, vector<MPI_Request> &requests) {
     int nValues = values.size();
     std::vector<double> receiveBuffer(nValues);
     requests.emplace_back();
@@ -19,204 +19,104 @@ void Communication::exchangeValues(vector<double> &values, int receiverRank, vec
     requests.emplace_back();
     MPI_Irecv(receiveBuffer.data(), nValues, MPI_DOUBLE, receiverRank, 0,
               MPI_COMM_WORLD, &requests.back());
+    return receiveBuffer;
 }
 
-void Communication::communicate(FieldVariable variable){
+void Communication::communicate(FieldVariable variable, std::string type) {
     std::vector<MPI_Request> requests;
+    std::array<std::vector<double>, 4> sendBuffers;
     std::array<std::vector<double>, 4> receiveBuffers;
-    int nCellsX = variable.size()[0];
-    int nCellsY = variable.size()[1];
-    if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
-        // allocate the send and receive buffers
-        std::vector<double> sendBuffer(nCellsX);
-        for (int i = 0; i < nCellsX; i++) {
-            sendBuffer[i] = variable.operator()(i, nCellsY);
+    if (type == "p") {
+
+    } else if (type == "u" or type == "f") {
+        sendBuffers[0] = std::vector<double>(discretization_.get()->uIEnd() - discretization_.get()->uIBegin());
+        sendBuffers[1] = std::vector<double>(discretization_.get()->uIEnd() - discretization_.get()->uIBegin());
+        sendBuffers[2] = std::vector<double>(discretization_.get()->uJEnd() - discretization_.get()->uJBegin());
+        sendBuffers[3] = std::vector<double>(discretization_.get()->uJEnd() - discretization_.get()->uJBegin());
+        for (int i = 0; i < sendBuffers[0].size(); i++) {
+            sendBuffers[0][i] = variable.operator()(i + discretization_.get()->uIBegin(),
+                                                    discretization_.get()->uJEnd());
+            sendBuffers[1][i] = variable.operator()(i + discretization_.get()->uIBegin(),
+                                                    discretization_.get()->uJBegin());
         }
-        exchangeValues(sendBufferG, partitioning_.get()->getRankOfTopNeighbour(), requests);
-        receiveBuffersF[0] = sendBufferF;
-        receiveBuffersG[0] = sendBufferG;
+        for (int j = 0; j < sendBuffers[2].size(); j++) {
+            sendBuffers[2][j] = variable.operator()(discretization_.get()->uIBegin(),
+                                                    j + discretization_.get()->uJBegin());
+            sendBuffers[3][j] = variable.operator()(discretization_.get()->uIEnd(),
+                                                    j + discretization_.get()->uJBegin());
+        }
+    } else if (type == "v" or type == "g") {
+        sendBuffers[0] = std::vector<double>(discretization_.get()->vIEnd() - discretization_.get()->vIBegin());
+        sendBuffers[1] = std::vector<double>(discretization_.get()->vIEnd() - discretization_.get()->vIBegin());
+        sendBuffers[2] = std::vector<double>(discretization_.get()->vJEnd() - discretization_.get()->vJBegin());
+        sendBuffers[3] = std::vector<double>(discretization_.get()->vJEnd() - discretization_.get()->vJBegin());
+        for (int i = 0; i < sendBuffers[0].size(); i++) {
+            sendBuffers[0][i] = variable.operator()(i + discretization_.get()->vIBegin(),
+                                                    discretization_.get()->vJEnd());
+            sendBuffers[1][i] = variable.operator()(i + discretization_.get()->vIBegin(),
+                                                    discretization_.get()->vJBegin());
+        }
+        for (int j = 0; j < sendBuffers[2].size(); j++) {
+            sendBuffers[2][j] = variable.operator()(discretization_.get()->vIBegin(),
+                                                    j + discretization_.get()->vJBegin());
+            sendBuffers[3][j] = variable.operator()(discretization_.get()->vIEnd(),
+                                                    j + discretization_.get()->vJBegin());
+        }
+    }
+    if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
+        receiveBuffers[0] = exchangeValues(sendBuffers[0], partitioning_.get()->getRankOfTopNeighbour(), requests);
+    }
+    if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
+        receiveBuffers[1] = exchangeValues(sendBuffers[1], partitioning_.get()->getRankOfBottomNeighbour(), requests);
     }
     if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
-        std::vector<MPI_Request> requests2;
-        // allocate the send and receive buffers
-        int nValuesF = discretization_.get()->uJEnd()-discretization_.get()->uJBegin(); //Ghost cells are not send
-        int nValuesG = discretization_.get()->vJEnd()-discretization_.get()->vJBegin(); //Ghost cells are not send
-        std::vector<double> sendBufferF2(nValuesF);
-        std::vector<double> sendBufferG(nValuesG);
-        int i_low = discretization_.get()->uIBegin();
-        for (int j = discretization_.get()->uJBegin(); j < discretization_.get()->uJEnd(); j++) {
-            sendBufferF2[j] = discretization_.get()->f(i_low, j);
-        }
-        i_low = discretization_.get()->vIBegin();
-        for (int j = discretization_.get()->vJBegin(); j < discretization_.get()->vJEnd(); j++) {
-            sendBufferG[j] = discretization_.get()->g(i_low, j);
-        }
-        exchangeValues(sendBufferF2, 2, requests2);
-        //exchangeValues(sendBufferG, partitioning_.get()->getRankOfLeftNeighbour(), requests);
-        //receiveBuffersF[1] = sendBufferF;
-        //receiveBuffersG[1] = sendBufferG;
+        receiveBuffers[2] = exchangeValues(sendBuffers[2], partitioning_.get()->getRankOfLeftNeighbour(), requests);
     }
-    //if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
-    //    // allocate the send and receive buffers
-    //    int nValuesF = discretization_.get()->uJEnd()-discretization_.get()->uJBegin(); //Ghost cells are not send
-    //    int nValuesG = discretization_.get()->vJEnd()-discretization_.get()->vJBegin(); //Ghost cells are not send
-    //    std::vector<double> sendBufferF(nValuesF);
-    //    std::vector<double> sendBufferG(nValuesG);
-    //    int i_high = discretization_.get()->uIEnd();
-    //    for (int j = discretization_.get()->uJBegin(); j < discretization_.get()->uJEnd(); j++) {
-    //        sendBufferF[j] = discretization_.get()->f(i_high, j);
-    //    }
-    //    i_high = discretization_.get()->vIEnd();
-    //    for (int j = discretization_.get()->vJBegin(); j < discretization_.get()->vJEnd(); j++) {
-    //        sendBufferG[j] = discretization_.get()->g(i_high, j);
-    //    }
-    //    exchangeValues(sendBufferF, partitioning_.get()->getRankOfRightNeighbour(), requests);
-    //    exchangeValues(sendBufferG, partitioning_.get()->getRankOfRightNeighbour(), requests);
-    //    receiveBuffersF[2] = sendBufferF;
-    //    receiveBuffersG[2] = sendBufferG;
-    //}
-    //if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
-    //    // allocate the send and receive buffers
-    //    int nValuesF = discretization_.get()->uIEnd()-discretization_.get()->uIBegin(); //Ghost cells are not send
-    //    int nValuesG = discretization_.get()->vIEnd()-discretization_.get()->vIBegin(); //Ghost cells are not send
-    //    std::vector<double> sendBufferF(nValuesF);
-    //    std::vector<double> sendBufferG(nValuesG);
-    //    int j_low = discretization_.get()->uJBegin();
-    //    for (int i = discretization_.get()->uIBegin(); i < discretization_.get()->uIEnd(); i++) {
-    //        sendBufferF[i] = discretization_.get()->f(i, j_low);
-    //    }
-    //    j_low = discretization_.get()->vJBegin();
-    //    for (int i = discretization_.get()->vIBegin(); i < discretization_.get()->vIEnd(); i++) {
-    //        sendBufferG[i] = discretization_.get()->g(i, j_low);
-    //    }
-    //    exchangeValues(sendBufferF, partitioning_.get()->getRankOfBottomNeighbour(), requests);
-    //    exchangeValues(sendBufferG, partitioning_.get()->getRankOfBottomNeighbour(), requests);
-    //    receiveBuffersF[3] = sendBufferF;
-    //    receiveBuffersG[3] = sendBufferG;
-    //}
-    //MPI_Waitall(requests.size(), requests.data(), MPI_STATUSES_IGNORE);
-
-}
-
-void Communication::communicate_fg() {
-    std::vector<MPI_Request> requests;
-    std::array<std::vector<double>, 4> receiveBuffersF;
-    std::array<std::vector<double>, 4> receiveBuffersG;
-    int rank = partitioning_.get()->getRank();
-
-    if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
-        // allocate the send and receive buffers
-        int nValuesF = discretization_.get()->uIEnd()-discretization_.get()->uIBegin(); //Ghost cells are not send
-        int nValuesG = discretization_.get()->vIEnd()-discretization_.get()->vIBegin(); //Ghost cells are not send
-        std::vector<double> sendBufferF(nValuesF);
-        std::vector<double> sendBufferG(nValuesG);
-        int j_high = discretization_.get()->uJEnd();
-        for (int i = discretization_.get()->uIBegin(); i < discretization_.get()->uIEnd(); i++) {
-            sendBufferF[i] = discretization_.get()->f(i, j_high);
-        }
-        j_high = discretization_.get()->vJEnd();
-        for (int i = discretization_.get()->vIBegin(); i < discretization_.get()->vIEnd(); i++) {
-            sendBufferG[i] = discretization_.get()->g(i, j_high);
-        }
-        exchangeValues(sendBufferF, partitioning_.get()->getRankOfTopNeighbour(), requests);
-        exchangeValues(sendBufferG, partitioning_.get()->getRankOfTopNeighbour(), requests);
-        receiveBuffersF[0] = sendBufferF;
-        receiveBuffersG[0] = sendBufferG;
+    if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
+        receiveBuffers[3] = exchangeValues(sendBuffers[3], partitioning_.get()->getRankOfRightNeighbour(), requests);
     }
-    if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
-        std::vector<MPI_Request> requests2;
-        // allocate the send and receive buffers
-        int nValuesF = discretization_.get()->uJEnd()-discretization_.get()->uJBegin(); //Ghost cells are not send
-        int nValuesG = discretization_.get()->vJEnd()-discretization_.get()->vJBegin(); //Ghost cells are not send
-        std::vector<double> sendBufferF2(nValuesF);
-        std::vector<double> sendBufferG(nValuesG);
-        int i_low = discretization_.get()->uIBegin();
-        for (int j = discretization_.get()->uJBegin(); j < discretization_.get()->uJEnd(); j++) {
-            sendBufferF2[j] = discretization_.get()->f(i_low, j);
-        }
-        i_low = discretization_.get()->vIBegin();
-        for (int j = discretization_.get()->vJBegin(); j < discretization_.get()->vJEnd(); j++) {
-            sendBufferG[j] = discretization_.get()->g(i_low, j);
-        }
-        exchangeValues(sendBufferF2, 2, requests2);
-        //exchangeValues(sendBufferG, partitioning_.get()->getRankOfLeftNeighbour(), requests);
-        //receiveBuffersF[1] = sendBufferF;
-        //receiveBuffersG[1] = sendBufferG;
-    }
-    //if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
-    //    // allocate the send and receive buffers
-    //    int nValuesF = discretization_.get()->uJEnd()-discretization_.get()->uJBegin(); //Ghost cells are not send
-    //    int nValuesG = discretization_.get()->vJEnd()-discretization_.get()->vJBegin(); //Ghost cells are not send
-    //    std::vector<double> sendBufferF(nValuesF);
-    //    std::vector<double> sendBufferG(nValuesG);
-    //    int i_high = discretization_.get()->uIEnd();
-    //    for (int j = discretization_.get()->uJBegin(); j < discretization_.get()->uJEnd(); j++) {
-    //        sendBufferF[j] = discretization_.get()->f(i_high, j);
-    //    }
-    //    i_high = discretization_.get()->vIEnd();
-    //    for (int j = discretization_.get()->vJBegin(); j < discretization_.get()->vJEnd(); j++) {
-    //        sendBufferG[j] = discretization_.get()->g(i_high, j);
-    //    }
-    //    exchangeValues(sendBufferF, partitioning_.get()->getRankOfRightNeighbour(), requests);
-    //    exchangeValues(sendBufferG, partitioning_.get()->getRankOfRightNeighbour(), requests);
-    //    receiveBuffersF[2] = sendBufferF;
-    //    receiveBuffersG[2] = sendBufferG;
-    //}
-    //if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
-    //    // allocate the send and receive buffers
-    //    int nValuesF = discretization_.get()->uIEnd()-discretization_.get()->uIBegin(); //Ghost cells are not send
-    //    int nValuesG = discretization_.get()->vIEnd()-discretization_.get()->vIBegin(); //Ghost cells are not send
-    //    std::vector<double> sendBufferF(nValuesF);
-    //    std::vector<double> sendBufferG(nValuesG);
-    //    int j_low = discretization_.get()->uJBegin();
-    //    for (int i = discretization_.get()->uIBegin(); i < discretization_.get()->uIEnd(); i++) {
-    //        sendBufferF[i] = discretization_.get()->f(i, j_low);
-    //    }
-    //    j_low = discretization_.get()->vJBegin();
-    //    for (int i = discretization_.get()->vIBegin(); i < discretization_.get()->vIEnd(); i++) {
-    //        sendBufferG[i] = discretization_.get()->g(i, j_low);
-    //    }
-    //    exchangeValues(sendBufferF, partitioning_.get()->getRankOfBottomNeighbour(), requests);
-    //    exchangeValues(sendBufferG, partitioning_.get()->getRankOfBottomNeighbour(), requests);
-    //    receiveBuffersF[3] = sendBufferF;
-    //    receiveBuffersG[3] = sendBufferG;
-    //}
-    //MPI_Waitall(requests.size(), requests.data(), MPI_STATUSES_IGNORE);
+    MPI_Waitall(requests.size(), requests.data(), MPI_STATUSES_IGNORE);
 
     // Writing back top border
-    //int j_high = discretization_.get()->uJEnd();
-    //for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-    //    discretization_.get()->f(i,j_high) = receiveBuffersF[0][i];
-    //}
-    //j_high = discretization_.get()->vJEnd();
-    //for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-    //    discretization_.get()->g(i,j_high) = receiveBuffersG[0][i];
-    //}
-    //// Writing back left border
-    //int i_low = discretization_.get()->uIBegin();
-    //for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
-    //    discretization_.get()->f(i_low, j) = receiveBuffersF[1][j];
-    //}
-    //i_low = discretization_.get()->vIBegin();
-    //for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
-    //    discretization_.get()->g(i_low, j) = receiveBuffersG[1][j];
-    //}
-    //// Writing back right border
-    //int i_high = discretization_.get()->uIEnd();
-    //for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
-    //    discretization_.get()->f(i_high, j) = receiveBuffersF[2][j];
-    //}
-    //i_high = discretization_.get()->vIEnd();
-    //for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
-    //    discretization_.get()->g(i_high, j) = receiveBuffersG[2][j];
-    //}
-    //// Writing back Bottom border
-    //int j_low = discretization_.get()->uJBegin();
-    //for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-    //    discretization_.get()->f(i,j_low) = receiveBuffersF[3][i];
-    //}
-    //j_low = discretization_.get()->vJBegin();
-    //for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-    //    discretization_.get()->g(i,j_low) = receiveBuffersG[3][i];
-    //}
+    if (type == "p") {
+
+    } else if (type == "u" or type == "f") {
+        for (int i = 0; i < receiveBuffers[0].size(); i++) {
+            if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
+                variable.operator()(i+discretization_.get()->uIBegin(),discretization_.get()->uJEnd()) = receiveBuffers[0][i];
+            }
+            if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
+                variable.operator()(i+discretization_.get()->uIBegin(),discretization_.get()->uJBegin()) = receiveBuffers[1][i];
+            }
+        }
+        for (int j = 0; j < receiveBuffers[2].size(); j++) {
+            if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
+                variable.operator()(discretization_.get()->uIEnd(),j+discretization_.get()->uJBegin()) = receiveBuffers[2][j];
+            }
+            if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
+                variable.operator()(discretization_.get()->uIBegin(),j+discretization_.get()->uJBegin()) = receiveBuffers[3][j];
+            }
+        }
+    } else if (type == "v" or type == "g") {
+        for (int i = 0; i < receiveBuffers[0].size(); i++) {
+            if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
+                variable.operator()(i+discretization_.get()->vIBegin(),discretization_.get()->vJEnd()) = receiveBuffers[0][i];
+            }
+            if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
+                variable.operator()(i+discretization_.get()->vIBegin(),discretization_.get()->vJBegin()) = receiveBuffers[1][i];
+            }
+        }
+        for (int j = 0; j < receiveBuffers[2].size(); j++) {
+            if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
+                variable.operator()(discretization_.get()->vIEnd(),j+discretization_.get()->vJBegin()) = receiveBuffers[2][j];
+            }
+            if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
+                variable.operator()(discretization_.get()->vIBegin(),j+discretization_.get()->vJBegin()) = receiveBuffers[3][j];
+            }
+        }
+
+    }
+
+
 }
+
