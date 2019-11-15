@@ -12,6 +12,38 @@ ComputationParallel::ComputationParallel(std::string settingsFilename) : Computa
 }
 
 void ComputationParallel::initialize(int argc, char **argv) {
+    partitioning_.getRank()
+    array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
+
+    //initialize meshWidth
+    meshWidth_[0] = settings_.physicalSize[0] /
+                    (nCellsBoundary[0]-2);
+    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]-2);
+
+    //initialize discretization
+    if (!settings_.useDonorCell) {
+        CentralDifferences grid(nCellsBoundary, meshWidth_);
+        discretization_ = make_shared<CentralDifferences>(grid);
+    } else {
+        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha);
+        discretization_ = make_shared<DonorCell>(grid);
+    }
+
+    //initialize explicit pressureSolver
+    if (settings_.pressureSolver == "SOR") {
+        SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+        pressureSolver_ = make_unique<SOR>(pSolver);
+    } else {
+        //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
+        //pressureSolver_ = make_unique<PressureSolver>(pSolver);
+        std::cout << "Please select SOR-solver" << std::endl;
+    }
+    //initialize outputWriters
+    OutputWriterText outText(discretization_);
+    outputWriterText_ = make_unique<OutputWriterText>(outText);
+
+    OutputWriterParaview outPara(discretization_);
+    outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
 
 
 }

@@ -73,9 +73,6 @@ Partitioning::Partitioning(std::array<int, 2> nCells) {
     std::cout << rank << "|" << localCellsX << "x" << localCellsY << std::endl;
     std::cout << rank << "|" << rankBottom << "|" << rankTop <<  "|" << rankLeft <<  "|" << rankRight << std::endl;
 
-
-
-
 }
 
 
