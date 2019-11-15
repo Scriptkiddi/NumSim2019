@@ -22,17 +22,19 @@ void ComputationParallel::runSimulation() {
         computeTimeStepWidth();
         applyBoundaryValues();
         PreliminaryVelocities();
-        communication_.get()->communicate(discretization_.get()->u(), "u");
-        //computeRightHandSide();
+        communication_.get()->communicate(discretization_.get()->f(), "f");
+        communication_.get()->communicate(discretization_.get()->g(), "g");
+        computeRightHandSide();
         //computePressure();
-        //computeVelocities();
-        //t += dt_;
+        computeVelocities();
+        communication_.get()->communicate(discretization_.get()->f(), "u");
+        communication_.get()->communicate(discretization_.get()->g(), "v");
+        t += dt_;
         //outputWriterParaview_.get()->writeFile(t);
         //outputWriterText_.get()->writeFile(t);
-        cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
+        //cout << partitioning_.getRank()  << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
     }
 
-    computeTimeStepWidth();
 
 }
 
@@ -128,9 +130,8 @@ void ComputationParallel::computeTimeStepWidth() {
     dt_ = min(condition_diffusion, dt_);
     dt_ = min(settings_.maximumDt, dt_) * settings_.tau;
 
-    MPI_Allreduce(&dt_, &dtAll_, partitioning_.getSize(), MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
+    MPI_Allreduce(&dt_, &dtAll_, 1, MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
     dt_ = dtAll_;
-    cout << dt_ << endl;
 
 }
 
