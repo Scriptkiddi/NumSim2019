@@ -42,3 +42,7 @@ double Array2D::operator()(int i, int j) const
 
     return data_[index];
 }
+
+std::vector<double> Array2D::data() {
+    return data_;
+}

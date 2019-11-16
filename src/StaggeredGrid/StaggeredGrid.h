@@ -23,7 +23,6 @@ protected:
     FieldVariable g_;
     std::shared_ptr<Partitioning> partition_;
 
-    //todo: wie werden u,v,p usw. gesetzt?
 
 public:
     StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth, std::shared_ptr<Partitioning> partitioning, FieldVariable u,

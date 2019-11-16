@@ -8,6 +8,7 @@
 #include <Communication.h>
 #include "ComputationParallel.h"
 #include <PressureSolver/SOR.h>
+#include <PressureSolver/GaussSeidel.h>
 
 
 ComputationParallel::ComputationParallel(std::string settingsFilename) : Computation(settingsFilename),
@@ -18,89 +19,93 @@ ComputationParallel::ComputationParallel(std::string settingsFilename) : Computa
 
 void ComputationParallel::runSimulation() {
     double t = 0;
+
     applyBoundaryValues();
 
+    cout << "Starting Simulation" << endl;
     while (t < settings_.endTime) {
         computeTimeStepWidth();
         applyBoundaryValues();
         PreliminaryVelocities();
+        //cout << "Communicating f&g" << endl;
         communication_.get()->communicate(discretization_.get()->f(), "f");
         communication_.get()->communicate(discretization_.get()->g(), "g");
         computeRightHandSide();
+        //cout << "Computing p" << endl;
         computePressure();
+        //cout << "Computing u&v" << endl;
         computeVelocities();
-        communication_.get()->communicate(discretization_.get()->f(), "u");
-        communication_.get()->communicate(discretization_.get()->g(), "v");
+        //cout << "Communicating u&v" << endl;
+        communication_.get()->communicate(discretization_.get()->u(), "u");
+        communication_.get()->communicate(discretization_.get()->v(), "v");
         t += dt_;
-        //outputWriterParaview_.get()->writeFile(t);
-        //outputWriterText_.get()->writeFile(t);
-        cout << partitioning_.getRank()  << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
+        //cout << "Writing paraview" << endl;
+        outputWriterParaview_.get()->writeFile(t);
+        outputWriterText_.get()->writeFile(t);
+        cout << partitioning_.getRank() << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: "
+             << endl;
     }
 
 
 }
 
 void ComputationParallel::initialize(int argc, char **argv) {
-    array<int, 2> nCellsBoundary = {partitioning_.getNCells()[0],
-                                    partitioning_.getNCells()[1]};
+    array<int, 2> nCellsBoundary = {partitioning_.getNCells()[0] + 2,
+                                    partitioning_.getNCells()[1] + 2};
 
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] /
-                    (nCellsBoundary[0]);
-    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]);
+                    (nCellsBoundary[0] - 2);
+    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1] - 2);
 
 
     //init grid
 
     int nX = partitioning_.getNCells()[0];
     int nY = partitioning_.getNCells()[1];
+
+
     FieldVariable u = FieldVariable({nX + 2, nY + 2}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     FieldVariable v = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0 * meshWidth_[1]}, meshWidth_);
     if (partitioning_.getRankOfLeftNeighbour() == -1) {
         FieldVariable u = FieldVariable({nX + 1, nY + 2}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     }
     if (partitioning_.getRankOfBottomNeighbour() == -1) {
-        FieldVariable v = FieldVariable({nX + 1, nY + 2}, {-0.5 * meshWidth_[0], 0 * meshWidth_[1]}, meshWidth_);
+        FieldVariable v = FieldVariable({nX + 2, nY + 1}, {-0.5 * meshWidth_[0], 0 * meshWidth_[1]}, meshWidth_);
     }
     FieldVariable p = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable rhs = FieldVariable({nX, nY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable rhs = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     FieldVariable f = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     FieldVariable g = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     if (partitioning_.getRankOfLeftNeighbour() == -1) {
         FieldVariable f = FieldVariable({nX + 1, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     }
     if (partitioning_.getRankOfBottomNeighbour() == -1) {
-        FieldVariable g = FieldVariable({nX + 1, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+        FieldVariable g = FieldVariable({nX + 2, nY + 1}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     }
 
 
     //initialize discretization
     if (!settings_.useDonorCell) {
-        CentralDifferences grid(nCellsBoundary, meshWidth_, make_shared<Partitioning>(partitioning_), u, v, p, f, g, rhs);
+        CentralDifferences grid(nCellsBoundary, meshWidth_, make_shared<Partitioning>(partitioning_), u, v, p, f, g,
+                                rhs);
         discretization_ = make_shared<CentralDifferences>(grid);
     } else {
-        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha, make_shared<Partitioning>(partitioning_), u, v, p, f, g, rhs);
+        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha, make_shared<Partitioning>(partitioning_), u, v, p,
+                       f, g, rhs);
         discretization_ = make_shared<DonorCell>(grid);
     }
     communication_ = make_shared<Communication>(make_shared<Partitioning>(partitioning_), discretization_);
 
     //initialize explicit pressureSolver
-    if (settings_.pressureSolver == "SOR") {
-        SOR pSolver(discretization_, communication_,settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
-        pressureSolver_ = make_unique<SOR>(pSolver);
-    } else {
-        //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
-        //pressureSolver_ = make_unique<PressureSolver>(pSolver);
-        std::cout << "Please select SOR-solver" << std::endl;
-    }
+    GaussSeidel pSolver(discretization_, communication_, settings_.epsilon, settings_.maximumNumberOfIterations);
+    pressureSolver_ = make_unique<GaussSeidel>(pSolver);
     //initialize outputWriters
-    //OutputWriterText outText(discretization_);
-    //outputWriterText_ = make_unique<OutputWriterText>(outText);
+    OutputWriterTextParallel outText(discretization_, partitioning_);
+    outputWriterText_ = make_unique<OutputWriterTextParallel>(outText);
 
-    //OutputWriterParaview outPara(discretization_);
-    //outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
-
-
+    OutputWriterParaviewParallel outputWriterParaviewParallel(discretization_, partitioning_);
+    outputWriterParaview_ = make_unique<OutputWriterParaviewParallel>(outputWriterParaviewParallel);
 }
 
 
@@ -203,7 +208,7 @@ void ComputationParallel::applyBoundaryValues() {
             discretization_.get()->g(i_high, j) = discretization_.get()->v(i_high, j);
         }
     }
-    if (partitioning_.getRankOfRightNeighbour() == -1) {
+    if (partitioning_.getRankOfLeftNeighbour() == -1) {
         int i_low = discretization_.get()->vIBegin() - 1;
         for (int j = discretization_.get()->vJBegin() - 1; j <= discretization_.get()->vJEnd() + 1; j++) {
             discretization_.get()->v(i_low, j) =

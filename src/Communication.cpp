@@ -31,88 +31,56 @@ void Communication::communicate(FieldVariable variable, std::string type) {
     // 1 is bottom
     // 2 is left
     // 3 is right
-    if (type == "p1") {
-        sendBuffers[0] = std::vector<double>(
-                ceil((discretization_.get()->pIEnd() - discretization_.get()->pIBegin()) / 2));
-        sendBuffers[1] = std::vector<double>(
-                ceil((discretization_.get()->pIEnd() - discretization_.get()->pIBegin()) / 2));
-        sendBuffers[2] = std::vector<double>(
-                ceil((discretization_.get()->pJEnd() - discretization_.get()->pJBegin()) / 2));
-        sendBuffers[3] = std::vector<double>(
-                ceil((discretization_.get()->pJEnd() - discretization_.get()->pJBegin()) / 2));
+    if (type == "p") {
+        sendBuffers[0] = std::vector<double>(partitioning_.get()->getNCells()[0]);
+        sendBuffers[1] = std::vector<double>(partitioning_.get()->getNCells()[0]);
+        sendBuffers[2] = std::vector<double>(partitioning_.get()->getNCells()[1]);
+        sendBuffers[3] = std::vector<double>(partitioning_.get()->getNCells()[1]);
         for (int i = 0; i < sendBuffers[0].size(); i++) {
-            sendBuffers[0][i] = variable.operator()(i * 2 + discretization_.get()->pIBegin(),
-                                                    discretization_.get()->uJEnd());
-            sendBuffers[1][i] = variable.operator()(i * 2 + discretization_.get()->pIBegin(),
+            sendBuffers[0][i] = variable.operator()(i,
+                                                    discretization_.get()->pJEnd());
+            sendBuffers[1][i] = variable.operator()(i,
                                                     discretization_.get()->pJBegin());
         }
         for (int j = 0; j < sendBuffers[2].size(); j++) {
-            sendBuffers[2][j] = variable.operator()(discretization_.get()->uIEnd(),
-                                                    j * 2 + discretization_.get()->pJBegin()
-            );
-            sendBuffers[3][j] = variable.operator()(discretization_.get()->pIBegin(),
-                                                    j * 2 + discretization_.get()->pJBegin()
-            );
+            sendBuffers[2][j] = variable.operator()(discretization_.get()->pIBegin(),
+                                                    j);
+            sendBuffers[3][j] = variable.operator()(discretization_.get()->pIEnd(),
+                                                    j);
         }
-
-
-    } else if (type == "p2") {
-        sendBuffers[0] = std::vector<double>(
-                floor((discretization_.get()->pIEnd() - discretization_.get()->pIBegin()) / 2));
-        sendBuffers[1] = std::vector<double>(
-                floor((discretization_.get()->pIEnd() - discretization_.get()->pIBegin()) / 2));
-        sendBuffers[2] = std::vector<double>(
-                floor((discretization_.get()->pJEnd() - discretization_.get()->pJBegin()) / 2));
-        sendBuffers[3] = std::vector<double>(
-                floor((discretization_.get()->pJEnd() - discretization_.get()->pJBegin()) / 2));
-        for (int i = 0; i < sendBuffers[0].size(); i++) {
-            sendBuffers[0][i] = variable.operator()(i * 2 + 1 + discretization_.get()->pIBegin(),
-                                                    discretization_.get()->uJEnd());
-            sendBuffers[1][i] = variable.operator()(i * 2 + 1 + discretization_.get()->pIBegin(),
-                                                    discretization_.get()->pJBegin());
-        }
-        for (int j = 0; j < sendBuffers[2].size(); j++) {
-            sendBuffers[2][j] = variable.operator()(discretization_.get()->uIEnd(),
-                                                    j * 2 + 1 + discretization_.get()->pJBegin()
-            );
-            sendBuffers[3][j] = variable.operator()(discretization_.get()->pIBegin(),
-                                                    j * 2 + 1 + discretization_.get()->pJBegin()
-            );
-        }
-
     } else if (type == "u" or type == "f") {
-        sendBuffers[0] = std::vector<double>(discretization_.get()->uIEnd() - discretization_.get()->uIBegin());
-        sendBuffers[1] = std::vector<double>(discretization_.get()->uIEnd() - discretization_.get()->uIBegin());
-        sendBuffers[2] = std::vector<double>(discretization_.get()->uJEnd() - discretization_.get()->uJBegin());
-        sendBuffers[3] = std::vector<double>(discretization_.get()->uJEnd() - discretization_.get()->uJBegin());
+        sendBuffers[0] = std::vector<double>(partitioning_.get()->getNCells()[0]);
+        sendBuffers[1] = std::vector<double>(partitioning_.get()->getNCells()[0]);
+        sendBuffers[2] = std::vector<double>(partitioning_.get()->getNCells()[1]);
+        sendBuffers[3] = std::vector<double>(partitioning_.get()->getNCells()[1]);
         for (int i = 0; i < sendBuffers[0].size(); i++) {
-            sendBuffers[0][i] = variable.operator()(i + discretization_.get()->uIBegin(),
+            sendBuffers[0][i] = variable.operator()(i,
                                                     discretization_.get()->uJEnd());
-            sendBuffers[1][i] = variable.operator()(i + discretization_.get()->uIBegin(),
+            sendBuffers[1][i] = variable.operator()(i,
                                                     discretization_.get()->uJBegin());
         }
         for (int j = 0; j < sendBuffers[2].size(); j++) {
             sendBuffers[2][j] = variable.operator()(discretization_.get()->uIBegin(),
-                                                    j + discretization_.get()->uJBegin());
+                                                    j);
             sendBuffers[3][j] = variable.operator()(discretization_.get()->uIEnd(),
-                                                    j + discretization_.get()->uJBegin());
+                                                    j);
         }
     } else if (type == "v" or type == "g") {
-        sendBuffers[0] = std::vector<double>(discretization_.get()->vIEnd() - discretization_.get()->vIBegin());
-        sendBuffers[1] = std::vector<double>(discretization_.get()->vIEnd() - discretization_.get()->vIBegin());
-        sendBuffers[2] = std::vector<double>(discretization_.get()->vJEnd() - discretization_.get()->vJBegin());
-        sendBuffers[3] = std::vector<double>(discretization_.get()->vJEnd() - discretization_.get()->vJBegin());
+        sendBuffers[0] = std::vector<double>(partitioning_.get()->getNCells()[0]);
+        sendBuffers[1] = std::vector<double>(partitioning_.get()->getNCells()[0]);
+        sendBuffers[2] = std::vector<double>(partitioning_.get()->getNCells()[1]);
+        sendBuffers[3] = std::vector<double>(partitioning_.get()->getNCells()[1]);
         for (int i = 0; i < sendBuffers[0].size(); i++) {
-            sendBuffers[0][i] = variable.operator()(i + discretization_.get()->vIBegin(),
+            sendBuffers[0][i] = variable.operator()(i,
                                                     discretization_.get()->vJEnd());
-            sendBuffers[1][i] = variable.operator()(i + discretization_.get()->vIBegin(),
+            sendBuffers[1][i] = variable.operator()(i,
                                                     discretization_.get()->vJBegin());
         }
         for (int j = 0; j < sendBuffers[2].size(); j++) {
             sendBuffers[2][j] = variable.operator()(discretization_.get()->vIBegin(),
-                                                    j + discretization_.get()->vJBegin());
+                                                    j);
             sendBuffers[3][j] = variable.operator()(discretization_.get()->vIEnd(),
-                                                    j + discretization_.get()->vJBegin());
+                                                    j);
         }
     }
     if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
@@ -130,154 +98,123 @@ void Communication::communicate(FieldVariable variable, std::string type) {
     MPI_Waitall(requests.size(), requests.data(), MPI_STATUSES_IGNORE);
 
     // Writing back top border
-    if (type == "p1") {
+    if (type == "p") {
         if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
             for (int i = 0; i < receiveBuffers[0].size(); i++) {
-                variable.operator()(i * 2 + discretization_.get()->pIBegin(),
-                                    discretization_.get()->uJEnd() + 1) = receiveBuffers[0][i];
+                discretization_.get()->p(i,
+                                         discretization_.get()->pJEnd() + 1) = receiveBuffers[0][i];
             }
         }
         if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
             for (int i = 0; i < receiveBuffers[0].size(); i++) {
-                variable.operator()(i * 2 + discretization_.get()->pIBegin(),
-                                    discretization_.get()->uJBegin() - 1) = receiveBuffers[1][i];
+                discretization_.get()->p(i,
+                                         discretization_.get()->pJBegin() - 1) = receiveBuffers[1][i];
             }
         }
         if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
             for (int j = 0; j < receiveBuffers[2].size(); j++) {
-                variable.operator()(discretization_.get()->pIEnd() + 1, j * 2 + discretization_.get()->pJBegin()
-                ) = receiveBuffers[2][j];
+                discretization_.get()->p(discretization_.get()->pIBegin() - 1, j) = receiveBuffers[2][j];
             }
         }
         if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
             for (int j = 0; j < receiveBuffers[2].size(); j++) {
-                variable.operator()(discretization_.get()->pIBegin() - 1, j * 2 + discretization_.get()->pJBegin()
-                ) = receiveBuffers[3][j];
+                discretization_.get()->p(discretization_.get()->pIEnd() + 1, j) = receiveBuffers[3][j];
             }
         }
 
-    } else if (type == "p2") {
-        for (
-                int i = 0;
-                i < receiveBuffers[0].
-
-                        size();
-
-                i++) {
-            if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
-                variable.
-                        operator()(i
-                                   * 2 + 1 + discretization_.get()->pIBegin(),
-                                   discretization_.get()->uJEnd() + 1) = receiveBuffers[0][i];
-            }
-            if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
-                variable.
-                        operator()(i
-                                   * 2 + 1 + discretization_.get()->pIBegin(),
-                                   discretization_.get()->uJBegin() - 1) = receiveBuffers[1][i];
+    } else if (type == "u") {
+        if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
+            for (int i = 0; i < receiveBuffers[0].size(); i++) {
+                discretization_.get()->u(i,
+                                         discretization_.get()->uJEnd() + 1) = receiveBuffers[0][i];
             }
         }
-        for (
-                int j = 0;
-                j < receiveBuffers[2].
-
-                        size();
-
-                j++) {
-            if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
-                variable.
-                        operator()(discretization_
-                                           .get()->pIEnd() + 1,
-                                   j * 2 + 1 + discretization_.get()->pJBegin()) = receiveBuffers[2][j];
+        if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
+            for (int i = 0; i < receiveBuffers[1].size(); i++) {
+                discretization_.get()->u(i,
+                                         discretization_.get()->uJBegin() - 1) = receiveBuffers[1][i];
             }
-            if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
-                variable.
-                        operator()(discretization_
-                                           .get()->pIBegin() - 1,
-                                   j * 2 + 1 + discretization_.get()->pJBegin()) = receiveBuffers[3][j];
+        }
+        if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
+            for (int j = 0; j < receiveBuffers[2].size(); j++) {
+                discretization_.get()->u(discretization_.get()->uIBegin() - 1, j) = receiveBuffers[2][j];
+            }
+        }
+        if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
+            for (int j = 0; j < receiveBuffers[3].size(); j++) {
+                discretization_.get()->u(discretization_.get()->uIEnd() + 1, j) = receiveBuffers[3][j];
+            }
+        }
+    } else if (type == "f") {
+        if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
+            for (int i = 0; i < receiveBuffers[0].size(); i++) {
+                discretization_.get()->f(i,
+                                         discretization_.get()->uJEnd() + 1) = receiveBuffers[0][i];
+            }
+        }
+        if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
+            for (int i = 0; i < receiveBuffers[1].size(); i++) {
+                discretization_.get()->f(i,
+                                         discretization_.get()->uJBegin() - 1) = receiveBuffers[1][i];
+            }
+        }
+        if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
+            for (int j = 0; j < receiveBuffers[2].size(); j++) {
+                discretization_.get()->f(discretization_.get()->uIBegin() - 1, j) = receiveBuffers[2][j];
+            }
+        }
+        if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
+            for (int j = 0; j < receiveBuffers[3].size(); j++) {
+                discretization_.get()->f(discretization_.get()->uIEnd() + 1, j) = receiveBuffers[3][j];
+            }
+        }
+    } else if (type == "v") {
+        if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
+            for (int i = 0; i < receiveBuffers[0].size(); i++) {
+                discretization_.get()->v(i,
+                                         discretization_.get()->vJEnd() + 1) = receiveBuffers[0][i];
+            }
+        }
+        if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
+            for (int i = 0; i < receiveBuffers[1].size(); i++) {
+                discretization_.get()->v(i,
+                                         discretization_.get()->vJBegin() - 1) = receiveBuffers[1][i];
+            }
+        }
+        if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
+            for (int j = 0; j < receiveBuffers[2].size(); j++) {
+                discretization_.get()->v(discretization_.get()->vIBegin() - 1, j) = receiveBuffers[2][j];
+            }
+        }
+        if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
+            for (int j = 0; j < receiveBuffers[3].size(); j++) {
+                discretization_.get()->v(discretization_.get()->vIEnd() + 1,
+                                         j) = receiveBuffers[3][j];
             }
         }
 
-    } else if (type == "u" or type == "f") {
-        for (
-                int i = 0;
-                i < receiveBuffers[0].
-
-                        size();
-
-                i++) {
-            if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
-                variable.
-                        operator()(i
-                                   + discretization_.get()->uIBegin(),
-                                   discretization_.get()->uJEnd() + 1) = receiveBuffers[0][i];
-            }
-            if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
-                variable.
-                        operator()(i
-                                   + discretization_.get()->uIBegin(),
-                                   discretization_.get()->uJBegin() - 1) = receiveBuffers[1][i];
+    } else if (type == "g") {
+        if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
+            for (int i = 0; i < receiveBuffers[0].size(); i++) {
+                discretization_.get()->g(i,
+                                         discretization_.get()->vJEnd() + 1) = receiveBuffers[0][i];
             }
         }
-        for (
-                int j = 0;
-                j < receiveBuffers[2].
-
-                        size();
-
-                j++) {
-            if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
-                variable.
-                        operator()(discretization_
-                                           .get()->uIEnd() + 1,
-                                   j + discretization_.get()->uJBegin()) = receiveBuffers[2][j];
-            }
-            if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
-                variable.
-                        operator()(discretization_
-                                           .get()->uIBegin() - 1,
-                                   j + discretization_.get()->uJBegin()) = receiveBuffers[3][j];
+        if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
+            for (int i = 0; i < receiveBuffers[1].size(); i++) {
+                discretization_.get()->g(i,
+                                         discretization_.get()->vJBegin() - 1) = receiveBuffers[1][i];
             }
         }
-    } else if (type == "v" or type == "g") {
-        for (
-                int i = 0;
-                i < receiveBuffers[0].
-
-                        size();
-
-                i++) {
-            if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
-                variable.
-                        operator()(i
-                                   + discretization_.get()->vIBegin(),
-                                   discretization_.get()->vJEnd() + 1) = receiveBuffers[0][i];
-            }
-            if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
-                variable.
-                        operator()(i
-                                   + discretization_.get()->vIBegin(),
-                                   discretization_.get()->vJBegin() - 1) = receiveBuffers[1][i];
+        if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
+            for (int j = 0; j < receiveBuffers[2].size(); j++) {
+                discretization_.get()->g(discretization_.get()->vIBegin() - 1, j) = receiveBuffers[2][j];
             }
         }
-        for (
-                int j = 0;
-                j < receiveBuffers[2].
-
-                        size();
-
-                j++) {
-            if (partitioning_.get()->getRankOfLeftNeighbour() != -1) {
-                variable.
-                        operator()(discretization_
-                                           .get()->vIEnd() + 1,
-                                   j + discretization_.get()->vJBegin()) = receiveBuffers[2][j];
-            }
-            if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
-                variable.
-                        operator()(discretization_
-                                           .get()->vIBegin() - 1,
-                                   j + discretization_.get()->vJBegin()) = receiveBuffers[3][j];
+        if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
+            for (int j = 0; j < receiveBuffers[3].size(); j++) {
+                discretization_.get()->g(discretization_.get()->vIEnd() + 1,
+                                         j) = receiveBuffers[3][j];
             }
         }
 

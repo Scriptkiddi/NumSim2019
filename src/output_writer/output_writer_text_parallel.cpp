@@ -1,18 +1,19 @@
-#include "output_writer/output_writer_text.h"
+#include "output_writer/output_writer_text_parallel.h"
 
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
 
-void OutputWriterText::writeFile(double currentTime)
+void OutputWriterTextParallel::writeFile(double currentTime)
 {
   // Assemble the filename
   std::stringstream fileName;
-  fileName << "out/output_" << std::setw(4) << std::setfill('0') << fileNo_ << ".txt";
+  fileName << "out/output_" << std::setw(4) << std::setfill('0') << fileNo_ << "." << partitioning_.ownRankNo() << ".txt";
   
   // increment file no.
   fileNo_++;
+
 
   // open file
   std::ofstream file(fileName.str().c_str());
@@ -37,17 +38,17 @@ void OutputWriterText::writeFile(double currentTime)
   // write header lines
   file << "u (" << discretization_->u().size()[0] << "x" << discretization_->u().size()[1] << "): " << std::endl 
     << std::string(fieldWidth, ' ') << "|";
-  for (int i = discretization_->uIBegin(); i < discretization_->uIEnd(); i++)
+  for (int i = discretization_->uIBegin()-1; i < discretization_->uIEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i;
   }
   file << std::endl << std::string(fieldWidth*(discretization_->u().size()[0]+2)+1, '-') << std::endl;
 
   // write u values
-  for (int j = discretization_->uJEnd()-1; j >= discretization_->uJBegin(); j--)
+  for (int j = discretization_->uJEnd()+1; j >= discretization_->uJBegin()-1; j--)
   {
     file << std::setw(fieldWidth) << j << "|";
-    for (int i = discretization_->uIBegin(); i < discretization_->uIEnd(); i++)
+    for (int i = discretization_->uIBegin()-1; i < discretization_->uIEnd()+1; i++)
     {
       file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->u(i,j);
     }
@@ -60,17 +61,17 @@ void OutputWriterText::writeFile(double currentTime)
   // write header lines
   file << "v (" << discretization_->v().size()[0] << "x" << discretization_->v().size()[1] << "): " << std::endl 
     << std::string(fieldWidth, ' ') << "|";
-  for (int i = discretization_->vIBegin(); i < discretization_->vIEnd(); i++)
+  for (int i = discretization_->vIBegin()-1; i < discretization_->vIEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i;
   }
   file << std::endl << std::string(fieldWidth*(discretization_->v().size()[0]+2)+1, '-') << std::endl;
 
   // write v values
-  for (int j = discretization_->vJEnd()-1; j >= discretization_->vJBegin(); j--)
+  for (int j = discretization_->vJEnd()+1; j >= discretization_->vJBegin()-1; j--)
   {
     file << std::setw(fieldWidth) << j << "|";
-    for (int i = discretization_->vIBegin(); i < discretization_->vIEnd(); i++)
+    for (int i = discretization_->vIBegin()-1; i < discretization_->vIEnd()+1; i++)
     {
       file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->v(i,j);
     }
@@ -83,17 +84,17 @@ void OutputWriterText::writeFile(double currentTime)
   // write header lines
   file << "p (" << discretization_->p().size()[0] << "x" << discretization_->p().size()[1] << "): " << std::endl 
     << std::string(fieldWidth, ' ') << "|";
-  for (int i = discretization_->pIBegin(); i < discretization_->pIEnd(); i++)
+  for (int i = discretization_->pIBegin()-1; i < discretization_->pIEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i;
   }
   file << std::endl << std::string(fieldWidth*(discretization_->p().size()[0]+2)+1, '-') << std::endl;
 
   // write p values
-  for (int j = discretization_->pJEnd()-1; j >= discretization_->pJBegin(); j--)
+  for (int j = discretization_->pJEnd()+1; j >= discretization_->pJBegin()-1; j--)
   {
     file << std::setw(fieldWidth) << j << "|";
-    for (int i = discretization_->pIBegin(); i < discretization_->pIEnd(); i++)
+    for (int i = discretization_->pIBegin()-1; i < discretization_->pIEnd()+1; i++)
     {
       file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->p(i,j);
     }
@@ -106,17 +107,17 @@ void OutputWriterText::writeFile(double currentTime)
   // write header lines
   file << "F (" << discretization_->u().size()[0] << "x" << discretization_->u().size()[1] << "): " << std::endl 
     << std::string(fieldWidth, ' ') << "|";
-  for (int i = discretization_->uIBegin(); i < discretization_->uIEnd(); i++)
+  for (int i = discretization_->uIBegin()-1; i < discretization_->uIEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i;
   }
   file << std::endl << std::string(fieldWidth*(discretization_->u().size()[0]+2)+1, '-') << std::endl;
 
   // write f values
-  for (int j = discretization_->uJEnd()-1; j >= discretization_->uJBegin(); j--)
+  for (int j = discretization_->uJEnd(); j >= discretization_->uJBegin()-1; j--)
   {
     file << std::setw(fieldWidth) << j << "|";
-    for (int i = discretization_->uIBegin(); i < discretization_->uIEnd(); i++)
+    for (int i = discretization_->uIBegin()-1; i < discretization_->uIEnd()+1; i++)
     {
       file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->f(i,j);
     }
@@ -129,17 +130,17 @@ void OutputWriterText::writeFile(double currentTime)
   // write header lines
   file << "G (" << discretization_->v().size()[0] << "x" << discretization_->v().size()[1] << "): " << std::endl 
     << std::string(fieldWidth, ' ') << "|";
-  for (int i = discretization_->vIBegin(); i < discretization_->vIEnd(); i++)
+  for (int i = discretization_->vIBegin()-1; i < discretization_->vIEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i;
   }
   file << std::endl << std::string(fieldWidth*(discretization_->v().size()[0]+2)+1, '-') << std::endl;
 
   // write g values
-  for (int j = discretization_->vJEnd()-1; j >= discretization_->vJBegin(); j--)
+  for (int j = discretization_->vJEnd(); j >= discretization_->vJBegin()-1; j--)
   {
     file << std::setw(fieldWidth) << j << "|";
-    for (int i = discretization_->vIBegin(); i < discretization_->vIEnd(); i++)
+    for (int i = discretization_->vIBegin()-1; i < discretization_->vIEnd()+1; i++)
     {
       file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->g(i,j);
     }
@@ -152,17 +153,17 @@ void OutputWriterText::writeFile(double currentTime)
   // write header lines
   file << "rhs (" << discretization_->p().size()[0] << "x" << discretization_->p().size()[1] << "): " << std::endl 
     << std::string(fieldWidth, ' ') << "|";
-  for (int i = discretization_->pIBegin(); i < discretization_->pIEnd(); i++)
+  for (int i = discretization_->pIBegin()-1; i < discretization_->pIEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i;
   }
   file << std::endl << std::string(fieldWidth*(discretization_->p().size()[0]+2)+1, '-') << std::endl;
 
   // write rhs values
-  for (int j = discretization_->pJEnd()-1; j >= discretization_->pJBegin(); j--)
+  for (int j = discretization_->pJEnd(); j >= discretization_->pJBegin()+1; j--)
   {
     file << std::setw(fieldWidth) << j << "|";
-    for (int i = discretization_->pIBegin(); i < discretization_->pIEnd(); i++)
+    for (int i = discretization_->pIBegin()-1; i < discretization_->pIEnd()+1; i++)
     {
       file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->rhs(i,j);
     }
@@ -172,14 +173,14 @@ void OutputWriterText::writeFile(double currentTime)
 
 }
 
-void OutputWriterText::writePressureFile()
+void OutputWriterTextParallel::writePressureFile()
 {
   // counter for files, counter value is part of the file name
   static int pressurefileNo = 0;
 
   // Assemble the filename
   std::stringstream fileName;
-  fileName << "out/pressure_" << std::setw(4) << std::setfill('0') << pressurefileNo++ << ".txt";
+  fileName << "out/pressure_" << std::setw(4) << std::setfill('0') << pressurefileNo++ << "." << partitioning_.ownRankNo() << ".txt";
   
   // open file
   std::ofstream file(fileName.str().c_str());

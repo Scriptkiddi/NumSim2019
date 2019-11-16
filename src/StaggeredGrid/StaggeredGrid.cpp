@@ -87,19 +87,11 @@ double StaggeredGrid::dy() const {
 }
 
 int StaggeredGrid::uIBegin() const {
-    if (partition_.get()->getRankOfLeftNeighbour() == -1) {
-        return 1;
-    } else {
-        return 2;
-    }
+    return 1;
 }
 
 int StaggeredGrid::uIEnd() const {
-    if (partition_.get()->getRankOfRightNeighbour() == -1) {
-        return nCells_[0] - 1;
-    } else {
-        return nCells_[0] - 2;
-    }
+    return nCells_[0] - 2;
 }
 
 int StaggeredGrid::uJBegin() const {
@@ -119,19 +111,16 @@ int StaggeredGrid::vIEnd() const {
 }
 
 int StaggeredGrid::vJBegin() const {
-    if (partition_.get()->getRankOfBottomNeighbour() == -1) {
-        return 1;
-    } else {
-        return 2;
-    }
+    return 1;
+    //if (partition_.get()->getRankOfBottomNeighbour() == -1) {
+    //    return 1;
+    //} else {
+    //    return 2;
+    //}
 }
 
 int StaggeredGrid::vJEnd() const {
-    if (partition_.get()->getRankOfTopNeighbour() == -1) {
-        return nCells_[1] - 1;
-    } else {
-        return nCells_[1] - 2;
-    }
+    return nCells_[1] - 2;
 }
 
 int StaggeredGrid::pIBegin() const {

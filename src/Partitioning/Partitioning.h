@@ -17,8 +17,15 @@ public:
     int getRankOfBottomNeighbour();
     int getRankOfTopNeighbour();
     int getSize();
+    const std::array<int,2> nCellsGlobal();
+    const bool ownPartitionContainsRightBoundary();
+    const bool ownPartitionContainsTopBoundary();
     std::array<int, 2> getNCells();
+    int ownRankNo();
 
+
+
+    std::array<int, 2> nodeOffset();
 
 private:
     std::array<int, 2> nCellsLocal;
@@ -28,6 +35,8 @@ private:
     int rankTop;
     int rankBottom;
     int size;
+    const std::array<int,2> nCellsGlobal_;
+    std::array<int,2> nodeOffset_;
 
 
 };

@@ -14,8 +14,6 @@ class Communication
 public:
     Communication(std::shared_ptr<Partitioning> partitioning, std::shared_ptr<Discretization> ptr);
 
-    void communicate_fg();
-
     void communicate(FieldVariable variable, std::string type);
 
 private:
@@ -23,6 +21,7 @@ private:
     std::shared_ptr<Discretization> discretization_;
 
     std::vector<double> exchangeValues(std::vector<double> values, int receiverRank, std::vector<MPI_Request> &requests);
+
 };
 
 #endif //NUMSIM2019_COMMUNICATION_H

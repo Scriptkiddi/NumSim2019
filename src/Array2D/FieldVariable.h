@@ -16,6 +16,8 @@ public:
                   std::array<double, 2> meshWidth);
 
     double interpolateAt(double x, double y) const;
+
+    void setToZero();
 };
 
 #endif //CODE_NUMSIM_FIELDVARIABLE_H
