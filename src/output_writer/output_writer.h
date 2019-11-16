@@ -11,7 +11,7 @@ class OutputWriter
 {
 public:
   //! constructor
-  OutputWriter(std::shared_ptr<Discretization> discretization, const Partitioning &partitioning);
+  OutputWriter(std::shared_ptr<Discretization> discretization, Partitioning &partitioning);
 
   //! write current velocities to file, filename is output_<count>.vti
   virtual void writeFile(double currentTime) = 0;

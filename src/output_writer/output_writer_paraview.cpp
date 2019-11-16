@@ -4,7 +4,7 @@
 #include <vtkDoubleArray.h>
 #include <vtkPointData.h>
 
-OutputWriterParaview::OutputWriterParaview(std::shared_ptr<Discretization> discretization, const Partitioning &partitioning) :
+OutputWriterParaview::OutputWriterParaview(std::shared_ptr<Discretization> discretization, Partitioning partitioning) :
    OutputWriter(discretization, partitioning)
 {
   // Create a vtkWriter_
@@ -126,4 +126,3 @@ void OutputWriterParaview::writeFile(double currentTime)
   // finally write out the data
   vtkWriter_->Write();
 }
-

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-OutputWriter::OutputWriter(std::shared_ptr<Discretization> discretization, const Partitioning &partitioning)
+OutputWriter::OutputWriter(std::shared_ptr<Discretization> discretization, Partitioning &partitioning)
  : discretization_(discretization), partitioning_(partitioning), fileNo_(0)
 {
   // create "out" subdirectory if it does not yet exist

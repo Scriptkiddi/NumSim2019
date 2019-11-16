@@ -1,13 +1,16 @@
 #include "output_writer/output_writer_paraview_parallel.h"
 
+#include "Array2D/FieldVariable.h"
+#include "StaggeredGrid/Discretization.h"
 
 #include <vtkImageData.h>
 #include <vtkDoubleArray.h>
 #include <vtkPointData.h>
 #include <mpi.h>
 
-OutputWriterParaviewParallel::OutputWriterParaviewParallel(std::shared_ptr<Discretization> discretization, const Partitioning &partitioning) :
+OutputWriterParaviewParallel::OutputWriterParaviewParallel(std::shared_ptr<Discretization> discretization, Partitioning partitioning) :
    OutputWriter(discretization, partitioning),
+
   nCellsGlobal_(partitioning_.nCellsGlobal()),
   nPointsGlobal_ {nCellsGlobal_[0]+1, nCellsGlobal_[1]+1},    // we have one point more than cells in every coordinate direction
   
@@ -49,14 +52,10 @@ void OutputWriterParaviewParallel::gatherData()
     jEnd += 1;
 
   std::array<int,2> nodeOffset = partitioning_.nodeOffset();
-  //std::array<int,2> nodeOffset = {0,0};
 
   u_.setToZero();
   v_.setToZero();
   p_.setToZero();
-  //cout << "Interpolating" << endl;
-  //cout << "Node Offset: " << nodeOffset[0] << "x" << nodeOffset[1] << endl;
-  //cout << "iEndxjEnd " << iEnd << "x" << jEnd << endl;
 
   for (int j = 0; j < jEnd; j++)
   {
@@ -76,19 +75,16 @@ void OutputWriterParaviewParallel::gatherData()
   }
 
   // sum up values from all ranks, not set values are zero
-  //u_.data()
-  MPI_Reduce(u_.data().data(), uGlobal_.data().data(), nPointsGlobalTotal, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-  MPI_Reduce(v_.data().data(), vGlobal_.data().data(), nPointsGlobalTotal, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-  MPI_Reduce(p_.data().data(), pGlobal_.data().data(), nPointsGlobalTotal, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+  MPI_Reduce(u_.data(), uGlobal_.data(), nPointsGlobalTotal, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+  MPI_Reduce(v_.data(), vGlobal_.data(), nPointsGlobalTotal, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+  MPI_Reduce(p_.data(), pGlobal_.data(), nPointsGlobalTotal, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
 }
 
 void OutputWriterParaviewParallel::writeFile(double currentTime)
 {
   // communicate all data to rank 0
-  //cout << "Gather Data" << endl;
   gatherData();
-  //cout << "Data gathered" << endl;
 
   // only continue to write the file on rank 0
   if (partitioning_.ownRankNo() != 0)
@@ -136,7 +132,6 @@ void OutputWriterParaviewParallel::writeFile(double currentTime)
   // we only consider the cells that are the actual computational domain, not the helper values in the "halo"
 
   int index = 0;   // index for the vtk data structure, will be incremented in the inner loop
-  //cout << "Pressure" << endl;
   for (int j = 0; j < nCellsGlobal_[1]+1; j++)
   {
     for (int i = 0; i < nCellsGlobal_[0]+1; i++, index++)

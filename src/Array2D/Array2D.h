@@ -27,7 +27,7 @@ public:
     double operator()(int i, int j) const;
 
 
-    std::vector<double> data();
+    double * data();
 
 protected:
 
