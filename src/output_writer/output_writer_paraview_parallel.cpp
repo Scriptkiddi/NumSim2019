@@ -56,6 +56,7 @@ void OutputWriterParaviewParallel::gatherData()
   u_.setToZero();
   v_.setToZero();
   p_.setToZero();
+  cout << nodeOffset[0] << " x " << nodeOffset[1] << endl;
 
   for (int j = 0; j < jEnd; j++)
   {

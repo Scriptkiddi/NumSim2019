@@ -111,7 +111,7 @@ int Partitioning::getSize() {
 }
 
 const std::array<int, 2> Partitioning::nCellsGlobal() {
-    return std::array<int,2> {nCellsGlobal_[0]+2, nCellsGlobal_[1]+2};
+    return std::array<int,2> {nCellsGlobal_[0], nCellsGlobal_[1]};
     //return nCellsGlobal_;
 }
 
