@@ -126,3 +126,4 @@ void OutputWriterParaview::writeFile(double currentTime)
   // finally write out the data
   vtkWriter_->Write();
 }
+

@@ -7,22 +7,19 @@
 #include "GaussSeidel.h"
 
 GaussSeidel::GaussSeidel(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication,
-         double epsilon, int maximumNumberOfIterations) :
-        PressureSolver(discretization, communication, epsilon, maximumNumberOfIterations)
-         {
+                         double epsilon, int maximumNumberOfIterations) :
+        PressureSolver(discretization, communication, epsilon, maximumNumberOfIterations) {
 }
 
 void GaussSeidel::solve() {
     int iter = 0;
     double eps = 1;
     double epsAll = 1;
+    double factor = 0.5
+                    * std::pow(discretization_.get()->dx(), 2) * std::pow(discretization_.get()->dy(), 2)
+                    / (std::pow(discretization_.get()->dx(), 2) + std::pow(discretization_.get()->dy(), 2));
     while (iter < maximumNumberOfIterations_ && epsAll > pow(epsilon_, 2)) {
         setBoundaryValues();
-        double factor = 0.5
-                        * std::pow(discretization_.get()->dx(),2)* std::pow(discretization_.get()->dy(), 2)
-                        / (std::pow(discretization_.get()->dx(), 2) + std::pow(discretization_.get()->dy(), 2));
-
-        double residual = 0.0;
 
         // first iteration over "red" values
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
@@ -37,12 +34,13 @@ void GaussSeidel::solve() {
                                                     - discretization_.get()->rhs(i, j));
             }
         }
-        // communication of new "red" values
-        //std::cout << "Communicating p1" << std::endl;
+        //// communication of new "red" values
+        ////std::cout << "Communicating p1" << std::endl;
         communication_.get()->communicate(discretization_.get()->p(), "p");
+        setBoundaryValues();
 
         // second iteration over "black" values
-        for (int j = discretization_.get()->pJBegin() + 1; j <= discretization_.get()->pJEnd(); j++) {
+        for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
             for (int i = discretization_.get()->pIBegin() + 1 - j % 2; i <= discretization_.get()->pIEnd(); i += 2) {
                 discretization_.get()->p(i, j) = factor
                                                  * ((discretization_.get()->p(i - 1, j) +
@@ -57,6 +55,7 @@ void GaussSeidel::solve() {
         // communication over new "black" values
         //std::cout << "Communicating p2" << std::endl;
         communication_.get()->communicate(discretization_.get()->p(), "p");
+        setBoundaryValues();
 
         // local residual
         eps = 0;
