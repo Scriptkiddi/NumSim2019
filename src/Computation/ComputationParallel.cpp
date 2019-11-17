@@ -97,7 +97,8 @@ void ComputationParallel::initialize(int argc, char **argv) {
     communication_ = make_shared<Communication>(make_shared<Partitioning>(partitioning_), discretization_);
 
     //initialize explicit pressureSolver
-    GaussSeidel pSolver(discretization_, communication_, partitioning_, settings_.epsilon, settings_.maximumNumberOfIterations);
+    GaussSeidel pSolver(discretization_, communication_, partitioning_, settings_.epsilon,
+                        settings_.maximumNumberOfIterations);
     pressureSolver_ = make_unique<GaussSeidel>(pSolver);
     //initialize outputWriters
     OutputWriterTextParallel outText(discretization_, partitioning_);
@@ -172,11 +173,35 @@ void ComputationParallel::applyBoundaryValues() {
     }
     // oberer Rand
     if (partitioning_.getRankOfTopNeighbour() == -1) {
-        int j_high = discretization_.get()->uJEnd() + 1;
-        for (int i = discretization_.get()->uIBegin()-1; i <= discretization_.get()->uIEnd()+1; i++) {
-            discretization_.get()->u(i, j_high) =
-                    2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
-            discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
+        if (partitioning_.getRankOfLeftNeighbour() == -1 && partitioning_.getRankOfRightNeighbour() == -1) {
+            int j_high = discretization_.get()->uJEnd() + 1;
+            for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
+                discretization_.get()->u(i, j_high) =
+                        2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
+                discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
+            }
+
+        } else if (partitioning_.getRankOfLeftNeighbour() == -1) {
+            int j_high = discretization_.get()->uJEnd() + 1;
+            for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd() + 1; i++) {
+                discretization_.get()->u(i, j_high) =
+                        2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
+                discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
+            }
+        } else if (partitioning_.getRankOfRightNeighbour() == -1) {
+            int j_high = discretization_.get()->uJEnd() + 1;
+            for (int i = discretization_.get()->uIBegin() - 1; i <= discretization_.get()->uIEnd(); i++) {
+                discretization_.get()->u(i, j_high) =
+                        2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
+                discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
+            }
+        } else {
+            int j_high = discretization_.get()->uJEnd() + 1;
+            for (int i = discretization_.get()->uIBegin() - 1; i <= discretization_.get()->uIEnd() + 1; i++) {
+                discretization_.get()->u(i, j_high) =
+                        2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
+                discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
+            }
         }
     }
 

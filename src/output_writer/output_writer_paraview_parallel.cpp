@@ -30,8 +30,6 @@ OutputWriterParaviewParallel::OutputWriterParaviewParallel(std::shared_ptr<Discr
 
 void OutputWriterParaviewParallel::gatherData()
 {
- // std::array<int,2> size, std::array<double,2> origin, std::array<double,2> meshWidth
-
   int nPointsGlobalTotal = nPointsGlobal_[0] * nPointsGlobal_[1];
   const double dx = discretization_->meshWidth()[0];
   const double dy = discretization_->meshWidth()[1];

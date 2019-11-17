@@ -38,7 +38,7 @@ void OutputWriterTextParallel::writeFile(double currentTime)
   // write header lines
   file << "u (" << discretization_->u().size()[0] << "x" << discretization_->u().size()[1] << "): " << std::endl 
     << std::string(fieldWidth, ' ') << "|";
-  for (int i = discretization_->uIBegin()-1; i < discretization_->uIEnd()+1; i++)
+  for (int i = discretization_->uIBegin()-1; i < discretization_->uIEnd()+2; i++)
   {
     file << std::setw(fieldWidth) << i;
   }
@@ -48,7 +48,7 @@ void OutputWriterTextParallel::writeFile(double currentTime)
   for (int j = discretization_->uJEnd()+1; j >= discretization_->uJBegin()-1; j--)
   {
     file << std::setw(fieldWidth) << j << "|";
-    for (int i = discretization_->uIBegin()-1; i < discretization_->uIEnd()+1; i++)
+    for (int i = discretization_->uIBegin()-1; i < discretization_->uIEnd()+2; i++)
     {
       file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->u(i,j);
     }
