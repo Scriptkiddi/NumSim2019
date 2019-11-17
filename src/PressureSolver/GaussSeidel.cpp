@@ -37,7 +37,7 @@ void GaussSeidel::setBoundaryValues() {
     }
     if (partitioning.getRankOfBottomNeighbour() == -1) {
         int j_low = discretization_.get()->pJBegin() - 1;
-        for (int i = discretization_.get()->pIBegin() - 1; i <= discretization_.get()->pIEnd()+1; i++) {
+        for (int i = discretization_.get()->pIBegin() - 1; i <= discretization_.get()->pIEnd() + 1; i++) {
             discretization_.get()->p(i, j_low) = -discretization_.get()->p(i, j_low + 1);
         }
     }
@@ -54,10 +54,11 @@ void GaussSeidel::solve() {
         setBoundaryValues();
 
         // first iteration over "red" values
-        int decision = (partitioning.nodeOffset()[1] + partitioning.nodeOffset()[1]) % 2;
-        // (j % 2 + decision) % 2
+        int decision = (partitioning.nodeOffset()[0] + partitioning.nodeOffset()[1]) % 2;
+
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-            for (int i = discretization_.get()->pIBegin() + j % 2; i <= discretization_.get()->pIEnd(); i += 2) {
+            for (int i = discretization_.get()->pIBegin() + (j % 2 + decision) % 2;
+                 i <= discretization_.get()->pIEnd(); i += 2) {
                 discretization_.get()->p(i, j) = factor
                                                  * ((discretization_.get()->p(i - 1, j) +
                                                      discretization_.get()->p(i + 1, j))
@@ -68,14 +69,14 @@ void GaussSeidel::solve() {
                                                     - discretization_.get()->rhs(i, j));
             }
         }
-        //// communication of new "red" values
-        ////std::cout << "Communicating p1" << std::endl;
+        // communication of new "red" values
         communication_.get()->communicate(discretization_.get()->p(), "p");
         setBoundaryValues();
 
         // second iteration over "black" values
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-            for (int i = discretization_.get()->pIBegin() + 1 - j % 2; i <= discretization_.get()->pIEnd(); i += 2) {
+            for (int i = discretization_.get()->pIBegin() + 1 - (j % 2 + decision) % 2;
+                 i <= discretization_.get()->pIEnd(); i += 2) {
                 discretization_.get()->p(i, j) = factor
                                                  * ((discretization_.get()->p(i - 1, j) +
                                                      discretization_.get()->p(i + 1, j))
