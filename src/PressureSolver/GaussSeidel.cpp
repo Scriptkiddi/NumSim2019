@@ -8,13 +8,11 @@
 
 GaussSeidel::GaussSeidel(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication,
                          Partitioning partitioning, double epsilon, int maximumNumberOfIterations) :
-
         PressureSolver(discretization, communication, epsilon, maximumNumberOfIterations), partitioning(partitioning) {
 }
 
 
 void GaussSeidel::setBoundaryValues() {
-
     //rechter und linker Rand ohne ecken
     if (partitioning.getRankOfRightNeighbour() == -1) {
         int i_high = discretization_.get()->pIEnd() + 1;
@@ -112,7 +110,7 @@ void GaussSeidel::solve() {
         eps = epsAll;
         iter++;
     }
-    std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epsilon² " << pow(epsilon_, 2)
+    std::cout << partitioning.getRank() <<  "|pressure solver iterations: " << iter << " eps :" << eps << " epsilon² " << pow(epsilon_, 2)
               << std::endl;
     setBoundaryValues();
 }

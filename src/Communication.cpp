@@ -31,11 +31,11 @@ void Communication::communicate(FieldVariable variable, std::string type) {
     // 1 is bottom
     // 2 is left
     // 3 is right
+    sendBuffers[0] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
+    sendBuffers[1] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
+    sendBuffers[2] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
+    sendBuffers[3] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
     if (type == "p") {
-        sendBuffers[0] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
-        sendBuffers[1] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
-        sendBuffers[2] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
-        sendBuffers[3] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
         for (int i = 0; i < sendBuffers[0].size(); i++) {
             sendBuffers[0][i] = variable.operator()(i,
                                                     discretization_.get()->pJEnd());
@@ -49,10 +49,6 @@ void Communication::communicate(FieldVariable variable, std::string type) {
                                                     j);
         }
     } else if (type == "u" or type == "f") {
-        sendBuffers[0] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
-        sendBuffers[1] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
-        sendBuffers[2] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
-        sendBuffers[3] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
         for (int i = 0; i < sendBuffers[0].size(); i++) {
             sendBuffers[0][i] = variable.operator()(i,
                                                     discretization_.get()->uJEnd());
@@ -66,10 +62,6 @@ void Communication::communicate(FieldVariable variable, std::string type) {
                                                     j);
         }
     } else if (type == "v" or type == "g") {
-        sendBuffers[0] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
-        sendBuffers[1] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
-        sendBuffers[2] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
-        sendBuffers[3] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
         for (int i = 0; i < sendBuffers[0].size(); i++) {
             sendBuffers[0][i] = variable.operator()(i,
                                                     discretization_.get()->vJEnd());
@@ -101,7 +93,6 @@ void Communication::communicate(FieldVariable variable, std::string type) {
     if (type == "p") {
         if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
             for (int i = 0; i < receiveBuffers[0].size(); i++) {
-
                 discretization_.get()->p(i,
                                          discretization_.get()->pJEnd() + 1) = receiveBuffers[0][i];
             }

@@ -13,7 +13,7 @@
 
 // Partitions are numbered from left to right starting with 0. After a line is finished you start for the next line again from the left side
 
-Partitioning::Partitioning(std::array<int, 2> nCells): nCellsGlobal_(nCells){
+Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> physicalSize): nCellsGlobal_(nCells){
 
     //Determine partition
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -52,6 +52,8 @@ Partitioning::Partitioning(std::array<int, 2> nCells): nCellsGlobal_(nCells){
         numberY = possibilities[index][0];
     }
     std::cout << "Split for processors " << numberX << " x " << numberY << std::endl;
+    physicalSize_[0] = physicalSize[0]/numberX;
+    physicalSize_[1] = physicalSize[1]/numberY;
 
     // Determine if special case (Left border, bottom, ...)
     rankRight = rank + 1;
@@ -136,4 +138,8 @@ int Partitioning::ownRankNo() {
 
 std::array<int, 2> Partitioning::nodeOffset() {
     return nodeOffset_;
+}
+
+std::array<double, 2> Partitioning::getMeshWidth() {
+    return {physicalSize_[0]/getNCells()[0], physicalSize_[1]/getNCells()[1]};
 }

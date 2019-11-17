@@ -12,7 +12,7 @@
 
 ComputationParallel::ComputationParallel(std::string settingsFilename) : Computation(settingsFilename),
                                                                          partitioning_(
-                                                                                 Partitioning(settings_.nCells)) {
+                                                                                 Partitioning(settings_.nCells, settings_.physicalSize)) {
 
 }
 
@@ -22,6 +22,8 @@ void ComputationParallel::runSimulation() {
     applyBoundaryValues();
 
     cout << "Starting Simulation" << endl;
+    outputWriterParaview_.get()->writeFile(t);
+    outputWriterText_.get()->writeFile(t);
     while (t < settings_.endTime) {
         computeTimeStepWidth();
         applyBoundaryValues();
@@ -53,10 +55,10 @@ void ComputationParallel::initialize(int argc, char **argv) {
                                     partitioning_.getNCells()[1] + 2};
 
     //initialize meshWidth
-    meshWidth_[0] = settings_.physicalSize[0] /
-                    (nCellsBoundary[0] - 2);
-    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1] - 2);
-
+    //meshWidth_[0] = settings_.physicalSize[0] /
+    //                (nCellsBoundary[0] - 2);
+    //meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1] - 2);
+    meshWidth_ = partitioning_.getMeshWidth();
 
     //init grid
 
@@ -180,7 +182,6 @@ void ComputationParallel::applyBoundaryValues() {
                         2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
                 discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
             }
-
         } else if (partitioning_.getRankOfLeftNeighbour() == -1) {
             int j_high = discretization_.get()->uJEnd() + 1;
             for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd() + 1; i++) {
@@ -241,6 +242,4 @@ void ComputationParallel::applyBoundaryValues() {
 
         }
     }
-
-
 }

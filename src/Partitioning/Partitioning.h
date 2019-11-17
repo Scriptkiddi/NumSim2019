@@ -9,7 +9,7 @@
 class Partitioning
 {
 public:
-    explicit Partitioning(std::array<int, 2> nCells);
+    explicit Partitioning(std::array<int, 2> nCells, std::array<double,2>);
 
     int getRank();
     int getRankOfLeftNeighbour();
@@ -21,6 +21,7 @@ public:
     const bool ownPartitionContainsRightBoundary();
     const bool ownPartitionContainsTopBoundary();
     std::array<int, 2> getNCells();
+    std::array<double, 2> getMeshWidth();
     int ownRankNo();
 
 
@@ -37,6 +38,7 @@ private:
     int size;
     const std::array<int,2> nCellsGlobal_;
     std::array<int,2> nodeOffset_;
+    std::array<double,2> physicalSize_;
 
 
 };

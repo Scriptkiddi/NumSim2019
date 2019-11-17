@@ -14,7 +14,6 @@ void OutputWriterTextParallel::writeFile(double currentTime)
   // increment file no.
   fileNo_++;
 
-
   // open file
   std::ofstream file(fileName.str().c_str());
 
