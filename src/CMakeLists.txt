@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(numsim)
+project(numsim_parallel)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -12,7 +12,6 @@ add_executable(${PROJECT_NAME}
         StaggeredGrid/Discretization.cpp StaggeredGrid/Discretization.h
         StaggeredGrid/DonorCell.cpp StaggeredGrid/DonorCell.h
         StaggeredGrid/CentralDifferences.h StaggeredGrid/CentralDifferences.cpp
-        PressureSolver/SOR.h PressureSolver/SOR.cpp
         PressureSolver/PressureSolver.cpp PressureSolver/PressureSolver.h
         PressureSolver/GaussSeidel.cpp PressureSolver/GaussSeidel.h
         output_writer/output_writer_paraview.cpp output_writer/output_writer_paraview.h

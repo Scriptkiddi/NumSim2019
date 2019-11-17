@@ -11,13 +11,16 @@
 class GaussSeidel : public PressureSolver
 {
 public:
-    GaussSeidel(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication, double epsilon,
-                int maximumNumberOfIterations);
+    GaussSeidel(std::shared_ptr<Discretization> sharedPtr, std::shared_ptr<Communication> sharedPtr1,
+                Partitioning partitioning, double epsilon, int maximumNumberOfIterations);
 
     void solve() override;
 
 private:
     double omega;
+    Partitioning partitioning;
+
+    void setBoundaryValues();
 };
 
 

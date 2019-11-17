@@ -101,12 +101,13 @@ void Communication::communicate(FieldVariable variable, std::string type) {
     if (type == "p") {
         if (partitioning_.get()->getRankOfTopNeighbour() != -1) {
             for (int i = 0; i < receiveBuffers[0].size(); i++) {
+
                 discretization_.get()->p(i,
                                          discretization_.get()->pJEnd() + 1) = receiveBuffers[0][i];
             }
         }
         if (partitioning_.get()->getRankOfBottomNeighbour() != -1) {
-            for (int i = 0; i < receiveBuffers[0].size(); i++) {
+            for (int i = 0; i < receiveBuffers[1].size(); i++) {
                 discretization_.get()->p(i,
                                          discretization_.get()->pJBegin() - 1) = receiveBuffers[1][i];
             }
@@ -117,7 +118,7 @@ void Communication::communicate(FieldVariable variable, std::string type) {
             }
         }
         if (partitioning_.get()->getRankOfRightNeighbour() != -1) {
-            for (int j = 0; j < receiveBuffers[2].size(); j++) {
+            for (int j = 0; j < receiveBuffers[3].size(); j++) {
                 discretization_.get()->p(discretization_.get()->pIEnd() + 1, j) = receiveBuffers[3][j];
             }
         }

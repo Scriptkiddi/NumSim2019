@@ -8,7 +8,6 @@
 #include <iostream>
 #include <StaggeredGrid/CentralDifferences.h>
 #include <StaggeredGrid/DonorCell.h>
-#include <PressureSolver/SOR.h>
 #include <PressureSolver/GaussSeidel.h>
 
 using namespace std;
