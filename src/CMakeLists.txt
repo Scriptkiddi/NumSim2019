@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
         StaggeredGrid/CentralDifferences.h StaggeredGrid/CentralDifferences.cpp
         PressureSolver/PressureSolver.cpp PressureSolver/PressureSolver.h
         PressureSolver/GaussSeidel.cpp PressureSolver/GaussSeidel.h
+        PressureSolver/SOR.cpp PressureSolver/SOR.h
         output_writer/output_writer_paraview.cpp output_writer/output_writer_paraview.h
         output_writer/output_writer_text.cpp output_writer/output_writer_text.h
         output_writer/output_writer.cpp output_writer/output_writer.h
