@@ -20,6 +20,7 @@ protected:
     std::shared_ptr <Discretization> discretization_;
 
     std::shared_ptr<Communication> communication_;
+    Partitioning partitioning;
 
     double epsilon_;
 
