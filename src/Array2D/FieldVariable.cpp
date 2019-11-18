@@ -40,3 +40,8 @@ double FieldVariable::interpolateAt(double x, double y) const {
            + alphaX * alphaY * operator()(i + 1, j + 1);
 
 }
+
+void FieldVariable::setToZero() {
+
+
+}

@@ -7,10 +7,10 @@
 
 #include <memory>
 #include "../StaggeredGrid/Discretization.h"
-
+#include "Communication.h"
 class PressureSolver {
 public:
-    PressureSolver(std::shared_ptr <Discretization> discretization, double epsilon, int maximumNumberOfIterations);
+    PressureSolver(std::shared_ptr <Discretization> discretization,std::shared_ptr<Communication> communication, double epsilon, int maximumNumberOfIterations);
 
     virtual void solve() = 0;
 
@@ -18,6 +18,8 @@ protected:
     void setBoundaryValues();
 
     std::shared_ptr <Discretization> discretization_;
+
+    std::shared_ptr<Communication> communication_;
 
     double epsilon_;
 

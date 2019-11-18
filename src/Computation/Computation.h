@@ -16,11 +16,13 @@
 class Computation
 {
 public:
+    Computation(string settingsFilename);
+
     virtual void initialize(int argc, char *argv[]);
 
     virtual void runSimulation();
 
-private:
+protected:
     virtual void computeTimeStepWidth();
 
     virtual void applyBoundaryValues();

@@ -8,17 +8,18 @@
 #include <iostream>
 #include <StaggeredGrid/CentralDifferences.h>
 #include <StaggeredGrid/DonorCell.h>
-#include <PressureSolver/SOR.h>
 #include <PressureSolver/GaussSeidel.h>
 
 using namespace std;
 
-void Computation::initialize(int argc, char **argv) {
-    std::cout << "Running with" << argv[0] << std::endl;
+Computation::Computation (string settingsFilename){
     Settings settings;
     settings_ = settings;
-    settings_.loadFromFile(argv[3]);
-    settings_.printSettings();
+    settings_.loadFromFile(settingsFilename);
+}
+
+void Computation::initialize(int argc, char **argv) {
+    std::cout << "Running with" << argv[0] << std::endl;
     array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
 
     //initialize meshWidth
@@ -27,29 +28,29 @@ void Computation::initialize(int argc, char **argv) {
     meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]-2);
 
     //initialize discretization
-    if (!settings_.useDonorCell) {
-        CentralDifferences grid(nCellsBoundary, meshWidth_);
-        discretization_ = make_shared<CentralDifferences>(grid);
-    } else {
-        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha);
-        discretization_ = make_shared<DonorCell>(grid);
-    }
+    //if (!settings_.useDonorCell) {
+    //    CentralDifferences grid(nCellsBoundary, meshWidth_);
+    //    discretization_ = make_shared<CentralDifferences>(grid);
+    //} else {
+    //    DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha);
+    //    discretization_ = make_shared<DonorCell>(grid);
+    //}
 
     //initialize explicit pressureSolver
-    if (settings_.pressureSolver == "SOR") {
-        SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
-        pressureSolver_ = make_unique<SOR>(pSolver);
-    } else {
-        //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
-        //pressureSolver_ = make_unique<PressureSolver>(pSolver);
-        std::cout << "Please select SOR-solver" << std::endl;
-    }
-    //initialize outputWriters
-    OutputWriterText outText(discretization_);
-    outputWriterText_ = make_unique<OutputWriterText>(outText);
+    //if (settings_.pressureSolver == "SOR") {
+    //    SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+    //    pressureSolver_ = make_unique<SOR>(pSolver);
+    //} else {
+    //    //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
+    //    //pressureSolver_ = make_unique<PressureSolver>(pSolver);
+    //    std::cout << "Please select SOR-solver" << std::endl;
+    //}
+    ////initialize outputWriters
+    //OutputWriterText outText(discretization_);
+    //outputWriterText_ = make_unique<OutputWriterText>(outText);
 
-    OutputWriterParaview outPara(discretization_);
-    outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
+    //OutputWriterParaview outPara(discretization_);
+    //outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
 }
 
 void Computation::runSimulation() {
@@ -60,6 +61,7 @@ void Computation::runSimulation() {
         computeTimeStepWidth();
         applyBoundaryValues();
         PreliminaryVelocities();
+
         computeRightHandSide();
         computePressure();
         computeVelocities();
@@ -176,7 +178,6 @@ void Computation::computeRightHandSide() {
 }
 
 void Computation::computePressure() {
-
     pressureSolver_->solve();
 }
 

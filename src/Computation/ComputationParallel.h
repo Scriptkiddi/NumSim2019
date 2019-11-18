@@ -6,33 +6,39 @@
 #define NUMSIM2019_COMPUTATIONPARALLEL_H
 
 #include "Computation.h"
+#include "Communication.h"
 #include "../Partitioning/Partitioning.h"
+#include <string>
+#include <output_writer/output_writer_text_parallel.h>
+#include "output_writer/output_writer_paraview_parallel.h"
 
 class ComputationParallel : public Computation
 {
 public:
-    virtual void initialize(int argc, char *argv[]);
+    ComputationParallel(string settingsFilename);
 
-    virtual void runSimulation();
+    void initialize(int argc, char *argv[]);
+
+    void runSimulation();
 
 private:
-    virtual void computeTimeStepWidth();
+    double dtAll_;
+    void computeTimeStepWidth();
 
-    virtual void applyBoundaryValues();
+    void applyBoundaryValues();
 
-    virtual void PreliminaryVelocities();
 
-    virtual void computeRightHandSide();
 
-    virtual void computePressure();
 
-    virtual void computeVelocities();
+    std::unique_ptr<OutputWriterParaviewParallel> outputWriterParaview_;
+
+    std::unique_ptr<OutputWriterTextParallel> outputWriterText_;
 
     //Attributes
 
     Partitioning partitioning_;
-    double dtAll_;
 
+    std::shared_ptr<Communication> communication_;
 };
 
 #endif //NUMSIM2019_COMPUTATIONPARALLEL_H

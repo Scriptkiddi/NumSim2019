@@ -6,9 +6,15 @@
 #include <cstdlib>
 #include <cmath>
 
-DonorCell::DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double alpha) : Discretization(nCells,
-                                                                                                                meshWidth),
-                                                                                                 alpha_(alpha) {
+DonorCell::DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double alpha,
+                     std::shared_ptr<Partitioning> partitioning,
+                     FieldVariable u,
+                     FieldVariable v, FieldVariable f, FieldVariable g, FieldVariable p,
+                     FieldVariable rhs) : Discretization(nCells, meshWidth, partitioning, u, v,
+                                                         p,
+                                                         f,
+                                                         g,
+                                                         rhs), alpha_(alpha) {
 
 }
 
@@ -31,7 +37,6 @@ double DonorCell::computeDuvDx(int i, int j) const {
            + alpha_ * 1 / dx() * (std::fabs(u(i, j) + u(i, j + 1)) / 2 * (v(i, j) - v(i + 1, j)) / 2 -
                                   std::fabs(u(i - 1, j) + u(i - 1, j + 1)) / 2 * (v(i - 1, j) - v(i, j)) / 2);
 }
-//todo Problem mit Konvertierung von double zu int?? andere Funktion als abs?? oder doch nicht?
 
 double DonorCell::computeDuvDy(int i, int j) const {
     return 1 / dy() * ((v(i, j) + v(i + 1, j)) / 2 * (u(i, j) + u(i, j + 1)) / 2 -

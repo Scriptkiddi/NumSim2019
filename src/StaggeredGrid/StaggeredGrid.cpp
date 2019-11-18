@@ -6,15 +6,12 @@
 #include "../Array2D/Array2D.h"
 #include "../Array2D/FieldVariable.h"
 
-StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth) :
+StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth,
+                             std::shared_ptr<Partitioning> partitioning, FieldVariable u,
+                             FieldVariable v, FieldVariable p, FieldVariable f, FieldVariable g, FieldVariable rhs) :
         meshWidth_(meshWidth),
-        nCells_(nCellsBoundary),
-        u_(nCellsBoundary, {0 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        v_(nCellsBoundary, {-0.5 * meshWidth[0], 0 * meshWidth[1]}, meshWidth),
-        p_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        rhs_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        f_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        g_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth) {
+        partition_(partitioning),
+        nCells_(nCellsBoundary), u_(u), v_(v), p_(p), rhs_(rhs), g_(g), f_(f) {
 }
 
 const std::array<double, 2> StaggeredGrid::meshWidth() const {
@@ -35,6 +32,14 @@ const FieldVariable &StaggeredGrid::v() const {
 
 const FieldVariable &StaggeredGrid::p() const {
     return p_;
+}
+
+const FieldVariable &StaggeredGrid::f() const {
+    return f_;
+}
+
+const FieldVariable &StaggeredGrid::g() const {
+    return g_;
 }
 
 double StaggeredGrid::u(int i, int j) const {
@@ -80,16 +85,13 @@ double StaggeredGrid::dx() const {
 double StaggeredGrid::dy() const {
     return meshWidth_[1];
 }
-// ncells beinhaltet ghost cells
-// https://numsim-exercises.readthedocs.io/en/latest/exercise1/hints.html
-// 1 weil uIBegin gibt uns die erste nicht ghost cell
+
 int StaggeredGrid::uIBegin() const {
     return 1;
 }
 
-int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direction
-    // minus 1 für size to index und nochmal -1 weil der wert der letzten richtigen zelle auf 0 gesetzt wird anstelle der in der ghost cell
-    return nCells_[0] - 3;
+int StaggeredGrid::uIEnd() const {
+    return nCells_[0] - 2;
 }
 
 int StaggeredGrid::uJBegin() const {
@@ -97,7 +99,7 @@ int StaggeredGrid::uJBegin() const {
 }
 
 int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
-    return nCells_[1]-2;
+    return nCells_[1] - 2;
 }
 
 int StaggeredGrid::vIBegin() const {
@@ -105,15 +107,20 @@ int StaggeredGrid::vIBegin() const {
 }
 
 int StaggeredGrid::vIEnd() const {
-    return nCells_[0]-2;
+    return nCells_[0] - 2;
 }
 
 int StaggeredGrid::vJBegin() const {
     return 1;
+    //if (partition_.get()->getRankOfBottomNeighbour() == -1) {
+    //    return 1;
+    //} else {
+    //    return 2;
+    //}
 }
 
 int StaggeredGrid::vJEnd() const {
-    return nCells_[1] - 3;
+    return nCells_[1] - 2;
 }
 
 int StaggeredGrid::pIBegin() const {
@@ -121,7 +128,7 @@ int StaggeredGrid::pIBegin() const {
 }
 
 int StaggeredGrid::pIEnd() const {
-    return nCells_[0]-2;
+    return nCells_[0] - 2;
 }
 
 int StaggeredGrid::pJBegin() const {
@@ -129,5 +136,5 @@ int StaggeredGrid::pJBegin() const {
 }
 
 int StaggeredGrid::pJEnd() const {
-    return nCells_[1]-2;
+    return nCells_[1] - 2;
 }

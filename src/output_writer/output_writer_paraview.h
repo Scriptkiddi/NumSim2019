@@ -1,10 +1,9 @@
 #pragma once
 
-#include "output_writer.h"
-
+#include "output_writer/output_writer.h"
+#include "StaggeredGrid/StaggeredGrid.h"
 #include <vtkSmartPointer.h>
 #include <vtkXMLImageDataWriter.h>
-
 
 #include <memory>
 
@@ -13,15 +12,16 @@
  *  All values are given for the nodes of the mesh, i.e., the corners of each cell.
  *  This means, values will be interpolated because the values are stored at positions given by the staggered grid.
  */
-class OutputWriterParaview :
+class OutputWriterParaview : 
   public OutputWriter
 {
 public:
   //! constructor
-  //! @param discretization shared pointer to the discretization object that will contain all the data to be written to the file
-  OutputWriterParaview(std::shared_ptr<Discretization> discretization);
+  OutputWriterParaview(std::shared_ptr<Discretization> discretization, const Partitioning &partitioning);
 
-  //! write current velocities to file, filename is output_<count>.vti
+    OutputWriterParaview(std::shared_ptr<Discretization> discretization, Partitioning partitioning);
+
+//! write current velocities to file, filename is output_<count>.vti
   void writeFile(double currentTime);
 
 private:
