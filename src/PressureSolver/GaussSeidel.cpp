@@ -17,26 +17,26 @@ void GaussSeidel::setBoundaryValues() {
     if (partitioning.getRankOfRightNeighbour() == -1) {
         int i_high = discretization_.get()->pIEnd() + 1;
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-            discretization_.get()->p(i_high, j) = -discretization_.get()->p(i_high - 1, j);
+            discretization_.get()->p(i_high, j) = discretization_.get()->p(i_high - 1, j);
         }
     }
     if (partitioning.getRankOfLeftNeighbour() == -1) {
         int i_low = discretization_.get()->pIBegin() - 1;
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-            discretization_.get()->p(i_low, j) = -discretization_.get()->p(i_low + 1, j);
+            discretization_.get()->p(i_low, j) = discretization_.get()->p(i_low + 1, j);
         }
     }
     //unterer Rand mit ecken
     if (partitioning.getRankOfTopNeighbour() == -1) {
         int j_high = discretization_.get()->pJEnd() + 1;
         for (int i = discretization_.get()->pIBegin() - 1; i <= discretization_.get()->pIEnd() + 1; i++) {
-            discretization_.get()->p(i, j_high) = -discretization_.get()->p(i, j_high - 1);
+            discretization_.get()->p(i, j_high) = discretization_.get()->p(i, j_high - 1);
         }
     }
     if (partitioning.getRankOfBottomNeighbour() == -1) {
         int j_low = discretization_.get()->pJBegin() - 1;
         for (int i = discretization_.get()->pIBegin() - 1; i <= discretization_.get()->pIEnd() + 1; i++) {
-            discretization_.get()->p(i, j_low) = -discretization_.get()->p(i, j_low + 1);
+            discretization_.get()->p(i, j_low) = discretization_.get()->p(i, j_low + 1);
         }
     }
 }
@@ -48,8 +48,8 @@ void GaussSeidel::solve() {
     double factor = 0.5
                     * std::pow(discretization_.get()->dx(), 2) * std::pow(discretization_.get()->dy(), 2)
                     / (std::pow(discretization_.get()->dx(), 2) + std::pow(discretization_.get()->dy(), 2));
-    while (iter < maximumNumberOfIterations_ && epsAll > pow(epsilon_, 2)) {
-        setBoundaryValues();
+    setBoundaryValues();
+    while (iter < maximumNumberOfIterations_ && eps > pow(epsilon_, 2)) {
 
         // first iteration over "red" values
         int decision = (partitioning.nodeOffset()[0] + partitioning.nodeOffset()[1]) % 2;
@@ -103,11 +103,10 @@ void GaussSeidel::solve() {
                          discretization_.get()->p(i, j + 1)) / pow(discretization_.get()->dy(), 2), 2);
             }
         }
-        eps = eps / (discretization_.get()->nCells()[0] * discretization_.get()->nCells()[1]);
 
         // collection of global residual
         MPI_Allreduce(&eps, &epsAll, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-        eps = epsAll;
+        eps = epsAll / (partitioning.nCellsGlobal()[0] * partitioning.nCellsGlobal()[1]);
         iter++;
     }
     std::cout << partitioning.getRank() <<  "|pressure solver iterations: " << iter << " eps :" << eps << " epsilon² " << pow(epsilon_, 2)
