@@ -18,9 +18,6 @@ public:
 
 private:
     double omega;
-    Partitioning partitioning;
-
-    void setBoundaryValues();
 };
 
 
