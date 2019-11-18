@@ -27,7 +27,7 @@ Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> phys
     if(size==1){
         possibilities.push_back({1,1});
     }
-    for (int i = 1; i <= size; i++) {
+    for (int i = 1; i <= size/2; i++) {
         if (size % i == 0) {
 
             std::cout << i << " x " << size/i << std::endl;
