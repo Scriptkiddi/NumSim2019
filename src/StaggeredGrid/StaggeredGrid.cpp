@@ -6,12 +6,12 @@
 #include "../Array2D/Array2D.h"
 #include "../Array2D/FieldVariable.h"
 
-StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth,
+StaggeredGrid::StaggeredGrid(std::array<int, 2> nCells, std::array<double, 2> meshWidth,
                              std::shared_ptr<Partitioning> partitioning, FieldVariable u,
                              FieldVariable v, FieldVariable p, FieldVariable f, FieldVariable g, FieldVariable rhs) :
         meshWidth_(meshWidth),
         partition_(partitioning),
-        nCells_(nCellsBoundary), u_(u), v_(v), p_(p), rhs_(rhs), g_(g), f_(f) {
+        nCells_(nCells), u_(u), v_(v), p_(p), rhs_(rhs), g_(g), f_(f) {
 }
 
 const std::array<double, 2> StaggeredGrid::meshWidth() const {

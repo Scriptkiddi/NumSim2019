@@ -17,40 +17,6 @@ ComputationParallel::ComputationParallel(std::string settingsFilename) : Computa
 
 }
 
-void ComputationParallel::runSimulation() {
-    double t = 0;
-
-    applyBoundaryValues();
-
-    cout << "Starting Simulation" << endl;
-    outputWriterParaview_.get()->writeFile(t);
-    outputWriterText_.get()->writeFile(t);
-    while (t < settings_.endTime) {
-        computeTimeStepWidth();
-        applyBoundaryValues();
-        PreliminaryVelocities();
-        //cout << "Communicating f&g" << endl;
-        communication_.get()->communicate(discretization_.get()->f(), "f");
-        communication_.get()->communicate(discretization_.get()->g(), "g");
-        computeRightHandSide();
-        //cout << "Computing p" << endl;
-        computePressure();
-        //cout << "Computing u&v" << endl;
-        computeVelocities();
-        //cout << "Communicating u&v" << endl;
-        communication_.get()->communicate(discretization_.get()->u(), "u");
-        communication_.get()->communicate(discretization_.get()->v(), "v");
-        t += dt_;
-        //cout << "Writing paraview" << endl;
-        outputWriterParaview_.get()->writeFile(t);
-        outputWriterText_.get()->writeFile(t);
-        cout << partitioning_.getRank() << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: "
-             << endl;
-    }
-
-
-}
-
 void ComputationParallel::initialize(int argc, char **argv) {
     array<int, 2> nCellsBoundary = {partitioning_.getNCells()[0] + 2,
                                     partitioning_.getNCells()[1] + 2};
@@ -96,15 +62,55 @@ void ComputationParallel::initialize(int argc, char **argv) {
     communication_ = make_shared<Communication>(make_shared<Partitioning>(partitioning_), discretization_);
 
     //initialize explicit pressureSolver
-    SOR pSolver(discretization_, communication_, partitioning_, settings_.epsilon,
-                        settings_.maximumNumberOfIterations);
-    pressureSolver_ = make_unique<SOR>(pSolver);
+    //if (settings_.pressureSolver == "SOR"){
+        SOR pSolver(discretization_, communication_, partitioning_, settings_.epsilon, settings_.maximumNumberOfIterations);
+       pressureSolver_ = make_unique<SOR>(pSolver);
+    //} else {
+    //    GaussSeidel pSolver(discretization_, communication_, partitioning_, settings_.epsilon, settings_.maximumNumberOfIterations);
+    //    pressureSolver_ = make_unique<GaussSeidel>(pSolver);
+    
+    //}
+
     //initialize outputWriters
     OutputWriterTextParallel outText(discretization_, partitioning_);
     outputWriterText_ = make_unique<OutputWriterTextParallel>(outText);
 
     OutputWriterParaviewParallel outputWriterParaviewParallel(discretization_, partitioning_);
     outputWriterParaview_ = make_unique<OutputWriterParaviewParallel>(outputWriterParaviewParallel);
+}
+
+void ComputationParallel::runSimulation() {
+    double t = 0;
+
+    applyBoundaryValues();
+
+    cout << "Starting Simulation" << endl;
+    outputWriterParaview_.get()->writeFile(t);
+    outputWriterText_.get()->writeFile(t);
+    while (t < settings_.endTime) {
+        computeTimeStepWidth();
+        applyBoundaryValues();
+        PreliminaryVelocities();
+        //cout << "Communicating f&g" << endl;
+        communication_.get()->communicate(discretization_.get()->f(), "f");
+        communication_.get()->communicate(discretization_.get()->g(), "g");
+        computeRightHandSide();
+        //cout << "Computing p" << endl;
+        computePressure();
+        //cout << "Computing u&v" << endl;
+        computeVelocities();
+        //cout << "Communicating u&v" << endl;
+        communication_.get()->communicate(discretization_.get()->u(), "u");
+        communication_.get()->communicate(discretization_.get()->v(), "v");
+        t += dt_;
+        //cout << "Writing paraview" << endl;
+        outputWriterParaview_.get()->writeFile(t);
+        outputWriterText_.get()->writeFile(t);
+        cout << partitioning_.getRank() << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: "
+             << endl;
+    }
+
+
 }
 
 
@@ -127,18 +133,27 @@ void ComputationParallel::computeTimeStepWidth() {
     }
     double condition_diffusion = pow(discretization_.get()->dx(), 2) * pow(discretization_.get()->dy(), 2) /
                                  (pow(discretization_.get()->dx(), 2) + pow(discretization_.get()->dy(), 2)) *
-                                 settings_.re /
-                                 2;
-    double condition_convection1 = discretization_.get()->dx() / uMaximum;
-    double condition_convection2 = discretization_.get()->dy() / vMaximum;
-
+                                 settings_.re / 2;
+    double condition_convection1 = discretization_.get()->dx() / abs(uMaximum);
+    double condition_convection2 = discretization_.get()->dy() / abs(vMaximum);
+    std::cout << partitioning_.getRank() << "|condition_convection1 " << condition_convection1 << std::endl;
+    std::cout << partitioning_.getRank() << "|condition_convection2 " << condition_convection2 << std::endl;
+    std::cout << partitioning_.getRank() << "|condition_diffusion " << condition_diffusion << std::endl;
+    std::cout << partitioning_.getRank() << "|settings_.maximumDt " << settings_.maximumDt << std::endl;
+    
     dt_ = min(condition_convection1, condition_convection2);
+    std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
     dt_ = min(condition_diffusion, dt_);
+    std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
     dt_ = min(settings_.maximumDt, dt_) * settings_.tau;
+    std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
 
     MPI_Allreduce(&dt_, &dtAll_, 1, MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
     dt_ = dtAll_;
-
+    std::cout << partitioning_.getRank() << "| finales dt_" << dt_ << std::endl;
+//TODO Warum ist dt nicht konstant bei 0.05??
+//TODO pressure ist viel zu klein!
+//TODO jetzt: v zurückverfolgen, da tritt der Fehler offensichtlich auf.
 }
 
 void ComputationParallel::applyBoundaryValues() {

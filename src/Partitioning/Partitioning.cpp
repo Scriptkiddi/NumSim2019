@@ -19,6 +19,10 @@ Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> phys
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+    std::cout << "test" << std::endl;
+
+    double dx = physicalSize[0] / nCells[0];
+    double dy = physicalSize[1] / nCells[1];
 
     int x = nCells[0];
     int y = nCells[1];
@@ -52,8 +56,6 @@ Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> phys
         numberY = possibilities[index][0];
     }
     std::cout << "Split for processors " << numberX << " x " << numberY << std::endl;
-    physicalSize_[0] = physicalSize[0]/numberX;
-    physicalSize_[1] = physicalSize[1]/numberY;
     
     // Determine if special case (Left border, bottom, ...)
     rankRight = rank + 1;
@@ -86,6 +88,10 @@ Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> phys
     }
     nodeOffset_[1] = floor(rank / numberX)  * floor(nCells[1] / numberY) ;
     std::cout << rank << " | nCells " << nCellsLocal[0] << " x " << nCellsLocal[1] << std::endl;
+
+    physicalSize_[0] = dx * nCellsLocal[0]; // physicalSize[0]/numberX;
+    physicalSize_[1] = dy * nCellsLocal[1]; // physicalSize[1]/numberY;
+    std::cout << "test2" << std::endl;
 }
 
 int Partitioning::getRank() {
@@ -109,7 +115,7 @@ int Partitioning::getRankOfTopNeighbour() {
 }
 
 std::array<int, 2> Partitioning::getNCells() {
-    return nCellsLocal;;
+    return nCellsLocal;
 }
 
 

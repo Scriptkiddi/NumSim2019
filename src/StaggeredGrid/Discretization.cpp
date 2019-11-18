@@ -7,7 +7,7 @@
 #include <math.h>
 
 Discretization::Discretization(std::array<int, 2> nCells, std::array<double, 2> meshWidth,std::shared_ptr<Partitioning> partitioning, FieldVariable u,
-                               FieldVariable v, FieldVariable f, FieldVariable g, FieldVariable p, FieldVariable rhs)
+                               FieldVariable v, FieldVariable p, FieldVariable f, FieldVariable g, FieldVariable rhs)
         : StaggeredGrid(nCells,
                         meshWidth,
                         partitioning,
