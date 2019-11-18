@@ -73,8 +73,6 @@ Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> phys
     if (rank % numberX == 0) { // Left Border
         rankLeft = -1;
     }
-
-
     if (rankRight != -1) {
         nCellsLocal[0] = floor(nCells[0] / numberX);
     } else {

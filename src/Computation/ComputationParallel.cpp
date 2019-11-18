@@ -55,13 +55,9 @@ void ComputationParallel::initialize(int argc, char **argv) {
                                     partitioning_.getNCells()[1] + 2};
 
     //initialize meshWidth
-    //meshWidth_[0] = settings_.physicalSize[0] /
-    //                (nCellsBoundary[0] - 2);
-    //meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1] - 2);
     meshWidth_ = partitioning_.getMeshWidth();
 
     //init grid
-
     int nX = partitioning_.getNCells()[0];
     int nY = partitioning_.getNCells()[1];
 
