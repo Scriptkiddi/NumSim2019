@@ -21,14 +21,14 @@ void GaussSeidel::solve() {
                     * std::pow(discretization_.get()->dx(), 2) * std::pow(discretization_.get()->dy(), 2)
                     / (std::pow(discretization_.get()->dx(), 2) + std::pow(discretization_.get()->dy(), 2));
     setBoundaryValues();
+    int decision = (partitioning.nodeOffset()[0] + partitioning.nodeOffset()[1]) % 2;
+
     while (iter < maximumNumberOfIterations_ && eps > pow(epsilon_, 2)) {
 
         // first iteration over "red" values
-        int decision = (partitioning.nodeOffset()[0] + partitioning.nodeOffset()[1]) % 2;
-
+        
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-            for (int i = discretization_.get()->pIBegin() + (j % 2 + decision) % 2;
-                 i <= discretization_.get()->pIEnd(); i += 2) {
+            for (int i = discretization_.get()->pIBegin() ;i <= discretization_.get()->pIEnd(); i += 1) {
                 discretization_.get()->p(i, j) = factor
                                                  * ((discretization_.get()->p(i - 1, j) +
                                                      discretization_.get()->p(i + 1, j))
@@ -44,7 +44,7 @@ void GaussSeidel::solve() {
         setBoundaryValues();
 
         // second iteration over "black" values
-        for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+/*        for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
             for (int i = discretization_.get()->pIBegin() + 1 - (j % 2 + decision) % 2;
                  i <= discretization_.get()->pIEnd(); i += 2) {
                 discretization_.get()->p(i, j) = factor
@@ -61,7 +61,7 @@ void GaussSeidel::solve() {
         //std::cout << "Communicating p2" << std::endl;
         communication_.get()->communicate(discretization_.get()->p(), "p");
         setBoundaryValues();
-
+*/
         // local residual
         eps = 0;
         epsAll = 0;

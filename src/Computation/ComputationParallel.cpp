@@ -37,8 +37,8 @@ void ComputationParallel::runSimulation() {
         //cout << "Computing u&v" << endl;
         computeVelocities();
         //cout << "Communicating u&v" << endl;
-        //communication_.get()->communicate(discretization_.get()->u(), "u");
-        //communication_.get()->communicate(discretization_.get()->v(), "v");
+        communication_.get()->communicate(discretization_.get()->u(), "u");
+        communication_.get()->communicate(discretization_.get()->v(), "v");
         t += dt_;
         //cout << "Writing paraview" << endl;
         outputWriterParaview_.get()->writeFile(t);

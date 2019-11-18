@@ -44,7 +44,7 @@ Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> phys
     }
     int numberX;
     int numberY;
-    if (possibilities[index][0] > possibilities[index][1] &&nCells[0] > nCells[1] || possibilities[index][0] < possibilities[index][1] &&nCells[0] < nCells[1]){
+    if ((possibilities[index][0] > possibilities[index][1] &&nCells[0] > nCells[1]) || (possibilities[index][0] < possibilities[index][1] &&nCells[0] < nCells[1])){
         numberX = possibilities[index][0];
         numberY = possibilities[index][1];
     }else{
@@ -54,7 +54,7 @@ Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> phys
     std::cout << "Split for processors " << numberX << " x " << numberY << std::endl;
     physicalSize_[0] = physicalSize[0]/numberX;
     physicalSize_[1] = physicalSize[1]/numberY;
-
+    
     // Determine if special case (Left border, bottom, ...)
     rankRight = rank + 1;
     rankLeft = rank - 1;
