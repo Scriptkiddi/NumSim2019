@@ -8,7 +8,7 @@
 
 GaussSeidel::GaussSeidel(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication,
                          Partitioning partitioning, double epsilon, int maximumNumberOfIterations) :
-        PressureSolver(discretization, communication, epsilon, maximumNumberOfIterations, partitioning),  {
+        PressureSolver(discretization, communication, epsilon, maximumNumberOfIterations, partitioning)  {
 }
 
 

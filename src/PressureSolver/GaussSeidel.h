@@ -18,8 +18,6 @@ public:
 
 private:
     double omega;
-
-    void setBoundaryValues();
 };
 
 
