@@ -8,6 +8,7 @@
 #include <Communication.h>
 #include "ComputationParallel.h"
 #include <PressureSolver/GaussSeidel.h>
+#include <PressureSolver/SOR.h>
 
 
 ComputationParallel::ComputationParallel(std::string settingsFilename) : Computation(settingsFilename),
@@ -95,9 +96,9 @@ void ComputationParallel::initialize(int argc, char **argv) {
     communication_ = make_shared<Communication>(make_shared<Partitioning>(partitioning_), discretization_);
 
     //initialize explicit pressureSolver
-    GaussSeidel pSolver(discretization_, communication_, partitioning_, settings_.epsilon,
+    SOR pSolver(discretization_, communication_, partitioning_, settings_.epsilon,
                         settings_.maximumNumberOfIterations);
-    pressureSolver_ = make_unique<GaussSeidel>(pSolver);
+    pressureSolver_ = make_unique<SOR>(pSolver);
     //initialize outputWriters
     OutputWriterTextParallel outText(discretization_, partitioning_);
     outputWriterText_ = make_unique<OutputWriterTextParallel>(outText);
