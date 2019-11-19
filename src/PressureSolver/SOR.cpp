@@ -8,7 +8,7 @@
 
 SOR::SOR(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication,
          Partitioning partitioning, double epsilon, int maximumNumberOfIterations, double omega) :
-        PressureSolver(discretization, communication, epsilon, maximumNumberOfIterations, partitioning),
+        PressureSolver(discretization, communication, partitioning, epsilon, maximumNumberOfIterations),
         omega(omega) {
 
 }
@@ -27,7 +27,7 @@ void SOR::solve() {
     while (iter < maximumNumberOfIterations_ && eps > pow(epsilon_, 2)) {
         // first iteration over "red" values
 
-        //std::cout << "i1 " << discretization_.get()->pIBegin() + (discretization_.get()->pJBegin() % 2 + decision) % 2 << std::endl;
+        //std::cout << "i1 " << discretization_.get()->dx() << std::endl;
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
             for (int i = discretization_.get()->pIBegin() + (j % 2 + decision) % 2;
                  i <= discretization_.get()->pIEnd(); i += 2) {
@@ -46,7 +46,7 @@ void SOR::solve() {
         }
         // communication of new "red" values
         communication_.get()->communicate(discretization_.get()->p(), "p");
-        setBoundaryValues();
+        //setBoundaryValues();
 
 
         //std::cout << "i2 " << discretization_.get()->pIBegin() + 1 - (discretization_.get()->pJBegin() % 2 + decision) % 2 << std::endl;
@@ -67,6 +67,7 @@ void SOR::solve() {
                         discretization_.get()->rhs(i, j));
             }
         }
+        
         // communication over new "black" values
         //std::cout << "Communicating p2" << std::endl;
         //setBoundaryValues();
@@ -91,7 +92,6 @@ void SOR::solve() {
         MPI_Allreduce(&eps, &epsAll, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         eps = epsAll / (partitioning.nCellsGlobal()[0] * partitioning.nCellsGlobal()[1]);
         iter++;
-        //setBoundaryValues();
     }
     std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epsilon² " << pow(epsilon_,2) <<std::endl;
     setBoundaryValues();

@@ -145,5 +145,6 @@ std::array<int, 2> Partitioning::nodeOffset() {
 }
 
 std::array<double, 2> Partitioning::getMeshWidth() {
-    return {physicalSize_[0]/getNCells()[0], physicalSize_[1]/getNCells()[1]};
+    return {physicalSize_[0]/(getNCells()[0]+2), physicalSize_[1]/(getNCells()[1]+2)};
+//    return {physicalSize_[0]/(getNCells()[0]), physicalSize_[1]/(getNCells()[1])};
 }

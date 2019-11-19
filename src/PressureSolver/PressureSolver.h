@@ -11,8 +11,8 @@
 class PressureSolver {
 public:
 
-    PressureSolver(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication,
-                   double epsilon, int maximumNumberOfIterations, Partitioning partitioning);
+    PressureSolver(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication, Partitioning partitioning,
+                   double epsilon, int maximumNumberOfIterations);
 
     virtual void solve() = 0;
 
