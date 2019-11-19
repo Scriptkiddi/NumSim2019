@@ -81,7 +81,7 @@ void GaussSeidel::solve() {
         eps = epsAll / (partitioning.nCellsGlobal()[0] * partitioning.nCellsGlobal()[1]);
         iter++;
     }
-    std::cout << partitioning.getRank() <<  "|pressure solver iterations: " << iter << " eps :" << eps << " epsilon² " << pow(epsilon_, 2)
+    std::cout << partitioning.getRank() <<  "|pressure solver iterations: " << iter << " eps: " << eps << " epsilon²: " << pow(epsilon_, 2)
               << std::endl;
     setBoundaryValues();
 }

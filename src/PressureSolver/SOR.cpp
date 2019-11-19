@@ -20,12 +20,12 @@ void SOR::solve() {
     setBoundaryValues();
     while (iter < maximumNumberOfIterations_ && eps > pow(epsilon_, 2)) {
         // first iteration over "red" values
-        int decision = (partitioning.nodeOffset()[0] + partitioning.nodeOffset()[1]) % 2;
+        //int decision = (partitioning.nodeOffset()[0] + partitioning.nodeOffset()[1]) % 2;
 
         //std::cout << "i1 " << discretization_.get()->pIBegin() + (discretization_.get()->pJBegin() % 2 + decision) % 2 << std::endl;
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-            for (int i = discretization_.get()->pIBegin() + (j % 2 + decision) % 2;
-                 i <= discretization_.get()->pIEnd(); i += 2) {
+            for (int i = discretization_.get()->pIBegin();// + (j % 2 + decision) % 2;
+                 i <= discretization_.get()->pIEnd(); i ++){//}= 2) {
                 discretization_.get()->p(i, j) = (1 - omega) *
                 discretization_.get()->p(i, j) +
                 omega *
@@ -49,12 +49,12 @@ void SOR::solve() {
         }
         // communication of new "red" values
         communication_.get()->communicate(discretization_.get()->p(), "p");
-        setBoundaryValues();
+        //setBoundaryValues();
 
 
         //std::cout << "i2 " << discretization_.get()->pIBegin() + 1 - (discretization_.get()->pJBegin() % 2 + decision) % 2 << std::endl;
         // second iteration over "black" values
-        for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        /*for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
             for (int i = discretization_.get()->pIBegin() + 1 - (j % 2 + decision) % 2;
                  i <= discretization_.get()->pIEnd(); i += 2) {
                 discretization_.get()->p(i, j) = (1 - omega) *
@@ -77,11 +77,12 @@ void SOR::solve() {
                         discretization_.get()->rhs(i, j));
             }
         }
+        */
         // communication over new "black" values
         //std::cout << "Communicating p2" << std::endl;
         //setBoundaryValues();
         communication_.get()->communicate(discretization_.get()->p(), "p");
-        setBoundaryValues();
+        //setBoundaryValues();
 
         // local residual
         eps = 0;
@@ -101,7 +102,7 @@ void SOR::solve() {
         MPI_Allreduce(&eps, &epsAll, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         eps = epsAll / (partitioning.nCellsGlobal()[0] * partitioning.nCellsGlobal()[1]);
         iter++;
-        setBoundaryValues();
+        //setBoundaryValues();
     }
     std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epsilon² " << pow(epsilon_,2) <<std::endl;
     setBoundaryValues();

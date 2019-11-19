@@ -136,22 +136,22 @@ void ComputationParallel::computeTimeStepWidth() {
                                  settings_.re / 2;
     double condition_convection1 = discretization_.get()->dx() / abs(uMaximum);
     double condition_convection2 = discretization_.get()->dy() / abs(vMaximum);
-    std::cout << partitioning_.getRank() << "|condition_convection1 " << condition_convection1 << std::endl;
-    std::cout << partitioning_.getRank() << "|condition_convection2 " << condition_convection2 << std::endl;
-    std::cout << partitioning_.getRank() << "|condition_diffusion " << condition_diffusion << std::endl;
-    std::cout << partitioning_.getRank() << "|settings_.maximumDt " << settings_.maximumDt << std::endl;
+    //std::cout << partitioning_.getRank() << "|condition_convection1 " << condition_convection1 << std::endl;
+    //std::cout << partitioning_.getRank() << "|condition_convection2 " << condition_convection2 << std::endl;
+    //std::cout << partitioning_.getRank() << "|condition_diffusion " << condition_diffusion << std::endl;
+    //std::cout << partitioning_.getRank() << "|settings_.maximumDt " << settings_.maximumDt << std::endl;
     
     dt_ = min(condition_convection1, condition_convection2);
-    std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
+    //std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
     dt_ = min(condition_diffusion, dt_);
-    std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
+    //std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
     dt_ = min(settings_.maximumDt, dt_) * settings_.tau;
-    std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
+    //std::cout << partitioning_.getRank() << "|dt_" << dt_ << std::endl;
 
     MPI_Allreduce(&dt_, &dtAll_, 1, MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
     dt_ = dtAll_;
-    std::cout << partitioning_.getRank() << "| finales dt_" << dt_ << std::endl;
-//TODO Warum ist dt nicht konstant bei 0.05??
+    //std::cout << partitioning_.getRank() << "| finales dt_" << dt_ << std::endl;
+
 //TODO pressure ist viel zu klein!
 //TODO jetzt: v zurückverfolgen, da tritt der Fehler offensichtlich auf.
 }

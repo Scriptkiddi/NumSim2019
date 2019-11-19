@@ -24,8 +24,6 @@ public:
     std::array<double, 2> getMeshWidth();
     int ownRankNo();
 
-
-
     std::array<int, 2> nodeOffset();
 
 private:
