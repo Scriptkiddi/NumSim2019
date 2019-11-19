@@ -54,22 +54,25 @@ void ComputationParallel::initialize(int argc, char **argv) {
         CentralDifferences grid(nCellsBoundary, meshWidth_, make_shared<Partitioning>(partitioning_), u, v, p, f, g,
                                 rhs);
         discretization_ = make_shared<CentralDifferences>(grid);
+        std::cout << "use Central Differences" << std::endl;
     } else {
         DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha, make_shared<Partitioning>(partitioning_), u, v, p,
                        f, g, rhs);
         discretization_ = make_shared<DonorCell>(grid);
+        std::cout << "use Donor Cell" << std::endl;
     }
     communication_ = make_shared<Communication>(make_shared<Partitioning>(partitioning_), discretization_);
 
     //initialize explicit pressureSolver
-    //if (settings_.pressureSolver == "SOR"){
-        SOR pSolver(discretization_, communication_, partitioning_, settings_.epsilon, settings_.maximumNumberOfIterations);
+    if (settings_.pressureSolver == "SOR"){
+        SOR pSolver(discretization_, communication_, partitioning_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
        pressureSolver_ = make_unique<SOR>(pSolver);
-    //} else {
-    //    GaussSeidel pSolver(discretization_, communication_, partitioning_, settings_.epsilon, settings_.maximumNumberOfIterations);
-    //    pressureSolver_ = make_unique<GaussSeidel>(pSolver);
-    
-    //}
+       std::cout << "Pressuresolver = SOR" << std::endl;
+    } else {
+        GaussSeidel pSolver(discretization_, communication_, partitioning_, settings_.epsilon, settings_.maximumNumberOfIterations);
+        pressureSolver_ = make_unique<GaussSeidel>(pSolver);
+        std::cout << "Pressuresolver = GaussSeidel" << std::endl;
+    }
 
     //initialize outputWriters
     OutputWriterTextParallel outText(discretization_, partitioning_);

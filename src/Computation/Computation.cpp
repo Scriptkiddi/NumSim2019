@@ -19,14 +19,14 @@ Computation::Computation (string settingsFilename){
 }
 
 void Computation::initialize(int argc, char **argv) {
-    std::cout << "Running with" << argv[0] << std::endl;
+/*  std::cout << "Running with" << argv[0] << std::endl;
     array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
 
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] /
                     (nCellsBoundary[0]-2);
     meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]-2);
-
+*/
     //initialize discretization
     //if (!settings_.useDonorCell) {
     //    CentralDifferences grid(nCellsBoundary, meshWidth_);

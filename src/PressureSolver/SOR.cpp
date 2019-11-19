@@ -7,8 +7,8 @@
 #include <iostream>
 
 SOR::SOR(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication,
-         Partitioning partitioning, double epsilon, int maximumNumberOfIterations) :
-        PressureSolver(discretization, communication, epsilon, maximumNumberOfIterations, partitioning),
+         Partitioning partitioning, double epsilon, int maximumNumberOfIterations, double omega) :
+        PressureSolver(discretization, communication, partitioning, epsilon, maximumNumberOfIterations),
         omega(omega) {
 
 }
@@ -20,12 +20,12 @@ void SOR::solve() {
     setBoundaryValues();
     while (iter < maximumNumberOfIterations_ && eps > pow(epsilon_, 2)) {
         // first iteration over "red" values
-        //int decision = (partitioning.nodeOffset()[0] + partitioning.nodeOffset()[1]) % 2;
+        int decision = (partitioning.nodeOffset()[0] + partitioning.nodeOffset()[1]) % 2;
 
-        //std::cout << "i1 " << discretization_.get()->pIBegin() + (discretization_.get()->pJBegin() % 2 + decision) % 2 << std::endl;
+        //std::cout << "i1 " << discretization_.get()->dx() << std::endl;
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-            for (int i = discretization_.get()->pIBegin();// + (j % 2 + decision) % 2;
-                 i <= discretization_.get()->pIEnd(); i ++){//}= 2) {
+            for (int i = discretization_.get()->pIBegin() + (j % 2 + decision) % 2;
+                 i <= discretization_.get()->pIEnd(); i += 2) {
                 discretization_.get()->p(i, j) = (1 - omega) *
                 discretization_.get()->p(i, j) +
                 omega *
@@ -54,7 +54,7 @@ void SOR::solve() {
 
         //std::cout << "i2 " << discretization_.get()->pIBegin() + 1 - (discretization_.get()->pJBegin() % 2 + decision) % 2 << std::endl;
         // second iteration over "black" values
-        /*for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
             for (int i = discretization_.get()->pIBegin() + 1 - (j % 2 + decision) % 2;
                  i <= discretization_.get()->pIEnd(); i += 2) {
                 discretization_.get()->p(i, j) = (1 - omega) *
@@ -77,7 +77,7 @@ void SOR::solve() {
                         discretization_.get()->rhs(i, j));
             }
         }
-        */
+        
         // communication over new "black" values
         //std::cout << "Communicating p2" << std::endl;
         //setBoundaryValues();

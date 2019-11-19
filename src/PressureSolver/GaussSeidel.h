@@ -16,8 +16,8 @@ public:
 
     void solve() override;
 
-private:
-    double omega;
+//private:
+//    double omega;
 };
 
 
