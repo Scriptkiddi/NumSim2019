@@ -11,7 +11,7 @@ class SOR : public PressureSolver {
 public:
 
     SOR(std::shared_ptr<Discretization> discretization, std::shared_ptr<Communication> communication,
-        Partitioning partitioning, double epsilon, int maximumNumberOfIterations);
+        Partitioning partitioning, double epsilon, int maximumNumberOfIterations, double omega);
 
     void solve() override;
 

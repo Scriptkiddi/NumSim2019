@@ -91,7 +91,11 @@ int StaggeredGrid::uIBegin() const {
 }
 
 int StaggeredGrid::uIEnd() const {
-    return nCells_[0] - 2;
+    if (partition_.get()->getRankOfLeftNeighbour() == -1){
+        return nCells_[0] - 3;
+    }else{
+        return nCells_[0] - 2;
+    }
 }
 
 int StaggeredGrid::uJBegin() const {
@@ -120,7 +124,11 @@ int StaggeredGrid::vJBegin() const {
 }
 
 int StaggeredGrid::vJEnd() const {
-    return nCells_[1] - 2;
+    if(partition_.get()->getRankOfBottomNeighbour() == -1){
+        return nCells_[1] -3;
+    }else{
+        return nCells_[1] - 2;
+    }
 }
 
 int StaggeredGrid::pIBegin() const {

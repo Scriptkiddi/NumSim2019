@@ -10,7 +10,8 @@ PressureSolver::PressureSolver(std::shared_ptr<Discretization> discretization,st
         discretization_(discretization),
         communication_(communication),
         epsilon_(epsilon),
-        maximumNumberOfIterations_(maximumNumberOfIterations),partitioning(partitioning) {
+        maximumNumberOfIterations_(maximumNumberOfIterations),
+        partitioning(partitioning) {
 
 }
 
