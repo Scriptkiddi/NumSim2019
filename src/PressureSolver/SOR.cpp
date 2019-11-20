@@ -46,7 +46,7 @@ void SOR::solve() {
         }
         // communication of new "red" values
         communication_.get()->communicate(discretization_.get()->p(), "p");
-        //setBoundaryValues();
+        setBoundaryValues();
 
 
         //std::cout << "i2 " << discretization_.get()->pIBegin() + 1 - (discretization_.get()->pJBegin() % 2 + decision) % 2 << std::endl;

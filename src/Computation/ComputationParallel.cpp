@@ -28,25 +28,27 @@ void ComputationParallel::initialize(int argc, char **argv) {
     int nX = partitioning_.getNCells()[0];
     int nY = partitioning_.getNCells()[1];
 
+    int nUX;
+    int nVY;
 
-    FieldVariable u = FieldVariable({nX + 2, nY + 2}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable v = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0 * meshWidth_[1]}, meshWidth_);
     if (partitioning_.getRankOfLeftNeighbour() == -1) {
-        FieldVariable u = FieldVariable({nX + 1, nY + 2}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+        nUX = nX + 1;
+    }else{
+        nUX = nX + 2;
     }
     if (partitioning_.getRankOfBottomNeighbour() == -1) {
-        FieldVariable v = FieldVariable({nX + 2, nY + 1}, {-0.5 * meshWidth_[0], 0 * meshWidth_[1]}, meshWidth_);
+        nVY = nY + 1;
     }
+    else{
+        nVY = nY + 2;
+    }
+    
+    FieldVariable u = FieldVariable({nUX, nY + 2}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable f = FieldVariable({nUX, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable v = FieldVariable({nX + 2, nVY}, {-0.5 * meshWidth_[0], 0 * meshWidth_[1]}, meshWidth_);
+    FieldVariable g = FieldVariable({nX + 2, nVY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     FieldVariable p = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
     FieldVariable rhs = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable f = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable g = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    if (partitioning_.getRankOfLeftNeighbour() == -1) {
-        FieldVariable f = FieldVariable({nX + 1, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    }
-    if (partitioning_.getRankOfBottomNeighbour() == -1) {
-        FieldVariable g = FieldVariable({nX + 2, nY + 1}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    }
 
 
     //initialize discretization

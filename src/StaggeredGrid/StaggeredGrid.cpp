@@ -91,11 +91,13 @@ int StaggeredGrid::uIBegin() const {
 }
 
 int StaggeredGrid::uIEnd() const {
+    return u_.size()[0] - 2;
+    /*
     if (partition_.get()->getRankOfLeftNeighbour() == -1){
         return nCells_[0] - 3;
     }else{
         return nCells_[0] - 2;
-    }
+    }*/
 }
 
 int StaggeredGrid::uJBegin() const {
@@ -103,7 +105,8 @@ int StaggeredGrid::uJBegin() const {
 }
 
 int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
-    return nCells_[1] - 2;
+    return u_.size()[1] -2;
+    //return nCells_[1] - 2;
 }
 
 int StaggeredGrid::vIBegin() const {
@@ -111,7 +114,8 @@ int StaggeredGrid::vIBegin() const {
 }
 
 int StaggeredGrid::vIEnd() const {
-    return nCells_[0] - 2;
+    return v_.size()[0] - 2;
+    //return nCells_[0] - 2;
 }
 
 int StaggeredGrid::vJBegin() const {
@@ -124,11 +128,13 @@ int StaggeredGrid::vJBegin() const {
 }
 
 int StaggeredGrid::vJEnd() const {
+    return v_.size()[1] - 2;
+    /*
     if(partition_.get()->getRankOfBottomNeighbour() == -1){
         return nCells_[1] -3;
     }else{
         return nCells_[1] - 2;
-    }
+    }*/
 }
 
 int StaggeredGrid::pIBegin() const {
@@ -136,7 +142,8 @@ int StaggeredGrid::pIBegin() const {
 }
 
 int StaggeredGrid::pIEnd() const {
-    return nCells_[0] - 2;
+    return p_.size()[0] - 2;
+    //return nCells_[0] - 2;
 }
 
 int StaggeredGrid::pJBegin() const {
@@ -144,5 +151,6 @@ int StaggeredGrid::pJBegin() const {
 }
 
 int StaggeredGrid::pJEnd() const {
-    return nCells_[1] - 2;
+    return p_.size()[1] - 2;
+    //return nCells_[1] - 2;
 }

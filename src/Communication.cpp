@@ -31,10 +31,10 @@ void Communication::communicate(FieldVariable variable, std::string type) {
     // 1 is bottom
     // 2 is left
     // 3 is right
-    sendBuffers[0] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
-    sendBuffers[1] = std::vector<double>(partitioning_.get()->getNCells()[0]+2);
-    sendBuffers[2] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
-    sendBuffers[3] = std::vector<double>(partitioning_.get()->getNCells()[1]+2);
+    sendBuffers[0] = std::vector<double>(variable.size()[0]);
+    sendBuffers[1] = std::vector<double>(variable.size()[0]);
+    sendBuffers[2] = std::vector<double>(variable.size()[1]);
+    sendBuffers[3] = std::vector<double>(variable.size()[1]);
     if (type == "p") {
         for (int i = 0; i < sendBuffers[0].size(); i++) {
             sendBuffers[0][i] = variable.operator()(i,
