@@ -34,6 +34,8 @@ void ComputationParallel::initialize(int argc, char **argv) {
     int nPY;
     int nUY;
     int nVY;
+    double offsetX = 0;
+    double offsetY = 0;
 
     if (partitioning_.getRankOfLeftNeighbour() == -1) {
         nUX = nX + 1;
@@ -43,6 +45,7 @@ void ComputationParallel::initialize(int argc, char **argv) {
         nUX = nX + 2;
         nVX = nX + 3;
         nPX = nX + 3;
+        offsetX = -meshWidth_[0];
     }
     if (partitioning_.getRankOfBottomNeighbour() == -1) {
         nUY = nY + 2;
@@ -53,14 +56,15 @@ void ComputationParallel::initialize(int argc, char **argv) {
         nUY = nY + 3;
         nVY = nY + 2;
         nPY = nY + 3;
+        offsetY = -meshWidth_[1];
     }
     
-    FieldVariable u = FieldVariable({nUX, nUY}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable f = FieldVariable({nUX, nUY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable v = FieldVariable({nVX, nVY}, {-0.5 * meshWidth_[0], 0 * meshWidth_[1]}, meshWidth_);
-    FieldVariable g = FieldVariable({nVX, nVY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable p = FieldVariable({nPX, nPY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable rhs = FieldVariable({nPX, nPY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable u = FieldVariable({nUX, nUY}, {0 * meshWidth_[0] + offsetX, -0.5 * meshWidth_[1] + offsetY}, meshWidth_);
+    FieldVariable f = FieldVariable({nUX, nUY}, {-0.5 * meshWidth_[0]+ offsetX, -0.5 * meshWidth_[1] + offsetY}, meshWidth_);
+    FieldVariable v = FieldVariable({nVX, nVY}, {-0.5 * meshWidth_[0]+ offsetX, 0 * meshWidth_[1] + offsetY}, meshWidth_);
+    FieldVariable g = FieldVariable({nVX, nVY}, {-0.5 * meshWidth_[0]+ offsetX, -0.5 * meshWidth_[1] + offsetY}, meshWidth_);
+    FieldVariable p = FieldVariable({nPX, nPY}, {-0.5 * meshWidth_[0]+ offsetX, -0.5 * meshWidth_[1] + offsetY}, meshWidth_);
+    FieldVariable rhs = FieldVariable({nPX, nPY}, {-0.5 * meshWidth_[0]+ offsetX, -0.5 * meshWidth_[1] + offsetY}, meshWidth_);
 
     std::cout << partitioning_.getRank() <<"| u(" << u.size()[0] << "," << u.size()[1] << ")" << std::endl;
     std::cout << partitioning_.getRank() <<"| v(" << v.size()[0] << "," << v.size()[1] << ")" << std::endl;
@@ -132,10 +136,10 @@ void ComputationParallel::runSimulation() {
             counter = 0;
             cout << "Writing paraview timestep: "<< t << endl;
             outputWriterParaview_.get()->writeFile(t);
-            outputWriterText_.get()->writeFile(t);
+        //    outputWriterText_.get()->writeFile(t);
         }
-        cout << partitioning_.getRank() << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: "
-             << endl;
+        //cout << partitioning_.getRank() << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: "
+        //     << endl;
 
     }
 
