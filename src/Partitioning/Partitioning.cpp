@@ -13,7 +13,9 @@
 
 // Partitions are numbered from left to right starting with 0. After a line is finished you start for the next line again from the left side
 
-Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> physicalSize): nCellsGlobal_(nCells){
+Partitioning::Partitioning(std::array<int, 2> nCells, std::array<double, 2> physicalSize): 
+                            nCellsGlobal_(nCells),
+                            physicalSizeGlobal_(physicalSize){
 
     //Determine partition
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -145,6 +147,6 @@ std::array<int, 2> Partitioning::nodeOffset() {
 }
 
 std::array<double, 2> Partitioning::getMeshWidth() {
-    return {physicalSize_[0]/(getNCells()[0]+2), physicalSize_[1]/(getNCells()[1]+2)};
+    return {physicalSizeGlobal_[0]/nCellsGlobal_[0], physicalSizeGlobal_[1]/nCellsGlobal_[1]};
 //    return {physicalSize_[0]/(getNCells()[0]), physicalSize_[1]/(getNCells()[1])};
 }

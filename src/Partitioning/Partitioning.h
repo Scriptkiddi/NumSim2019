@@ -37,7 +37,7 @@ private:
     const std::array<int,2> nCellsGlobal_;
     std::array<int,2> nodeOffset_;
     std::array<double,2> physicalSize_;
-
+    std::array<double,2> physicalSizeGlobal_;
 
 };
 
