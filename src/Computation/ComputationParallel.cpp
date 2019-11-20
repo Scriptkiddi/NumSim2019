@@ -90,6 +90,7 @@ void ComputationParallel::runSimulation() {
     cout << "Starting Simulation" << endl;
     outputWriterParaview_.get()->writeFile(t);
     outputWriterText_.get()->writeFile(t);
+    double counter = 0;
     while (t < settings_.endTime) {
         computeTimeStepWidth();
         applyBoundaryValues();
@@ -106,11 +107,16 @@ void ComputationParallel::runSimulation() {
         communication_.get()->communicate(discretization_.get()->u(), "u");
         communication_.get()->communicate(discretization_.get()->v(), "v");
         t += dt_;
-        //cout << "Writing paraview" << endl;
-        outputWriterParaview_.get()->writeFile(t);
-        outputWriterText_.get()->writeFile(t);
+        counter += dt_;
+        if (counter >= 1){
+            counter = 0;
+            cout << "Writing paraview timestep: "<< t << endl;
+            outputWriterParaview_.get()->writeFile(t);
+            outputWriterText_.get()->writeFile(t);
+        }
         cout << partitioning_.getRank() << "|current time: " << t << " dt: " << dt_ << " pressure solver iterations: "
              << endl;
+
     }
 
 
