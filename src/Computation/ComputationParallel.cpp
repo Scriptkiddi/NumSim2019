@@ -29,27 +29,45 @@ void ComputationParallel::initialize(int argc, char **argv) {
     int nY = partitioning_.getNCells()[1];
 
     int nUX;
+    int nVX;
+    int nPX;
+    int nPY;
+    int nUY;
     int nVY;
 
     if (partitioning_.getRankOfLeftNeighbour() == -1) {
         nUX = nX + 1;
+        nVX = nX + 2;
+        nPX = nX + 2;
     }else{
         nUX = nX + 2;
+        nVX = nX + 3;
+        nPX = nX + 3;
     }
     if (partitioning_.getRankOfBottomNeighbour() == -1) {
+        nUY = nY + 2;
         nVY = nY + 1;
+        nPY = nY + 2;
     }
     else{
+        nUY = nY + 3;
         nVY = nY + 2;
+        nPY = nY + 3;
     }
     
-    FieldVariable u = FieldVariable({nUX, nY + 2}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable f = FieldVariable({nUX, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable v = FieldVariable({nX + 2, nVY}, {-0.5 * meshWidth_[0], 0 * meshWidth_[1]}, meshWidth_);
-    FieldVariable g = FieldVariable({nX + 2, nVY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable p = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
-    FieldVariable rhs = FieldVariable({nX + 2, nY + 2}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable u = FieldVariable({nUX, nUY}, {0 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable f = FieldVariable({nUX, nUY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable v = FieldVariable({nVX, nVY}, {-0.5 * meshWidth_[0], 0 * meshWidth_[1]}, meshWidth_);
+    FieldVariable g = FieldVariable({nVX, nVY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable p = FieldVariable({nPX, nPY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
+    FieldVariable rhs = FieldVariable({nPX, nPY}, {-0.5 * meshWidth_[0], -0.5 * meshWidth_[1]}, meshWidth_);
 
+    std::cout << partitioning_.getRank() <<"| u(" << u.size()[0] << "," << u.size()[1] << ")" << std::endl;
+    std::cout << partitioning_.getRank() <<"| v(" << v.size()[0] << "," << v.size()[1] << ")" << std::endl;
+    std::cout << partitioning_.getRank() <<"| f(" << f.size()[0] << "," << f.size()[1] << ")" << std::endl;
+    std::cout << partitioning_.getRank() <<"| g(" << g.size()[0] << "," << g.size()[1] << ")" << std::endl;
+    std::cout << partitioning_.getRank() <<"| p(" << p.size()[0] << "," << p.size()[1] << ")" << std::endl;
+    std::cout << partitioning_.getRank() <<"| r(" << rhs.size()[0] << "," << rhs.size()[1] << ")" << std::endl;
 
     //initialize discretization
     if (!settings_.useDonorCell) {
