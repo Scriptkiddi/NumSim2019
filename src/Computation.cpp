@@ -57,6 +57,7 @@ void Computation::runSimulation() {
     applyBoundaryValues();
     while (t < settings_.endTime) {
         computeTimeStepWidth();
+        computeTemperature();
         applyBoundaryValues();
         PreliminaryVelocities();
         computeRightHandSide();
@@ -70,6 +71,7 @@ void Computation::runSimulation() {
 }
 
 void Computation::computeTimeStepWidth() {
+    // Take min time step stemming from speed considerations
     double uMaximum = discretization_.get()->u(discretization_.get()->uIBegin(), discretization_.get()->uJEnd());
     for (int j = discretization_.get()->uJBegin()-1; j <= discretization_.get()->uJEnd()+1; j++) {
         for (int i = discretization_.get()->uIBegin()-1; i <= discretization_.get()->uIEnd()+1; i++) {
@@ -93,8 +95,13 @@ void Computation::computeTimeStepWidth() {
     double condition_convection1 = discretization_.get()->dx() / uMaximum;
     double condition_convection2 = discretization_.get()->dy() / vMaximum;
 
+    // Min time requirements for temperature
+    // TODO is this the correct delta x?
+    double condition_temp1 = settings_.re * settings_.prandtl / 2 * pow((1/pow(discretization_.get()->dx(),2)+1/pow(discretization_.get()->dy(),2)), -1);
+
     dt_ = min(condition_convection1, condition_convection2);
     dt_ = min(condition_diffusion, dt_);
+    dt_ = min(condition_temp1, dt_);
     dt_ = min(settings_.maximumDt, dt_) * settings_.tau;
 }
 
@@ -192,4 +199,8 @@ void Computation::computeVelocities() {
                     discretization_.get()->g(i, j) - dt_ * discretization_.get()->computeDpDy(i, j);
         }
     }
+}
+
+void Computation::computeTemperature() {
+
 }
