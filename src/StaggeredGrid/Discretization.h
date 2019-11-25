@@ -9,7 +9,8 @@
 
 class Discretization : public StaggeredGrid {
 public:
-    Discretization (std::array< int, 2 > nCells, std::array< double, 2 > meshWidth);
+    Discretization(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double gamma);
+
     virtual double 	computeDu2Dx (int i, int j) const =0;
     virtual double 	computeDv2Dy (int i, int j) const =0;
     virtual double 	computeDuvDx (int i, int j) const =0;
@@ -20,6 +21,16 @@ public:
     virtual double 	computeD2vDy2 (int i, int j) const; //todo
     virtual double 	computeDpDx (int i, int j) const; //todo
     virtual double 	computeDpDy (int i, int j) const; //todo
+    int computeD2TDx2(int i, int j);
+
+    int computeD2TDy2(int i, int j);
+
+    double computeDuTDx(int i, int j);
+
+    double computeDvTDy(int i, int j);
+
+private:
+    double gamma_;
 };
 
 

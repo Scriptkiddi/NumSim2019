@@ -20,6 +20,7 @@ protected:
     FieldVariable rhs_;
     FieldVariable f_;
     FieldVariable g_;
+    FieldVariable t_;
 
     //todo: wie werden u,v,p usw. gesetzt?
 
@@ -35,6 +36,8 @@ public:
     const FieldVariable &v() const;
 
     const FieldVariable &p() const;
+
+    const FieldVariable &t() const;
 
     double u(int i, int j) const;
 
@@ -53,6 +56,8 @@ public:
     double &f(int i, int j);
 
     double &g(int i, int j);
+
+    double &t(int i, int j);
 
     double dx() const;
 
@@ -81,6 +86,14 @@ public:
     int pJBegin() const;
 
     int pJEnd() const;
+
+    int tIBegin() const;
+
+    int tIEnd() const;
+
+    int tJBegin() const;
+
+    int tJEnd() const;
 };
 
 

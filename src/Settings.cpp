@@ -110,6 +110,12 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "maximumNumberOfIterations") {
             this->maximumNumberOfIterations = atof(parameterValue);
         }
+        else if ( parameterName == "prandtl") {
+            this->prandtl = atof(parameterValue);
+        }
+        else if ( parameterName == "beta") {
+            this->beta = atof(parameterValue);
+        }
     }
 };
 

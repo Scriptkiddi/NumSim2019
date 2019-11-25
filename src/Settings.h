@@ -47,6 +47,12 @@ struct Settings {
     double epsilon = 1e-5;
 
     int maximumNumberOfIterations = 1e5;
+
+    double prandtl;
+
+    double beta;
+
+    double gamma = 1;
 };
 
 

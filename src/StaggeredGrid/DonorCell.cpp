@@ -6,8 +6,9 @@
 #include <cstdlib>
 #include <cmath>
 
-DonorCell::DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double alpha) : Discretization(nCells,
-                                                                                                                meshWidth),
+DonorCell::DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double alpha, double gamma) : Discretization(nCells,
+                                                                                                                meshWidth,
+                                                                                                                gamma),
                                                                                                  alpha_(alpha) {
 
 }

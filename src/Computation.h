@@ -46,6 +46,8 @@ private:
     std::array<double, 2> meshWidth_;
 
     double dt_;
+
+    void computeTemperature();
 };
 
 

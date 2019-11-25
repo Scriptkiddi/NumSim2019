@@ -14,10 +14,11 @@ StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<doubl
         p_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         rhs_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         f_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        g_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth) {
-}
+        g_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+    t_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth){
+    }
 
-const std::array<double, 2> StaggeredGrid::meshWidth() const {
+    const std::array<double, 2> StaggeredGrid::meshWidth() const {
     return meshWidth_;
 }
 
@@ -35,6 +36,10 @@ const FieldVariable &StaggeredGrid::v() const {
 
 const FieldVariable &StaggeredGrid::p() const {
     return p_;
+}
+
+const FieldVariable &StaggeredGrid::t() const {
+    return t_;
 }
 
 double StaggeredGrid::u(int i, int j) const {
@@ -71,6 +76,10 @@ double &StaggeredGrid::f(int i, int j) {
 
 double &StaggeredGrid::g(int i, int j) {
     return g_(i, j);
+}
+
+double &StaggeredGrid::t(int i, int j) {
+    return t_(i, j);
 }
 
 double StaggeredGrid::dx() const {
@@ -129,5 +138,21 @@ int StaggeredGrid::pJBegin() const {
 }
 
 int StaggeredGrid::pJEnd() const {
+    return nCells_[1]-2;
+}
+
+int StaggeredGrid::tIBegin() const {
+    return 1;
+}
+
+int StaggeredGrid::tIEnd() const {
+    return nCells_[0]-2;
+}
+
+int StaggeredGrid::tJBegin() const {
+    return 1;
+}
+
+int StaggeredGrid::tJEnd() const {
     return nCells_[1]-2;
 }
