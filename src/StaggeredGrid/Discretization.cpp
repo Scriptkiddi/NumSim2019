@@ -8,8 +8,8 @@
 
 //todo skript seite 10 ff?
 
-Discretization::Discretization(std::array<int, 2> nCells, std::array<double, 2> meshWidth) : StaggeredGrid(nCells,
-                                                                                                           meshWidth) {
+Discretization::Discretization(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double gamma) : StaggeredGrid(nCells,
+                                                                                                           meshWidth), gamma_(gamma) {
 
 }
 
@@ -45,18 +45,18 @@ int Discretization::computeD2TDy2(int i, int j) {
     return (t(i, j + 1) - 2 * t(i, j) + t(i, j - 1)) / pow(dy(), 2);
 }
 
-double Discretization::computeDutDx(int i, int j) {
+double Discretization::computeDuTDx(int i, int j) {
     // todo are we using gamma?
     return 1 / dx() *
            ((u(i, j) * (t(i + 1, j) + t(i, j)) / 2 - u(i - 1, j) * (t(i, j) + t(i - 1, j)) / 2) +
-            abs(u(i, j)) * (t(i, j) - t(i + 1, j)) / 2 - abs(u(i - 1, j)) * (t(i - 1, j) - t(i, j)) / 2);
+            gamma_ * (abs(u(i, j)) * (t(i, j) - t(i + 1, j)) / 2 - abs(u(i - 1, j)) * (t(i - 1, j) - t(i, j)) / 2));
 
 }
 
-double Discretization::computeDvtDy(int i, int j) {
+double Discretization::computeDvTDy(int i, int j) {
     // todo are we using gamma?
     return 1 / dy() *
-           ((v(i, j) * (t(i, j+1) + t(i, j)) / 2 - v(i, j-1) * (t(i, j) + t(i , j-1)) / 2) +
-            abs(v(i, j)) * (t(i, j) - t(i , j+1)) / 2 - abs(v(i, j-1)) * (t(i , j-1) - t(i, j)) / 2);
+           ((v(i, j) * (t(i, j + 1) + t(i, j)) / 2 - v(i, j - 1) * (t(i, j) + t(i, j - 1)) / 2) +
+            gamma_ * (abs(v(i, j)) * (t(i, j) - t(i, j + 1)) / 2 - abs(v(i, j - 1)) * (t(i, j - 1) - t(i, j)) / 2));
 
 }

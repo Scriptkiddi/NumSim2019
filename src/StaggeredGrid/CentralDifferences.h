@@ -12,7 +12,7 @@ class CentralDifferences : public Discretization {
 public:
     CentralDifferences(std::array<int, 2>
                        nCells,
-                       std::array<double, 2> meshWidth
+                       std::array<double, 2> meshWidth, double gamma
     );
 
     virtual double computeDu2Dx(int i, int j) const;

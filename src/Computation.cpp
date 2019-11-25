@@ -28,10 +28,10 @@ void Computation::initialize(int argc, char **argv) {
 
     //initialize discretization
     if (!settings_.useDonorCell) {
-        CentralDifferences grid(nCellsBoundary, meshWidth_);
+        CentralDifferences grid(nCellsBoundary, meshWidth_, settings_.gamma);
         discretization_ = make_shared<CentralDifferences>(grid);
     } else {
-        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha);
+        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha, settings_.gamma);
         discretization_ = make_shared<DonorCell>(grid);
     }
 
@@ -82,7 +82,7 @@ void Computation::computeTimeStepWidth() {
     }
     double vMaximum = discretization_.get()->v(discretization_.get()->vIBegin(), discretization_.get()->vJEnd());
     for (int j = discretization_.get()->vJBegin() - 1; j <= discretization_.get()->vJEnd() + 1; j++) {
-        for (int i = discretization_.get()->vIBegin() + 1; i <= discretization_.get()->vIEnd() - 1; i++) {
+        for (int i = discretization_.get()->vIBegin() - 1; i <= discretization_.get()->vIEnd() + 1; i++) {
             if (vMaximum < fabs(discretization_.get()->v(i, j))) {
                 vMaximum = fabs(discretization_.get()->v(i, j));
             }
@@ -96,14 +96,13 @@ void Computation::computeTimeStepWidth() {
     double condition_convection2 = discretization_.get()->dy() / vMaximum;
 
     // Min time requirements for temperature
-    // TODO is this the correct delta x?
-    double condition_temp1 = settings_.re * settings_.prandtl / 2 *
-                             pow((1 / pow(discretization_.get()->dx(), 2) + 1 / pow(discretization_.get()->dy(), 2)),
-                                 -1);
+    double condition_temp = settings_.re * settings_.prandtl / 2 *
+                            pow((1 / pow(discretization_.get()->dx(), 2) + 1 / pow(discretization_.get()->dy(), 2)),
+                                -1);
 
     dt_ = min(condition_convection1, condition_convection2);
     dt_ = min(condition_diffusion, dt_);
-    dt_ = min(condition_temp1, dt_);
+    dt_ = min(condition_temp, dt_);
     dt_ = min(settings_.maximumDt, dt_) * settings_.tau;
 }
 
@@ -153,16 +152,16 @@ void Computation::applyBoundaryValues() {
     j_low = discretization_.get()->tJBegin() - 1;
     j_high = discretization_.get()->tJEnd() + 1;
     for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-        discretization_.get()->t(i, j_high) = 2 * 1 - discretization_.get()->t(i, j_high-1);
-        discretization_.get()->t(i, j_low) = 2 * 0 - discretization_.get()->t(i, j_low+1);
+        discretization_.get()->t(i, j_high) = 2 * 1 - discretization_.get()->t(i, j_high - 1);
+        discretization_.get()->t(i, j_low) = 2 * 0 - discretization_.get()->t(i, j_low + 1);
     }
 
     //rechter und linker Rand
     i_low = discretization_.get()->tIBegin() - 1;
     i_high = discretization_.get()->tIEnd() + 1;
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
-        discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low+1, j) ;
-        discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high-1, j);
+    for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
+        discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low + 1, j);
+        discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high - 1, j);
     }
 }
 
@@ -237,8 +236,8 @@ void Computation::computeTemperature() {
                                                      +
                                                      discretization_.get()->computeD2TDy2(i, j)
                                              )
-                                                    - discretization_.get()->computeDutDx(i, j)
-                                                    - discretization_.get()->computeDvtDy(i, j)
+                                                    - discretization_.get()->computeDuTDx(i, j)
+                                                    - discretization_.get()->computeDvTDy(i, j)
                                              );
 
         }

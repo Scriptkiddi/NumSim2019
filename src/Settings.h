@@ -51,6 +51,8 @@ struct Settings {
     double prandtl;
 
     double beta;
+
+    double gamma = 1;
 };
 
 

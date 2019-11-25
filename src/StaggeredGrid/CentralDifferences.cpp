@@ -6,9 +6,9 @@
 #include "CentralDifferences.h"
 #include <cmath>
 
-CentralDifferences::CentralDifferences(std::array<int, 2> nCells, std::array<double, 2> meshWidth) : Discretization(
+CentralDifferences::CentralDifferences(std::array<int, 2> nCells, std::array<double, 2> meshWidth, double gamma) : Discretization(
         nCells,
-        meshWidth) {
+        meshWidth, gamma) {
 
 }
 
