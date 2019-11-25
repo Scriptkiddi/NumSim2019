@@ -20,6 +20,13 @@ public:
     virtual double 	computeD2vDy2 (int i, int j) const; //todo
     virtual double 	computeDpDx (int i, int j) const; //todo
     virtual double 	computeDpDy (int i, int j) const; //todo
+    int computeD2TDx2(int i, int j);
+
+    int computeD2TDy2(int i, int j);
+
+    double computeDutDx(int i, int j);
+
+    double computeDvtDy(int i, int j);
 };
 
 
