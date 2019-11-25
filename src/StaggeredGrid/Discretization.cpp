@@ -56,7 +56,7 @@ double Discretization::computeDutDx(int i, int j) {
 double Discretization::computeDvtDy(int i, int j) {
     // todo are we using gamma?
     return 1 / dy() *
-           ((v(i, j) * (t(i + 1, j) + t(i, j)) / 2 - v(i - 1, j) * (t(i, j) + t(i - 1, j)) / 2) +
-            abs(v(i, j)) * (t(i, j) - t(i + 1, j)) / 2 - abs(v(i - 1, j)) * (t(i - 1, j) - t(i, j)) / 2);
+           ((v(i, j) * (t(i, j+1) + t(i, j)) / 2 - v(i, j-1) * (t(i, j) + t(i , j-1)) / 2) +
+            abs(v(i, j)) * (t(i, j) - t(i , j+1)) / 2 - abs(v(i, j-1)) * (t(i , j-1) - t(i, j)) / 2);
 
 }

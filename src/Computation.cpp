@@ -57,8 +57,8 @@ void Computation::runSimulation() {
     applyBoundaryValues();
     while (t < settings_.endTime) {
         computeTimeStepWidth();
-        computeTemperature();
         applyBoundaryValues();
+        computeTemperature();
         PreliminaryVelocities();
         computeRightHandSide();
         computePressure();
@@ -146,28 +146,51 @@ void Computation::applyBoundaryValues() {
         discretization_.get()->v(i_high, j) =
                 2 * settings_.dirichletBcRight[1] - discretization_.get()->v(i_high - 1, j);
     }
+
+
+    // T
+    // oberer und unterer Rand
+    j_low = discretization_.get()->tJBegin() - 1;
+    j_high = discretization_.get()->tJEnd() + 1;
+    for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+        discretization_.get()->t(i, j_high) = 2 * 1 - discretization_.get()->t(i, j_high-1);
+        discretization_.get()->t(i, j_low) = 2 * 0 - discretization_.get()->t(i, j_low+1);
+    }
+
+    //rechter und linker Rand
+    i_low = discretization_.get()->tIBegin() - 1;
+    i_high = discretization_.get()->tIEnd() + 1;
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low+1, j) ;
+        discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high-1, j);
+    }
 }
 
 void Computation::PreliminaryVelocities() {
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->f(i, j) =
-                    discretization_.get()->u(i, j) +
-                    dt_ * (1 / settings_.re * (discretization_.get()->computeD2uDx2(i, j) +
-                                               discretization_.get()->computeD2uDy2(i, j)) -
-                           discretization_.get()->computeDu2Dx(i, j) -
-                           discretization_.get()->computeDuvDy(i, j) + settings_.g[0]);
+                    (discretization_.get()->u(i, j) +
+                     dt_ * (1 / settings_.re * (discretization_.get()->computeD2uDx2(i, j) +
+                                                discretization_.get()->computeD2uDy2(i, j)) -
+                            discretization_.get()->computeDu2Dx(i, j) -
+                            discretization_.get()->computeDuvDy(i, j) + settings_.g[0]))
+                    - dt_ * settings_.beta * settings_.g[0] *
+                      (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j)) / 2;
+
         }
     }
 
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->g(i, j) =
-                    discretization_.get()->v(i, j) +
-                    dt_ * (1 / settings_.re * (discretization_.get()->computeD2vDy2(i, j) +
-                                               discretization_.get()->computeD2vDx2(i, j)) -
-                           discretization_.get()->computeDv2Dy(i, j) -
-                           discretization_.get()->computeDuvDx(i, j) + settings_.g[1]);
+                    (discretization_.get()->v(i, j) +
+                     dt_ * (1 / settings_.re * (discretization_.get()->computeD2vDy2(i, j) +
+                                                discretization_.get()->computeD2vDx2(i, j)) -
+                            discretization_.get()->computeDv2Dy(i, j) -
+                            discretization_.get()->computeDuvDx(i, j) + settings_.g[1]))
+                    - dt_ * settings_.beta * settings_.g[1] *
+                      (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1)) / 2;
         }
     }
 }
@@ -209,8 +232,9 @@ void Computation::computeTemperature() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             discretization_.get()->t(i, j) = discretization_.get()->t(i, j) +
-                                             dt_ * (1 / settings_.re * 1 / settings_.prandtl(
-                                                     discretization_.get()->computeD2TDx2(i, j) *
+                                             dt_ * (1 / settings_.re * 1 / settings_.prandtl * (
+                                                     discretization_.get()->computeD2TDx2(i, j)
+                                                     +
                                                      discretization_.get()->computeD2TDy2(i, j)
                                              )
                                                     - discretization_.get()->computeDutDx(i, j)

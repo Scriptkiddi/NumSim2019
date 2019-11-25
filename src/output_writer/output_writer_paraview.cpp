@@ -36,6 +36,38 @@ void OutputWriterParaview::writeFile(double currentTime)
     // set number of points in each dimension, 1 cell in z direction
     std::array<int,2> nCells = {discretization_.get()->p().size()[0] - 2, discretization_->p().size()[1] - 2};
     dataSet->SetDimensions(nCells[0]+1, nCells[1]+1, 1);  // we want to have points at each corner of each cell
+    // add temperature field variable
+    // ---------------------------
+    vtkSmartPointer<vtkDoubleArray> arrayTemp = vtkDoubleArray::New();
+
+    // the pressure is a scalar which means the number of components is 1
+    arrayTemp->SetNumberOfComponents(1);
+
+    // Set the number of pressure values and allocate memory for it. We already know the number, it has to be the same as there are nodes in the mesh.
+    arrayTemp->SetNumberOfTuples(dataSet->GetNumberOfPoints());
+
+    arrayTemp->SetName("temperature");
+
+    // loop over the nodes of the mesh and assign the interpolated p values in the vtk data structure
+    // we only consider the cells that are the actual computational domain, not the helper values in the "halo"
+
+    int index = 0;   // index for the vtk data structure, will be incremented in the inner loop
+    for (int j = 0; j < nCells[1]+1; j++)
+    {
+        for (int i = 0; i < nCells[0]+1; i++, index++)
+        {
+            const double x = i*dx;
+            const double y = j*dy;
+
+            arrayTemp->SetValue(index, discretization_->t().interpolateAt(x,y));
+        }
+    }
+
+    // now, we should have added as many values as there are points in the vtk data structure
+    assert(index == dataSet->GetNumberOfPoints());
+
+    // add the field variable to the data set
+    dataSet->GetPointData()->AddArray(arrayTemp);
 
     // add pressure field variable
     // ---------------------------
@@ -52,7 +84,7 @@ void OutputWriterParaview::writeFile(double currentTime)
     // loop over the nodes of the mesh and assign the interpolated p values in the vtk data structure
     // we only consider the cells that are the actual computational domain, not the helper values in the "halo"
 
-    int index = 0;   // index for the vtk data structure, will be incremented in the inner loop
+    index = 0;   // index for the vtk data structure, will be incremented in the inner loop
     for (int j = 0; j < nCells[1]+1; j++)
     {
         for (int i = 0; i < nCells[0]+1; i++, index++)
