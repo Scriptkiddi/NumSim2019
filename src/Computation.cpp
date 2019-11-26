@@ -114,8 +114,8 @@ void Computation::applyBoundaryValues() {
     for (j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
         discretization_.get()->u(i_low, j) = settings_.dirichletBcLeft[0];
         discretization_.get()->u(i_high, j) = settings_.dirichletBcRight[0];
-        discretization_.get()->f(i_high, j) = u(i_high, j);
-        discretization_.get()->f(i_low, j) = u(i_low, j);
+        discretization_.get()->f(i_high, j) = discretization_.get()->u(i_high, j);
+        discretization_.get()->f(i_low, j) = discretization_.get()->u(i_low, j);
     }
 
     // u
@@ -127,8 +127,8 @@ void Computation::applyBoundaryValues() {
         discretization_.get()->u(i, j_low) =
                 2 * settings_.dirichletBcBottom[0] - discretization_.get()->u(i, j_low + 1);
         discretization_.get()->u(i, j_high) = 2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
-        discretization_.get()->f(i, j_low) = u(i, j_low);
-        discretization_.get()->f(i, j_high) = u(i, j_high);
+        discretization_.get()->f(i, j_low) = discretization_.get()->u(i, j_low);
+        discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
     }
 
     // v
@@ -139,8 +139,8 @@ void Computation::applyBoundaryValues() {
     for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
         discretization_.get()->v(i, j_low) = settings_.dirichletBcBottom[1];
         discretization_.get()->v(i, j_high) = settings_.dirichletBcTop[1];
-        discretization_.get()->g(i, j_low) = v(i, j_low);
-        discretization_.get()->g(i, j_high) = v(i, j_high);
+        discretization_.get()->g(i, j_low) = discretization_.get()->v(i, j_low);
+        discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
     }
 
     //rechter und linker Rand
@@ -150,8 +150,8 @@ void Computation::applyBoundaryValues() {
         discretization_.get()->v(i_low, j) = 2 * settings_.dirichletBcLeft[1] - discretization_.get()->v(i_low + 1, j);
         discretization_.get()->v(i_high, j) =
                 2 * settings_.dirichletBcRight[1] - discretization_.get()->v(i_high - 1, j);
-        discretization_.get()->g(i_high, j) = v(i_high, j);
-        discretization_.get()->g(i_low, j) = v(i_low, j);
+        discretization_.get()->g(i_high, j) = discretization_.get()->v(i_high, j);
+        discretization_.get()->g(i_low, j) = discretization_.get()->v(i_low, j);
     }
 
 
