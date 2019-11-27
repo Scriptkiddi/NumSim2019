@@ -53,6 +53,11 @@ struct Settings {
     double beta;
 
     double gamma = 1;
+
+    double uInit;
+    double vInit;
+    double pInit;
+    double tInit;
 };
 
 

@@ -21,6 +21,16 @@ void Computation::initialize(int argc, char **argv) {
     settings_.printSettings();
     array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
 
+    //initialize temperature boundary values //TEMPORARILY
+    t_h = 1;
+    t_c = 0;
+
+    //initialize initial values
+    uInit = settings_.uInit;
+    vInit = settings_.vInit;
+    pInit = settings_.pInit;
+    tInit = settings_.tInit;
+
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] /
                     (nCellsBoundary[0]);
@@ -55,6 +65,7 @@ void Computation::initialize(int argc, char **argv) {
 void Computation::runSimulation() {
     double t = 0;
     applyBoundaryValues();
+    applyInitialConditions();
     while (t < settings_.endTime) {
         computeTimeStepWidth();
         applyBoundaryValues();
@@ -107,6 +118,7 @@ void Computation::computeTimeStepWidth() {
 }
 
 void Computation::applyBoundaryValues() {
+    // u
     //rechter und linker Rand
     int j;
     int i_low = discretization_.get()->uIBegin() - 1;
@@ -118,9 +130,8 @@ void Computation::applyBoundaryValues() {
         discretization_.get()->f(i_low, j) = discretization_.get()->u(i_low, j);
     }
 
-    // u
-    //unterer Rand
-    // oberer Rand
+    //unterer Rand und oberer Rand 
+    // TODO anhand vom Skript S.13 Grundlöser setzen wir doch unsere RBs für U (li-re/un-ob) genau vertauscht oder?
     int j_low = discretization_.get()->uJBegin() - 1;
     int j_high = discretization_.get()->uJEnd() + 1;
     for (int i = discretization_.get()->uIBegin() - 1; i <= discretization_.get()->uIEnd() + 1; i++) {
@@ -132,8 +143,7 @@ void Computation::applyBoundaryValues() {
     }
 
     // v
-    //unterer Rand
-    // oberer Rand
+    //unterer Rand und oberer Rand
     j_low = discretization_.get()->vJBegin() - 1;
     j_high = discretization_.get()->vJEnd() + 1;
     for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
@@ -155,13 +165,13 @@ void Computation::applyBoundaryValues() {
     }
 
 
-    // T
+    // Temperature
     // oberer und unterer Rand
     j_low = discretization_.get()->tJBegin() - 1;
     j_high = discretization_.get()->tJEnd() + 1;
     for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-        discretization_.get()->t(i, j_high) = 2 * 1 - discretization_.get()->t(i, j_high - 1);
-        discretization_.get()->t(i, j_low) = 2 * 0 - discretization_.get()->t(i, j_low + 1);
+        discretization_.get()->t(i, j_high) = 2 * t_h - discretization_.get()->t(i, j_high - 1);
+        discretization_.get()->t(i, j_low) = 2 * t_c - discretization_.get()->t(i, j_low + 1);
     }
 
     //rechter und linker Rand
@@ -220,19 +230,35 @@ void Computation::computePressure() {
 }
 
 void Computation::computeVelocities() {
+    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
+        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
+            discretization_.get()->u(i, j) =
+                    discretization_.get()->f(i, j) - dt_ * discretization_.get()->computeDpDx(i, j);
+        }
+    }
+    /*
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->u(i, j) =
                     discretization_.get()->f(i, j) - dt_ * discretization_.get()->computeDpDx(i, j);
         }
+    }*/
+
+    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
+        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
+            discretization_.get()->v(i, j) =
+                    discretization_.get()->g(i, j) - dt_ * discretization_.get()->computeDpDy(i, j);
+        }
     }
 
+    /*
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             discretization_.get()->v(i, j) =
                     discretization_.get()->g(i, j) - dt_ * discretization_.get()->computeDpDy(i, j);
         }
     }
+    */
 }
 
 void Computation::computeTemperature() {
@@ -250,5 +276,33 @@ void Computation::computeTemperature() {
 
         }
     }
+}
+
+void Computation::applyInitialConditions(){
+    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
+        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
+            discretization_.get()->u(i, j) = uInit;
+        }
+    }
+
+    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
+        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
+            discretization_.get()->v(i, j) = vInit;
+        }
+    }
+
+    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
+            discretization_.get()->p(i, j) = pInit;
+        }
+    }
+
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+            discretization_.get()->t(i, j) = tInit;
+        }
+    }
+
+    // TODO if inside obstacle: u,v,p,T = std::nan
 
 }
