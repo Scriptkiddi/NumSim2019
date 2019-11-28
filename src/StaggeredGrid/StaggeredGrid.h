@@ -51,13 +51,15 @@ public:
 
     double &p(int i, int j);
 
+    double t(int i, int j) const;
+
+    double &t(int i, int j);
+
     double &rhs(int i, int j);
 
     double &f(int i, int j);
 
     double &g(int i, int j);
-
-    double &t(int i, int j);
 
     double dx() const;
 

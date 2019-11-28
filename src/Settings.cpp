@@ -116,6 +116,18 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "beta") {
             this->beta = atof(parameterValue);
         }
+        else if ( parameterName == "uInit") {
+            this->uInit = atof(parameterValue);
+        }
+        else if ( parameterName == "vInit") {
+            this->vInit = atof(parameterValue);
+        }
+        else if ( parameterName == "pInit") {
+            this->pInit = atof(parameterValue);
+        }
+        else if ( parameterName == "tInit") {
+            this->tInit = atof(parameterValue);
+        }
     }
 };
 
@@ -131,7 +143,9 @@ void Settings::printSettings() {
               << ", right: (" << dirichletBcRight[0] << "," << dirichletBcRight[1] << ")" << std::endl
               << "  useDonorCell: " << std::boolalpha << useDonorCell << ", alpha: " << alpha << std::endl
               << "  pressureSolver: " << pressureSolver << ", omega: " << omega << ", epsilon: " << epsilon
-              << ", maximumNumberOfIterations: " << maximumNumberOfIterations << std::endl;
+              << ", maximumNumberOfIterations: " << maximumNumberOfIterations << std::endl
+              << ", initial u: " << uInit << ", initial v: " << vInit << ", initial p: " << pInit << ", initial T: " << tInit << std::endl;             ;
+
 }
 
 std::string trim(const std::string &str,

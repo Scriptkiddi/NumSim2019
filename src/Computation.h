@@ -32,6 +32,10 @@ private:
 
     void computeVelocities();
 
+    void computeTemperature();
+
+    void applyInitialConditions();
+
     // Attributes
     Settings settings_;
 
@@ -47,7 +51,13 @@ private:
 
     double dt_;
 
-    void computeTemperature();
+    double t_c;
+    double t_h;
+    
+    double uInit;
+    double vInit;
+    double pInit; 
+    double tInit;
 };
 
 
