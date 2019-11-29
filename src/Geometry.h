@@ -10,11 +10,13 @@ struct Geometry{
 
     Geometry(int nX, int nY);
 
+    bool isFluid(int x, int y);
+
+    void countFluidCells();
+
     int nCellsX;
 
     int nCellsY;
-
-    bool isFluid(int x, int y);
     
     int nCellsFluid;
 

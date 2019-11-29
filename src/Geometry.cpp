@@ -4,7 +4,7 @@
 Geometry::Geometry(int nX, int nY): nCellsX(nX), nCellsY(nY){
 
     // allocate data, initialize to 0
-    int nCellsFluid = nX * nY;
+    int nCellsFluid = 0;
 
     isFluid_.resize(nX*nY);
 
@@ -67,4 +67,14 @@ Geometry::Geometry(int nX, int nY): nCellsX(nX), nCellsY(nY){
 
 bool Geometry::isFluid(int x, int y){
     return isFluid_[nCellsX * y + x];
+}
+
+void Geometry::countFluidCells(){
+    for(int j = 0; j <= nCellsY; j++){
+        for(int i = 0; i <= nCellsX; i++){
+            if(isFluid(i,j)){
+                nCellsFluid ++;
+            }
+        }
+    }
 }

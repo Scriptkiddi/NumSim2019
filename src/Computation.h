@@ -12,6 +12,7 @@
 #include "PressureSolver/PressureSolver.h"
 #include "output_writer/output_writer_paraview.h"
 #include "output_writer/output_writer_text.h"
+#include "Geometry.h"
 
 class Computation {
 public:
@@ -38,6 +39,8 @@ private:
 
     // Attributes
     Settings settings_;
+
+    Geometry geometry_;
 
     std::shared_ptr <Discretization> discretization_;
 
