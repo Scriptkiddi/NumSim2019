@@ -191,9 +191,9 @@ void Computation::PreliminaryVelocities() {
                      dt_ * (1 / settings_.re * (discretization_.get()->computeD2uDx2(i, j) +
                                                 discretization_.get()->computeD2uDy2(i, j)) -
                             discretization_.get()->computeDu2Dx(i, j) -
-                            discretization_.get()->computeDuvDy(i, j) + settings_.g[0]));
-                    //- dt_ * settings_.beta * settings_.g[0] *
-                    //  (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j)) / 2;
+                            discretization_.get()->computeDuvDy(i, j) + settings_.g[0]))
+                    - dt_ * settings_.beta * settings_.g[0] *
+                      (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j)) / 2;
 
         }
     }
@@ -205,9 +205,9 @@ void Computation::PreliminaryVelocities() {
                      dt_ * (1 / settings_.re * (discretization_.get()->computeD2vDy2(i, j) +
                                                 discretization_.get()->computeD2vDx2(i, j)) -
                             discretization_.get()->computeDv2Dy(i, j) -
-                            discretization_.get()->computeDuvDx(i, j) + settings_.g[1]));
-                    //- dt_ * settings_.beta * settings_.g[1] *
-                    //  (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1)) / 2;
+                            discretization_.get()->computeDuvDx(i, j) + settings_.g[1]))
+                    - dt_ * settings_.beta * settings_.g[1] *
+                      (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1)) / 2;
         }
     }
 }

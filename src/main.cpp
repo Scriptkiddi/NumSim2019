@@ -14,10 +14,6 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    MPI_INIT(NULL, NULL);
-
-
-
     Computation computation;
     computation.initialize(argc, argv);
     auto start = high_resolution_clock::now();

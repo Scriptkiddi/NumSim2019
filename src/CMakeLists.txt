@@ -25,7 +25,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 message("Including ${PROJECT_SOURCE_DIR}")
 
 # Search for the external package "VTK"
-find_package(VTK REQUIRED HINTS C:/Program Files/VTK 7.1.1/bin)
+find_package(VTK REQUIRED)
 
 # Output various cmake variables for demonstration purpose
 message("If VTK was found on the system: VTK_FOUND: ${VTK_FOUND}")
@@ -38,20 +38,6 @@ if (VTK_FOUND)
     target_link_libraries(${PROJECT_NAME} ${VTK_LIBRARIES}) # add the libraries for the linker
 endif(VTK_FOUND)
 
-find_package(MPI REQUIRED)
-
-include_directories(${MPI_INCLUDE_PATH})
-target_link_libraries(${PROJECT_NAME} ${MPI_LIBRARIES})
-
-if(MPI_COMPILE_FLAGS)
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-            COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")
-endif()
-
-if(MPI_LINK_FLAGS)
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-            LINK_FLAGS "${MPI_LINK_FLAGS}")
-endif()
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/../build)
 # Add additonial compile options to enable more warnings
