@@ -40,6 +40,54 @@ struct Settings {
 
     std::array<double, 2> dirichletBcRight;
 
+    double TDirichletBottom;
+
+    double TDirichletTop;
+
+    double TDirichletLeft;
+
+    double TDirichletRight;
+
+    double TNeumannBottom;
+
+    double TNeumannTop;
+
+    double TNeumannLeft;
+
+    double TNeumannRight;
+
+    double PDirichletBottom;
+
+    double PDirichletTop;
+
+    double PDirichletLeft;
+
+    double PDirichletRight;
+
+    std::string VeloBCBottom;
+    
+    std::string VeloBCTop;
+
+    std::string VeloBCLeft;
+
+    std::string VeloBCRight;
+
+    std::string TBCBottom;
+
+    std::string TBCTop;
+
+    std::string TBCLeft;
+
+    std::string TBCRight;
+
+    std::string PBCBottom;
+
+    std::string PBCTop;
+
+    std::string PBCLeft;
+
+    std::string PBCRight;
+
     std::string pressureSolver = "SOR";
 
     double omega = 1.0;
