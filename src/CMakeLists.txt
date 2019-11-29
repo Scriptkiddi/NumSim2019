@@ -17,12 +17,13 @@ add_executable(${PROJECT_NAME}
         output_writer/output_writer.cpp output_writer/output_writer.h
         Array2D/Array2D.cpp Array2D/Array2D.h
         Array2D/FieldVariable.cpp Array2D/FieldVariable.h)
+set_property(TARGET NumSim2019 PROPERTY CXX_STANDARD 11)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 message("Including ${PROJECT_SOURCE_DIR}")
 
 # Search for the external package "VTK"
-find_package(VTK)
+find_package(VTK REQUIRED HINTS C:/Program Files/VTK 7.1.1/bin)
 
 # Output various cmake variables for demonstration purpose
 message("If VTK was found on the system: VTK_FOUND: ${VTK_FOUND}")
