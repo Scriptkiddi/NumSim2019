@@ -2,6 +2,7 @@
 // Created by Julia Pelzer on 26.10.2019.
 //
 
+#include <memory>
 #include "Computation.h"
 #include "Settings.h"
 #include <cmath>
@@ -126,15 +127,15 @@ void Computation::applyBoundaryValues() {
     for (j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
         discretization_.get()->u(i_low, j) = settings_.dirichletBcLeft[0];
         discretization_.get()->u(i_high, j) = settings_.dirichletBcRight[0];
-        discretization_.get()->f(i_high, j) = discretization_.get()->u(i_high, j);
-        discretization_.get()->f(i_low, j) = discretization_.get()->u(i_low, j);
+        discretization_.get()->f(i_low, j) = settings_.dirichletBcLeft[0];
+        discretization_.get()->f(i_high, j) = settings_.dirichletBcRight[0];
     }
 
     //unterer Rand und oberer Rand 
     // TODO anhand vom Skript S.13 Grundlöser setzen wir doch unsere RBs für U (li-re/un-ob) genau vertauscht oder?
     int j_low = discretization_.get()->uJBegin() - 1;
     int j_high = discretization_.get()->uJEnd() + 1;
-    for (int i = discretization_.get()->uIBegin() - 1; i <= discretization_.get()->uIEnd() + 1; i++) {
+    for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
         discretization_.get()->u(i, j_low) =
                 2 * settings_.dirichletBcBottom[0] - discretization_.get()->u(i, j_low + 1);
         discretization_.get()->u(i, j_high) = 2 * settings_.dirichletBcTop[0] - discretization_.get()->u(i, j_high - 1);
@@ -191,9 +192,9 @@ void Computation::PreliminaryVelocities() {
                      dt_ * (1 / settings_.re * (discretization_.get()->computeD2uDx2(i, j) +
                                                 discretization_.get()->computeD2uDy2(i, j)) -
                             discretization_.get()->computeDu2Dx(i, j) -
-                            discretization_.get()->computeDuvDy(i, j) + settings_.g[0]))
-                    - dt_ * settings_.beta * settings_.g[0] *
-                      (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j)) / 2;
+                            discretization_.get()->computeDuvDy(i, j) + settings_.g[0]));
+                    //- dt_ * settings_.beta * settings_.g[0] *
+                    //  (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j)) / 2;
 
         }
     }
@@ -205,9 +206,9 @@ void Computation::PreliminaryVelocities() {
                      dt_ * (1 / settings_.re * (discretization_.get()->computeD2vDy2(i, j) +
                                                 discretization_.get()->computeD2vDx2(i, j)) -
                             discretization_.get()->computeDv2Dy(i, j) -
-                            discretization_.get()->computeDuvDx(i, j) + settings_.g[1]))
-                    - dt_ * settings_.beta * settings_.g[1] *
-                      (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1)) / 2;
+                            discretization_.get()->computeDuvDx(i, j) + settings_.g[1]));
+                    //- dt_ * settings_.beta * settings_.g[1] *
+                    //  (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1)) / 2;
         }
     }
 }

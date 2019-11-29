@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(NumSim2019)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(${PROJECT_NAME}
         main.cpp
@@ -17,7 +19,7 @@ add_executable(${PROJECT_NAME}
         output_writer/output_writer.cpp output_writer/output_writer.h
         Array2D/Array2D.cpp Array2D/Array2D.h
         Array2D/FieldVariable.cpp Array2D/FieldVariable.h)
-set_property(TARGET NumSim2019 PROPERTY CXX_STANDARD 11)
+set_property(TARGET NumSim2019 PROPERTY CXX_STANDARD 14)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 message("Including ${PROJECT_SOURCE_DIR}")
@@ -41,7 +43,5 @@ install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/../bui
 add_compile_options(-Wall -Wextra)
 
 # Set the version of the C++ standard to use, we use C++14, published in 2014
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
