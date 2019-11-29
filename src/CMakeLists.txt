@@ -16,7 +16,8 @@ add_executable(${PROJECT_NAME}
         output_writer/output_writer_text.cpp output_writer/output_writer_text.h
         output_writer/output_writer.cpp output_writer/output_writer.h
         Array2D/Array2D.cpp Array2D/Array2D.h
-        Array2D/FieldVariable.cpp Array2D/FieldVariable.h)
+        Array2D/FieldVariable.cpp Array2D/FieldVariable.h
+        Geometry.cpp Geometry.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 message("Including ${PROJECT_SOURCE_DIR}")
