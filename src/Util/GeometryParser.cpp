@@ -62,7 +62,7 @@ shared_ptr<Geometry> GeometryParser::parseGeometryFile(std::string filename, Set
 
         }
     }
-
+    geometry_.get()->countFluidCells();
 
     return geometry_;
 }

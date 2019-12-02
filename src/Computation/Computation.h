@@ -42,7 +42,7 @@ private:
     // Attributes
     Settings settings_;
 
-    Geometry geometry_;
+    std::shared_ptr<Geometry> geometry_;
 
     std::shared_ptr <Discretization> discretization_;
 

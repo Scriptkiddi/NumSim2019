@@ -18,10 +18,7 @@ public:
 
     void countFluidCells();
 
-    int nCellsX;
-    int nCellsY;
-
-    int nCellsFluid;
+    int nCellsFluid();    
 
     std::vector< std::pair <std::string,std::vector<double>>> data_;  //< storage array values, in row-major order
 
@@ -35,6 +32,11 @@ public:
 
 private:
     std::vector<bool> isFluid_;
+
+    int nCellsX;
+    int nCellsY;
+
+    int nCellsFluid_;
 };
 
 

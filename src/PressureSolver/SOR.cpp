@@ -57,8 +57,8 @@ void SOR::solve() {
                 }
             }
         }
-        //eps = eps/geometry_.get()->nCellsFluid;
-        eps = eps / ((discretization_.get()->nCells()[0] - 2) * (discretization_.get()->nCells()[1] - 2));
+        eps = eps/geometry_.get()->nCellsFluid();
+        //eps = eps / ((discretization_.get()->nCells()[0] - 2) * (discretization_.get()->nCells()[1] - 2));
         iter++;
     }
     //std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epslion² " << pow(epsilon_,2) <<std::endl;
