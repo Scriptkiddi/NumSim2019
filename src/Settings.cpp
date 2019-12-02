@@ -135,7 +135,11 @@ void Settings::loadFromFile(std::string filename) {
         }
         else if ( parameterName == "geometryFile"){
             GeometryParser parser = GeometryParser();
-            this->geometry = parser.parseGeometryFile(parameterValue, this);
+            if( strcmp(parameterValue, "free")){
+                this->geometry = nullptr;
+            }else{
+                this->geometry = parser.parseGeometryFile(parameterValue, this);
+            }
         }
     }
 };
