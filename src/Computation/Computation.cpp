@@ -22,6 +22,9 @@ void Computation::initialize(int argc, char **argv) {
     settings_.printSettings();
     array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
 
+    Geometry geometry(nCellsBoundary[0], nCellsBoundary[1]);
+    geometry_ = geometry;
+
     //initialize temperature boundary values //TEMPORARILY
     t_h = 1;
     t_c = 0;
@@ -48,7 +51,7 @@ void Computation::initialize(int argc, char **argv) {
 
     //initialize explicit pressureSolver
     if (settings_.pressureSolver == "SOR") {
-        SOR pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+        SOR pSolver(discretization_, std::make_shared<Geometry>(geometry_),settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
         pressureSolver_ = make_unique<SOR>(pSolver);
     } else {
         //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
@@ -215,11 +218,13 @@ void Computation::PreliminaryVelocities() {
 void Computation::computeRightHandSide() {
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-            discretization_.get()->rhs(i, j) =
-                    1 / dt_ * (((discretization_.get()->f(i, j) - discretization_.get()->f(i - 1, j)) /
-                                discretization_.get()->dx()) +
-                               ((discretization_.get()->g(i, j) - discretization_.get()->g(i, j - 1)) /
-                                discretization_.get()->dy()));
+            if(geometry_.isFluid(i,j)){
+                discretization_.get()->rhs(i, j) =
+                        1 / dt_ * (((discretization_.get()->f(i, j) - discretization_.get()->f(i - 1, j)) /
+                                    discretization_.get()->dx()) +
+                                ((discretization_.get()->g(i, j) - discretization_.get()->g(i, j - 1)) /
+                                    discretization_.get()->dy()));
+            }
         }
     }
 }
@@ -232,18 +237,21 @@ void Computation::computePressure() {
 void Computation::computeVelocities() {
     for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
         for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            discretization_.get()->u(i, j) =
-                    discretization_.get()->f(i, j) - dt_ * discretization_.get()->computeDpDx(i, j);
+            if(geometry_.isFluid(i,j) && geometry_.isFluid(i + 1, j)){
+                discretization_.get()->u(i, j) =
+                        discretization_.get()->f(i, j) - dt_ * discretization_.get()->computeDpDx(i, j);
+            }
         }
     }
 
     for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
         for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-            discretization_.get()->v(i, j) =
-                    discretization_.get()->g(i, j) - dt_ * discretization_.get()->computeDpDy(i, j);
+            if(geometry_.isFluid(i,j) && geometry_.isFluid(i, j + 1)){
+                discretization_.get()->v(i, j) =
+                        discretization_.get()->g(i, j) - dt_ * discretization_.get()->computeDpDy(i, j);
+            }
         }
     }
-
 }
 
 void Computation::computeTemperature() {
@@ -266,28 +274,41 @@ void Computation::computeTemperature() {
 void Computation::applyInitialConditions(){
     for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
         for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            discretization_.get()->u(i, j) = uInit;
+            if(geometry_.isFluid(i,j) && geometry_.isFluid(i + 1, j)){
+                discretization_.get()->u(i, j) = uInit;
+            }else{
+                discretization_.get()->u(i, j) = std::nan("");
+            }
         }
     }
 
     for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
         for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-            discretization_.get()->v(i, j) = vInit;
+            if(geometry_.isFluid(i,j) && geometry_.isFluid(i, j + 1)){
+                discretization_.get()->v(i, j) = vInit;
+            }else{
+                discretization_.get()->v(i,j) = std::nan("");
+            }
         }
     }
 
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-            discretization_.get()->p(i, j) = pInit;
+            if(geometry_.isFluid(i,j)){
+                discretization_.get()->p(i, j) = pInit;
+            }else{
+                discretization_.get()->p(i,j) = std::nan("");
+            }
         }
     }
 
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            discretization_.get()->t(i, j) = tInit;
+            if(geometry_.isFluid(i,j)){
+                discretization_.get()->t(i, j) = tInit;
+            }else{
+                discretization_.get()->t(i,j) = std::nan("");
+            }
         }
     }
-
-    // TODO if inside obstacle: u,v,p,T = std::nan
-
 }

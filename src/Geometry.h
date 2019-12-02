@@ -14,9 +14,14 @@ public:
 
     //! get the size
     std::array<int,2> size() const;
-
-
     bool isFluid(int x, int y);
+
+    void countFluidCells();
+
+    int nCellsX;
+    int nCellsY;
+
+    int nCellsFluid;
 
     std::vector< std::pair <std::string,std::vector<double>>> data_;  //< storage array values, in row-major order
 

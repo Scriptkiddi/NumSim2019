@@ -24,3 +24,16 @@ std::array<int, 2> Geometry::size() const {
     return size_;
 }
 
+bool Geometry::isFluid(int x, int y){
+    return isFluid_[nCellsX * y + x];
+}
+
+void Geometry::countFluidCells(){
+    for(int j = 0; j <= nCellsY; j++){
+        for(int i = 0; i <= nCellsX; i++){
+            if(isFluid(i,j)){
+                nCellsFluid ++;
+            }
+        }
+    }
+}
