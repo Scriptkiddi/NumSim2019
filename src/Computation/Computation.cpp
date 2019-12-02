@@ -2,6 +2,7 @@
 // Created by Julia Pelzer on 26.10.2019.
 //
 
+#include <memory>
 #include "Computation.h"
 #include "Settings.h"
 #include <cmath>
@@ -36,8 +37,8 @@ void Computation::initialize(int argc, char **argv) {
 
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] /
-                    (nCellsBoundary[0]);
-    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]);
+                    (nCellsBoundary[0]-2);
+    meshWidth_[1] = settings_.physicalSize[1] / (nCellsBoundary[1]-2);
 
     //initialize discretization
     if (!settings_.useDonorCell) {
@@ -75,32 +76,33 @@ void Computation::runSimulation() {
         computeTemperature();
         applyBoundaryValuesTemperature();
         PreliminaryVelocities();
+        computeTemperature();
         computeRightHandSide();
         computePressure();
         computeVelocities();
         applyBoundaryValuesVelocities();
         t += dt_;
         outputWriterParaview_.get()->writeFile(t);
-        outputWriterText_.get()->writeFile(t);
+        //outputWriterText_.get()->writeFile(t);
         cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
     }
+
 }
 
 void Computation::computeTimeStepWidth() {
-    // Take min time step stemming from speed considerations
-    double uMaximum = discretization_.get()->u(discretization_.get()->uIBegin(), discretization_.get()->uJEnd());
-    for (int j = discretization_.get()->uJBegin() - 1; j <= discretization_.get()->uJEnd() + 1; j++) {
-        for (int i = discretization_.get()->uIBegin() - 1; i <= discretization_.get()->uIEnd() + 1; i++) {
-            if (uMaximum < fabs(discretization_.get()->u(i, j))) {
-                uMaximum = fabs(discretization_.get()->u(i, j));
+    double uMaximum = 0;
+    for (int j = discretization_.get()->uJBegin()-1; j <= discretization_.get()->uJEnd()+1; j++) {
+        for (int i = discretization_.get()->uIBegin()-1; i <= discretization_.get()->uIEnd()+1; i++) {
+            if (uMaximum < abs(discretization_.get()->u(i, j))) {
+                uMaximum = abs(discretization_.get()->u(i, j));
             }
         }
     }
-    double vMaximum = discretization_.get()->v(discretization_.get()->vIBegin(), discretization_.get()->vJEnd());
-    for (int j = discretization_.get()->vJBegin() - 1; j <= discretization_.get()->vJEnd() + 1; j++) {
-        for (int i = discretization_.get()->vIBegin() - 1; i <= discretization_.get()->vIEnd() + 1; i++) {
-            if (vMaximum < fabs(discretization_.get()->v(i, j))) {
-                vMaximum = fabs(discretization_.get()->v(i, j));
+    double vMaximum = 0;
+    for (int j = discretization_.get()->vJBegin()-1; j <= discretization_.get()->vJEnd()+1; j++) {
+        for (int i = discretization_.get()->vIBegin()-1; i <= discretization_.get()->vIEnd()+1; i++) {
+            if (vMaximum < abs(discretization_.get()->v(i, j))) {
+                vMaximum = abs(discretization_.get()->v(i, j));
             }
         }
     }
@@ -355,31 +357,28 @@ void Computation::applyBoundaryValuesTemperature(){
 void Computation::PreliminaryVelocities() {
     for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
         for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            if(geometry_.isFluid(i,j) && geometry_.isFluid(i + 1, j)){
-                discretization_.get()->f(i, j) =
-                        (discretization_.get()->u(i, j) +
-                        dt_ * (1 / settings_.re * (discretization_.get()->computeD2uDx2(i, j) +
-                                                    discretization_.get()->computeD2uDy2(i, j)) -
-                                discretization_.get()->computeDu2Dx(i, j) -
-                                discretization_.get()->computeDuvDy(i, j) + settings_.g[0]))
-                        - dt_ * settings_.beta * settings_.g[0] *
-                        (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j)) / 2;
-            }
+            discretization_.get()->f(i, j) =
+                    (discretization_.get()->u(i, j) +
+                     dt_ * (1 / settings_.re * (discretization_.get()->computeD2uDx2(i, j) +
+                                                discretization_.get()->computeD2uDy2(i, j)) -
+                            discretization_.get()->computeDu2Dx(i, j) -
+                            discretization_.get()->computeDuvDy(i, j) + settings_.g[0]))
+                    - dt_ * settings_.beta * settings_.g[0] *
+                      (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j)) / 2;
+
         }
     }
 
-    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-            if(geometry_.isFluid(i,j) && geometry_.isFluid(i, j + 1)){
-                discretization_.get()->g(i, j) =
-                        (discretization_.get()->v(i, j) +
-                        dt_ * (1 / settings_.re * (discretization_.get()->computeD2vDy2(i, j) +
-                                                    discretization_.get()->computeD2vDx2(i, j)) -
-                                discretization_.get()->computeDv2Dy(i, j) -
-                                discretization_.get()->computeDuvDx(i, j) + settings_.g[1]))
-                        - dt_ * settings_.beta * settings_.g[1] *
-                        (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1)) / 2;
-            }
+    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
+        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
+            discretization_.get()->g(i, j) =
+                    (discretization_.get()->v(i, j) +
+                     dt_ * (1 / settings_.re * (discretization_.get()->computeD2vDy2(i, j) +
+                                                discretization_.get()->computeD2vDx2(i, j)) -
+                            discretization_.get()->computeDv2Dy(i, j) -
+                            discretization_.get()->computeDuvDx(i, j) + settings_.g[1]))
+                    - dt_ * settings_.beta * settings_.g[1] *
+                      (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1)) / 2;
         }
     }
 }
@@ -447,7 +446,7 @@ void Computation::applyInitialConditions(){
             if(geometry_.isFluid(i,j) && geometry_.isFluid(i + 1, j)){
                 discretization_.get()->u(i, j) = uInit;
             }else{
-                discretization_.get()->u(i, j) = std::nan(""); 
+                discretization_.get()->u(i, j) = std::nan("");
             }
         }
     }
