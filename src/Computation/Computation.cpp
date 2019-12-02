@@ -70,8 +70,8 @@ void Computation::runSimulation() {
     while (t < settings_.endTime) {
         computeTimeStepWidth();
         applyBoundaryValues();
-        computeTemperature();
         PreliminaryVelocities();
+        computeTemperature();
         computeRightHandSide();
         computePressure();
         computeVelocities();

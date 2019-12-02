@@ -6,76 +6,30 @@
 #include<array>
 #include "Array2D/Array2D.h"
 
-struct Geometry{
+class Geometry{
 
-    Geometry(int nX, int nY);
+public:
+    //! constructor
+    explicit Geometry(std::array<int,2> size);
 
-    int nCellsX;
+    //! get the size
+    std::array<int,2> size() const;
 
-    int nCellsY;
 
     bool isFluid(int x, int y);
-    
-    int nCellsFluid;
 
-    std::vector<std::string> VeloTopBoundType;
+    std::vector< std::pair <std::string,std::vector<double>>> data_;  //< storage array values, in row-major order
 
-    std::vector<std::string> VeloBottomBoundType;
+    //! access the value at coordinate (i,j), declared not const, i.e. the value can be changed
+    std::pair<std::basic_string<char>, std::vector<double>> operator()(int i, int j);
 
-    std::vector<std::string> VeloLeftBoundType;
+    //! get the value at coordinate (i,j), declared const, i.e. it is not possible to change the value
+    std::pair<std::basic_string<char>, std::vector<double>> operator()(int i, int j) const;
+    const std::array<int,2> size_ = {0,0};    //< width, height of the domain
 
-    std::vector<std::string> VeloRightBoundType;
 
-    std::vector<std::string> pTopBoundType;
-
-    std::vector<std::string> pBottomBoundType;
-
-    std::vector<std::string> pLeftBoundType;
-
-    std::vector<std::string> pRightBoundType;
-
-    std::vector<std::string> tTopBoundType;
-
-    std::vector<std::string> tBottomBoundType;
-
-    std::vector<std::string> tLeftBoundType;
-
-    std::vector<std::string> tRightBoundType;
-
-    std::vector<double> uTopBoundValue;
-
-    std::vector<double> uBottomBoundValue;
-
-    std::vector<double> uLeftBoundValue;
-
-    std::vector<double> uRightBoundValue;
-
-    std::vector<double> vTopBoundValue;
-
-    std::vector<double> vBottomBoundValue;
-
-    std::vector<double> vLeftBoundValue;
-
-    std::vector<double> vRightBoundValue;
-
-    std::vector<double> pTopBoundValue;
-
-    std::vector<double> pBottomBoundValue;
-
-    std::vector<double> pLeftBoundValue;
-
-    std::vector<double> pRightBoundValue;
-
-    std::vector<double> tTopBoundValue;
-
-    std::vector<double> tBottomBoundValue;
-
-    std::vector<double> tLeftBoundValue;
-
-    std::vector<double> tRightBoundValue;
-
-    private:
-        std::vector<bool> isFluid_;
+private:
+    std::vector<bool> isFluid_;
 };
 
 
