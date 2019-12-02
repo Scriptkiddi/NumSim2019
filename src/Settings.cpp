@@ -13,7 +13,8 @@ void Settings::loadFromFile(std::string filename) {
     std::ifstream file(filename.c_str(), std::ios::in);
 
     if (!file.is_open()) {
-        std::cout << "Can not open file" << filename << std::endl;
+        std::cout << "Can not open file " << filename << std::endl;
+        exit(1);
         return;
     }
 
@@ -128,6 +129,9 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "tInit") {
             this->tInit = atof(parameterValue);
         }
+        else if ( parameterName == "gamma") {
+            this->gamma = atof(parameterValue);
+        }
     }
 };
 
@@ -144,7 +148,8 @@ void Settings::printSettings() {
               << "  useDonorCell: " << std::boolalpha << useDonorCell << ", alpha: " << alpha << std::endl
               << "  pressureSolver: " << pressureSolver << ", omega: " << omega << ", epsilon: " << epsilon
               << ", maximumNumberOfIterations: " << maximumNumberOfIterations << std::endl
-              << ", initial u: " << uInit << ", initial v: " << vInit << ", initial p: " << pInit << ", initial T: " << tInit << std::endl;             ;
+              << ", gamma: " << gamma << std::endl
+            << ", initial u: " << uInit << ", initial v: " << vInit << ", initial p: " << pInit << ", initial T: " << tInit << std::endl;             ;
 
 }
 

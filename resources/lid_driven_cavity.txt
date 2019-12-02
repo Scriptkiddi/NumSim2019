@@ -2,10 +2,9 @@
 # Run ./numsim driven_cavity.txt
 
 # Problem description
-geometryFile = liddrivencavity_heat_20x20.geom
 physicalSizeX = 1.0   # physical size of the domain
 physicalSizeY = 1.0
-endTime = 10.0        # duration of the simulation
+endTime = 100.0        # duration of the simulation
 re = 316             # Reynolds number
 prandtl = 0.71 # Prandtl number
 beta = 1.019367991845056 # Volumetric expansion coefficient beta = Ri / (g * Re^2)
@@ -27,6 +26,7 @@ nCellsX = 20          # number of cells in x and y direction
 nCellsY = 20
 useDonorCell = true   # if donor cell discretization should be used, possible values: true false
 alpha = 0.5           # factor for donor-cell scheme, 0 is equivalent to central differences
+gamma = 0.5           # factor for donor-cell scheme (temperature), 0 is equivalent to central differences
 tau = 0.5             # safety factor for time step width
 maximumDt = 0.1       # maximum values for time step width
 
