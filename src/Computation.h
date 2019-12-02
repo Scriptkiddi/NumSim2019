@@ -23,7 +23,9 @@ public:
 private:
     void computeTimeStepWidth();
 
-    void applyBoundaryValues();
+    void applyBoundaryValuesVelocities();
+
+    void applyBoundaryValuesTemperature();
 
     void PreliminaryVelocities();
 
