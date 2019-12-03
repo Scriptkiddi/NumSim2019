@@ -134,12 +134,15 @@ void Settings::loadFromFile(std::string filename) {
             this->gamma = atof(parameterValue);
         }
         else if ( parameterName == "geometryFile"){
+            cout << "create parser" << endl;
+            cout << parameterValue << endl;
             GeometryParser parser = GeometryParser();
-            if( strcmp(parameterValue, "free")){
-                this->geometry = nullptr;
-            }else{
+            //if( strcmp(parameterValue, "free")){
+            //    this->geometry = nullptr;
+            //}else{
+                cout << "start parsing" << endl;
                 this->geometry = parser.parseGeometryFile(parameterValue, this);
-            }
+            //}
         }
     }
 };

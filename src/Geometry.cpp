@@ -10,6 +10,8 @@ Geometry::Geometry(std::array<int, 2> size) : size_(size) {
     velocity_.resize(size[0] * size[1]);
     temperature_.resize(size[0] * size[1]);
     state_.resize(size[0] * size[1]);
+    cout << size[0] << endl;
+    cout << size[1] << endl;
 }
 
 std::pair<std::basic_string<char>, std::vector<double>> Geometry::pressure(int i, int j) {
@@ -62,13 +64,20 @@ std::array<int, 2> Geometry::size() const {
 }
 
 bool Geometry::isFluid(int i, int j) {
-
+/*
     // assert that indices are in range
     assert(0 <= i && i < size_[0]);
     assert(0 <= j && j < size_[1]);
     //assert(j * size_[0] + i < (int) data_.size());
 
     return isFluid_[nCellsX * j + i];
+*/
+    if(this->state(i,j).first == "S"){
+        return false;
+    }else{
+        return true;
+    }
+
 }
 
 int Geometry::nCellsFluid() {
@@ -76,8 +85,8 @@ int Geometry::nCellsFluid() {
 }
 
 void Geometry::countFluidCells() {
-    for (int j = 0; j <= nCellsY; j++) {
-        for (int i = 0; i <= nCellsX; i++) {
+    for (int j = 0; j < nCellsY; j++) {
+        for (int i = 0; i < nCellsX; i++) {
             if (isFluid(i, j)) {
                 nCellsFluid_++;
             }

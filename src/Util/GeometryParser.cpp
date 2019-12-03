@@ -53,11 +53,14 @@ shared_ptr<Geometry> GeometryParser::parseGeometryFile(std::string filename, Set
             settings->nCells[1] = atoi(parameterValue);
         } else if (parameterName == "Mesh") {
             meshFound = true;
+            cout << "found mesh" << endl;
             continue;
         }
         if (meshFound) {
-            geometry_ = make_shared<Geometry>(Geometry({settings->nCells[0], settings->nCells[1]}));
-            parseMeshLine(line, settings->nCells[1]-meshLineNumber);
+            geometry_ = make_shared<Geometry>(Geometry({settings->nCells[0]+2, settings->nCells[1]+2}));
+            cout << "Create geometry" << settings->nCells[0]  << "x" << settings->nCells[1] << endl;
+            parseMeshLine(line, settings->nCells[1]+2-meshLineNumber-1);
+            cout << settings->nCells[1]-meshLineNumber-1 << endl;
             meshLineNumber++;
 
         }
@@ -83,7 +86,12 @@ void GeometryParser::parseMeshCell(string basicString, int columnNumber, int lin
     Utils::split(basicString, boundaries, ';');
     for (int i = 0; i < boundaries.size() ; ++i) {
         vector<string> values;
-        Utils::split(boundaries[columnNumber], values, ':');
+
+        if(boundaries[i].find(':')  == std::string::npos){
+            values.push_back(boundaries[i]);
+        }else{
+            Utils::split(boundaries[i], values, ':');
+        }
 
         if (values[0] == "NSW"){ // Noslip wall
             geometry_.get()->velocity(columnNumber, lineNumber) = {"NSW", {0}};
