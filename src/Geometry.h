@@ -11,7 +11,7 @@ class Geometry{
 
 public:
     //! constructor
-    explicit Geometry(std::array<int,2> size);
+    Geometry(std::array<int,2> size);
 
     //! get the size
     std::array<int,2> size() const;
@@ -23,7 +23,10 @@ public:
 
     //attributes 
 
-    std::vector< std::pair <std::string,std::vector<double>>> data_;  //< storage array values, in row-major order
+    std::vector< std::pair <std::string,std::vector<double>>> temperature_;  //< storage array values, in row-major order
+    std::vector< std::pair <std::string,std::vector<double>>> velocity_;  //< storage array values, in row-major order
+    std::vector< std::pair <std::string,std::vector<double>>> pressure_;  //< storage array values, in row-major order
+    std::vector< std::pair <std::string,std::vector<double>>> state_;  //< storage array values, in row-major order
 
     //! access the value at coordinate (i,j), declared not const, i.e. the value can be changed
     std::pair<std::basic_string<char>, std::vector<double>> velocity(int i, int j); // options: "NSW", "SLW", "IN", "OUT"

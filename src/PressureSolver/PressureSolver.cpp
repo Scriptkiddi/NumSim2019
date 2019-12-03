@@ -26,9 +26,9 @@ void PressureSolver::setBoundaryValues() {
                 discretization_.get()->p(i_low, j) = 2 * geometry_.get()->pLeftBoundValue[j] - discretization_.get()->p(i_low + 1, j); 
             }*/
             if(geometry_.get()->pressure(i_low,j).first == "PR"){
-                discretization.get()->p(i_low,j) = 2 * geometry_get()->pressure(i_low,j) - discretization.get()->p(i_low+1,j); //2p_in - p(1,j)
+                discretization_.get()->p(i_low,j) = 2 * geometry_.get()->pressure(i_low,j).second[0] - discretization_.get()->p(i_low+1,j); //2p_in - p(1,j)
             }else{
-                discretization.get()->p(i_low,j) = discretization.get()->p(i_low+1,j);
+                discretization_.get()->p(i_low,j) = discretization_.get()->p(i_low+1,j);
             }
         }
     }
@@ -43,9 +43,9 @@ void PressureSolver::setBoundaryValues() {
                 discretization_.get()->p(i_high, j) = 2 * geometry_.get()->pRightBoundValue[j] - discretization_.get()->p(i_high + 1, j); 
             }*/
             if(geometry_.get()->pressure(i_high,j).first == "PR"){
-                discretization.get()->p(i_high,j) = 2 * geometry_get()->pressure(i_high,j) - discretization.get()->p(i_high-1,j); //2p_in - p(1,j)
+                discretization_.get()->p(i_high,j) = 2 * geometry_.get()->pressure(i_high,j).second[0] - discretization_.get()->p(i_high-1,j); //2p_in - p(1,j)
             }else{
-                discretization.get()->p(i_high,j) = discretization.get()->p(i_high-1,j);
+                discretization_.get()->p(i_high,j) = discretization_.get()->p(i_high-1,j);
             }
         }
     }
@@ -60,9 +60,9 @@ void PressureSolver::setBoundaryValues() {
                 discretization_.get()->p(i, j_low) = 2 * geometry_.get()->pBottomBoundValue[i] - discretization_.get()->p(i, j_low + 1);
             }*/
             if(geometry_.get()->pressure(i,j_low).first == "PR"){
-                discretization.get()->p(i,j_low) = 2 * geometry_get()->pressure(i,j_low) - discretization.get()->p(i,j_low+1); //2p_in - p(1,j)
+                discretization_.get()->p(i,j_low) = 2 * geometry_.get()->pressure(i,j_low).second[0] - discretization_.get()->p(i,j_low+1); //2p_in - p(1,j)
             }else{
-                discretization.get()->p(i,j_low) = discretization.get()->p(i,j_low+1);
+                discretization_.get()->p(i,j_low) = discretization_.get()->p(i,j_low+1);
             }
         }
     }
@@ -77,9 +77,9 @@ void PressureSolver::setBoundaryValues() {
                 discretization_.get()->p(i, j_high) = 2 * geometry_.get()->pTopBoundValue[i] - discretization_.get()->p(i, j_high - 1);
             }*/
             if(geometry_.get()->pressure(i,j_high).first == "PR"){
-                discretization.get()->p(i,j_high) = 2 * geometry_get()->pressure(i,j_high) - discretization.get()->p(i,j_high-1); //2p_in - p(1,j)
+                discretization_.get()->p(i,j_high) = 2 * geometry_.get()->pressure(i,j_high).second[0] - discretization_.get()->p(i,j_high-1); //2p_in - p(1,j)
             }else{
-                discretization.get()->p(i,j_high) = discretization.get()->p(i,j_high-1);
+                discretization_.get()->p(i,j_high) = discretization_.get()->p(i,j_high-1);
             }
         }
     }
