@@ -22,8 +22,7 @@ void Computation::initialize(int argc, char **argv) {
     settings_.printSettings();
     array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
 
-    Geometry geometry(nCellsBoundary);
-    geometry_ = std::make_shared<Geometry>(geometry);
+    geometry_ = settings_.geometry;
 
     //initialize temperature boundary values //TODO TEMPORARILY
     t_h = 1;
@@ -50,7 +49,7 @@ void Computation::initialize(int argc, char **argv) {
 
     //initialize explicit pressureSolver
     if (settings_.pressureSolver == "SOR") {
-        SOR pSolver(discretization_, std::make_shared<Geometry>(geometry_),settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
+        SOR pSolver(discretization_, geometry_, settings_.epsilon, settings_.maximumNumberOfIterations, settings_.omega);
         pressureSolver_ = make_unique<SOR>(pSolver);
     } else {
         //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);

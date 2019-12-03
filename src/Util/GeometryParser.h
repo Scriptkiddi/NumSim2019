@@ -7,12 +7,13 @@
 
 
 #include <Geometry.h>
+#include <Settings.h>
 
 class GeometryParser {
 public:
 
 
-    shared_ptr<Geometry> parseGeometryFile(std::string filePath, Settings *settings);
+    std::shared_ptr<Geometry> parseGeometryFile(std::string filePath, Settings *settings);
 
     void parseMeshLine(string line, int lineNumber);
 
