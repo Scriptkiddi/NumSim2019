@@ -124,8 +124,9 @@ void Computation::computeTimeStepWidth() {
 
 //TODO wann Corners definieren!!! (siehe Skript)
 //TODO laufen die Schleifen lang genug/ kurz genug/ richtig?
+
 void Computation::applyBoundaryValuesVelocities() {
-// type: output options : "Neumann" (Abl = 0) oder "Dirichlet" (Wert = 0)
+// type  options : "Neumann" (Abl = 0) oder "Dirichlet" (Wert = 0)
 // type: input options : "SLW" (slip wall), "NSW" (no slip wall), "IN" (in wall), "OUT" (out wall), "PR" (pressure), 
 // "TD"( temperature Dirichlet), "TN" (temperature Neumann), "F" (fluid cell), "S" (solid cell)
 
@@ -204,7 +205,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->u(i,j_low) = discretization_.get()->u(i,j_low + 1); //u(1,j)
                 discretization_.get()->f(i,j_low) = discretization_.get()->u(i,j_low);
             }else if(geometry_.get()->velocity(i,j_low).first == "IN"){
-                discretization_.get()->u(i,j_low) = 2* geometry_.get()->velocity(i,j_low).second[0]; //2u_in(0,j*h) //TODO Dafuq?
+                discretization_.get()->u(i,j_low) = 2* geometry_.get()->velocity(i,j_low).second[0] - discretization_.get()->u(i,j_low+1); //2u_in(0,j*h) //TODO Dafuq?
                 discretization_.get()->f(i,j_low) = discretization_.get()->u(i,j_low);
             }else if(geometry_.get()->velocity(i,j_low).first == "OUT"){
                 discretization_.get()->u(i,j_low) = discretization_.get()->u(i,j_low + 1) - discretization_.get()->dy() * geometry_.get()->velocity(i,j_low).second[1];
@@ -231,7 +232,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->u(i,j_high) = discretization_.get()->u(i,j_high - 1); //u(1,j)
                 discretization_.get()->f(i,j_high) = discretization_.get()->u(i,j_high);
             }else if(geometry_.get()->velocity(i,j_high).first == "IN"){
-                discretization_.get()->u(i,j_high) = 2* geometry_.get()->velocity(i,j_high).second[0]; //2u_in(0,j*h) //TODO Dafuq?
+                discretization_.get()->u(i,j_high) = 2* geometry_.get()->velocity(i,j_high).second[0] - discretization_.get()->u(i,j_high-1); //2u_in(0,j*h) //TODO Dafuq?
                 discretization_.get()->f(i,j_high) = discretization_.get()->u(i,j_high);
             }else if(geometry_.get()->velocity(i,j_high).first == "OUT"){
                 discretization_.get()->u(i,j_high) = discretization_.get()->u(i,j_high - 1) - discretization_.get()->dy() * geometry_.get()->velocity(i,j_high).second[1];
@@ -283,7 +284,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->v(i_low,j) = discretization_.get()->v(i_low + 1,j); //v(1,j)
                 discretization_.get()->g(i_low,j) = discretization_.get()->v(i_low,j);
             }else if(geometry_.get()->velocity(i_low,j).first == "IN"){
-                discretization_.get()->v(i_low,j) = 2* geometry_.get()->velocity(i_low,j).second[1]; //2v_in(0,j*h) //TODO Dafuq?
+                discretization_.get()->v(i_low,j) = 2* geometry_.get()->velocity(i_low,j).second[1] - discretization_.get()->v(i_low+1,j); //2v_in(0,j*h)-v(1,j) //TODO Dafuq?
                 discretization_.get()->g(i_low,j) = discretization_.get()->v(i_low,j);
             }else if(geometry_.get()->velocity(i_low,j).first == "OUT"){
                 discretization_.get()->v(i_low,j) = discretization_.get()->v(i_low + 1,j);
@@ -310,7 +311,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->v(i_high,j) = discretization_.get()->v(i_high - 1,j); //v(end-1,j)
                 discretization_.get()->g(i_high,j) = discretization_.get()->v(i_high,j);
             }else if(geometry_.get()->velocity(i_high,j).first == "IN"){
-                discretization_.get()->v(i_high,j) = 2* geometry_.get()->velocity(i_high,j).second[1]; //2v_in(0,j*h) //TODO umformen von li auf re? allg dafuq?
+                discretization_.get()->v(i_high,j) = 2* geometry_.get()->velocity(i_high,j).second[1] - discretization_.get()->v(i_high-1,j); //2v_in(0,j*h)-v(1,j) //TODO umformen von li auf re? allg dafuq?
                 discretization_.get()->g(i_high,j) = discretization_.get()->v(i_high,j);
             }else if(geometry_.get()->velocity(i_high,j).first == "OUT"){
                 discretization_.get()->v(i_high,j) = discretization_.get()->v(i_high - 1,j);
