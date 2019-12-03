@@ -10,11 +10,9 @@ Geometry::Geometry(std::array<int, 2> size) : size_(size) {
     velocity_.resize(size[0] * size[1]);
     temperature_.resize(size[0] * size[1]);
     state_.resize(size[0] * size[1]);
-    cout << size[0] << endl;
-    cout << size[1] << endl;
 }
 
-std::pair<std::basic_string<char>, std::vector<double>> Geometry::pressure(int i, int j) {
+std::pair<std::string, std::vector<double>> Geometry::get_pressure(int i, int j) {
     const int index = j * size_[0] + i;
 
     // assert that indices are in range
@@ -24,19 +22,19 @@ std::pair<std::basic_string<char>, std::vector<double>> Geometry::pressure(int i
 
     return pressure_[index];
 }
-
-std::pair<std::basic_string<char>, std::vector<double>> Geometry::temperature(int i, int j) {
+void Geometry::set_pressure(int i, int j, std::pair<std::string, std::vector<double>> value) {
     const int index = j * size_[0] + i;
 
     // assert that indices are in range
     assert(0 <= i && i < size_[0]);
     assert(0 <= j && j < size_[1]);
-    assert(j * size_[0] + i < (int) temperature_.size());
+    assert(j * size_[0] + i < (int) pressure_.size());
 
-    return temperature_[index];
+    pressure_[index] = value;
 }
 
-std::pair<std::basic_string<char>, std::vector<double>> Geometry::velocity(int i, int j) {
+
+std::pair<std::string, std::vector<double>> Geometry::get_velocity(int i, int j) {
     const int index = j * size_[0] + i;
 
     // assert that indices are in range
@@ -46,8 +44,38 @@ std::pair<std::basic_string<char>, std::vector<double>> Geometry::velocity(int i
 
     return velocity_[index];
 }
+void Geometry::set_velocity(int i, int j, std::pair<std::string, std::vector<double>> value) {
+    const int index = j * size_[0] + i;
 
-std::pair<std::basic_string<char>, std::vector<double>> Geometry::state(int i, int j) {
+    // assert that indices are in range
+    assert(0 <= i && i < size_[0]);
+    assert(0 <= j && j < size_[1]);
+    assert(j * size_[0] + i < (int) velocity_.size());
+    cout << index << endl;
+
+    velocity_[index] = value;
+}
+std::pair<std::string, std::vector<double>> Geometry::get_temperature(int i, int j) {
+    const int index = j * size_[0] + i;
+
+    // assert that indices are in range
+    assert(0 <= i && i < size_[0]);
+    assert(0 <= j && j < size_[1]);
+    assert(j * size_[0] + i < (int) temperature_.size());
+
+    return temperature_[index];
+}
+void Geometry::set_temperature(int i, int j, std::pair<std::string, std::vector<double>> value) {
+    const int index = j * size_[0] + i;
+
+    // assert that indices are in range
+    assert(0 <= i && i < size_[0]);
+    assert(0 <= j && j < size_[1]);
+    assert(j * size_[0] + i < (int) temperature_.size());
+
+    temperature_[index] = value;
+}
+std::pair<std::string, std::vector<double>> Geometry::get_state(int i, int j) {
     const int index = j * size_[0] + i;
 
     // assert that indices are in range
@@ -57,7 +85,16 @@ std::pair<std::basic_string<char>, std::vector<double>> Geometry::state(int i, i
 
     return state_[index];
 }
+void Geometry::set_state(int i, int j, std::pair<std::string, std::vector<double>> value) {
+    const int index = j * size_[0] + i;
 
+    // assert that indices are in range
+    assert(0 <= i && i < size_[0]);
+    assert(0 <= j && j < size_[1]);
+    assert(j * size_[0] + i < (int) state_.size());
+
+    state_[index] = value;
+}
 //! get the size
 std::array<int, 2> Geometry::size() const {
     return size_;
@@ -72,10 +109,10 @@ bool Geometry::isFluid(int i, int j) {
 
     return isFluid_[nCellsX * j + i];
 */
-    if(this->state(i,j).first == "S"){
-        return false;
-    }else{
+    if(this->get_state(i,j).first == "F"){
         return true;
+    }else{
+        return false;
     }
 
 }
@@ -85,8 +122,8 @@ int Geometry::nCellsFluid() {
 }
 
 void Geometry::countFluidCells() {
-    for (int j = 0; j < nCellsY; j++) {
-        for (int i = 0; i < nCellsX; i++) {
+    for (int j = 0; j < size_[1]; j++) {
+        for (int i = 0; i < size_[0]; i++) {
             if (isFluid(i, j)) {
                 nCellsFluid_++;
             }
