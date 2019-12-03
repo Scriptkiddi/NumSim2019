@@ -20,6 +20,8 @@ public:
 
 private:
     std::shared_ptr<Geometry> geometry_;
+
+    void parseMeshCell(string basicString, int columnNumber, int lineNumber);
 };
 
 

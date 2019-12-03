@@ -57,7 +57,7 @@ shared_ptr<Geometry> GeometryParser::parseGeometryFile(std::string filename, Set
         }
         if (meshFound) {
             geometry_ = make_shared<Geometry>(Geometry({settings->nCells[0], settings->nCells[1]}));
-            parseMeshLine(line, meshLineNumber);
+            parseMeshLine(line, settings->nCells[1]-meshLineNumber);
             meshLineNumber++;
 
         }
@@ -71,51 +71,54 @@ void GeometryParser::parseMeshLine(string line, int lineNumber) {
     std::stringstream lineStream(line);
     std::string cell;
 
+    int columnNumber = 0;
     while (std::getline(lineStream, cell, ',')) {
-        parseMeshCell(cell, lineNumber);
+        parseMeshCell(cell, columnNumber, lineNumber);
+        columnNumber++;
     }
 }
 
-void GeometryParser::parseMeshCell(string basicString, int lineNumber) {
+void GeometryParser::parseMeshCell(string basicString, int columnNumber, int lineNumber) {
     vector <string> boundaries;
     Utils::split(basicString, boundaries, ';');
     for (int i = 0; i < boundaries.size() ; ++i) {
         vector<string> values;
-        Utils::split(boundaries[i], values, ':');
+        Utils::split(boundaries[columnNumber], values, ':');
+
         if (values[0] == "NSW"){ // Noslip wall
-            geometry_.get()->operator()(i, lineNumber) = {"NSW", {0}};
+            geometry_.get()->velocity()(columnNumber, lineNumber) = {"NSW", {0}};
         }
         else if (values[0] == "SLW"){ // Slip wall
-            geometry_.get()->operator()(i, lineNumber) = {"SLW", {0}};
+            geometry_.get()->velocity()(columnNumber, lineNumber) = {"SLW", {0}};
         }
         else if (values[0] == "IN"){ // IN wall
             assert(values.size() == 3);
             double u = stod(values[1]);
             double v = stod(values[2]);
-            geometry_.get()->operator()(i, lineNumber) = {"IN", {u,v}};
+            geometry_.get()->velocity()(columnNumber, lineNumber) = {"IN", {u, v}};
         }
         else if (values[0] == "OUT"){ // Out
-            geometry_.get()->operator()(i, lineNumber) = {"OUT", {0}};
+            geometry_.get()->velocity()(columnNumber, lineNumber) = {"OUT", {0}};
         }
         else if (values[0] == "PR"){ // Pressure
             double pr = stod(values[1]);
-            geometry_.get()->operator()(i, lineNumber) = {"PR", {pr}};
+            geometry_.get()->pressure()(columnNumber, lineNumber) = {"PR", {pr}};
 
         }
         else if (values[0] == "TD"){ // T Dirichlet
             double td = stod(values[1]);
-            geometry_.get()->operator()(i, lineNumber) = {"TD", {td}};
+            geometry_.get()->temperature()(columnNumber, lineNumber) = {"TD", {td}};
 
         }
         else if (values[0] == "TN"){ // T Neumann
             double tn = stod(values[1]);
-            geometry_.get()->operator()(i, lineNumber) = {"TN", {tn}};
+            geometry_.get()->temperature()(columnNumber, lineNumber) = {"TN", {tn}};
         }
         else if (values[0] == "F"){ // Fluid cell
-            geometry_.get()->operator()(i, lineNumber) = {"F", {0}};
+            geometry_.get()->state()(columnNumber, lineNumber) = {"F", {0}};
         }
         else if (values[0] == "S"){ // Solid cell
-            geometry_.get()->operator()(i, lineNumber) = {"S", {0}};
+            geometry_.get()->state()(columnNumber, lineNumber) = {"S", {0}};
         }
     }
 
