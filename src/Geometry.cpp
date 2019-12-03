@@ -2,12 +2,14 @@
 #include <assert.h>
 #include <iostream>
 #include "Geometry.h"
+#include "Util/GeometryParser.h"
+#include <memory>
 
 Geometry::Geometry(std::array<int, 2> size): size_(size){
     data_.resize(size[0] * size[1]);
 }
 
-
+//TODO delete? replace with velocity, temperature, pressure
 std::pair<std::basic_string<char>, std::vector<double>> Geometry::operator()(int i, int j) {
     const int index = j * size_[0] + i;
 

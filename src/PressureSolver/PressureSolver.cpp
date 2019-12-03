@@ -15,52 +15,71 @@ PressureSolver::PressureSolver(std::shared_ptr<Discretization> discretization, s
 }
 
 void PressureSolver::setBoundaryValues() {
-
     //outer bounds
-    //left bound without corners
+    //left bound with corners
     int i_low = discretization_.get()->pIBegin()-1;
-    for (int j = discretization_.get()->pJBegin() ; j <= discretization_.get()->pJEnd() ; j++) {
+    for (int j = discretization_.get()->pJBegin()-1 ; j <= discretization_.get()->pJEnd()+1 ; j++) {
         if(!geometry_.get()->isFluid(i_low,j) && geometry_.get()->isFluid(i_low + 1,j)){
-            if(geometry_.get()->pLeftBoundType[j] == "Neumann"){
+           /* if(geometry_.get()->pLeftBoundType[j] == "Neumann"){
                 discretization_.get()->p(i_low, j) = discretization_.get()->p(i_low + 1, j) - discretization_.get()->dx() * geometry_.get()->pLeftBoundValue[j];
             }else{
                 discretization_.get()->p(i_low, j) = 2 * geometry_.get()->pLeftBoundValue[j] - discretization_.get()->p(i_low + 1, j); 
+            }*/
+            if(geometry_.get()->pressure(i_low,j).first == "PR"){
+                discretization.get()->p(i_low,j) = 2 * geometry_get()->pressure(i_low,j) - discretization.get()->p(i_low+1,j); //2p_in - p(1,j)
+            }else{
+                discretization.get()->p(i_low,j) = discretization.get()->p(i_low+1,j);
             }
         }
     }
 
-    //right bound without corners
+    //right bound with corners
     int i_high = discretization_.get()->pIEnd()+1;
-    for (int j = discretization_.get()->pJBegin() ; j <= discretization_.get()->pJEnd() ; j++) {
+    for (int j = discretization_.get()->pJBegin()-1 ; j <= discretization_.get()->pJEnd()+1 ; j++) {
         if(!geometry_.get()->isFluid(i_high,j) && geometry_.get()->isFluid(i_high - 1,j)){
-            if(geometry_.get()->pRightBoundType[j] == "Neumann"){
+            /*if(geometry_.get()->pRightBoundType[j] == "Neumann"){
                 discretization_.get()->p(i_high, j) = discretization_.get()->p(i_high - 1, j) - discretization_.get()->dx() * geometry_.get()->pRightBoundValue[j];
             }else{
                 discretization_.get()->p(i_high, j) = 2 * geometry_.get()->pRightBoundValue[j] - discretization_.get()->p(i_high + 1, j); 
+            }*/
+            if(geometry_.get()->pressure(i_high,j).first == "PR"){
+                discretization.get()->p(i_high,j) = 2 * geometry_get()->pressure(i_high,j) - discretization.get()->p(i_high-1,j); //2p_in - p(1,j)
+            }else{
+                discretization.get()->p(i_high,j) = discretization.get()->p(i_high-1,j);
             }
         }
     }
 
-    //bottom bound with corners
+    //bottom bound without corners
     int j_low = discretization_.get()->pJBegin()-1;
-    for (int i = discretization_.get()->pIBegin()-1; i <= discretization_.get()->pIEnd()+1; i++) {
+    for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
         if(!geometry_.get()->isFluid(i,j_low) && geometry_.get()->isFluid(i, j_low + 1)){
-            if(geometry_.get()->pBottomBoundType[i] == "Neumann"){
+            /*if(geometry_.get()->pBottomBoundType[i] == "Neumann"){
                 discretization_.get()->p(i, j_low) = discretization_.get()->p(i, j_low + 1) - discretization_.get()->dy() * geometry_.get()->pBottomBoundValue[i];
             }else{
                 discretization_.get()->p(i, j_low) = 2 * geometry_.get()->pBottomBoundValue[i] - discretization_.get()->p(i, j_low + 1);
+            }*/
+            if(geometry_.get()->pressure(i,j_low).first == "PR"){
+                discretization.get()->p(i,j_low) = 2 * geometry_get()->pressure(i,j_low) - discretization.get()->p(i,j_low+1); //2p_in - p(1,j)
+            }else{
+                discretization.get()->p(i,j_low) = discretization.get()->p(i,j_low+1);
             }
         }
     }
 
-    //top bound with corners
+    //top bound without corners
     int j_high = discretization_.get()->pJEnd()-1;
-    for (int i = discretization_.get()->pIBegin()-1; i <= discretization_.get()->pIEnd()+1; i++) {
+    for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
         if(!geometry_.get()->isFluid(i,j_high) && geometry_.get()->isFluid(i, j_high - 1)){
-            if(geometry_.get()->pTopBoundType[i] == "Neumann"){
+            /*if(geometry_.get()->pTopBoundType[i] == "Neumann"){
                 discretization_.get()->p(i, j_high) = discretization_.get()->p(i, j_high - 1) - discretization_.get()->dy() * geometry_.get()->pTopBoundValue[i];
             }else{
                 discretization_.get()->p(i, j_high) = 2 * geometry_.get()->pTopBoundValue[i] - discretization_.get()->p(i, j_high - 1);
+            }*/
+            if(geometry_.get()->pressure(i,j_high).first == "PR"){
+                discretization.get()->p(i,j_high) = 2 * geometry_get()->pressure(i,j_high) - discretization.get()->p(i,j_high-1); //2p_in - p(1,j)
+            }else{
+                discretization.get()->p(i,j_high) = discretization.get()->p(i,j_high-1);
             }
         }
     }
