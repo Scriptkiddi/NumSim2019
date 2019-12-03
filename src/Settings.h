@@ -8,6 +8,8 @@ using namespace std;
 
 #include <string>
 #include <array>
+#include <memory>
+#include "Geometry.h"
 
 struct Settings {
     void loadFromFile(std::string filename);
@@ -58,6 +60,10 @@ struct Settings {
     double vInit;
     double pInit;
     double tInit;
+
+    std::shared_ptr<Geometry> geometry;
+
+    double outputFileEveryDt = 0;
 };
 
 

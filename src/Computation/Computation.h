@@ -12,6 +12,7 @@
 #include "PressureSolver/PressureSolver.h"
 #include "output_writer/output_writer_paraview.h"
 #include "output_writer/output_writer_text.h"
+#include "Geometry.h"
 
 class Computation {
 public:
@@ -22,7 +23,9 @@ public:
 private:
     void computeTimeStepWidth();
 
-    void applyBoundaryValues();
+    void applyBoundaryValuesVelocities();
+
+    void applyBoundaryValuesTemperature();
 
     void PreliminaryVelocities();
 
@@ -38,6 +41,8 @@ private:
 
     // Attributes
     Settings settings_;
+
+    std::shared_ptr<Geometry> geometry_;
 
     std::shared_ptr <Discretization> discretization_;
 

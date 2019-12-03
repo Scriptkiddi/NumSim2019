@@ -7,6 +7,7 @@
 #include <iostream>
 #include <array>
 #include <cstring>
+#include <Util/GeometryParser.h>
 #include "Util/Utils.h"
 
 void Settings::loadFromFile(std::string filename) {
@@ -132,6 +133,19 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "gamma") {
             this->gamma = atof(parameterValue);
         }
+        else if ( parameterName == "geometryFile"){
+            cout << "create parser" << endl;
+            cout << parameterValue << endl;
+            GeometryParser parser = GeometryParser();
+            //if( strcmp(parameterValue, "free")){
+            //    this->geometry = nullptr;
+            //}else{
+                cout << "start parsing" << endl;
+                this->geometry = parser.parseGeometryFile(parameterValue, this);
+            //}
+        } else if (parameterName == "outputFileEveryDt"){
+            this->outputFileEveryDt = atof(parameterValue);
+        }
     }
 };
 
@@ -153,14 +167,3 @@ void Settings::printSettings() {
 
 }
 
-std::string trim(const std::string &str,
-                 const std::string &whitespace = " \t") {
-    const auto strBegin = str.find_first_not_of(whitespace);
-    if (strBegin == std::string::npos)
-        return ""; // no content
-
-    const auto strEnd = str.find_last_not_of(whitespace);
-    const auto strRange = strEnd - strBegin + 1;
-
-    return str.substr(strBegin, strRange);
-}
