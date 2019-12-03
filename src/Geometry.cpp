@@ -27,13 +27,20 @@ std::array<int, 2> Geometry::size() const {
 }
 
 bool Geometry::isFluid(int i, int j){
-
+/*
     // assert that indices are in range
     assert(0 <= i && i < size_[0]);
     assert(0 <= j && j < size_[1]);
     assert(j * size_[0] + i < (int) data_.size());
 
     return isFluid_[nCellsX * j + i];
+*/
+    if(this.state(i,j)=="S"){
+        return false;
+    }else{
+        return true;
+    }
+
 }
 
 int Geometry::nCellsFluid(){
