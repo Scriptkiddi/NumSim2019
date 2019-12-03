@@ -143,6 +143,8 @@ void Settings::loadFromFile(std::string filename) {
                 cout << "start parsing" << endl;
                 this->geometry = parser.parseGeometryFile(parameterValue, this);
             //}
+        } else if (parameterName == "outputFileEveryDt"){
+            this->outputFileEveryDt = atof(parameterValue);
         }
     }
 };

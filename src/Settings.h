@@ -62,6 +62,8 @@ struct Settings {
     double tInit;
 
     std::shared_ptr<Geometry> geometry;
+
+    double outputFileEveryDt = 0;
 };
 
 

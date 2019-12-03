@@ -65,6 +65,7 @@ void Computation::runSimulation() {
     applyInitialConditions();
     applyBoundaryValuesVelocities();
     applyBoundaryValuesTemperature();
+    double counter = 0;
     while (t < settings_.endTime) {
         computeTimeStepWidth();
         computeTemperature();
@@ -76,8 +77,13 @@ void Computation::runSimulation() {
         computeVelocities();
         applyBoundaryValuesVelocities();
         t += dt_;
-        outputWriterParaview_.get()->writeFile(t);
-        outputWriterText_.get()->writeFile(t);
+        counter += dt_;
+        if (counter >= settings_.outputFileEveryDt){
+            counter = 0;
+            cout << "Writing paraview timestep: "<< t << endl;
+            outputWriterParaview_.get()->writeFile(t);
+            outputWriterText_.get()->writeFile(t);
+        }
         cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
     }
 
@@ -213,9 +219,7 @@ void Computation::applyBoundaryValuesVelocities() {
     //top bound
     j_high = discretization_.get()->uJEnd() + 1; //Schleife kürzer
     for(int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++){
-        cout << "before setting u top boundary values" << endl;
         if(!geometry_.get()->isFluid(i,j_high) && geometry_.get()->isFluid(i,j_high - 1)){
-            cout << "setting u top boundary values" << endl;
             /*if(geometry_.get()->uTopBoundType[i] == "Neumann"){
                 double uOld = discretization_.get()->u(i,j_high);
                 discretization_.get()->u(i,j_high) = discretization_.get()->u(i, j_high + 1) - discretization_.get()->dy() * geometry_.get()->uTopBoundValue[i];
@@ -231,7 +235,6 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->u(i,j_high) = discretization_.get()->u(i,j_high - 1); //u(1,j)
                 discretization_.get()->f(i,j_high) = discretization_.get()->u(i,j_high);
             }else if(geometry_.get()->get_velocity(i,j_high).first == "IN"){
-                cout << "set IN boundaries" << endl;
                 discretization_.get()->u(i,j_high) = 2* geometry_.get()->get_velocity(i,j_high).second[0] - discretization_.get()->u(i,j_high-1); //2u_in(0,j*h) //TODO Dafuq?
                 discretization_.get()->f(i,j_high) = discretization_.get()->u(i,j_high);
             }else if(geometry_.get()->get_velocity(i,j_high).first == "OUT"){
