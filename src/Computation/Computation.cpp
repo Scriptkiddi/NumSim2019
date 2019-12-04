@@ -575,15 +575,23 @@ void Computation::applyInitialConditions() {
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
             if (!geometry_.get()->isFluid(i, j)) {
-                if (!geometry_.get()->isFluid(i + 1, j) && !geometry_.get()->isFluid(i - 1, j) &&
+                if (!geometry_.get()->isFluid(i + 1, j) &&
                     !geometry_.get()->isFluid(i, j + 1) && !geometry_.get()->isFluid(i, j - 1)) {
                     discretization_.get()->u(i, j) = std::nan("");
+                } else {
+                    discretization_.get()->u(i, j) = uInit;
+                }
+                if (!geometry_.get()->isFluid(i + 1, j) && !geometry_.get()->isFluid(i - 1, j) &&
+                    !geometry_.get()->isFluid(i, j + 1)) {
                     discretization_.get()->v(i, j) = std::nan("");
+                } else {
+                    discretization_.get()->v(i, j) = vInit;
+                }
+                if (!geometry_.get()->isFluid(i + 1, j) && !geometry_.get()->isFluid(i - 1, j) &&
+                    !geometry_.get()->isFluid(i, j + 1) && !geometry_.get()->isFluid(i, j - 1)) {
                     discretization_.get()->p(i, j) = std::nan("");
                     discretization_.get()->t(i, j) = std::nan("");
                 } else {
-                    discretization_.get()->u(i, j) = uInit;
-                    discretization_.get()->v(i, j) = vInit;
                     discretization_.get()->p(i, j) = pInit;
                     discretization_.get()->t(i, j) = tInit;
                 }
