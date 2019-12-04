@@ -581,6 +581,11 @@ void Computation::applyInitialConditions() {
                     discretization_.get()->t(i, j) = std::nan("");
                     discretization_.get()->v(i, j) = std::nan("");
                     discretization_.get()->u(i, j) = std::nan("");
+                } else {
+                    discretization_.get()->u(i, j) = uInit;
+                    discretization_.get()->v(i, j) = vInit;
+                    discretization_.get()->p(i, j) = pInit;
+                    discretization_.get()->t(i, j) = tInit;
                 }
             } else {
                 discretization_.get()->u(i, j) = uInit;
@@ -591,3 +596,5 @@ void Computation::applyInitialConditions() {
         }
     }
 }
+
+
