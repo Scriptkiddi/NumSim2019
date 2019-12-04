@@ -63,7 +63,7 @@ void Computation::initialize(int argc, char **argv) {
 
 void Computation::runSimulation() {
     double t = 0;
-    //applyInitialConditions();
+    applyInitialConditions();
     applyBoundaryValuesVelocities();
     applyBoundaryValuesTemperature();
     double lastOutputTime = 0;
@@ -239,7 +239,7 @@ void Computation::applyBoundaryValuesVelocities() {
     for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
         for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
             if (!geometry_.get()->isFluid(i, j)) {
-                if (!geometry_.get()->isFluid(i + 1, j)) {
+                if (geometry_.get()->isFluid(i + 1, j)) {
                     discretization_.get()->u(i, j) = 0;
                     discretization_.get()->f(i, j) = 0;
                 } else if (geometry_.get()->isFluid(i, j + 1)) {
@@ -354,7 +354,7 @@ void Computation::applyBoundaryValuesVelocities() {
     for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
         for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
             if (!geometry_.get()->isFluid(i, j)) {
-                if (!geometry_.get()->isFluid(i, j + 1)) {
+                if (geometry_.get()->isFluid(i, j + 1)) {
                     discretization_.get()->v(i, j) = 0;
                     discretization_.get()->g(i, j) = 0;
                 } else if (geometry_.get()->isFluid(i + 1, j)) {
