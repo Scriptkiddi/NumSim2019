@@ -184,7 +184,7 @@ void Computation::applyBoundaryValuesVelocities() {
             } else if (geometry_.get()->get_velocity(i_high, j).first == "IN") {
                 discretization_.get()->u(i_high, j) = geometry_.get()->get_velocity(i_high, j).second[0];
                 discretization_.get()->f(i_high, j) = discretization_.get()->u(i_high, j);
-            } else if (geometry_.get()->get_velocity(i_high, j).first == "OUT" || geometry_.get()->get_velocity(i_low, j).first == "PR") {
+            } else if (geometry_.get()->get_velocity(i_high, j).first == "OUT" || geometry_.get()->get_velocity(i_high, j).first == "PR") {
                 double uOld = discretization_.get()->u(i_high, j);
                 discretization_.get()->u(i_high, j) = discretization_.get()->u(i_high - 1, j);
                 discretization_.get()->f(i_high, j) = 2 * discretization_.get()->u(i_high, j) - uOld;
@@ -206,7 +206,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->u(i, j_low) =
                         2 * geometry_.get()->get_velocity(i, j_low).second[0] - discretization_.get()->u(i, j_low + 1);
                 discretization_.get()->f(i, j_low) = discretization_.get()->u(i, j_low);
-            } else if (geometry_.get()->get_velocity(i, j_low).first == "OUT" || geometry_.get()->get_velocity(i_low, j).first == "PR") {
+            } else if (geometry_.get()->get_velocity(i, j_low).first == "OUT" || geometry_.get()->get_velocity(i,j_low).first == "PR") {
                 double uOld = discretization_.get()->u(i, j_low);
                 discretization_.get()->u(i, j_low) = discretization_.get()->u(i, j_low + 1);
                 discretization_.get()->f(i, j_low) = 2 * discretization_.get()->u(i, j_low) - uOld;
@@ -228,7 +228,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->u(i, j_high) = 2 * geometry_.get()->get_velocity(i, j_high).second[0] -
                                                       discretization_.get()->u(i, j_high - 1);
                 discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
-            } else if (geometry_.get()->get_velocity(i, j_high).first == "OUT" || geometry_.get()->get_velocity(i_low, j).first == "PR") {
+            } else if (geometry_.get()->get_velocity(i, j_high).first == "OUT" || geometry_.get()->get_velocity(i,j_high).first == "PR") {
                 double uOld = discretization_.get()->u(i, j_high);
                 discretization_.get()->u(i, j_high) = discretization_.get()->u(i, j_high - 1);
                 discretization_.get()->f(i, j_high) = 2 * discretization_.get()->u(i, j_high) - uOld;
@@ -301,7 +301,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->v(i_high, j) = 2 * geometry_.get()->get_velocity(i_high, j).second[1] -
                                                       discretization_.get()->v(i_high - 1, j); //2v_in(0,j*h)-v(1,j)
                 discretization_.get()->g(i_high, j) = discretization_.get()->v(i_high, j);
-            } else if (geometry_.get()->get_velocity(i_high, j).first == "OUT" || geometry_.get()->get_velocity(i_low, j).first == "PR") {
+            } else if (geometry_.get()->get_velocity(i_high, j).first == "OUT" || geometry_.get()->get_velocity(i_high, j).first == "PR") {
                 double vOld = discretization_.get()->v(i_high, j);
                 discretization_.get()->v(i_high, j) = discretization_.get()->v(i_high - 1, j);
                 discretization_.get()->g(i_high, j) = 2 * discretization_.get()->v(i_high, j) - vOld;
@@ -322,7 +322,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->v(i, j_low) = geometry_.get()->get_velocity(i,
                                                                                    j_low).second[1]; //v_in(0,j*h-h/2) //TODO trafo von li/re und u/v? allg. dafuq?
                 discretization_.get()->g(i, j_low) = discretization_.get()->v(i, j_low);
-            } else if (geometry_.get()->get_velocity(i, j_low).first == "OUT" || geometry_.get()->get_velocity(i_low, j).first == "PR") {
+            } else if (geometry_.get()->get_velocity(i, j_low).first == "OUT" || geometry_.get()->get_velocity(i,j_low).first == "PR") {
                 double vOld = discretization_.get()->v(i, j_low);
                 discretization_.get()->v(i, j_low) = discretization_.get()->v(i, j_low + 1);
                 discretization_.get()->g(i, j_low) = 2 * discretization_.get()->v(i, j_low) - vOld;
@@ -343,7 +343,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->v(i, j_high) = geometry_.get()->get_velocity(i,
                                                                                     j_high).second[1]; //v_in(0,j*h-h/2) //TODO trafo von li/re und u/v? allg. dafuq?
                 discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
-            } else if (geometry_.get()->get_velocity(i, j_high).first == "OUT" || geometry_.get()->get_velocity(i_low, j).first == "PR") {
+            } else if (geometry_.get()->get_velocity(i, j_high).first == "OUT" || geometry_.get()->get_velocity(i,j_high).first == "PR") {
                 double vOld = discretization_.get()->v(i, j_high);
                 discretization_.get()->v(i, j_high) = discretization_.get()->v(i, j_high - 1);
                 discretization_.get()->g(i, j_high) = 2 * discretization_.get()->v(i, j_high) - vOld;
