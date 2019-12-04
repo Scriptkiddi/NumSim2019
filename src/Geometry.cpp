@@ -51,9 +51,12 @@ void Geometry::set_velocity(int i, int j, std::pair<std::string, std::vector<dou
     assert(0 <= i && i < size_[0]);
     assert(0 <= j && j < size_[1]);
     assert(j * size_[0] + i < (int) velocity_.size());
-    cout << index << endl;
+    cout << value.second.size() << endl;
+    cout << i << "x" << j << endl;
 
     velocity_[index] = value;
+    cout << velocity_[index].second.size() << endl;
+    cout << "--" << endl;
 }
 std::pair<std::string, std::vector<double>> Geometry::get_temperature(int i, int j) {
     const int index = j * size_[0] + i;

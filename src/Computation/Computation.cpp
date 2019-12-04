@@ -343,7 +343,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
             } else if (geometry_.get()->get_velocity(i, j_high + 1).first == "IN") {
                 discretization_.get()->v(i, j_high) = geometry_.get()->get_velocity(i,
-                                                                                    j_high).second[1]; //v_in(0,j*h-h/2) //TODO trafo von li/re und u/v? allg. dafuq?
+                                                                                    j_high+1).second[1]; //v_in(0,j*h-h/2) //TODO trafo von li/re und u/v? allg. dafuq?
                 discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
             } else if (geometry_.get()->get_velocity(i, j_high + 1).first == "OUT" ||
                        geometry_.get()->get_pressure(i, j_high + 1).first == "PR") {
@@ -389,7 +389,7 @@ void Computation::applyBoundaryValuesTemperature() {
     //outer bounds
     //left bound without corners
     i_low = discretization_.get()->tIBegin() - 1;
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+    for (int j = discretization_.get()->tJBegin() -1; j <= discretization_.get()->tJEnd() +1; j++) {
         if (!geometry_.get()->isFluid(i_low, j)) {
             if (geometry_.get()->get_temperature(i_low, j).first == "TN") {
                 discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low + 1, j) -
@@ -404,7 +404,7 @@ void Computation::applyBoundaryValuesTemperature() {
 
     //right bound without corners
     i_high = discretization_.get()->tIEnd() + 1;
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+    for (int j = discretization_.get()->tJBegin()-1; j <= discretization_.get()->tJEnd() +1; j++) {
         if (!geometry_.get()->isFluid(i_high, j)) {
             if (geometry_.get()->get_temperature(i_high, j).first == "TN") {
                 discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high - 1, j) -
@@ -419,7 +419,7 @@ void Computation::applyBoundaryValuesTemperature() {
 
     //bottom bound with corners
     j_low = discretization_.get()->tJBegin() - 1;
-    for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
+    for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_low)) {
             if (geometry_.get()->get_temperature(i, j_low).first == "TN") {
                 discretization_.get()->t(i, j_low) = discretization_.get()->t(i, j_low + 1) -
@@ -433,8 +433,8 @@ void Computation::applyBoundaryValuesTemperature() {
     }
 
     //top bound with corners
-    j_high = discretization_.get()->tJEnd() - 1;
-    for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
+    j_high = discretization_.get()->tJEnd() + 1;
+    for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_high)) {
             if (geometry_.get()->get_temperature(i, j_high).first == "TN") {
                 discretization_.get()->t(i, j_high) = discretization_.get()->t(i, j_high - 1) -
