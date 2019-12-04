@@ -591,5 +591,3 @@ void Computation::applyInitialConditions() {
         }
     }
 }
-
-}
