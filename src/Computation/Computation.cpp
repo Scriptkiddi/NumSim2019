@@ -343,7 +343,7 @@ void Computation::applyBoundaryValuesVelocities() {
                 discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
             } else if (geometry_.get()->get_velocity(i, j_high + 1).first == "IN") {
                 discretization_.get()->v(i, j_high) = geometry_.get()->get_velocity(i,
-                                                                                    j_high).second[1]; //v_in(0,j*h-h/2) //TODO trafo von li/re und u/v? allg. dafuq?
+                                                                                    j_high+1).second[1]; //v_in(0,j*h-h/2) //TODO trafo von li/re und u/v? allg. dafuq?
                 discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
             } else if (geometry_.get()->get_velocity(i, j_high + 1).first == "OUT" ||
                        geometry_.get()->get_pressure(i, j_high + 1).first == "PR") {
@@ -433,7 +433,7 @@ void Computation::applyBoundaryValuesTemperature() {
     }
 
     //top bound with corners
-    j_high = discretization_.get()->tJEnd() - 1;
+    j_high = discretization_.get()->tJEnd() + 1;
     for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_high)) {
             if (geometry_.get()->get_temperature(i, j_high).first == "TN") {

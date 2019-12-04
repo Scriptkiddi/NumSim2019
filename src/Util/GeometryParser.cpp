@@ -21,7 +21,7 @@ shared_ptr<Geometry> GeometryParser::parseGeometryFile(std::string filename, Set
 
 
     bool meshFound = false;
-    int meshLineNumber = 0;
+    int meshLineNumber = 1;
     while (!file.eof()) {
         std::string line;
         getline(file, line);
@@ -58,7 +58,7 @@ shared_ptr<Geometry> GeometryParser::parseGeometryFile(std::string filename, Set
         }
         if (meshFound) {
             //cout << "Create geometry" << settings->nCells[0]  << "x" << settings->nCells[1] << endl;
-            parseMeshLine(line, settings->nCells[1]+2-meshLineNumber-1);
+            parseMeshLine(line, settings->nCells[1]+2-meshLineNumber);
             meshLineNumber++;
 
         }
