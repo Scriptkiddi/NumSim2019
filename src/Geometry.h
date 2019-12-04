@@ -43,10 +43,7 @@ public:
 private:
     std::vector<bool> isFluid_;
 
-    int nCellsX;
-    int nCellsY;
-
-    int nCellsFluid_;
+    int nCellsFluid_ = 0;
 
 };
 

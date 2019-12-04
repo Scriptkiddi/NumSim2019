@@ -96,6 +96,7 @@ void GeometryParser::parseMeshCell(string basicString, int columnNumber, int lin
         }
         cout << "line:"<< lineNumber << " col: " << columnNumber << "val: " << values[0] << endl;
 
+        geometry_.get()->set_state(columnNumber, lineNumber, {"S", {0}});
 
         if (values[0] == "NSW"){ // Noslip wall
 
@@ -129,9 +130,6 @@ void GeometryParser::parseMeshCell(string basicString, int columnNumber, int lin
         }
         else if (values[0] == "F"){ // Fluid cell
             geometry_.get()->set_state(columnNumber, lineNumber, {"F", {0}});
-        }
-        else if (values[0] == "S"){ // Solid cell
-            geometry_.get()->set_state(columnNumber, lineNumber, {"S", {0}});
         }
     }
 

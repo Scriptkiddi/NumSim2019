@@ -122,6 +122,7 @@ int Geometry::nCellsFluid() {
 }
 
 void Geometry::countFluidCells() {
+
     for (int j = 0; j < size_[1]; j++) {
         for (int i = 0; i < size_[0]; i++) {
             if (isFluid(i, j)) {

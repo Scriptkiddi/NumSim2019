@@ -50,10 +50,10 @@ void SOR::solve() {
                             discretization_->rhs(i, j)
                             - (discretization_.get()->p(i - 1, j) - 2 * discretization_.get()->p(i, j) +
                             discretization_.get()->p(i + 1, j))
-                            / pow(discretization_.get()->meshWidth()[0], 2)
+                            / pow(discretization_.get()->dx(), 2)
                             - (discretization_.get()->p(i, j - 1) - 2 * discretization_.get()->p(i, j) +
                             discretization_.get()->p(i, j + 1))
-                            / pow(discretization_.get()->meshWidth()[1], 2), 2);
+                            / pow(discretization_.get()->dy(), 2), 2);
                 }
             }
         }
@@ -61,6 +61,6 @@ void SOR::solve() {
         //eps = eps / ((discretization_.get()->nCells()[0] - 2) * (discretization_.get()->nCells()[1] - 2));
         iter++;
     }
-    //std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epslion² " << pow(epsilon_,2) <<std::endl;
+    std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epslion² " << pow(epsilon_,2) <<std::endl;
     setBoundaryValues();
 }

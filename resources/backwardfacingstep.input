@@ -1,0 +1,33 @@
+# Settings file for numsim program
+# Run ./numsim driven_cavity.txt
+
+# Problem description
+geometryFile = backwardfacingstep_100x20.geom
+endTime = 500.0        # duration of the simulation
+re = 100             # Reynolds number
+prandtl = 1.0 # Prandtl number
+beta = 0.0 # Volumetric expansion coefficient beta = Ri / (g * Re^2)
+gX = 0.    # external forces, set to (gX,gY) = (0,-9.81) to account for gravity
+gY = 0.0
+
+uInit = 0.0
+vInit = 0.0
+pInit = 0.0
+tInit = 0.0
+
+# Discretization parameters
+useDonorCell = true   # if donor cell discretization should be used, possible values: true false
+alpha = 0.9           # factor for donor-cell scheme, 0 is equivalent to central differences
+gamma = 0.5
+tau = 0.5             # safety factor for time step width
+maximumDt = 0.5       # maximum values for time step width
+
+# Solver parameters
+pressureSolver = SOR  # which pressure solver to use, possible values: GaussSeidel SOR CG
+omega = 1.7           # overrelaxation factor, only for SOR solver
+epsilon = 0.001        # tolerance for 2-norm of residual
+maximumNumberOfIterations = 5000    # maximum number of iterations in the solver
+
+# Output parameters
+outputFileEveryDt = 1
+
