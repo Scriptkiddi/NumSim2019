@@ -51,7 +51,6 @@ void Geometry::set_velocity(int i, int j, std::pair<std::string, std::vector<dou
     assert(0 <= i && i < size_[0]);
     assert(0 <= j && j < size_[1]);
     assert(j * size_[0] + i < (int) velocity_.size());
-    cout << index << endl;
 
     velocity_[index] = value;
 }

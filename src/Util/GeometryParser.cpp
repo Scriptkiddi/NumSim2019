@@ -53,12 +53,11 @@ shared_ptr<Geometry> GeometryParser::parseGeometryFile(std::string filename, Set
             settings->nCells[1] = atoi(parameterValue);
         } else if (parameterName == "Mesh") {
             meshFound = true;
-            cout << "found mesh" << endl;
             geometry_ = make_shared<Geometry>(Geometry({settings->nCells[0]+2, settings->nCells[1]+2}));
             continue;
         }
         if (meshFound) {
-            cout << "Create geometry" << settings->nCells[0]  << "x" << settings->nCells[1] << endl;
+            //cout << "Create geometry" << settings->nCells[0]  << "x" << settings->nCells[1] << endl;
             parseMeshLine(line, settings->nCells[1]+2-meshLineNumber-1);
             meshLineNumber++;
 
@@ -66,9 +65,9 @@ shared_ptr<Geometry> GeometryParser::parseGeometryFile(std::string filename, Set
     }
     geometry_.get()->countFluidCells();
 
-    cout << "testing" << endl;
-    cout << "out: " << geometry_.get()->get_velocity(0,1).first << endl;
-    cout << geometry_.get()->get_velocity(1,0).first << endl;
+    //cout << "testing" << endl;
+    //cout << "out: " << geometry_.get()->get_velocity(0,1).first << endl;
+    //cout << geometry_.get()->get_velocity(1,0).first << endl;
     return geometry_;
 }
 
@@ -94,7 +93,7 @@ void GeometryParser::parseMeshCell(string basicString, int columnNumber, int lin
         }else{
             Utils::split(boundaries[i], values, ':');
         }
-        cout << "line:"<< lineNumber << " col: " << columnNumber << "val: " << values[0] << endl;
+        //cout << "line:"<< lineNumber << " col: " << columnNumber << "val: " << values[0] << endl;
 
         geometry_.get()->set_state(columnNumber, lineNumber, {"S", {0}});
 
