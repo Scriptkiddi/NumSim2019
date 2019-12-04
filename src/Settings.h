@@ -56,10 +56,10 @@ struct Settings {
 
     double gamma = 1;
 
-    double uInit;
-    double vInit;
-    double pInit;
-    double tInit;
+    double uInit = 0;
+    double vInit = 0;
+    double pInit = 0;
+    double tInit = 0;
 
     std::shared_ptr<Geometry> geometry;
 

@@ -57,7 +57,6 @@ void SOR::solve() {
                 }
             }
         }
-        std::cout << eps << std::endl;
         eps = eps/geometry_.get()->nCellsFluid();
         //eps = eps / ((discretization_.get()->nCells()[0] - 2) * (discretization_.get()->nCells()[1] - 2));
         iter++;
