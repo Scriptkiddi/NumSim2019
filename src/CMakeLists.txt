@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(NumSim2019)
+project(numsim)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -21,7 +21,7 @@ add_executable(${PROJECT_NAME}
         Array2D/FieldVariable.cpp Array2D/FieldVariable.h
         Geometry.cpp Geometry.h Util/GeometryParser.cpp Util/GeometryParser.h)
 
-set_property(TARGET NumSim2019 PROPERTY CXX_STANDARD 14)
+set_property(TARGET numsim PROPERTY CXX_STANDARD 14)
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 message("Including ${PROJECT_SOURCE_DIR}")
 
