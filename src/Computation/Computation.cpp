@@ -82,9 +82,10 @@ void Computation::runSimulation() {
             counter = 0;
             cout << "Writing paraview timestep: "<< t << endl;
             outputWriterParaview_.get()->writeFile(t);
-            outputWriterText_.get()->writeFile(t);
+            cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;h
+            //outputWriterText_.get()->writeFile(t);
         }
-        cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
+
     }
 
 }
