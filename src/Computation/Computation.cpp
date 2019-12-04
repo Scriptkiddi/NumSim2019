@@ -563,41 +563,21 @@ void Computation::computeTemperature() {
 }
 
 void Computation::applyInitialConditions() {
-    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
-        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j) && geometry_.get()->isFluid(i + 1, j)) {
-                discretization_.get()->u(i, j) = uInit;
-            } else {
-                discretization_.get()->u(i, j) = std::nan("");
-            }
-        }
-    }
-
-    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
-        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j) && geometry_.get()->isFluid(i, j + 1)) {
-                discretization_.get()->v(i, j) = vInit;
-            } else {
-                discretization_.get()->v(i, j) = std::nan("");
-            }
-        }
-    }
-
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j)) {
-                discretization_.get()->p(i, j) = pInit;
-            } else {
-                discretization_.get()->p(i, j) = std::nan("");
-            }
-        }
-    }
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
-        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j)) {
-                discretization_.get()->t(i, j) = tInit;
-            } else {
-                discretization_.get()->t(i, j) = std::nan("");
+            if(!geometry_.get()->isFluid(i,j)){
+                if(!geometry_.get()->isFluid(i+1,j) && !geometry_.get()->isFluid(i-1,j) && 
+                            !geometry_.get()->isFluid(i,j+1) && !geometry_.get()->isFluid(i,j-1)){
+                    discretization_.get()->u(i, j) = std::nan("");
+                    discretization_.get()->v(i, j) = std::nan("");
+                    discretization_.get()->p(i, j) = std::nan("");
+                    discretization_.get()->t(i, j) = std::nan("");                
+                }else{
+                    discretization_.get()->u(i, j) = uInit;
+                    discretization_.get()->v(i, j) = vInit;
+                    discretization_.get()->p(i, j) = pInit;
+                    discretization_.get()->t(i, j) = tInit;
+                }
             }
         }
     }
