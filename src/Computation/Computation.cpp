@@ -151,7 +151,7 @@ void Computation::applyBoundaryValuesVelocities() {
     // u
     //left bound
     i_low = discretization_.get()->uIBegin() - 1;
-    for (int j = discretization_.get()->uJBegin() - 1; j <= discretization_.get()->uJEnd() + 1; j++) {
+    for (int j = discretization_.get()->uJBegin()-1; j <= discretization_.get()->uJEnd()+1; j++) {
         if (!geometry_.get()->isFluid(i_low, j)) {
             if (geometry_.get()->get_velocity(i_low, j).first == "NSW") {
                 discretization_.get()->u(i_low, j) = 0;
@@ -173,7 +173,7 @@ void Computation::applyBoundaryValuesVelocities() {
     }
     //right bound
     i_high = discretization_.get()->uIEnd() + 1;
-    for (int j = discretization_.get()->uJBegin() - 1; j <= discretization_.get()->uJEnd() + 1; j++) {
+    for (int j = discretization_.get()->uJBegin()-1; j <= discretization_.get()->uJEnd()+1; j++) {
         if (!geometry_.get()->isFluid(i_high, j) ) {
             if (geometry_.get()->get_velocity(i_high, j).first == "NSW") {
                 discretization_.get()->u(i_high, j) = 0;
@@ -261,7 +261,7 @@ void Computation::applyBoundaryValuesVelocities() {
     // v
     //left bound
     i_low = discretization_.get()->vIBegin() - 1; //Schleife kürzer
-    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
+    for (int j = discretization_.get()->vJBegin()-1; j <= discretization_.get()->vJEnd()+1; j++) {
         if (!geometry_.get()->isFluid(i_low, j) ) {
             if (geometry_.get()->get_velocity(i_low, j).first == "NSW") {
                 discretization_.get()->v(i_low, j) = -discretization_.get()->v(i_low + 1, j); //should be -v(1,j)
@@ -283,13 +283,8 @@ void Computation::applyBoundaryValuesVelocities() {
     }
     //right bound
     i_high = discretization_.get()->vIEnd() + 1;//Schleife kürzer
-    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
+    for (int j = discretization_.get()->vJBegin()-1; j <= discretization_.get()->vJEnd()+1; j++) {
         if (!geometry_.get()->isFluid(i_high, j)) {
-            /*if(geometry_.get()->vRightBoundType[j] == "Neumann"){
-                double vOld = discretization_.get()->v(i_high,j);
-                discretization_.get()->v(i_high,j) = discretization_.get()->v(i_high - 1, j) - discretization_.get()->dx() * geometry_.get()->vRightBoundValue[j];
-                discretization_.get()->g(i_high,j) = 2 * discretization_.get()->v(i_high,j) - vOld;
-            */
             if (geometry_.get()->get_velocity(i_high, j).first == "NSW") {
                 discretization_.get()->v(i_high, j) = -discretization_.get()->v(i_high - 1, j); //should be -v(end-1,j)
                 discretization_.get()->g(i_high, j) = discretization_.get()->v(i_high, j);
@@ -310,7 +305,7 @@ void Computation::applyBoundaryValuesVelocities() {
     }
     //bottom bound
     j_low = discretization_.get()->vJBegin() - 1;
-    for (int i = discretization_.get()->vIBegin() - 1; i <= discretization_.get()->vIEnd() + 1; i++) {
+    for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_low)) {
             if (geometry_.get()->get_velocity(i, j_low).first == "NSW") {
                 discretization_.get()->v(i, j_low) = 0;
@@ -331,7 +326,7 @@ void Computation::applyBoundaryValuesVelocities() {
     }
     //top bound
     j_high = discretization_.get()->vJEnd() + 1;
-    for (int i = discretization_.get()->vIBegin() - 1; i <= discretization_.get()->vIEnd() + 1; i++) {
+    for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_high) ) {
             if (geometry_.get()->get_velocity(i, j_high).first == "NSW") {
                 discretization_.get()->v(i, j_high) = 0;
