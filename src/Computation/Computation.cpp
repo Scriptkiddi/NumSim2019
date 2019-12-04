@@ -242,11 +242,13 @@ void Computation::applyBoundaryValuesVelocities() {
                     discretization_.get()->u(i, j) = 0;
                     discretization_.get()->f(i, j) = 0;
                 } else if (geometry_.get()->isFluid(i, j + 1)) {
+                    double uOld = discretization_.get()->u(i, j);
                     discretization_.get()->u(i, j) = -discretization_.get()->u(i, j + 1);
-                    discretization_.get()->f(i, j) = discretization_.get()->u(i, j);
+                    discretization_.get()->f(i, j) =  2 * discretization_.get()->u(i, j) - uOld;
                 } else if (geometry_.get()->isFluid(i, j - 1)) {
+                    double uOld = discretization_.get()->u(i, j);
                     discretization_.get()->u(i, j) = -discretization_.get()->u(i, j - 1);
-                    discretization_.get()->f(i, j) = discretization_.get()->u(i, j);
+                    discretization_.get()->f(i, j) = 2 * discretization_.get()->u(i, j) - uOld;
                 }
             } else if (!geometry_.get()->isFluid(i + 1, j)) {
                 discretization_.get()->u(i, j) = 0;
@@ -357,11 +359,13 @@ void Computation::applyBoundaryValuesVelocities() {
                     discretization_.get()->v(i, j) = 0;
                     discretization_.get()->g(i, j) = 0;
                 } else if (geometry_.get()->isFluid(i + 1, j)) {
+                    double vOld = discretization_.get()->v(i, j);
                     discretization_.get()->v(i, j) = -discretization_.get()->v(i + 1, j);
-                    discretization_.get()->g(i, j) = discretization_.get()->v(i, j);
+                    discretization_.get()->g(i, j) = 2 * discretization_.get()->v(i, j) - vOld;
                 } else if (geometry_.get()->isFluid(i - 1, j)) {
+                    double vOld = discretization_.get()->v(i, j);
                     discretization_.get()->v(i, j) = -discretization_.get()->v(i - 1, j);
-                    discretization_.get()->g(i, j) = discretization_.get()->v(i, j);
+                    discretization_.get()->g(i, j) = 2 * discretization_.get()->v(i, j) - vOld;
                 }
             } else if (!geometry_.get()->isFluid(i, j + 1)) {
                 discretization_.get()->v(i, j) = 0;
