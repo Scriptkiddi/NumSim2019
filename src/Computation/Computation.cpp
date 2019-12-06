@@ -70,6 +70,9 @@ void Computation::runSimulation() {
     for (int timeStepNumber = 0;
          std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
         computeTimeStepWidth();
+        if (t+dt_ > settings_.endTime){
+            dt_ = settings_.endTime-t;
+        }
         PreliminaryVelocities();
         computeTemperature();
         applyBoundaryValuesTemperature();
