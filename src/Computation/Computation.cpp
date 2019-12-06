@@ -69,10 +69,9 @@ void Computation::runSimulation() {
     double lastOutputTime = 0;
     while (t < settings_.endTime) {
         computeTimeStepWidth();
-        computeTemperature();
-        applyBoundaryValuesTemperature();
         PreliminaryVelocities();
         computeTemperature();
+        applyBoundaryValuesTemperature();
         computeRightHandSide();
         computePressure();
         computeVelocities();
