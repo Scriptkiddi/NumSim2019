@@ -550,7 +550,7 @@ void Computation::computeVelocities() {
 }
 
 void Computation::computeTemperature() {
-    Array2D tTmp(discretization_.get()->t.size());
+    Array2D tTmp(discretization_.get()->t().size());
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             if (geometry_.get()->isFluid(i, j)) {
