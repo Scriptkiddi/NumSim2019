@@ -67,7 +67,8 @@ void Computation::runSimulation() {
     applyBoundaryValuesVelocities();
     applyBoundaryValuesTemperature();
     double lastOutputTime = 0;
-    while (t < settings_.endTime) {
+    for (int timeStepNumber = 0;
+         std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
         computeTimeStepWidth();
         PreliminaryVelocities();
         computeTemperature();
@@ -77,17 +78,15 @@ void Computation::runSimulation() {
         computeVelocities();
         applyBoundaryValuesVelocities();
         t += dt_;
-        // output data using VTK
         if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
             cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
             outputWriterParaview_->writeFile(t);
             outputWriterText_->writeFile(t);
             lastOutputTime = t;
         }
-    } // End of time loop
+    }
 
 
-    // output data using VTK if we did not do this in the last time step
     if (std::fabs(t - lastOutputTime) > 1e-4) {
         outputWriterParaview_->writeFile(t);
         lastOutputTime = t;
