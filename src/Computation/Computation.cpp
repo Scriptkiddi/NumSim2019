@@ -552,10 +552,11 @@ void Computation::computeVelocities() {
 }
 
 void Computation::computeTemperature() {
+    Array2D tTmp(discretization_.get()->t.size());
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             if (geometry_.get()->isFluid(i, j)) {
-                discretization_.get()->t(i, j) = discretization_.get()->t(i, j) +
+                tTmp(i,j) = discretization_.get()->t(i, j) +
                                                  dt_ * (1 / settings_.re * 1 / settings_.prandtl * (
                                                          discretization_.get()->computeD2TDx2(i, j)
                                                          +
@@ -564,6 +565,13 @@ void Computation::computeTemperature() {
                                                         - discretization_.get()->computeDuTDx(i, j)
                                                         - discretization_.get()->computeDvTDy(i, j)
                                                  );
+            }
+        }
+    }
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+            if (geometry_.get()->isFluid(i, j)) {
+                discretization_.get()->t(i, j) = tTmp(i,j);
             }
         }
     }
