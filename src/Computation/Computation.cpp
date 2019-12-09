@@ -59,12 +59,6 @@ void Computation::initialize(int argc, char **argv) {
 
     OutputWriterParaview outPara(discretization_);
     outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
-
-    for (int j = discretization_.get()->tJBegin(); j <= this->discretization_.get()->tJEnd(); j++) {
-        for (int i = discretization_.get()->tIBegin(); i<=this->discretization_.get()->tIEnd(); i++){
-            discretization_.get()->t(i,j) = 0;
-        }
-    }
 }
 
 void Computation::runSimulation() {
@@ -573,6 +567,7 @@ void Computation::computeTemperature() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             if (geometry_.get()->isFluid(i, j)) {
+
                 discretization_.get()->t(i, j) = tTmp.operator()(i, j);
             }
         }
