@@ -15,15 +15,15 @@ DonorCell::DonorCell(std::array<int, 2> nCells, std::array<double, 2> meshWidth,
 
 double DonorCell::computeDu2Dx(int i, int j) const {
 
-    return 1 / dx() * (pow((u(i, j) + u(i + 1, j)) / 2, 2) - pow((u(i - 1, j) + u(i, j)) / 2, 2))
-           + alpha_ * 1 / dx() * (std::fabs(u(i, j) + u(i + 1, j)) / 2 * (u(i, j) - u(i + 1, j)) / 2 -
-                                  std::fabs(u(i - 1, j) + u(i, j)) / 2 * (u(i - 1, j) - u(i, j)) / 2);
+    return 1 / dx() * (pow((u(i, j) + u(i + 1, j)) * 0.5, 2) - pow((u(i - 1, j) + u(i, j)) * 0.5, 2))
+           + alpha_ * 1 / dx() * (std::fabs(u(i, j) + u(i + 1, j)) * 0.5 * (u(i, j) - u(i + 1, j)) * 0.5 -
+                                  std::fabs(u(i - 1, j) + u(i, j)) * 0.5 * (u(i - 1, j) - u(i, j)) * 0.5);
 }
 
 double DonorCell::computeDv2Dy(int i, int j) const {
-    return 1 / dy() * (pow((v(i, j) + v(i, j + 1)) / 2, 2) - pow((v(i, j - 1) + v(i, j)) / 2, 2))
-           + alpha_ * 1 / dy() * (std::fabs(v(i, j) + v(i, j + 1)) / 2 * (v(i, j) - v(i, j + 1)) / 2 -
-                                  std::fabs(v(i, j - 1) + v(i, j)) / 2 * (v(i, j - 1) - v(i, j)) / 2);
+    return 1 / dy() * (pow((v(i, j) + v(i, j + 1)) * 0.5, 2) - pow((v(i, j - 1) + v(i, j)) * 0.5, 2))
+           + alpha_ * 1 / dy() * (std::fabs(v(i, j) + v(i, j + 1)) * 0.5 * (v(i, j) - v(i, j + 1)) *0.5 -
+                                  std::fabs(v(i, j - 1) + v(i, j)) * 0.5 * (v(i, j - 1) - v(i, j)) * 0.5);
 }
 
 double DonorCell::computeDuvDx(int i, int j) const {
