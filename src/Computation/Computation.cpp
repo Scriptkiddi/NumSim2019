@@ -552,22 +552,23 @@ void Computation::computeTemperature() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             if (geometry_.get()->isFluid(i, j)) {
-                tTmp(i, j) = discretization_.get()->t(i, j) +
-                             dt_ * (1 / settings_.re * 1 / settings_.prandtl * (
-                                     discretization_.get()->computeD2TDx2(i, j)
-                                     +
-                                     discretization_.get()->computeD2TDy2(i, j)
-                             )
-                                    - discretization_.get()->computeDuTDx(i, j)
-                                    - discretization_.get()->computeDvTDy(i, j)
-                             );
+                tTmp.operator()(i, j) = discretization_.get()->t(i, j) +
+                                        dt_ * (1 / settings_.re * 1 / settings_.prandtl * (
+                                                discretization_.get()->computeD2TDx2(i, j)
+                                                +
+                                                discretization_.get()->computeD2TDy2(i, j)
+                                        )
+                                               - discretization_.get()->computeDuTDx(i, j)
+                                               - discretization_.get()->computeDvTDy(i, j)
+                                        );
             }
         }
     }
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             if (geometry_.get()->isFluid(i, j)) {
-                discretization_.get()->t(i, j) = tTmp(i, j);
+
+                discretization_.get()->t(i, j) = tTmp.operator()(i, j);
             }
         }
     }

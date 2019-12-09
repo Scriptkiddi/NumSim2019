@@ -37,11 +37,11 @@ double Discretization::computeDpDy(int i, int j) const {
     return (p(i, j + 1) - p(i, j)) / dy();
 }
 
-int Discretization::computeD2TDx2(int i, int j) {
+double Discretization::computeD2TDx2(int i, int j) {
     return (t(i + 1, j) - 2 * t(i, j) + t(i - 1, j)) / pow(dx(), 2);
 }
 
-int Discretization::computeD2TDy2(int i, int j) {
+double Discretization::computeD2TDy2(int i, int j) {
     return (t(i, j + 1) - 2 * t(i, j) + t(i, j - 1)) / pow(dy(), 2);
 }
 
