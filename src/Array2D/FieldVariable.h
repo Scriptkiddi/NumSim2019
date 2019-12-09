@@ -15,7 +15,7 @@ public:
     FieldVariable(std::array<int, 2> size, std::array<double, 2> origin,
                   std::array<double, 2> meshWidth);
 
-    double interpolateAt(double x, double y) const;
+    double interpolateAt(double x, double y, std::string type) const;
 };
 
 #endif //CODE_NUMSIM_FIELDVARIABLE_H
