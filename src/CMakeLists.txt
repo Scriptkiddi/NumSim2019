@@ -36,7 +36,7 @@ message("The include directory of VTK: VTK_INCLUDE_DIRS: ${VTK_INCLUDE_DIRS}")
 # If an installation of vtk was found on the system
 if (VTK_FOUND)
     include_directories(${VTK_INCLUDE_DIRS})               # add the include directory where the header files are for the compiler
-    target_link_libraries(${PROJECT_NAME} ${VTK_LIBRARIES}) # add the libraries for the linker
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${VTK_LIBRARIES})  # add the libraries for the linker # old: target_link_libraries(${PROJECT_NAME} ${VTK_LIBRARIES})
 endif(VTK_FOUND)
 
 
@@ -47,3 +47,7 @@ add_compile_options(-Wall -Wextra)
 # Set the version of the C++ standard to use, we use C++14, published in 2014
 
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+
+# Add preCICE to project
+find_package(precice REQUIRED CONFIG)
+target_link_libraries(${PROJECT_NAME} PRIVATE precice::precice)
