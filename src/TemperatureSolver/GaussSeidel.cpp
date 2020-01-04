@@ -7,12 +7,12 @@
 #include <iostream>
 #include "Settings.h"
 
-GaussSeidel::GaussSeidel(std::shared_ptr<Discretization> discretization, std::shared_ptr<Geometry> geometry,double epsilon, int maximumNumberOfIterations, double dt, double heatDiffusivity) :
+GaussSeidel::GaussSeidel(std::shared_ptr<Discretization> discretization, std::shared_ptr<Geometry> geometry, double epsilon, int maximumNumberOfIterations, double dt, double heatDiffusivity) :
         TemperatureSolver(discretization, geometry, epsilon, maximumNumberOfIterations, dt, heatDiffusivity) {
 
 }
 
-void GaussSeidel::solve() {
+void GaussSeidel::solve(Array2D tTmp) {
     int iter = 0;
     double eps = 1;
     double dx2 = pow(discretization_.get()->dx(), 2);
@@ -33,7 +33,7 @@ void GaussSeidel::solve() {
                                  + 
                                  (discretization_.get()->t(i,j+1) +  discretization_.get()->t(i,j-1)) / dy2
                             )
-                        + tTmp(i,j) / dt_ //TODO NEXT
+                        + tTmp(i,j) / dt_ //TODO not nice. übergabe von tTmp schöner machen in Zukunft?
                         );
 
                 // GaussSeidel Pressure
@@ -51,19 +51,33 @@ void GaussSeidel::solve() {
                 }
             }
         }
-        //residuum
+        //residuum  // maximum of last error and temperature in this timestep minus temperature in the previous timestep
+        //TODO right??? DO NEXT
         eps = 0;
-        for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-            for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
+        for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+            for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
                 if(geometry_.get()->isFluid(i,j)){
+                    //eps for GaussSeidel Temperature
+                    eps = eps + pow(
+                        dt_ * alpha_ * 
+                            (
+                                (discretization_.get()->t(i+1,j) - 2 * discretization_.get()->t(i,j) +  discretization_.get()->t(i-1,j)) / dx2
+                                 + 
+                                (discretization_.get()->t(i,j+1) - 2 * discretization_.get()->t(i,j) +  discretization_.get()->t(i,j-1)) / dy2
+                            )
+
+                    ,2);
+                    // eps for GaussSeidel pressure
+                    /*
                     eps = eps + pow(
                             discretization_->rhs(i, j)
-                            - (discretization_.get()->p(i - 1, j) - 2 * discretization_.get()->p(i, j) +
-                            discretization_.get()->p(i + 1, j))
+                            - (discretization_.get()->t(i - 1, j) - 2 * discretization_.get()->t(i, j) +
+                            discretization_.get()->t(i + 1, j))
                             / dx2
-                            - (discretization_.get()->p(i, j - 1) - 2 * discretization_.get()->p(i, j) +
-                            discretization_.get()->p(i, j + 1))
+                            - (discretization_.get()->t(i, j - 1) - 2 * discretization_.get()->t(i, j) +
+                            discretization_.get()->t(i, j + 1))
                             / dy2, 2);
+                    */
                 }
             }
         }
@@ -71,7 +85,8 @@ void GaussSeidel::solve() {
         //eps = eps / ((discretization_.get()->nCells()[0] - 2) * (discretization_.get()->nCells()[1] - 2));
         iter++;
     }
-    //std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epslion² " << pow(epsilon_,2) <<std::endl;
-    setBoundaryValues();
+    //std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epsilon² " << pow(epsilon_,2) <<std::endl;
+    applyBoundaryValuesTemperature(); //TODO da war doch mal was vonwegen falsch/richtig mit zweimal die Funktion aufrufen... 
+    //TODO ...weiß leider nicht mehr wierum das richtig war. wer es weiß bitte ändern und dann kommentar löschen
 }
 
