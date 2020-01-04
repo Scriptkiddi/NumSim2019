@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "Computation/Computation.h"
+#include "Computation/Computation_solid.h"
 #include <chrono>
 
 using namespace std::chrono;

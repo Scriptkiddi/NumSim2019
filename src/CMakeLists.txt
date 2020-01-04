@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(${PROJECT_NAME}
         main.cpp
+        Computation/Computation_solid.cpp Computation/Computation_solid.h
+        TemperatureSolver/TemperatureSolver.h TemperatureSolver/TemperatureSolver.cpp
+        TemperatureSolver/GaussSeidel.h TemperatureSolver/GaussSeidel.cpp
         Computation/Computation.cpp Computation/Computation.h
         Settings.cpp Settings.h
         Util/Utils.cpp Util/Utils.h
