@@ -46,6 +46,10 @@ struct Settings {
 
     double omega = 1.0;
 
+    std::string temperatureSolver = "GaussSeidel";
+
+    double heatDiffusivity; //TODO standardwert
+
     double epsilon = 1e-5;
 
     int maximumNumberOfIterations = 1e5;
@@ -64,6 +68,8 @@ struct Settings {
     std::shared_ptr<Geometry> geometry;
 
     double outputFileEveryDt = 0;
+
+    //TODO add parameters like for fluid solver: participantName, meshName, preciceConfigFile, readDataName, writeDataName
 };
 
 
