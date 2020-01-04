@@ -70,6 +70,7 @@ struct Settings {
     double outputFileEveryDt = 0;
 
     //TODO add parameters like for fluid solver: participantName, meshName, preciceConfigFile, readDataName, writeDataName
+    std::array<double, 2> origin;
 };
 
 
