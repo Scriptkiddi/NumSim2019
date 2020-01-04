@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(${PROJECT_NAME}
         main.cpp
+        Computation/Computation_solid.cpp Computation/Computation_solid.h
+        TemperatureSolver/TemperatureSolver.h TemperatureSolver/TemperatureSolver.cpp
+        TemperatureSolver/GaussSeidel.h TemperatureSolver/GaussSeidel.cpp
         Computation/Computation.cpp Computation/Computation.h
         Settings.cpp Settings.h
         Util/Utils.cpp Util/Utils.h
@@ -51,3 +54,22 @@ message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 # Add preCICE to project
 find_package(precice REQUIRED CONFIG)
 target_link_libraries(${PROJECT_NAME} PRIVATE precice::precice)
+
+##### solid solver
+#add_executable($numsim_solid
+#        main_solid.cpp # DELETED! use main.h ?
+#        Computation/Computation_solid.cpp Computation/Computation_solid.h
+#        TemperatureSolver/TemperatureSolver.h TemperatureSolver/TemperatureSolver.cpp
+#        TemperatureSolver/GaussSeidel.h TemperatureSolver/GaussSeidel.cpp
+#        Settings.cpp Settings.h
+#        Util/Utils.cpp Util/Utils.h
+#        StaggeredGrid/StaggeredGrid.h StaggeredGrid/StaggeredGrid.cpp
+#        StaggeredGrid/Discretization.cpp StaggeredGrid/Discretization.h
+#        StaggeredGrid/DonorCell.cpp StaggeredGrid/DonorCell.h
+#        StaggeredGrid/CentralDifferences.h StaggeredGrid/CentralDifferences.cpp
+#        output_writer/output_writer_paraview.cpp output_writer/output_writer_paraview.h
+#        output_writer/output_writer_text.cpp output_writer/output_writer_text.h
+#        output_writer/output_writer.cpp output_writer/output_writer.h
+#        Array2D/Array2D.cpp Array2D/Array2D.h
+#        Array2D/FieldVariable.cpp Array2D/FieldVariable.h
+#        Geometry.cpp Geometry.h Util/GeometryParser.cpp Util/GeometryParser.h)
