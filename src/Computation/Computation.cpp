@@ -74,6 +74,16 @@ void Computation::runSimulation() {
     int readDataID = solverInterface.getDataID(settings_.readDataName, meshID);
     const std::string& coric = precice::constants::actionReadIterationCheckpoint();
     const std::string& cowic = precice::constants::actionWriteIterationCheckpoint();
+    int vertexSize = 0;
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+            if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"a){
+                vertexSize++;
+            }
+
+        }
+    }
+    solverInterface.setMeshVertices()
 
     for (int timeStepNumber = 0;
          std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
@@ -84,6 +94,7 @@ void Computation::runSimulation() {
             copyOldValues(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
+        solverInterface.readBlockVectorData(readDataID, vertexSize, vertexIDs, displacements);
         computeTimeStepWidth();
         //TODO write coupling data
         solverInterface.read
@@ -610,22 +621,22 @@ void Computation::applyInitialConditions() {
 void Computation::reloadOldState() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            discretization_.get()->t(i,j)=discretization_.get().tOld(i,j);
+            discretization_.get()->t(i,j)=discretization_.get()->tOld(i,j);
         }
     }
     for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
         for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            discretization_.get()->u(i,j)=discretization_.get().uOld(i,j);
+            discretization_.get()->u(i,j)=discretization_.get()->uOld(i,j);
         }
     }
     for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
         for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-            discretization_.get()->v(i,j)=discretization_.get().vOld(i,j);
+            discretization_.get()->v(i,j)=discretization_.get()->vOld(i,j);
         }
     }
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-            discretization_.get()->p(i,j)=discretization_.get().pOld(i,j);
+            discretization_.get()->p(i,j)=discretization_.get()->pOld(i,j);
         }
     }
 
