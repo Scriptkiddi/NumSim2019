@@ -56,9 +56,6 @@ private:
 
     double dt_;
 
-    double t_c;
-    double t_h;
-    
     double uInit;
     double vInit;
     double pInit; 

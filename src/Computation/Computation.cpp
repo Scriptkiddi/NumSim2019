@@ -74,7 +74,7 @@ void Computation::runSimulation() {
             dt_ = settings_.endTime - t;
         }
         PreliminaryVelocities();
-        outputWriterText_->writeFile(t);
+        //outputWriterText_->writeFile(t);
         computeTemperature();
         computeRightHandSide();
         computePressure();

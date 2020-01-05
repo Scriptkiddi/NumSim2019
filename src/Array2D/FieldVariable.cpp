@@ -36,10 +36,10 @@ double FieldVariable::interpolateAt(double x, double y, std::string type) const 
     double alphaY = blDistanceY / meshWidth_[1];
 
     if (type == "p" || type == "t") {
-        return (1 - alphaX) * (1 - alphaY) * operator()(i, j)
-               + alphaX * (1 - alphaY) * operator()(i + 1, j)
-               + (1 - alphaX) * alphaY * operator()(i, j + 1)
-               + alphaX * alphaY * operator()(i + 1, j + 1);
+      return (1 - alphaX) * (1 - alphaY) * operator()(i, j)
+             + alphaX * (1 - alphaY) * operator()(i + 1, j)
+             + (1 - alphaX) * alphaY * operator()(i, j + 1)
+             + alphaX * alphaY * operator()(i + 1, j + 1);
     } else if (type == "v") {
         return (1 - alphaX) * operator()(i, j)
                + alphaX * operator()(i + 1, j);
