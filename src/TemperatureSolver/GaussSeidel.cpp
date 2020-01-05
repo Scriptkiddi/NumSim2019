@@ -12,7 +12,7 @@ GaussSeidel::GaussSeidel(std::shared_ptr<Discretization> discretization, std::sh
 
 }
 
-void GaussSeidel::solve(Array2D tTmp) {
+void GaussSeidel::solve() {
     int iter = 0;
     double eps = 1;
     double dx2 = pow(discretization_.get()->dx(), 2);
@@ -33,7 +33,7 @@ void GaussSeidel::solve(Array2D tTmp) {
                                  + 
                                  (discretization_.get()->t(i,j+1) +  discretization_.get()->t(i,j-1)) / dy2
                             )
-                        + tTmp(i,j) / dt_ //TODO not nice. übergabe von tTmp schöner machen in Zukunft?
+                        + discretization_.get()->tOld(i,j) / dt_
                         );
 
                 // GaussSeidel Pressure
@@ -58,6 +58,7 @@ void GaussSeidel::solve(Array2D tTmp) {
             for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
                 if(geometry_.get()->isFluid(i,j)){
                     //eps for GaussSeidel Temperature
+                    //TODO not shure if this is correct yet
                     eps = eps + pow(
                         dt_ * alpha_ * 
                             (

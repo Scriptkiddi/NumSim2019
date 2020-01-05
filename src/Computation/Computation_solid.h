@@ -26,6 +26,8 @@ private:
 
     void applyInitialConditions();
 
+    void copyOldValues();
+
     // Attributes
     Settings settings_;
 

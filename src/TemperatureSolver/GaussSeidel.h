@@ -10,7 +10,7 @@
 class GaussSeidel : public TemperatureSolver {
 public:
     GaussSeidel(std::shared_ptr<Discretization> discretization, std::shared_ptr<Geometry> geometry, double epsilon, int maximumNumberOfIterations, double dt, double heatDiffusivity);
-    void solve(Array2D tTmp) override;
+    void solve() override;
 };
 
 

@@ -122,6 +122,14 @@ double &StaggeredGrid::g(int i, int j) {
     return g_(i, j);
 }
 
+double StaggeredGrid::t(int i, int j) const {
+    return t_(i, j);
+}
+
+double StaggeredGrid::tOld(int i, int j) const {
+    return tOld_(i, j);
+}
+
 double &StaggeredGrid::t(int i, int j) {
     return t_(i, j);
 }
