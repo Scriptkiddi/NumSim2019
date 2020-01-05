@@ -95,7 +95,6 @@ add
 */
 
 
-
 void Computation_solid::computeTemperature(Array2D tTmp) {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
