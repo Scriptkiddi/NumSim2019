@@ -39,7 +39,9 @@ private:
 
     void applyInitialConditions();
 
-    void copyOldValues();
+    void saveOldState();
+
+    void reloadOldState();
 
     // Attributes
     Settings settings_;

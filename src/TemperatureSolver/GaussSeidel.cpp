@@ -17,8 +17,8 @@ void GaussSeidel::solve() {
     double eps = 1;
     double dx2 = pow(discretization_.get()->dx(), 2);
     double dy2 = pow(discretization_.get()->dy(), 2);
+    applyBoundaryValuesTemperature();
     while (iter <= maximumNumberOfIterations_ && eps > pow(epsilon_,2)) {
-        applyBoundaryValuesTemperature();
         for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
             for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
                 if(geometry_.get()->isFluid(i,j)){
@@ -35,22 +35,11 @@ void GaussSeidel::solve() {
                             )
                         + discretization_.get()->tOld(i,j) / dt_
                         );
-
-                // GaussSeidel Pressure
-                /*
-                    discretization_.get()->p(i, j) = 
-                        dx2 * dy2 / (2 * (dx2 + dy2)) * 
-                        ( (discretization_.get()->p(i - 1, j) + discretization_.get()->p(i + 1, j))
-                            / dx2
-                            +
-                            (discretization_.get()->p(i, j - 1) + discretization_.get()->p(i, j + 1)) 
-                            / dy2       //- discretization_.get()->rhs(i, j)
-                        );
-                        */
-                
                 }
             }
         }
+        applyBoundaryValuesTemperature();
+
         //residuum  // maximum of last error and temperature in this timestep minus temperature in the previous timestep
         //TODO right??? DO NEXT
         eps = 0;
@@ -58,27 +47,16 @@ void GaussSeidel::solve() {
             for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
                 if(geometry_.get()->isFluid(i,j)){
                     //eps for GaussSeidel Temperature
-                    //TODO not shure if this is correct yet
                     eps = eps + pow(
-                        dt_ * alpha_ * 
+                        alpha_ * 
                             (
                                 (discretization_.get()->t(i+1,j) - 2 * discretization_.get()->t(i,j) +  discretization_.get()->t(i-1,j)) / dx2
                                  + 
                                 (discretization_.get()->t(i,j+1) - 2 * discretization_.get()->t(i,j) +  discretization_.get()->t(i,j-1)) / dy2
                             )
-
-                    ,2);
-                    // eps for GaussSeidel pressure
-                    /*
-                    eps = eps + pow(
-                            discretization_->rhs(i, j)
-                            - (discretization_.get()->t(i - 1, j) - 2 * discretization_.get()->t(i, j) +
-                            discretization_.get()->t(i + 1, j))
-                            / dx2
-                            - (discretization_.get()->t(i, j - 1) - 2 * discretization_.get()->t(i, j) +
-                            discretization_.get()->t(i, j + 1))
-                            / dy2, 2);
-                    */
+                        - 
+                            (discretization_.get()->t(i,j) - discretization_.get()->tOld(i,j)) / dt_
+                        ,2);
                 }
             }
         }
@@ -87,7 +65,5 @@ void GaussSeidel::solve() {
         iter++;
     }
     //std::cout << "pressure solver iterations: " << iter << " eps :" << eps << " epsilon² " << pow(epsilon_,2) <<std::endl;
-    applyBoundaryValuesTemperature(); //TODO da war doch mal was vonwegen falsch/richtig mit zweimal die Funktion aufrufen... 
-    //TODO ...weiß leider nicht mehr wierum das richtig war. wer es weiß bitte ändern und dann kommentar löschen
 }
 

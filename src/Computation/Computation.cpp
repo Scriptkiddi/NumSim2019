@@ -96,7 +96,7 @@ void Computation::runSimulation() {
         applyBoundaryValuesVelocities();
 
         if(solverInterface.isActionRequired(cowic)){
-            copyOldValues(); // save checkpoint
+            saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
         solverInterface.readBlockVectorData(readDataID, vertexSize, vertexIDs, displacements);
@@ -645,7 +645,7 @@ void Computation::reloadOldState() {
 
 }
 
-void Computation::copyOldValues() {
+void Computation::saveOldState() {
     for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++){
         for (int i  = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++){
             discretization_.get()->uOld(i,j) = discretization_.get()->u(i,j);
@@ -661,6 +661,11 @@ void Computation::copyOldValues() {
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++){
         for (int i  = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++){
             discretization_.get()->pOld(i,j) = discretization_.get()->p(i,j);
+        }
+    }
+
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++){
+        for (int i  = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++){
             discretization_.get()->tOld(i,j) = discretization_.get()->t(i,j);
         }
     }
