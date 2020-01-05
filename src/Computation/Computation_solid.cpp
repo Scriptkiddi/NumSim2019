@@ -60,7 +60,6 @@ void Computation_solid::runSimulation() {
     double lastOutputTime = 0;
     for (int timeStepNumber = 0;
         std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
-        applyBoundaryValuesTemperature();
 
         //getTimeStephWidth from preCICE
 
