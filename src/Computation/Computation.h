@@ -65,7 +65,6 @@ private:
     double pInit; 
     double tInit;
 
-    void reloadOldState();
 };
 
 

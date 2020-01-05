@@ -434,7 +434,7 @@ void Computation::applyBoundaryValuesTemperature() {
     j_high = discretization_.get()->tJEnd() + 1;
     for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_high)) {
-            if (geometry_.get()->get_temperature(i, j_high).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TNP") {
+            if (geometry_.get()->get_temperature(i, j_high).first == "TN" || geometry_.get()->get_temperature(i, j_high).first == "TNP") {
                 discretization_.get()->t(i, j_high) = discretization_.get()->t(i, j_high - 1) -
                                                       discretization_.get()->dy() *
                                                       geometry_.get()->get_temperature(i, j_high).second[0];
@@ -465,7 +465,7 @@ void Computation::applyBoundaryValuesTemperature() {
     i_low = discretization_.get()->tIBegin() - 1;
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
         if (!geometry_.get()->isFluid(i_low, j)) {
-            if (geometry_.get()->get_temperature(i_low, j).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TNP") {
+            if (geometry_.get()->get_temperature(i_low, j).first == "TN" || geometry_.get()->get_temperature(i_low, j).first == "TNP") {
                 discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low + 1, j) -
                                                      discretization_.get()->dx() *
                                                      geometry_.get()->get_temperature(i_low, j).second[0];
@@ -480,7 +480,7 @@ void Computation::applyBoundaryValuesTemperature() {
     i_high = discretization_.get()->tIEnd() + 1;
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
         if (!geometry_.get()->isFluid(i_high, j)) {
-            if (geometry_.get()->get_temperature(i_high, j).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TNP") {
+            if (geometry_.get()->get_temperature(i_high, j).first == "TN" || geometry_.get()->get_temperature(i_high, j).first == "TNP") {
                 discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high - 1, j) -
                                                       discretization_.get()->dx() *
                                                       geometry_.get()->get_temperature(i_high, j).second[0];
