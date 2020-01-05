@@ -14,12 +14,16 @@ protected:
     const std::array<int, 2> nCells_;
     const std::array<double, 2> meshWidth_;
     FieldVariable u_;
+    FieldVariable uOld_;
     FieldVariable v_;
+    FieldVariable vOld_;
     FieldVariable p_;
+    FieldVariable pOld_;
     FieldVariable rhs_;
     FieldVariable f_;
     FieldVariable g_;
     FieldVariable t_;
+    FieldVariable tOld_;
 
     //todo: wie werden u,v,p usw. gesetzt?
 
@@ -32,27 +36,51 @@ public:
 
     const FieldVariable &u() const;
 
+    const FieldVariable &uOld() const;
+
     const FieldVariable &v() const;
+
+    const FieldVariable &vOld() const;
 
     const FieldVariable &p() const;
 
+    const FieldVariable &pOld() const;
+
     const FieldVariable &t() const;
+
+    const FieldVariable &tOld() const;
 
     double u(int i, int j) const;
 
     double &u(int i, int j);
 
+    double uOld(int i, int j) const;
+
+    double &uOld(int i, int j);
+
     double v(int i, int j) const;
 
     double &v(int i, int j);
+
+    double vOld(int i, int j) const;
+
+    double &vOld(int i, int j);
 
     double p(int i, int j) const;
 
     double &p(int i, int j);
 
+    double pOld(int i, int j) const;
+
+    double &pOld(int i, int j);
+    
     double t(int i, int j) const;
 
     double &t(int i, int j);
+
+    double tOld(int i, int j) const;
+
+    double &tOld(int i, int j);
 
     double &rhs(int i, int j);
 

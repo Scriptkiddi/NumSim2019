@@ -38,23 +38,23 @@ double Discretization::computeDpDy(int i, int j) const {
 }
 
 double Discretization::computeD2TDx2(int i, int j) {
-    return (t(i + 1, j) - 2 * t(i, j) + t(i - 1, j)) / pow(dx(), 2);
+    return (tOld(i + 1, j) - 2 * tOld(i, j) + tOld(i - 1, j)) / pow(dx(), 2);
 }
 
 double Discretization::computeD2TDy2(int i, int j) {
-    return (t(i, j + 1) - 2 * t(i, j) + t(i, j - 1)) / pow(dy(), 2);
+    return (tOld(i, j + 1) - 2 * tOld(i, j) + tOld(i, j - 1)) / pow(dy(), 2);
 }
 
 double Discretization::computeDuTDx(int i, int j) {
     return 1 / dx() *
-           ((u(i, j) * (t(i + 1, j) + t(i, j)) * 0.5 - u(i - 1, j) * (t(i, j) + t(i - 1, j)) * 0.5) +
-            gamma_ * (abs(u(i, j)) * (t(i, j) - t(i + 1, j)) * 0.5 - abs(u(i - 1, j)) * (t(i - 1, j) - t(i, j)) * 0.5));
+           ((u(i, j) * (tOld(i + 1, j) + tOld(i, j)) * 0.5 - u(i - 1, j) * (tOld(i, j) + tOld(i - 1, j)) * 0.5) +
+            gamma_ * (abs(u(i, j)) * (tOld(i, j) - tOld(i + 1, j)) * 0.5 - abs(u(i - 1, j)) * (tOld(i - 1, j) - tOld(i, j)) * 0.5));
 
 }
 
 double Discretization::computeDvTDy(int i, int j) {
     return 1 / dy() *
-           ((v(i, j) * (t(i, j + 1) + t(i, j)) * 0.5 - v(i, j - 1) * (t(i, j) + t(i, j - 1)) * 0.5) +
-            gamma_ * (abs(v(i, j)) * (t(i, j) - t(i, j + 1)) * 0.5 - abs(v(i, j - 1)) * (t(i, j - 1) - t(i, j)) * 0.5));
+           ((v(i, j) * (tOld(i, j + 1) + tOld(i, j)) * 0.5 - v(i, j - 1) * (tOld(i, j) + tOld(i, j - 1)) * 0.5) +
+            gamma_ * (abs(v(i, j)) * (tOld(i, j) - tOld(i, j + 1)) * 0.5 - abs(v(i, j - 1)) * (tOld(i, j - 1) - tOld(i, j)) * 0.5));
 
 }
