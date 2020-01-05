@@ -43,7 +43,7 @@ void Computation_solid::initialize(int argc, char **argv) {
 
     //initialize IMPLICIT temperatureSolver
     GaussSeidel tSolver(discretization_, geometry_, settings_.epsilon, settings_.maximumNumberOfIterations,dt_, settings_.heatDiffusivity);
-    temperatureSolver_ = make_unique<GaussSeidel>(tSolver); //TODO not working but also not needed?
+    temperatureSolver_ = make_unique<GaussSeidel>(tSolver); //TODO not working 
 
     //initialize outputWriters
     OutputWriterText outText(discretization_);
