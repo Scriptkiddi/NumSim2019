@@ -75,15 +75,20 @@ void Computation::runSimulation() {
     const std::string& coric = precice::constants::actionReadIterationCheckpoint();
     const std::string& cowic = precice::constants::actionWriteIterationCheckpoint();
     int vertexSize = 0;
+    int dim = solverInterface.getDimensions();
+    double* coords = new double[vertexSize*dim];
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"a){
+                const int index = j*discretization_.get()->nCells()[1] + i;
+                coords[index] = i;
+                coords[index+1] = j;
                 vertexSize++;
             }
-
         }
     }
-    solverInterface.setMeshVertices()
+    int* vertexIDs = new int[vertexSize];
+    solverInterface.setMeshVertices(meshID,vertexSize,coords,vertexIDs);
 
     for (int timeStepNumber = 0;
          std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
@@ -96,9 +101,7 @@ void Computation::runSimulation() {
         }
         solverInterface.readBlockVectorData(readDataID, vertexSize, vertexIDs, displacements);
         computeTimeStepWidth();
-        //TODO write coupling data
-        solverInterface.read
-        solverInterface.wri
+        solverInterface.writeBlockVectorData(writeDataID, vertexSize, vertexIDs, forces);
         dt_ = solverInterface.advance(dt_);
         if (t + dt_ > settings_.endTime) {
             dt_ = settings_.endTime - t;
