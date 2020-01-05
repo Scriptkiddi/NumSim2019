@@ -74,6 +74,16 @@ void Computation::runSimulation() {
     int readDataID = solverInterface.getDataID(settings_.readDataName, meshID);
     const std::string& coric = precice::constants::actionReadIterationCheckpoint();
     const std::string& cowic = precice::constants::actionWriteIterationCheckpoint();
+    int vertexSize = 0;
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+            if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"a){
+                vertexSize++;
+            }
+
+        }
+    }
+    solverInterface.setMeshVertices()
 
     for (int timeStepNumber = 0;
          std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
@@ -84,6 +94,7 @@ void Computation::runSimulation() {
             saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
+        solverInterface.readBlockVectorData(readDataID, vertexSize, vertexIDs, displacements);
         computeTimeStepWidth();
         //TODO write coupling data
         //solverInterface.read
