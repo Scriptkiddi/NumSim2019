@@ -22,11 +22,13 @@ public:
 
 private:
 
-    void computeTemperature(Array2D tTmp);
+    void computeTemperature();
 
     void applyInitialConditions();
 
-    void copyOldValues();
+    void saveOldState();
+
+    void reloadOldState();
 
     // Attributes
     Settings settings_;

@@ -81,13 +81,13 @@ void Computation::runSimulation() {
         applyBoundaryValuesVelocities();
 
         if(solverInterface.isActionRequired(cowic)){
-            copyOldValues(); // save checkpoint
+            saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
         computeTimeStepWidth();
         //TODO write coupling data
-        solverInterface.read
-        solverInterface.wri
+        //solverInterface.read
+        //solverInterface.wri
         dt_ = solverInterface.advance(dt_);
         if (t + dt_ > settings_.endTime) {
             dt_ = settings_.endTime - t;
@@ -610,28 +610,28 @@ void Computation::applyInitialConditions() {
 void Computation::reloadOldState() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            discretization_.get()->t(i,j)=discretization_.get().tOld(i,j);
+            discretization_.get()->t(i,j)=discretization_.get()->tOld(i,j);
         }
     }
     for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
         for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            discretization_.get()->u(i,j)=discretization_.get().uOld(i,j);
+            discretization_.get()->u(i,j)=discretization_.get()->uOld(i,j);
         }
     }
     for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
         for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-            discretization_.get()->v(i,j)=discretization_.get().vOld(i,j);
+            discretization_.get()->v(i,j)=discretization_.get()->vOld(i,j);
         }
     }
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
         for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-            discretization_.get()->p(i,j)=discretization_.get().pOld(i,j);
+            discretization_.get()->p(i,j)=discretization_.get()->pOld(i,j);
         }
     }
 
 }
 
-void Computation::copyOldValues() {
+void Computation::saveOldState() {
     for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++){
         for (int i  = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++){
             discretization_.get()->uOld(i,j) = discretization_.get()->u(i,j);
@@ -647,6 +647,11 @@ void Computation::copyOldValues() {
     for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++){
         for (int i  = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++){
             discretization_.get()->pOld(i,j) = discretization_.get()->p(i,j);
+        }
+    }
+
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++){
+        for (int i  = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++){
             discretization_.get()->tOld(i,j) = discretization_.get()->t(i,j);
         }
     }
