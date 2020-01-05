@@ -139,6 +139,21 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "gamma") {
             this->gamma = atof(parameterValue);
         }
+        else if ( parameterName == "participantName") {
+            this->participantName = parameterValue;
+        }
+        else if ( parameterName == "readDataName") {
+            this->readDataName = parameterValue;
+        }
+        else if ( parameterName == "writeDataName") {
+            this->writeDataName = parameterValue;
+        }
+        else if ( parameterName == "preciceConfigFile") {
+            this->preciceConfigFile = parameterValue;
+        }
+        else if ( parameterName == "meshName") {
+            this->meshName = parameterValue;
+        }
         else if ( parameterName == "geometryFile"){
             cout << "create parser" << endl;
             cout << parameterValue << endl;

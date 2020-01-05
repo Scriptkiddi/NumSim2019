@@ -50,6 +50,8 @@ message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 # Add preCICE to project
 find_package(precice REQUIRED CONFIG)
+message("${PRECICE_LIBRARIES}")
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PRECICE_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE precice::precice)
 
 project(numsim_solid)

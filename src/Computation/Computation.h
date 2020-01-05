@@ -63,6 +63,8 @@ private:
     double vInit;
     double pInit; 
     double tInit;
+
+    void reloadOldState();
 };
 
 

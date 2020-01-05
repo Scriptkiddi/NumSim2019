@@ -71,6 +71,11 @@ struct Settings {
 
     //TODO add parameters like for fluid solver: participantName, meshName, preciceConfigFile, readDataName, writeDataName
     std::array<double, 2> origin;
+    std::string participantName;
+    std::string writeDataName;
+    std::string readDataName;
+    std::string preciceConfigFile;
+    std::string meshName;
 };
 
 

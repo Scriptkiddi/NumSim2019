@@ -42,7 +42,7 @@ double FieldVariable::interpolateAt(double x, double y, std::string type) const 
     }else if(type == "v"){
         return (1 - alphaX) * operator()(i,j)
         + alphaX * operator()(i + 1, j);
-    }else if(type == "u"){
+    }else{
         return (1 - alphaY) * operator()(i,j)
         + alphaY * operator()(i, j + 1);
     }

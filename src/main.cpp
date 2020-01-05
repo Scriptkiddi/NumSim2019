@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     computation.initialize(argc, argv);
 
     auto start = high_resolution_clock::now();
-    //computation.runSimulation();
+    computation.runSimulation();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop -start);
     cout << "Time in miliseconds: " << duration.count() << endl;

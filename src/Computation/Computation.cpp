@@ -11,6 +11,7 @@
 #include <StaggeredGrid/DonorCell.h>
 #include <PressureSolver/SOR.h>
 #include <PressureSolver/GaussSeidel.h>
+#include <precice/SolverInterface.hpp>
 
 using namespace std;
 
@@ -62,25 +63,51 @@ void Computation::initialize(int argc, char **argv) {
 }
 
 void Computation::runSimulation() {
+    precice::SolverInterface solverInterface(this->settings_.participantName, 0, 0);
+    solverInterface.configure(settings_.preciceConfigFile);
+    solverInterface.initialize();
     double t = 0;
     applyInitialConditions();
     applyBoundaryValuesVelocities();
     applyBoundaryValuesTemperature();
     double lastOutputTime = 0;
+    int meshID = solverInterface.getMeshID(settings_.meshName);
+    int writeDataID = solverInterface.getDataID(settings_.writeDataName, meshID);
+    int readDataID = solverInterface.getDataID(settings_.readDataName, meshID);
+    const std::string& coric = precice::constants::actionReadIterationCheckpoint();
+    const std::string& cowic = precice::constants::actionWriteIterationCheckpoint();
+
     for (int timeStepNumber = 0;
         std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
         applyBoundaryValuesTemperature();
         applyBoundaryValuesVelocities();
+
+        if(solverInterface.isActionRequired(cowic)){
+            copyOldValues(); // save checkpoint
+            solverInterface.fulfilledAction(cowic);
+        }
+
         computeTimeStepWidth();
+        //TODO write coupling data
+        solverInterface.read
+        solverInterface.wri
+        dt_ = solverInterface.advance(dt_);
         if (t+dt_ > settings_.endTime){
             dt_ = settings_.endTime-t;
         }
         PreliminaryVelocities();
         computeTemperature();
-        computeRightHandSide();
-        computePressure();
-        computeVelocities();
-        t += dt_;
+        if(solverInterface.isActionRequired(coric)) { // timestep not converged
+            reloadOldState(); // set variables back to checkpoint
+            solverInterface.fulfilledAction(coric);
+        } else { // timestep converged
+            // e.g. update variables, increment time
+            computeRightHandSide();
+            computePressure();
+            computeVelocities();
+            t += dt_;
+        }
+
         if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
             cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
             outputWriterParaview_->writeFile(t);
@@ -94,6 +121,7 @@ void Computation::runSimulation() {
         outputWriterParaview_->writeFile(t);
         lastOutputTime = t;
     }
+    solverInterface.finalize();
 
 }
 
@@ -602,4 +630,28 @@ void Computation::applyInitialConditions() {
             }
         }
     }
+}
+
+void Computation::reloadOldState() {
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+            discretization_.get()->t(i,j)=discretization_.get().tOld(i,j);
+        }
+    }
+    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
+        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
+            discretization_.get()->u(i,j)=discretization_.get().uOld(i,j);
+        }
+    }
+    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
+        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
+            discretization_.get()->v(i,j)=discretization_.get().vOld(i,j);
+        }
+    }
+    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
+        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
+            discretization_.get()->p(i,j)=discretization_.get().pOld(i,j);
+        }
+    }
+
 }
