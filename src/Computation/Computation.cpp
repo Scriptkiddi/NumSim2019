@@ -77,9 +77,11 @@ void Computation::runSimulation() {
     int vertexSize = 0;
     int dim = solverInterface.getDimensions();
     double* coords = new double[vertexSize*dim];
+    double* temperature = new double[vertexSize];
+    double* heatFlow = new double[vertexSize];
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"a){
+            if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
                 const int index = j*discretization_.get()->nCells()[1] + i;
                 coords[index] = i;
                 coords[index+1] = j;
@@ -99,9 +101,7 @@ void Computation::runSimulation() {
             saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
-        solverInterface.readBlockVectorData(readDataID, vertexSize, vertexIDs, displacements);
         computeTimeStepWidth();
-        solverInterface.writeBlockVectorData(writeDataID, vertexSize, vertexIDs, forces);
         dt_ = solverInterface.advance(dt_);
         if (t + dt_ > settings_.endTime) {
             dt_ = settings_.endTime - t;
@@ -109,6 +109,26 @@ void Computation::runSimulation() {
         PreliminaryVelocities();
         //outputWriterText_->writeFile(t);
         computeTemperature();
+        int k=0;
+        for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+            for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+                if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                    temperature[k] = geometry_.get()->get_temperature(i,j).second[0];
+                    k++;
+                }
+            }
+        }
+        solverInterface.writeBlockVectorData(writeDataID, vertexSize, vertexIDs, temperature);
+        solverInterface.readBlockVectorData(readDataID, vertexSize, vertexIDs, heatFlow);
+        k=0;
+        for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+            for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+                if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                    geometry_.get()->get_temperature(i,j).second[0] = heatFlow[k];
+                    k++;
+                }
+            }
+        }
         if(solverInterface.isActionRequired(coric)) { // timestep not converged
             reloadOldState(); // set variables back to checkpoint
             solverInterface.fulfilledAction(coric);
@@ -414,7 +434,7 @@ void Computation::applyBoundaryValuesTemperature() {
     j_high = discretization_.get()->tJEnd() + 1;
     for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_high)) {
-            if (geometry_.get()->get_temperature(i, j_high).first == "TN") {
+            if (geometry_.get()->get_temperature(i, j_high).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TNP") {
                 discretization_.get()->t(i, j_high) = discretization_.get()->t(i, j_high - 1) -
                                                       discretization_.get()->dy() *
                                                       geometry_.get()->get_temperature(i, j_high).second[0];
@@ -429,7 +449,7 @@ void Computation::applyBoundaryValuesTemperature() {
     j_low = discretization_.get()->tJBegin() - 1;
     for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_low)) {
-            if (geometry_.get()->get_temperature(i, j_low).first == "TN") {
+            if (geometry_.get()->get_temperature(i, j_low).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TNP") {
                 discretization_.get()->t(i, j_low) = discretization_.get()->t(i, j_low + 1) -
                                                      discretization_.get()->dy() *
                                                      geometry_.get()->get_temperature(i, j_low).second[0];
@@ -445,7 +465,7 @@ void Computation::applyBoundaryValuesTemperature() {
     i_low = discretization_.get()->tIBegin() - 1;
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
         if (!geometry_.get()->isFluid(i_low, j)) {
-            if (geometry_.get()->get_temperature(i_low, j).first == "TN") {
+            if (geometry_.get()->get_temperature(i_low, j).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TNP") {
                 discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low + 1, j) -
                                                      discretization_.get()->dx() *
                                                      geometry_.get()->get_temperature(i_low, j).second[0];
@@ -460,7 +480,7 @@ void Computation::applyBoundaryValuesTemperature() {
     i_high = discretization_.get()->tIEnd() + 1;
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
         if (!geometry_.get()->isFluid(i_high, j)) {
-            if (geometry_.get()->get_temperature(i_high, j).first == "TN") {
+            if (geometry_.get()->get_temperature(i_high, j).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TNP") {
                 discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high - 1, j) -
                                                       discretization_.get()->dx() *
                                                       geometry_.get()->get_temperature(i_high, j).second[0];
