@@ -21,11 +21,6 @@ public:
     void runSimulation();
 
 private:
-    void computeTimeStepWidth();
-
-    void applyBoundaryValuesVelocities();
-
-    void applyBoundaryValuesTemperature();
 
     void computeTemperature(Array2D tTmp);
 
@@ -47,9 +42,6 @@ private:
     std::array<double, 2> meshWidth_;
 
     double dt_;
-
-    double t_c;
-    double t_h;
     
     double tInit;
 };

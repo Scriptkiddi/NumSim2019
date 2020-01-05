@@ -10,7 +10,7 @@
 #include <StaggeredGrid/CentralDifferences.h>
 #include <StaggeredGrid/DonorCell.h>
 #include <PressureSolver/SOR.h>
-#include <PressureSolver/GaussSeidel.h>
+#include <TemperatureSolver/GaussSeidel.h>
 
 using namespace std;
 
@@ -59,7 +59,6 @@ void Computation_solid::runSimulation() {
     double lastOutputTime = 0;
     for (int timeStepNumber = 0;
         std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
-        applyBoundaryValuesTemperature();
 
         //getTimeStephWidth from preCICE
 
@@ -83,6 +82,18 @@ void Computation_solid::runSimulation() {
 
 }
 
+
+//TODO 
+/*
+add 
+(i) resetting of the time step, 
+(ii) counting of data points at the couplig interface,
+(iii) writing fluxes at the interface to a separate data structure to be sent by preCICE,
+(iv) reading of temperature data at the grd points of the coupling interface that have 
+ been received from the flow solver via preCICE similar to these changes in the flow solver.
+*/
+
+
 void Computation_solid::computeTemperature(Array2D tTmp) {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
@@ -95,7 +106,7 @@ void Computation_solid::computeTemperature(Array2D tTmp) {
     temperatureSolver_->solve(tTmp);
 }
 
-/*
+/* former computeTemperature
 void Computation_solid::computeTemperature() {
     Array2D tTmp(discretization_.get()->t().size());
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
