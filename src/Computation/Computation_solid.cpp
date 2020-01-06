@@ -55,48 +55,127 @@ void Computation_solid::initialize(int argc, char **argv) {
 }
 
 void Computation_solid::runSimulation() {
-    precice::SolverInterface solverInterface(this->settings_.participantName, 1, 2);
-    solverInterface.configure(settings_.preciceConfigFile);
-    solverInterface.initialize();
     double t = 0;
     applyInitialConditions();
     double lastOutputTime = 0;
+
+    //INIT Precice
+    precice::SolverInterface solverInterface(this->settings_.participantName, 0, 1);
+    //load precice config
+    solverInterface.configure(settings_.preciceConfigFile);
+
+    //configure ids for read and write data attrs
     int meshID = solverInterface.getMeshID(settings_.meshName);
     int writeDataID = solverInterface.getDataID(settings_.writeDataName, meshID);
     int readDataID = solverInterface.getDataID(settings_.readDataName, meshID);
-    const std::string& coric = precice::constants::actionReadIterationCheckpoint();
-    const std::string& cowic = precice::constants::actionWriteIterationCheckpoint();
+
+    // Get vertex size
     int vertexSize = 0;
     int dim = solverInterface.getDimensions();
-    double* coords = new double[vertexSize*dim];
-    double* temperature = new double[vertexSize];
-    double* heatFlow = new double[vertexSize];
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
-        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
-                const int index = j*discretization_.get()->nCells()[1] + i;
-                coords[index] = i;
-                coords[index+1] = j;
+    for (int j = discretization_.get()->tJBegin()-1; j <= discretization_.get()->tJEnd()+1; j++) {
+        for (int i = discretization_.get()->tIBegin()-1; i <= discretization_.get()->tIEnd()+1; i++) {
+            if(geometry_.get()->get_temperature(i,j).first == "TPD" || geometry_.get()->get_temperature(i,j).first == "TPN"){
                 vertexSize++;
             }
         }
     }
+
+    // init strucutres for data transfer
+    double coords[vertexSize*dim];
+    double* temperature = new double[vertexSize];
+    double* heatFlow = new double[vertexSize];
     int* vertexIDs = new int[vertexSize];
+
+    // init coords TODO are i and j coords?
+    int k=0;
+    for (int j = discretization_.get()->tJBegin()-1; j <= discretization_.get()->tJEnd()+1; j++) {
+        for (int i = discretization_.get()->tIBegin()-1; i <= discretization_.get()->tIEnd()+1; i++) {
+            if(geometry_.get()->get_temperature(i,j).first == "TPD" || geometry_.get()->get_temperature(i,j).first == "TPN"){
+                coords[k] = i;
+                coords[+1] = j;
+                k += 2;
+            }
+        }
+    }
+
+    // Set Verticies
     solverInterface.setMeshVertices(meshID,vertexSize,coords,vertexIDs);
 
-    applyInitialConditions();
+    // Create Checkpoints
+    const std::string& coric = precice::constants::actionReadIterationCheckpoint();
+    const std::string& cowic = precice::constants::actionWriteIterationCheckpoint();
+    static const std::string& cowid = precice::constants::actionWriteInitialData();
+
+    // finally call init
+    solverInterface.initialize();
+    if ( solverInterface.isActionRequired(cowid)){
+        computeTemperature();
+        int k=0;
+        for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+            for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+                if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                    temperature[k] = geometry_.get()->get_temperature(i,j).second[0];
+                    k++;
+                }
+            }
+        }
+        solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, temperature);
+        solverInterface.fulfilledAction(cowid);
+
+    }
+
+    solverInterface.initializeData();
     for (int timeStepNumber = 0;
         std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
 
-        saveOldState();
-        
-        //getTimeStephWidth from preCICE
+        // Save old state and acknowledge checkpoint
+        if(solverInterface.isActionRequired(cowic)){
+            saveOldState(); // save checkpoint
+            solverInterface.fulfilledAction(cowic);
+        }
 
         if (t+dt_ > settings_.endTime){
             dt_ = settings_.endTime-t;
         }
+
+        // Since we are the solid solver we wait till the fluid has completed the temp calculation and has transfered
+        // his data over to us
+        solverInterface.readBlockScalarData(writeDataID, vertexSize, vertexIDs, temperature);
+        cout << "asdf" << endl;
+
+        // write recieved data for boundary values to our geometry mesh
+        // TODO not sure if index by k for the data transfer works, it should but better think about it again
+        k=0;
+        for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+            for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+                if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                    geometry_.get()->get_temperature(i,j).second[0] = temperature[k];
+                    k++;
+                }
+            }
+        }
+        // got all the required data calculate time step width
+        computeTimeStepWidth();
         computeTemperature();
-        t += dt_;
+        solverInterface.writeBlockScalarData(readDataID, vertexSize, vertexIDs, heatFlow);
+        k=0;
+        for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+            for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+                if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                    heatFlow[k] = geometry_.get()->get_temperature(i,j).second[0];
+                    k++;
+                }
+            }
+        }
+        dt_ = solverInterface.advance(dt_);
+        if(solverInterface.isActionRequired(coric)) { // timestep not converged
+            reloadOldState(); // set variables back to checkpoint
+            solverInterface.fulfilledAction(coric);
+        } else { // timestep converged
+            // e.g. update variables, increment time
+            t += dt_;
+        }
+
         if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
             cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
             outputWriterParaview_->writeFile(t);
@@ -169,4 +248,14 @@ void Computation_solid::saveOldState() {
             discretization_.get()->tOld(i,j) = discretization_.get()->t(i,j);
         }
     }
+}
+
+
+void Computation_solid::computeTimeStepWidth() {
+    // Min time requirements for temperature
+    double condition_temp = settings_.re * settings_.prandtl * 0.5 *
+                            pow((1 / pow(discretization_.get()->dx(), 2) + 1 / pow(discretization_.get()->dy(), 2)),
+                                -1);
+
+    dt_ = min(settings_.maximumDt, condition_temp) * settings_.tau;
 }

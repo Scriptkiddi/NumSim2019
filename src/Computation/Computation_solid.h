@@ -26,6 +26,8 @@ private:
 
     void applyInitialConditions();
 
+    void computeTimeStepWidth();
+
     void saveOldState();
 
     void reloadOldState();

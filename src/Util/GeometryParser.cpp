@@ -128,7 +128,7 @@ void GeometryParser::parseMeshCell(string basicString, int columnNumber, int lin
 
         }
         else if (values[0] == "TPD"){ // preCICE T Dirichlet
-            geometry_.get()->set_temperature(columnNumber, lineNumber, {"TPD", {1}});
+            geometry_.get()->set_temperature(columnNumber, lineNumber, {"TPD", {0}});
 
         }
         else if (values[0] == "TPN"){ // preCICE T Neumann
