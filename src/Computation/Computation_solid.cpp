@@ -12,6 +12,7 @@
 #include <PressureSolver/SOR.h>
 #include <TemperatureSolver/GaussSeidel.h>
 #include <PressureSolver/GaussSeidel.h>
+#include <precice/SolverInterface.hpp>
 
 using namespace std;
 
@@ -54,9 +55,36 @@ void Computation_solid::initialize(int argc, char **argv) {
 }
 
 void Computation_solid::runSimulation() {
+    precice::SolverInterface solverInterface(this->settings_.participantName, 1, 2);
+    solverInterface.configure(settings_.preciceConfigFile);
+    solverInterface.initialize();
     double t = 0;
     applyInitialConditions();
     double lastOutputTime = 0;
+    int meshID = solverInterface.getMeshID(settings_.meshName);
+    int writeDataID = solverInterface.getDataID(settings_.writeDataName, meshID);
+    int readDataID = solverInterface.getDataID(settings_.readDataName, meshID);
+    const std::string& coric = precice::constants::actionReadIterationCheckpoint();
+    const std::string& cowic = precice::constants::actionWriteIterationCheckpoint();
+    int vertexSize = 0;
+    int dim = solverInterface.getDimensions();
+    double* coords = new double[vertexSize*dim];
+    double* temperature = new double[vertexSize];
+    double* heatFlow = new double[vertexSize];
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+            if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                const int index = j*discretization_.get()->nCells()[1] + i;
+                coords[index] = i;
+                coords[index+1] = j;
+                vertexSize++;
+            }
+        }
+    }
+    int* vertexIDs = new int[vertexSize];
+    solverInterface.setMeshVertices(meshID,vertexSize,coords,vertexIDs);
+
+    applyInitialConditions();
     for (int timeStepNumber = 0;
         std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
 

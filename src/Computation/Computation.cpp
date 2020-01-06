@@ -63,7 +63,7 @@ void Computation::initialize(int argc, char **argv) {
 }
 
 void Computation::runSimulation() {
-    precice::SolverInterface solverInterface(this->settings_.participantName, 0, 0);
+    precice::SolverInterface solverInterface(this->settings_.participantName, 0, 2);
     solverInterface.configure(settings_.preciceConfigFile);
     solverInterface.initialize();
     double t = 0;
