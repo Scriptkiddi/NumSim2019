@@ -91,8 +91,8 @@ void Computation_solid::runSimulation() {
     for (int j = discretization_.get()->tJBegin()-1; j <= discretization_.get()->tJEnd()+1; j++) {
         for (int i = discretization_.get()->tIBegin()-1; i <= discretization_.get()->tIEnd()+1; i++) {
             if(geometry_.get()->get_temperature(i,j).first == "TPD" || geometry_.get()->get_temperature(i,j).first == "TPN"){
-                coords[k] = i;
-                coords[+1] = j;
+                coords[k] = settings_.origin[0] + discretization_.get()->dx() * i;
+                coords[k+1] = settings_.origin[1] + discretization_.get()->dy() * j;
                 k += 2;
             }
         }
