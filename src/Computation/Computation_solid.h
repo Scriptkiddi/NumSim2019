@@ -26,6 +26,8 @@ private:
 
     void applyInitialConditions();
 
+    void applyBoundaryValuesTemperature();
+
     void computeTimeStepWidth();
 
     void saveOldState();

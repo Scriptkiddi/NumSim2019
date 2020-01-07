@@ -107,13 +107,13 @@ void Computation_solid::runSimulation() {
     static const std::string& cowid = precice::constants::actionWriteInitialData();
 
     // finally call init
-    solverInterface.initialize();
+    double precice_dt = solverInterface.initialize();
     if ( solverInterface.isActionRequired(cowid)){
         computeTemperature();
         int k=0;
         for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
             for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-                if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                if(geometry_.get()->get_temperature(i,j).first == "TPD" || geometry_.get()->get_temperature(i,j).first == "TPN"){
                     temperature[k] = geometry_.get()->get_temperature(i,j).second[0];
                     k++;
                 }
@@ -125,62 +125,66 @@ void Computation_solid::runSimulation() {
     }
 
     solverInterface.initializeData();
-    for (int timeStepNumber = 0;
-        std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
+    int timeStepNumber = 0;
+    while (solverInterface.isCouplingOngoing()) {
+        applyBoundaryValuesTemperature();
 
+        // TODO boundary conditions
         // Save old state and acknowledge checkpoint
         if(solverInterface.isActionRequired(cowic)){
             saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
 
+        computeTimeStepWidth();
         if (t+dt_ > settings_.endTime){
             dt_ = settings_.endTime-t;
         }
+        dt_ = min(dt_, precice_dt);
 
         // Since we are the solid solver we wait till the fluid has completed the temp calculation and has transfered
         // his data over to us
-        solverInterface.readBlockScalarData(writeDataID, vertexSize, vertexIDs, temperature);
-        cout << "asdf" << endl;
+        solverInterface.readBlockScalarData(readDataID, vertexSize, vertexIDs, temperature);
 
         // write recieved data for boundary values to our geometry mesh
         // TODO not sure if index by k for the data transfer works, it should but better think about it again
         k=0;
         for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
             for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-                if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                if(geometry_.get()->get_temperature(i,j).first == "TPD" || geometry_.get()->get_temperature(i,j).first == "TPN"){
                     geometry_.get()->get_temperature(i,j).second[0] = temperature[k];
                     k++;
                 }
             }
         }
         // got all the required data calculate time step width
-        computeTimeStepWidth();
         computeTemperature();
-        solverInterface.writeBlockScalarData(readDataID, vertexSize, vertexIDs, heatFlow);
+        solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, heatFlow);
         k=0;
         for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
             for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-                if(geometry_.get()->get_temperature(i,j).first == "TDP" || geometry_.get()->get_temperature(i,j).first == "TNP"){
+                if(geometry_.get()->get_temperature(i,j).first == "TPD" || geometry_.get()->get_temperature(i,j).first == "TPN"){
                     heatFlow[k] = geometry_.get()->get_temperature(i,j).second[0];
                     k++;
                 }
             }
         }
-        dt_ = solverInterface.advance(dt_);
+        precice_dt = solverInterface.advance(dt_);
         if(solverInterface.isActionRequired(coric)) { // timestep not converged
             reloadOldState(); // set variables back to checkpoint
             solverInterface.fulfilledAction(coric);
         } else { // timestep converged
             // e.g. update variables, increment time
             t += dt_;
-        }
-
-        if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
-            cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
-            outputWriterParaview_->writeFile(t);
-            outputWriterText_->writeFile(t);
-            lastOutputTime = t;
+            if (!(std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0)) {
+                break;
+            }
+            timeStepNumber++;
+            if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
+                cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
+                outputWriterParaview_->writeFile(t);
+                lastOutputTime = t;
+            }
         }
     }
 
@@ -188,6 +192,7 @@ void Computation_solid::runSimulation() {
         outputWriterParaview_->writeFile(t);
         lastOutputTime = t;
     }
+    solverInterface.finalize();
 
 }
 
@@ -195,7 +200,6 @@ void Computation_solid::runSimulation() {
 //TODO 
 /*
 add 
-(i) resetting of the time step, 
 (ii) counting of data points at the couplig interface,
 (iii) writing fluxes at the interface to a separate data structure to be sent by preCICE,
 (iv) reading of temperature data at the grd points of the coupling interface that have 
@@ -258,4 +262,77 @@ void Computation_solid::computeTimeStepWidth() {
                                 -1);
 
     dt_ = min(settings_.maximumDt, condition_temp) * settings_.tau;
+}
+
+void Computation_solid::applyBoundaryValuesTemperature() {
+    // help variables
+    int i_low;
+    int i_high;
+    int j_low;
+    int j_high;
+
+    //top bound with corners
+    j_high = discretization_.get()->tJEnd() + 1;
+    for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+        if (!geometry_.get()->isFluid(i, j_high)) {
+            if (geometry_.get()->get_temperature(i, j_high).first == "TN" ||
+                geometry_.get()->get_temperature(i, j_high).first == "TPN") {
+                discretization_.get()->t(i, j_high) = discretization_.get()->t(i, j_high - 1) -
+                                                      discretization_.get()->dy() *
+                                                      geometry_.get()->get_temperature(i, j_high).second[0];
+            } else {
+                discretization_.get()->t(i, j_high) = 2 * geometry_.get()->get_temperature(i, j_high).second[0] -
+                                                      discretization_.get()->t(i, j_high - 1);
+            }
+        }
+    }
+
+    //bottom bound with corners
+    j_low = discretization_.get()->tJBegin() - 1;
+    for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+        if (!geometry_.get()->isFluid(i, j_low)) {
+            if (geometry_.get()->get_temperature(i, j_low).first == "TN" ||
+                geometry_.get()->get_temperature(i, j_low).first == "TPN") {
+                discretization_.get()->t(i, j_low) = discretization_.get()->t(i, j_low + 1) -
+                                                     discretization_.get()->dy() *
+                                                     geometry_.get()->get_temperature(i, j_low).second[0];
+            } else {
+                discretization_.get()->t(i, j_low) = 2 * geometry_.get()->get_temperature(i, j_low).second[0] -
+                                                     discretization_.get()->t(i, j_low + 1);
+            }
+        }
+    }
+
+    //outer bounds
+    //left bound without corners
+    i_low = discretization_.get()->tIBegin() - 1;
+    for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
+        if (!geometry_.get()->isFluid(i_low, j)) {
+            if (geometry_.get()->get_temperature(i_low, j).first == "TN" ||
+                geometry_.get()->get_temperature(i_low, j).first == "TPN") {
+                discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low + 1, j) -
+                                                     discretization_.get()->dx() *
+                                                     geometry_.get()->get_temperature(i_low, j).second[0];
+            } else { //"TD"
+                discretization_.get()->t(i_low, j) = 2 * geometry_.get()->get_temperature(i_low, j).second[0] -
+                                                     discretization_.get()->t(i_low + 1, j);
+            }
+        }
+    }
+
+    //right bound without corners
+    i_high = discretization_.get()->tIEnd() + 1;
+    for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
+        if (!geometry_.get()->isFluid(i_high, j)) {
+            if (geometry_.get()->get_temperature(i_high, j).first == "TN" ||
+                geometry_.get()->get_temperature(i_high, j).first == "TPN") {
+                discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high - 1, j) -
+                                                      discretization_.get()->dx() *
+                                                      geometry_.get()->get_temperature(i_high, j).second[0];
+            } else {
+                discretization_.get()->t(i_high, j) = 2 * geometry_.get()->get_temperature(i_high, j).second[0] -
+                                                      discretization_.get()->t(i_high - 1, j);
+            }
+        }
+    }
 }
