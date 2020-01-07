@@ -27,9 +27,9 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
     i_low = discretization_.get()->tIBegin() - 1;
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
         if (!geometry_.get()->isFluid(i_low, j)) {
-            if (geometry_.get()->get_temperature(i_low, j).first == "TN") {
+            if (geometry_.get()->get_temperature(i_low, j).first == "TN" || geometry_.get()->get_temperature(i_low, j).first == "TPN") {
                 discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low + 1, j) -
-                                                     discretization_.get()->dx() *
+                                                     discretization_.get()->dx() * alpha_ *
                                                      geometry_.get()->get_temperature(i_low, j).second[0];
             } else { //"TD"
                 discretization_.get()->t(i_low, j) = 2 * geometry_.get()->get_temperature(i_low, j).second[0] -
@@ -42,9 +42,9 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
     i_high = discretization_.get()->tIEnd() + 1;
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
         if (!geometry_.get()->isFluid(i_high, j)) {
-            if (geometry_.get()->get_temperature(i_high, j).first == "TN") {
+            if ( geometry_.get()->get_temperature(i_high, j).first == "TN" || geometry_.get()->get_temperature(i_high, j).first == "TPN") {
                 discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high - 1, j) -
-                                                      discretization_.get()->dx() *
+                                                      discretization_.get()->dx() * alpha_ *
                                                       geometry_.get()->get_temperature(i_high, j).second[0];
             } else {
                 discretization_.get()->t(i_high, j) = 2 * geometry_.get()->get_temperature(i_high, j).second[0] -
@@ -57,9 +57,9 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
     j_low = discretization_.get()->tJBegin() - 1;
     for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_low)) {
-            if (geometry_.get()->get_temperature(i, j_low).first == "TN") {
+            if (geometry_.get()->get_temperature(i, j_low).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TPN") {
                 discretization_.get()->t(i, j_low) = discretization_.get()->t(i, j_low + 1) -
-                                                     discretization_.get()->dy() *
+                                                     discretization_.get()->dy() * alpha_ *
                                                      geometry_.get()->get_temperature(i, j_low).second[0];
             } else {
                 discretization_.get()->t(i, j_low) = 2 * geometry_.get()->get_temperature(i, j_low).second[0] -
@@ -72,9 +72,9 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
     j_high = discretization_.get()->tJEnd() + 1;
     for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
         if (!geometry_.get()->isFluid(i, j_high)) {
-            if (geometry_.get()->get_temperature(i, j_high).first == "TN") {
+            if (geometry_.get()->get_temperature(i, j_high).first == "TN" || geometry_.get()->get_temperature(i, j_high).first == "TPN") {
                 discretization_.get()->t(i, j_high) = discretization_.get()->t(i, j_high - 1) -
-                                                      discretization_.get()->dy() *
+                                                      discretization_.get()->dy() * alpha_ *
                                                       geometry_.get()->get_temperature(i, j_high).second[0];
             } else {
                 discretization_.get()->t(i, j_high) = 2 * geometry_.get()->get_temperature(i, j_high).second[0] -
@@ -87,28 +87,84 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             if (!geometry_.get()->isFluid(i, j)) {
-                int N = 0; //number of neighbouring fluid cells
-                double tTmp = 0;
 
-                //check left and right neighbours
-                if (geometry_.get()->isFluid(i - 1, j)) {
-                    tTmp += discretization_.get()->t(i - 1, j);
-                    N++;
-                } else if (geometry_.get()->isFluid(i + 1, j)) {
-                    tTmp += discretization_.get()->t(i + 1, j);
-                    N++;
-                }
-                //check top and bottom neighbours
-                if (geometry_.get()->isFluid(i, j - 1)) {
-                    tTmp += discretization_.get()->t(i, j - 1);
-                    N++;
-                } else if (geometry_.get()->isFluid(i, j + 1)) {
-                    tTmp += discretization_.get()->t(i, j + 1);
-                    N++;
-                }
-                //assign average value
-                if (N > 0) {
-                    discretization_.get()->t(i, j) = tTmp / N;
+                if (geometry_.get()->get_temperature(i,j).first == "TN" || geometry_.get()->get_temperature(i,j).first == "TPN"){
+                //Neumann-BC
+                    int N = 0; //number of neighbouring fluid cells
+                    double tTmp = 0;
+
+                    if (geometry_.get()->isFluid(i - 1,j)){
+                        tTmp += discretization_.get()->t(i - 1,j) - discretization_.get()->dx() / alpha_ * geometry_.get()->get_temperature(i,j).second[0];
+                        N++;
+                    } 
+                    if (geometry_.get()->isFluid(i + 1, j)) {
+                        tTmp += discretization_.get()->t(i + 1,j) - discretization_.get()->dx() / alpha_ * geometry_.get()->get_temperature(i,j).second[0];
+                        N++;
+                    }
+                    if (geometry_.get()->isFluid(i, j - 1)) {
+                        tTmp += discretization_.get()->t(i, j - 1) - discretization_.get()->dx() / alpha_ * geometry_.get()->get_temperature(i,j).second[0];
+                        N++;
+                    }
+                    if (geometry_.get()->isFluid(i, j + 1)) {
+                        tTmp += discretization_.get()->t(i ,j + 1) - discretization_.get()->dx() / alpha_ * geometry_.get()->get_temperature(i,j).second[0];
+                        N++;
+                    }
+                     //assign average value
+                    if (N > 0) {
+                        discretization_.get()->t(i, j) = tTmp / N;
+                    }
+
+                } else if(geometry_.get()->get_temperature(i,j).first == "TD" || geometry_.get()->get_temperature(i,j).first == "TPD"){
+                //Dirichlet-BC
+                    int N = 0; //number of neighbouring fluid cells
+                    double tTmp = 0;
+
+                    if (geometry_.get()->isFluid(i - 1, j)) {
+                        tTmp += 2 * geometry_.get()->get_temperature(i,j).second[0] - discretization_.get()->t(i - 1, j);
+                        N++;
+                    }
+                    if (geometry_.get()->isFluid(i + 1, j)) {
+                        tTmp += 2 * geometry_.get()->get_temperature(i,j).second[0] - discretization_.get()->t(i + 1, j);
+                        N++;
+                    }
+                    if (geometry_.get()->isFluid(i, j - 1)) {
+                        tTmp += 2 * geometry_.get()->get_temperature(i,j).second[0] - discretization_.get()->t(i, j - 1);
+                        N++;
+                    }
+                    if (geometry_.get()->isFluid(i, j + 1)) {
+                        tTmp += 2 * geometry_.get()->get_temperature(i,j).second[0] - discretization_.get()->t(i, j + 1);
+                        N++;
+                    }
+                    //assign average value
+                    if (N > 0) {
+                        discretization_.get()->t(i, j) = tTmp / N;
+                    }
+
+                } else {
+                //Default-BC (homogenous Neumann)
+                    int N = 0; //number of neighbouring fluid cells
+                    double tTmp = 0;
+
+                    if (geometry_.get()->isFluid(i - 1, j)) {
+                        tTmp += discretization_.get()->t(i - 1, j);
+                        N++;
+                    }
+                    if (geometry_.get()->isFluid(i + 1, j)) {
+                        tTmp += discretization_.get()->t(i + 1, j);
+                        N++;
+                    }
+                    if (geometry_.get()->isFluid(i, j - 1)) {
+                        tTmp += discretization_.get()->t(i, j - 1);
+                        N++;
+                    }
+                    if (geometry_.get()->isFluid(i, j + 1)) {
+                        tTmp += discretization_.get()->t(i, j + 1);
+                        N++;
+                    }
+                    //assign average value
+                    if (N > 0) {
+                        discretization_.get()->t(i, j) = tTmp / N;
+                    }
                 }
             }
         }

@@ -17,6 +17,7 @@ void GaussSeidel::solve() {
     double eps = 1;
     double dx2 = pow(discretization_.get()->dx(), 2);
     double dy2 = pow(discretization_.get()->dy(), 2);
+    double factor = 1 / (1/dt_ + 2 * alpha_ * (1/dx2 + 1/dy2));
     applyBoundaryValuesTemperature();
     while (iter <= maximumNumberOfIterations_ && eps > pow(epsilon_,2)) {
         for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
@@ -25,7 +26,7 @@ void GaussSeidel::solve() {
                 
                 //GaussSeidel Temperature
                     discretization_.get()->t(i,j) = 
-                        1 / (1/dt_ + 2 * alpha_ * (1/dx2 + 1/dy2)) * 
+                        factor * 
                         (
                             alpha_ *
                             (

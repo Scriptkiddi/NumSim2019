@@ -27,7 +27,7 @@ void Computation_solid::initialize(int argc, char **argv) {
     geometry_ = settings_.geometry;
 
     //initialize initial values
-    tInit = settings_.tInit;
+    //tInit = settings_.tInit;
 
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] / (settings_.nCells[0]);
@@ -134,39 +134,39 @@ void Computation_solid::runSimulation() {
     if (solverInterface.isActionRequired(cowid)) {
         // TODO is this needed
         //computeTemperature();
-        //TODO FABI
         int k = 0;
         for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
             for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
                 if (geometry_.get()->get_temperature(i, j).first == "TPN") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i - 1, j));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i - 1, j));
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j));
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
                     }
                     k++;
                 } else if (geometry_.get()->get_temperature(i, j).first == "TPD") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                        temperature[k] = 1 / (discretization_.get()->dx() * settings_.re * settings_.prandtl) *
-                                         (discretization_.get()->t(i, j) - discretization_.get()->t(i - 1, j));
+                        heatFlow[k] = 1 / (discretization_.get()->dx() * settings_.heatDiffusivity) *
+                                         (discretization_.get()->t(i - 1, j) - discretization_.get()->t(i, j));
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
-                        temperature[k] = 1 / (discretization_.get()->dx() * settings_.re * settings_.prandtl) *
+                        heatFlow[k] = 1 / (discretization_.get()->dx() * settings_.heatDiffusivity) *
                                          (discretization_.get()->t(i + 1, j) - discretization_.get()->t(i, j));
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
-                        temperature[k] = 1 / (discretization_.get()->dy() * settings_.re * settings_.prandtl) *
-                                         (discretization_.get()->t(i, j) - discretization_.get()->t(i, j - 1));
+                        heatFlow[k] = 1 / (discretization_.get()->dy() * settings_.heatDiffusivity) *
+                                         (discretization_.get()->t(i, j - 1) - discretization_.get()->t(i, j));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        temperature[k] = 1 / (discretization_.get()->dy() * settings_.re * settings_.prandtl) *
+                        heatFlow[k] = 1 / (discretization_.get()->dy() * settings_.heatDiffusivity) *
                                          (discretization_.get()->t(i, j + 1) - discretization_.get()->t(i, j));
                     }
                     k++;
                 }
             }
         }
+        
         solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, temperature);
         solverInterface.fulfilledAction(cowid);
     }
@@ -191,11 +191,14 @@ void Computation_solid::runSimulation() {
         k = 0;
         for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
             for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
-                //TODO FABI
-                if (geometry_.get()->get_temperature(i, j).first == "TPD" ||
-                    geometry_.get()->get_temperature(i, j).first == "TPN") {
+                if (geometry_.get()->get_temperature(i, j).first == "TPD") {
                     std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
-                    value.second[0] = -heatFlow[k];
+                    value.second[0] = temperature[k];
+                    geometry_.get()->set_temperature(i, j, value);
+                    k++;
+                } else if (geometry_.get()->get_temperature(i, j).first == "TPN") {
+                    std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
+                    value.second[0] = -temperature[k];
                     geometry_.get()->set_temperature(i, j, value);
                     k++;
                 }
@@ -206,33 +209,32 @@ void Computation_solid::runSimulation() {
         // Coupling
 
         // write to preCice Buffers
-        // TODO FABI
         int k = 0;
         for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
             for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
                 if (geometry_.get()->get_temperature(i, j).first == "TPN") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i - 1, j));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i - 1, j));
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j));
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
                     }
                     k++;
                 } else if (geometry_.get()->get_temperature(i, j).first == "TPD") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                        temperature[k] = 1 / (discretization_.get()->dx() * settings_.re * settings_.prandtl) *
-                                         (discretization_.get()->t(i, j) - discretization_.get()->t(i - 1, j));
+                        heatFlow[k] = 1 / (discretization_.get()->dx() * settings_.heatDiffusivity) *
+                                         (discretization_.get()->t(i - 1, j) - discretization_.get()->t(i, j));
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
-                        temperature[k] = 1 / (discretization_.get()->dx() * settings_.re * settings_.prandtl) *
+                        heatFlow[k] = 1 / (discretization_.get()->dx() * settings_.heatDiffusivity) *
                                          (discretization_.get()->t(i + 1, j) - discretization_.get()->t(i, j));
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
-                        temperature[k] = 1 / (discretization_.get()->dy() * settings_.re * settings_.prandtl) *
-                                         (discretization_.get()->t(i, j) - discretization_.get()->t(i, j - 1));
+                        heatFlow[k] = 1 / (discretization_.get()->dy() * settings_.heatDiffusivity) *
+                                         (discretization_.get()->t(i, j - 1) - discretization_.get()->t(i, j));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        temperature[k] = 1 / (discretization_.get()->dy() * settings_.re * settings_.prandtl) *
+                        heatFlow[k] = 1 / (discretization_.get()->dy() * settings_.heatDiffusivity) *
                                          (discretization_.get()->t(i, j + 1) - discretization_.get()->t(i, j));
                     }
                     k++;
@@ -304,13 +306,13 @@ void Computation_solid::applyInitialConditions() {
                     discretization_.get()->u(i, j) = 0;
                     discretization_.get()->v(i, j) = 0;
                     discretization_.get()->p(i, j) = 0; //TODO what to do?
-                    discretization_.get()->t(i, j) = tInit;
+                    discretization_.get()->t(i, j) = settings_.tInit;
                 }
             } else {
                 discretization_.get()->u(i, j) = 0;
                 discretization_.get()->v(i, j) = 0;
                 discretization_.get()->p(i, j) = 0; //TODO what to do?
-                discretization_.get()->t(i, j) = tInit;
+                discretization_.get()->t(i, j) = settings_.tInit;
             }
         }
     }

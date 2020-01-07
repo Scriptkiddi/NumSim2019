@@ -15,6 +15,9 @@ SOR::SOR(std::shared_ptr<Discretization> discretization, std::shared_ptr<Geometr
 void SOR::solve() {
     int iter = 0;
     double eps = 1;
+    double dx2 = pow(discretization_.get()->dx(), 2);
+    double dy2 = pow(discretization_.get()->dy(), 2);
+    double factor = omega * dx2 * dy2 /(2 * (dx2 + dy2)) ;
     while (iter <= maximumNumberOfIterations_ && eps > pow(epsilon_,2)) {
         setBoundaryValues();
         for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
@@ -22,21 +25,15 @@ void SOR::solve() {
                 if(geometry_.get()->isFluid(i,j)){
                     discretization_.get()->p(i, j) = (1 - omega) *
                                                     discretization_.get()->p(i, j) +
-                                                    omega *
-                                                            pow(discretization_.get()->dx(), 2) *
-                                                            pow(discretization_.get()->dy(), 2)
-                                                    /
-                                                            (2 * (pow(discretization_.get()->dx(), 2) +
-                                                            pow(discretization_.get()->dy(), 2)))
-                                                    *
+                                                    factor *
                                                     (
                                                             (discretization_.get()->p(i - 1, j) +
                                                             discretization_.get()->p(i + 1, j)) /
-                                                            pow(discretization_.get()->dx(), 2)
+                                                            dx2
                                                         +
                                                             (discretization_.get()->p(i, j - 1) +
                                                             discretization_.get()->p(i, j + 1)) /
-                                                            pow(discretization_.get()->dy(), 2) -
+                                                            dy2 -
                                                     discretization_.get()->rhs(i, j));
                 }
             }
@@ -50,10 +47,10 @@ void SOR::solve() {
                             discretization_->rhs(i, j)
                             - (discretization_.get()->p(i - 1, j) - 2 * discretization_.get()->p(i, j) +
                             discretization_.get()->p(i + 1, j))
-                            / pow(discretization_.get()->dx(), 2)
+                            / dx2
                             - (discretization_.get()->p(i, j - 1) - 2 * discretization_.get()->p(i, j) +
                             discretization_.get()->p(i, j + 1))
-                            / pow(discretization_.get()->dy(), 2), 2);
+                            / dy2, 2);
                 }
             }
         }
