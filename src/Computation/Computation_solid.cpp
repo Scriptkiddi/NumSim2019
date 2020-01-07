@@ -287,7 +287,7 @@ add
 
 void Computation_solid::computeTemperature() {
 
-    temperatureSolver_->solve();
+    temperatureSolver_->solve(dt_);
 }
 
 void Computation_solid::applyInitialConditions() {

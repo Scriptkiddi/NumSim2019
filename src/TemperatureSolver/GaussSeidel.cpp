@@ -13,7 +13,8 @@ GaussSeidel::GaussSeidel(std::shared_ptr<Discretization> discretization, std::sh
 
 }
 
-void GaussSeidel::solve() {
+void GaussSeidel::solve(double dt) {
+    dt_ = dt;
     int iter = 0;
     double eps = 1;
     double dx2 = pow(discretization_.get()->dx(), 2);

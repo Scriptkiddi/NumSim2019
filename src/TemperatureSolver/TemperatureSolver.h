@@ -13,7 +13,7 @@ class TemperatureSolver {
 public:
     TemperatureSolver(std::shared_ptr <Discretization> discretization, std::shared_ptr<Geometry> geometry,double epsilon, int maximumNumberOfIterations, double dt, double heatDiffusivity);
 
-    virtual void solve() = 0;
+    virtual void solve(double dt) = 0;
 
 protected:
     void applyBoundaryValuesTemperature();
