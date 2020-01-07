@@ -101,9 +101,28 @@ void Computation::runSimulation() {
         for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
             if (geometry_.get()->get_temperature(i, j).first == "TPD" ||
                 geometry_.get()->get_temperature(i, j).first == "TPN") {
-                //TODO orientation
-                coords[k] = settings_.origin[0] + discretization_.get()->dx() * i;
-                coords[k + 1] = settings_.origin[1] + discretization_.get()->dy() * j;
+                if (j > 0 && geometry_.get()->isFluid(i, j - 1)) {
+                    coords[k] = settings_.origin[0] + discretization_.get()->dx() * (i - 1) +
+                                discretization_.get()->dx() / 2;
+                    coords[k + 1] = settings_.origin[1] + discretization_.get()->dy() * (j - 1);
+                } else if (geometry_.get()->isFluid(i, j + 1)) {
+                    coords[k] = settings_.origin[0] + discretization_.get()->dx() * (i - 1) +
+                                discretization_.get()->dx() / 2;
+                    coords[k + 1] =
+                            settings_.origin[1] + discretization_.get()->dy() * (j - 1) + discretization_.get()->dy();
+                } else if (i > 0 && geometry_.get()->isFluid(i - 1, j)) {
+                    coords[k] = settings_.origin[0] + discretization_.get()->dx() * (i - 1);
+                    coords[k + 1] =
+                            settings_.origin[1] + discretization_.get()->dy() * (j - 1) +
+                            discretization_.get()->dy() / 2;
+                } else if (geometry_.get()->isFluid(i + 1, j)) {
+                    coords[k] = settings_.origin[0] + discretization_.get()->dx() * (i-1) + discretization_.get()->dx();
+                    coords[k + 1] =
+                            settings_.origin[1] + discretization_.get()->dy() * (j - 1) +
+                            discretization_.get()->dy() / 2;
+                }
+                std::cout << "Compute coupling point " << k / 2 << " at (x,y) = (" << coords[k] << ", " << coords[k + 1]
+                          << ")" << std::endl;
                 k += 2;
             }
         }
@@ -134,12 +153,13 @@ void Computation::runSimulation() {
                 }
             }
         }
-        solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, temperature);
+        solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, temperature
+        );
         solverInterface.fulfilledAction(cowid);
-
     }
 
     solverInterface.initializeData();
+
     int timeStepNumber = 0;
     while (solverInterface.isCouplingOngoing()) {
         applyBoundaryValuesTemperature();
@@ -147,13 +167,14 @@ void Computation::runSimulation() {
 
         // Save old state and acknowledge checkpoint
         if (solverInterface.isActionRequired(cowic)) {
-            saveOldState(); // save checkpoint
+            //saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
 
 
         // Calculate fluid time step
         computeTimeStepWidth();
+
         if (t + dt_ > settings_.endTime) {
             dt_ = settings_.endTime - t;
         }
@@ -225,6 +246,7 @@ void Computation::runSimulation() {
             //reloadOldState(); // set variables back to checkpoint
             solverInterface.fulfilledAction(coric);
         } else { // timestep converged
+            std::cout << "Fluid: Advancing int time!" << std::endl;
             // e.g. update variables, increment time
             t += dt_;
             if (!(std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0)) {
