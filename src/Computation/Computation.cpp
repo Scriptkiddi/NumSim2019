@@ -206,8 +206,6 @@ void Computation::runSimulation() {
         computeRightHandSide();
         computePressure();
         computeVelocities();
-        applyBoundaryValuesTemperature();
-
 
         // Coupling
 
