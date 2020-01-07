@@ -47,10 +47,11 @@ void Computation_solid::initialize(int argc, char **argv) {
     temperatureSolver_ = make_unique<GaussSeidel>(tSolver); //TODO not working 
 
     //initialize outputWriters
-    OutputWriterText outText(discretization_);
+
+    OutputWriterText outText(discretization_, settings);
     outputWriterText_ = make_unique<OutputWriterText>(outText);
 
-    OutputWriterParaview outPara(discretization_);
+    OutputWriterParaview outPara(discretization_, settings);
     outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
 }
 
@@ -175,14 +176,11 @@ void Computation_solid::runSimulation() {
 
     int timeStepNumber = 0;
     while (solverInterface.isCouplingOngoing()) {
-        applyBoundaryValuesTemperature();
-
         // Save old state and acknowledge checkpoint
         if (solverInterface.isActionRequired(cowic)) {
             //saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
-
 
         // Calculate fluid time step
         dt_ =  precice_dt;
@@ -252,7 +250,7 @@ void Computation_solid::runSimulation() {
             //reloadOldState(); // set variables back to checkpoint
             solverInterface.fulfilledAction(coric);
         } else { // timestep converged
-            std::cout << "Fluid: Advancing int time!" << std::endl;
+            std::cout << "Solid: Advancing int time!" << std::endl;
             // e.g. update variables, increment time
             t += dt_;
             if (!(std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0)) {
@@ -261,7 +259,7 @@ void Computation_solid::runSimulation() {
             timeStepNumber++;
             if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
                 cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
-                outputWriterParaview_->writeFile(t);
+                outputWriterParaview_->writeFile(t, "solid");
                 lastOutputTime = t;
             }
         }
@@ -269,7 +267,7 @@ void Computation_solid::runSimulation() {
 
 
     if (std::fabs(t - lastOutputTime) > 1e-4) {
-        outputWriterParaview_->writeFile(t);
+        outputWriterParaview_->writeFile(t, "solid");
     }
     solverInterface.finalize();
 

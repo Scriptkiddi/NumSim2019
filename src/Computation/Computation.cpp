@@ -55,10 +55,10 @@ void Computation::initialize(int argc, char **argv) {
         std::cout << "Please select SOR-solver" << std::endl;
     }
     //initialize outputWriters
-    OutputWriterText outText(discretization_);
+    OutputWriterText outText(discretization_, settings);
     outputWriterText_ = make_unique<OutputWriterText>(outText);
 
-    OutputWriterParaview outPara(discretization_);
+    OutputWriterParaview outPara(discretization_, settings);
     outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
 }
 
@@ -153,19 +153,19 @@ void Computation::runSimulation() {
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
                         temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
+                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1));
                     }
                     k++;
                 } else if (geometry_.get()->get_temperature(i, j).first == "TPD") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
                         temperature[k] = 1 / (discretization_.get()->dx() * settings_.re * settings_.prandtl) *
-                                         (discretization_.get()->t(i, j) - discretization_.get()->t(i - 1, j));
+                                         (discretization_.get()->t(i - 1, j) - discretization_.get()->t(i, j));
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
                         temperature[k] = 1 / (discretization_.get()->dx() * settings_.re * settings_.prandtl) *
                                          (discretization_.get()->t(i + 1, j) - discretization_.get()->t(i, j));
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
                         temperature[k] = 1 / (discretization_.get()->dy() * settings_.re * settings_.prandtl) *
-                                         (discretization_.get()->t(i, j) - discretization_.get()->t(i, j - 1));
+                                         (discretization_.get()->t(i, j - 1) - discretization_.get()->t(i, j));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
                         temperature[k] = 1 / (discretization_.get()->dy() * settings_.re * settings_.prandtl) *
                                          (discretization_.get()->t(i, j + 1) - discretization_.get()->t(i, j));
@@ -221,7 +221,7 @@ void Computation::runSimulation() {
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
                         temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
+                        temperature[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1));
                     }
                     k++;
                 } else if (geometry_.get()->get_temperature(i, j).first == "TPD") {
@@ -280,7 +280,7 @@ void Computation::runSimulation() {
             timeStepNumber++;
             if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
                 cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
-                outputWriterParaview_->writeFile(t);
+                outputWriterParaview_->writeFile(t, "fluid");
                 lastOutputTime = t;
             }
         }
@@ -288,7 +288,7 @@ void Computation::runSimulation() {
 
 
     if (std::fabs(t - lastOutputTime) > 1e-4) {
-        outputWriterParaview_->writeFile(t);
+        outputWriterParaview_->writeFile(t, "fluid");
     }
     solverInterface.finalize();
 
