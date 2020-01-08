@@ -43,9 +43,8 @@ void Computation_solid::initialize(int argc, char **argv) {
     }
 
     //initialize IMPLICIT temperatureSolver
-    GaussSeidel tSolver(discretization_, geometry_, settings_.epsilon, settings_.maximumNumberOfIterations, dt_,
-                        settings_.heatDiffusivity);
-    temperatureSolver_ = make_unique<GaussSeidel>(tSolver); //TODO not working 
+    GaussSeidel tSolver(discretization_, geometry_, settings_.epsilon, settings_.maximumNumberOfIterations,dt_, settings_.heatDiffusivity);
+    temperatureSolver_ = make_unique<GaussSeidel>(tSolver); 
 
     //initialize outputWriters
 
@@ -71,7 +70,7 @@ void Computation_solid::runSimulation() {
     int writeDataID = solverInterface.getDataID(settings_.writeDataName, meshID);
     int readDataID = solverInterface.getDataID(settings_.readDataName, meshID);
 
-    // Get vertex size
+    // Get vertex size = size of coupling interface
     int vertexSize = 0;
     int dim = solverInterface.getDimensions();
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
@@ -141,34 +140,33 @@ void Computation_solid::runSimulation() {
             for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
                 if (geometry_.get()->get_temperature(i, j).first == "TPN") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i - 1, j));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i - 1, j)); //ist eig Temperatur
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
-                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j));  //ist eig Temperatur
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
-                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));  //ist eig Temperatur
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1));  //ist eig Temperatur
                     }
                     k++;
                 } else if (geometry_.get()->get_temperature(i, j).first == "TPD") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                        heatFlow[k] = 1 / (discretization_.get()->dx() * settings_.heatDiffusivity) *
-                                         (discretization_.get()->t(i - 1, j) - discretization_.get()->t(i, j));
+                        heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dx() *
+                                        (discretization_.get()->t(i - 1, j) - discretization_.get()->t(i, j));
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
-                        heatFlow[k] = 1 / (discretization_.get()->dx() * settings_.heatDiffusivity) *
-                                         (discretization_.get()->t(i + 1, j) - discretization_.get()->t(i, j));
+                        heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dx() *
+                                        (discretization_.get()->t(i + 1, j) - discretization_.get()->t(i, j));
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
-                        heatFlow[k] = 1 / (discretization_.get()->dy() * settings_.heatDiffusivity) *
-                                         (discretization_.get()->t(i, j - 1) - discretization_.get()->t(i, j));
+                        heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dy() *
+                                        (discretization_.get()->t(i, j - 1) - discretization_.get()->t(i, j));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        heatFlow[k] = 1 / (discretization_.get()->dy() * settings_.heatDiffusivity) *
-                                         (discretization_.get()->t(i, j + 1) - discretization_.get()->t(i, j));
+                        heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dy() *
+                                        (discretization_.get()->t(i, j + 1) - discretization_.get()->t(i, j));
                     }
                     k++;
                 }
             }
         }
-
         solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, heatFlow);
         solverInterface.fulfilledAction(cowid);
     }
