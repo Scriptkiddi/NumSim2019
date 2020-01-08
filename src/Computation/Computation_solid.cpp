@@ -225,16 +225,16 @@ void Computation_solid::runSimulation() {
                     k++;
                 } else if (geometry_.get()->get_temperature(i, j).first == "TPD") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                        heatFlow[k] = 1 / (discretization_.get()->dx() * settings_.heatDiffusivity) *
+                        heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dx() *
                                          (discretization_.get()->t(i - 1, j) - discretization_.get()->t(i, j));
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
-                        heatFlow[k] = 1 / (discretization_.get()->dx() * settings_.heatDiffusivity) *
+                        heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dx() *
                                          (discretization_.get()->t(i + 1, j) - discretization_.get()->t(i, j));
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
-                        heatFlow[k] = 1 / (discretization_.get()->dy() * settings_.heatDiffusivity) *
+                        heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dy() *
                                          (discretization_.get()->t(i, j - 1) - discretization_.get()->t(i, j));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        heatFlow[k] = 1 / (discretization_.get()->dy() * settings_.heatDiffusivity) *
+                        heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dy() *
                                          (discretization_.get()->t(i, j + 1) - discretization_.get()->t(i, j));
                     }
                     k++;
@@ -273,17 +273,6 @@ void Computation_solid::runSimulation() {
 
 
 }
-
-
-//TODO 
-/*
-add 
-(ii) counting of data points at the couplig interface,
-(iii) writing fluxes at the interface to a separate data structure to be sent by preCICE,
-(iv) reading of temperature data at the grd points of the coupling interface that have 
- been received from the flow solver via preCICE similar to these changes in the flow solver.
-*/
-
 
 void Computation_solid::computeTemperature() {
 
