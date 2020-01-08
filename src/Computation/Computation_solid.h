@@ -2,42 +2,36 @@
 // Created by Julia Pelzer on 26.10.2019.
 //
 
-#ifndef CODE_NUMSIM_COMPUTATION_H
-#define CODE_NUMSIM_COMPUTATION_H
+#ifndef CODE_NUMSIM_COMPUTATION_SOLID_H
+#define CODE_NUMSIM_COMPUTATION_SOLID_H
 
 #include "StaggeredGrid/StaggeredGrid.h"
 #include "Settings.h"
 #include <memory>
 #include "StaggeredGrid/Discretization.h"
-#include "PressureSolver/PressureSolver.h"
+#include "TemperatureSolver/TemperatureSolver.h"
 #include "output_writer/output_writer_paraview.h"
 #include "output_writer/output_writer_text.h"
 #include "Geometry.h"
 
-class Computation {
+class Computation_solid {
 public:
     void initialize(int argc, char *argv[]);
 
     void runSimulation();
 
+    void computerightHandSide();
+
 private:
-    void computeTimeStepWidth();
-
-    void applyBoundaryValuesVelocities();
-
-    void applyBoundaryValuesTemperature();
-
-    void PreliminaryVelocities();
-
-    void computeRightHandSide();
-
-    void computePressure();
-
-    void computeVelocities();
 
     void computeTemperature();
 
     void applyInitialConditions();
+    void computeRightHandSide();
+
+    void applyBoundaryValuesTemperature();
+
+    void computeTimeStepWidth();
 
     void saveOldState();
 
@@ -49,8 +43,8 @@ private:
     std::shared_ptr<Geometry> geometry_;
 
     std::shared_ptr <Discretization> discretization_;
-
-    std::unique_ptr <PressureSolver> pressureSolver_;
+    
+    std::unique_ptr <TemperatureSolver> temperatureSolver_;
 
     std::unique_ptr <OutputWriterParaview> outputWriterParaview_;
 
@@ -59,13 +53,9 @@ private:
     std::array<double, 2> meshWidth_;
 
     double dt_;
-
-    double uInit;
-    double vInit;
-    double pInit; 
+    
     double tInit;
-
 };
 
 
-#endif //CODE_NUMSIM_COMPUTATION_H
+#endif //CODE_NUMSIM_COMPUTATION_SOLID_H

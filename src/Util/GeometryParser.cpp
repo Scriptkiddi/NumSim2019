@@ -47,6 +47,10 @@ shared_ptr<Geometry> GeometryParser::parseGeometryFile(std::string filename, Set
             settings->physicalSize[0] = atof(parameterValue);
         } else if (parameterName == "physicalSizeY") {
             settings->physicalSize[1] = atof(parameterValue);
+        } else if (parameterName == "xOrigin") {
+            settings->origin[0] = atof(parameterValue);
+        } else if (parameterName == "yOrigin") {
+            settings->origin[1] = atof(parameterValue);
         } else if (parameterName == "nCellsX") {
             settings->nCells[0] = atoi(parameterValue);
         } else if (parameterName == "nCellsY") {
@@ -121,6 +125,14 @@ void GeometryParser::parseMeshCell(string basicString, int columnNumber, int lin
         else if (values[0] == "TD"){ // T Dirichlet
             double td = stod(values[1]);
             geometry_.get()->set_temperature(columnNumber, lineNumber, {"TD", {td}});
+
+        }
+        else if (values[0] == "TPD"){ // preCICE T Dirichlet
+            geometry_.get()->set_temperature(columnNumber, lineNumber, {"TPD", {0}});
+
+        }
+        else if (values[0] == "TPN"){ // preCICE T Neumann
+            geometry_.get()->set_temperature(columnNumber, lineNumber, {"TPN", {0}});
 
         }
         else if (values[0] == "TN"){ // T Neumann

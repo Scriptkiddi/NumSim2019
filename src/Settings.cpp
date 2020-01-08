@@ -106,6 +106,12 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "omega") {
             this->omega = atof(parameterValue);
         }
+        else if ( parameterName == "temperatureSolver") {
+            this->temperatureSolver = parameterValue;
+        }
+        else if ( parameterName == "heatDiffusivity") {
+            this->heatDiffusivity = atof(parameterValue);
+        } 
         else if ( parameterName == "epsilon") {
             this->epsilon = atof(parameterValue);
         }
@@ -132,6 +138,21 @@ void Settings::loadFromFile(std::string filename) {
         }
         else if ( parameterName == "gamma") {
             this->gamma = atof(parameterValue);
+        }
+        else if ( parameterName == "participantName") {
+            this->participantName = parameterValue;
+        }
+        else if ( parameterName == "readDataName") {
+            this->readDataName = parameterValue;
+        }
+        else if ( parameterName == "writeDataName") {
+            this->writeDataName = parameterValue;
+        }
+        else if ( parameterName == "preciceConfigFile") {
+            this->preciceConfigFile = parameterValue;
+        }
+        else if ( parameterName == "meshName") {
+            this->meshName = parameterValue;
         }
         else if ( parameterName == "geometryFile"){
             cout << "create parser" << endl;
@@ -161,6 +182,7 @@ void Settings::printSettings() {
               << ", right: (" << dirichletBcRight[0] << "," << dirichletBcRight[1] << ")" << std::endl
               << "  useDonorCell: " << std::boolalpha << useDonorCell << ", alpha: " << alpha << std::endl
               << "  pressureSolver: " << pressureSolver << ", omega: " << omega << ", epsilon: " << epsilon
+              << "  temperatureSolver: " << temperatureSolver << ", heatDiffusivity: " << heatDiffusivity
               << ", maximumNumberOfIterations: " << maximumNumberOfIterations << std::endl
               << ", gamma: " << gamma << std::endl
             << ", initial u: " << uInit << ", initial v: " << vInit << ", initial p: " << pInit << ", initial T: " << tInit << std::endl;             ;

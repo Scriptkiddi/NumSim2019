@@ -1,9 +1,10 @@
 #include "output_writer.h"
 
 #include <iostream>
+#include <Settings.h>
 
-OutputWriter::OutputWriter(std::shared_ptr<Discretization> discretization)
- : discretization_(discretization), fileNo_(0)
+OutputWriter::OutputWriter(shared_ptr<Discretization> discretization, Settings settings)
+ : discretization_(discretization), settings_(settings), fileNo_(0)
 {
   // create "out" subdirectory if it does not yet exist
   int returnValue = system("mkdir -p out");

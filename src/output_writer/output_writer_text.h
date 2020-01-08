@@ -1,6 +1,7 @@
 #pragma once
 
 #include "output_writer.h"
+#include <Settings.h>
 
 /** Write *.txt files that are useful for debugging.
  *  All values are written to the file as they are stored in the field variables,
@@ -11,6 +12,11 @@ class OutputWriterText :
 public:
     //! use constructor of base class
     using OutputWriter::OutputWriter;
+
+    OutputWriterText(std::shared_ptr<Discretization> discretization, Settings settings) : OutputWriter(discretization,
+                                                                                                       settings) {
+
+    }
 
     //virtual //! write current velocities to file, filename is output_<count>.txt
     void writeFile(double currentTime);
