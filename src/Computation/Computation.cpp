@@ -161,7 +161,7 @@ void Computation::runSimulation() {
 
         // Save old state and acknowledge checkpoint
         if (solverInterface.isActionRequired(cowic)) {
-            //saveOldState(); // save checkpoint
+            saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
 
@@ -197,7 +197,7 @@ void Computation::runSimulation() {
 
         // reset if required
         if (solverInterface.isActionRequired(coric)) { // timestep not converged
-            //reloadOldState(); // set variables back to checkpoint
+            reloadOldState(); // set variables back to checkpoint
             solverInterface.fulfilledAction(coric);
         } else { // timestep converged
             std::cout << "Fluid: Advancing int time!" << std::endl;
