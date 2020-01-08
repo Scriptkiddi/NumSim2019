@@ -213,7 +213,7 @@ void Computation_solid::runSimulation() {
             for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
                 if (geometry_.get()->get_temperature(i, j).first == "TPN") {
                     if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i - 1, j));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i - 1, j)); //ist eig ne Temperatur
                     } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
                         heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j));
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {

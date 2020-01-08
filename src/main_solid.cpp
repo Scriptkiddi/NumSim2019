@@ -15,8 +15,6 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     
-    // TODO WIE AUFRUF VON MAIN_SOLID? NOTWENDIG, DASS EIGENE DATEI ODER HIER EINPFLEGEN?
-    
     //Computation computation;
     Computation_solid computation_solid;
 
