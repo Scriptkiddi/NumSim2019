@@ -27,7 +27,7 @@ void Computation_solid::initialize(int argc, char **argv) {
     geometry_ = settings_.geometry;
 
     //initialize initial values
-    //tInit = settings_.tInit;
+    tInit = settings_.tInit;
 
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] / (settings_.nCells[0]);
@@ -60,6 +60,7 @@ void Computation_solid::runSimulation() {
     applyInitialConditions();
     double lastOutputTime = 0;
 
+#ifdef WITHPRECICE
     //INIT Precice
     precice::SolverInterface solverInterface(this->settings_.participantName, 0, 1);
     //load precice config
@@ -167,22 +168,31 @@ void Computation_solid::runSimulation() {
                 }
             }
         }
-        
         solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, heatFlow);
         solverInterface.fulfilledAction(cowid);
     }
 
     solverInterface.initializeData();
+        //Do preCICE calls here
+#endif
 
     int timeStepNumber = 0;
+#ifdef WITHPRECICE
     while (solverInterface.isCouplingOngoing()) {
+#else
+    dt_ = 0.001;
+    while (true) {
+#endif
+#ifdef WITHPRECICE
         // Save old state and acknowledge checkpoint
         if (solverInterface.isActionRequired(cowic)) {
             //saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
+#endif
 
         // Calculate fluid time step
+#ifdef WITHPRECICE
         dt_ =  precice_dt;
         // Read Temperature
         solverInterface.readBlockScalarData(readDataID, vertexSize, vertexIDs, temperature);
@@ -202,11 +212,14 @@ void Computation_solid::runSimulation() {
                 }
             }
         }
+#endif
         computeTemperature();
+        computeRightHandSide();
 
         // Coupling
 
         // write to preCice Buffers
+#ifdef WITHPRECICE
         int k = 0;
         for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
             for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
@@ -218,7 +231,7 @@ void Computation_solid::runSimulation() {
                     } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
                         heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
                     } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j - 1));
+                        heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1));
                     }
                     k++;
                 } else if (geometry_.get()->get_temperature(i, j).first == "TPD") {
@@ -243,13 +256,17 @@ void Computation_solid::runSimulation() {
 
         // Advance fluid solver
         precice_dt = solverInterface.advance(dt_);
-
+#endif
 
         // reset if required
+#ifdef WITHPRECICE
         if (solverInterface.isActionRequired(coric)) { // timestep not converged
             //reloadOldState(); // set variables back to checkpoint
             solverInterface.fulfilledAction(coric);
         } else { // timestep converged
+#else
+        if (true) {
+#endif
             std::cout << "Solid: Advancing int time!" << std::endl;
             // e.g. update variables, increment time
             t += dt_;
@@ -257,6 +274,7 @@ void Computation_solid::runSimulation() {
                 break;
             }
             timeStepNumber++;
+            outputWriterParaview_->writeFile(t, "solid");
             if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
                 cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
                 outputWriterParaview_->writeFile(t, "solid");
@@ -269,7 +287,9 @@ void Computation_solid::runSimulation() {
     if (std::fabs(t - lastOutputTime) > 1e-4) {
         outputWriterParaview_->writeFile(t, "solid");
     }
+#ifdef WITHPRECICE
     solverInterface.finalize();
+#endif
 
 
 }
@@ -290,6 +310,18 @@ void Computation_solid::computeTemperature() {
     temperatureSolver_->solve(dt_);
 }
 
+void Computation_solid::computeRightHandSide() {
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+            if (geometry_.get()->isFluid(i, j)) {
+                discretization_->rhs(i, j) = discretization_.get()->t(i, j) / dt_;
+            } else {
+                discretization_->rhs(i, j) = std::numeric_limits<double>::quiet_NaN();
+            }
+        }
+    }
+}
+
 void Computation_solid::applyInitialConditions() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
@@ -303,14 +335,18 @@ void Computation_solid::applyInitialConditions() {
                 } else {
                     discretization_.get()->u(i, j) = 0;
                     discretization_.get()->v(i, j) = 0;
-                    discretization_.get()->p(i, j) = 0; //TODO what to do?
+                    discretization_.get()->p(i, j) = 0;
+                    discretization_.get()->rhs(i, j) = 0;
                     discretization_.get()->t(i, j) = settings_.tInit;
+                    discretization_.get()->tOld(i, j) = settings_.tInit;
                 }
             } else {
                 discretization_.get()->u(i, j) = 0;
                 discretization_.get()->v(i, j) = 0;
-                discretization_.get()->p(i, j) = 0; //TODO what to do?
+                discretization_.get()->p(i, j) = 0;
+                discretization_.get()->rhs(i, j) = 0;
                 discretization_.get()->t(i, j) = settings_.tInit;
+                discretization_.get()->tOld(i, j) = settings_.tInit;
             }
         }
     }
@@ -319,16 +355,17 @@ void Computation_solid::applyInitialConditions() {
 void Computation_solid::reloadOldState() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            discretization_.get()->t(i,j) = discretization_.get()->tOld(i,j);
+            discretization_.get()->t(i, j) = discretization_.get()->tOld(i, j);
         }
     }
 }
 
 void Computation_solid::saveOldState() {
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++){
-        for (int i  = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++){
-            discretization_.get()->tOld(i,j) = discretization_.get()->t(i,j);
+    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
+        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
+            discretization_.get()->tOld(i, j) = discretization_.get()->t(i, j);
         }
     }
 }
+
 

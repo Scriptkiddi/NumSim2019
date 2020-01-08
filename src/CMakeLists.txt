@@ -57,6 +57,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE precice::precice)
 project(numsim_solid)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+option(WITHPRECICE "Compile with preCICE activated." ON)
+
+if(WITHPRECICE)
+    # Add preCICE to project
+    #add_definitions(-DWITHPRECICE)
+endif()
 
 add_executable(${PROJECT_NAME}
         main_solid.cpp

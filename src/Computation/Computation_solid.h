@@ -20,11 +20,14 @@ public:
 
     void runSimulation();
 
+    void computerightHandSide();
+
 private:
 
     void computeTemperature();
 
     void applyInitialConditions();
+    void computeRightHandSide();
 
     void applyBoundaryValuesTemperature();
 

@@ -19,8 +19,10 @@ void GaussSeidel::solve(double dt) {
     double eps = 1;
     double dx2 = pow(discretization_.get()->dx(), 2);
     double dy2 = pow(discretization_.get()->dy(), 2);
-    double factor = 1 / (1 / dt_ + 2 * alpha_ * (1 / dx2 + 1 / dy2));
+    double factor = dt / ( 1.0 + 2.0 * alpha_ * dt *
+                                 ( 1.0 / dx2 +  1.0 / dy2));
     applyBoundaryValuesTemperature();
+    // solve step
     while (iter <= maximumNumberOfIterations_ && eps > pow(epsilon_, 2)) {
         for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
             for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
@@ -30,7 +32,7 @@ void GaussSeidel::solve(double dt) {
                             factor *
                             (alpha_ * ((discretization_.get()->t(i + 1, j) + discretization_.get()->t(i - 1, j)) / dx2 +
                                        (discretization_.get()->t(i, j + 1) + discretization_.get()->t(i, j - 1)) /
-                                       dy2) + discretization_.get()->tOld(i, j) / dt_
+                                       dy2) + discretization_.get()->rhs(i, j)
                             );
                 }
             }
@@ -38,7 +40,6 @@ void GaussSeidel::solve(double dt) {
         applyBoundaryValuesTemperature();
 
         //residuum  // maximum of last error and temperature in this timestep minus temperature in the previous timestep
-        //TODO right??? DO NEXT
         eps = 0;
         for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
             for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
@@ -54,7 +55,7 @@ void GaussSeidel::solve(double dt) {
                                      discretization_.get()->t(i, j - 1)) / dy2
                             )
                             -
-                            (discretization_.get()->t(i, j) - discretization_.get()->tOld(i, j)) / dt_, 2);
+                            (discretization_.get()->t(i, j)/dt_ - discretization_.get()->rhs(i, j)), 2);
                 }
             }
         }
