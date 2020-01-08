@@ -29,7 +29,7 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
         if (!geometry_.get()->isFluid(i_low, j)) {
             if (geometry_.get()->get_temperature(i_low, j).first == "TN" || geometry_.get()->get_temperature(i_low, j).first == "TPN") {
                 discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low + 1, j) -
-                                                     discretization_.get()->dx() * alpha_ *
+                                                     discretization_.get()->dx() / alpha_ *     //Hope alpha^-1 is correct
                                                      geometry_.get()->get_temperature(i_low, j).second[0];
             } else { //"TD"
                 discretization_.get()->t(i_low, j) = 2 * geometry_.get()->get_temperature(i_low, j).second[0] -
@@ -44,7 +44,7 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
         if (!geometry_.get()->isFluid(i_high, j)) {
             if ( geometry_.get()->get_temperature(i_high, j).first == "TN" || geometry_.get()->get_temperature(i_high, j).first == "TPN") {
                 discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high - 1, j) -
-                                                      discretization_.get()->dx() * alpha_ *
+                                                      discretization_.get()->dx() / alpha_ *    //Hope alpha^-1 is correct
                                                       geometry_.get()->get_temperature(i_high, j).second[0];
             } else {
                 discretization_.get()->t(i_high, j) = 2 * geometry_.get()->get_temperature(i_high, j).second[0] -
@@ -59,7 +59,7 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
         if (!geometry_.get()->isFluid(i, j_low)) {
             if (geometry_.get()->get_temperature(i, j_low).first == "TN" || geometry_.get()->get_temperature(i, j_low).first == "TPN") {
                 discretization_.get()->t(i, j_low) = discretization_.get()->t(i, j_low + 1) -
-                                                     discretization_.get()->dy() * alpha_ *
+                                                     discretization_.get()->dy() / alpha_ *     //Hope alpha^-1 is correct
                                                      geometry_.get()->get_temperature(i, j_low).second[0];
             } else {
                 discretization_.get()->t(i, j_low) = 2 * geometry_.get()->get_temperature(i, j_low).second[0] -
@@ -74,7 +74,7 @@ void TemperatureSolver::applyBoundaryValuesTemperature() {
         if (!geometry_.get()->isFluid(i, j_high)) {
             if (geometry_.get()->get_temperature(i, j_high).first == "TN" || geometry_.get()->get_temperature(i, j_high).first == "TPN") {
                 discretization_.get()->t(i, j_high) = discretization_.get()->t(i, j_high - 1) -
-                                                      discretization_.get()->dy() * alpha_ *
+                                                      discretization_.get()->dy() / alpha_ *    //Hope alpha^-1 is correct
                                                       geometry_.get()->get_temperature(i, j_high).second[0];
             } else {
                 discretization_.get()->t(i, j_high) = 2 * geometry_.get()->get_temperature(i, j_high).second[0] -
