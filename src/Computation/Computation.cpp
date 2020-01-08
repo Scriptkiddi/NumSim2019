@@ -12,6 +12,7 @@
 #include <PressureSolver/SOR.h>
 #include <PressureSolver/GaussSeidel.h>
 #include <precice/SolverInterface.hpp>
+#include <assert.h>
 
 using namespace std;
 
@@ -190,7 +191,7 @@ void Computation::runSimulation() {
 
         // Read heatflux
         solverInterface.readBlockScalarData(readDataID, vertexSize, vertexIDs, heatFlow);
-        readTemperature(heatFlow);
+        readHeatFlow(heatFlow);
 
         // reset if required
         if (solverInterface.isActionRequired(coric)) { // timestep not converged
@@ -826,15 +827,16 @@ void Computation::saveOldState() {
         }
     }
 }
-void Computation::readTemperature(double heatFlow[]) {
+void Computation::readHeatFlow(double *heatFlow) {
     int k = 0;
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
         for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
             if (geometry_.get()->get_temperature(i, j).first == "TPD") {
-                std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
-                value.second[0] = heatFlow[k];
-                geometry_.get()->set_temperature(i, j, value);
-                k++;
+                assert(false);
+                //std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
+                //value.second[0] = heatFlow[k];
+                //geometry_.get()->set_temperature(i, j, value);
+                //k++k
             }else if (geometry_.get()->get_temperature(i, j).first == "TPN") {
                 std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
                 value.second[0] = -heatFlow[k];

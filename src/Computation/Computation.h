@@ -66,7 +66,7 @@ private:
     double tInit;
 
     void fillTemperature(double *temperature);
-    void readTemperature(double *temperature);
+    void readHeatFlow(double *heatFlow);
 };
 
 

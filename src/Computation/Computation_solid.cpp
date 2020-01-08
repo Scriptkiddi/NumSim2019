@@ -13,6 +13,7 @@
 #include <TemperatureSolver/GaussSeidel.h>
 #include <PressureSolver/GaussSeidel.h>
 #include <precice/SolverInterface.hpp>
+#include <assert.h>
 
 using namespace std;
 
@@ -169,10 +170,11 @@ void Computation_solid::runSimulation() {
                     geometry_.get()->set_temperature(i, j, value);
                     k++;
                 } else if (geometry_.get()->get_temperature(i, j).first == "TPN") {
-                    std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
-                    value.second[0] = -temperature[k];
-                    geometry_.get()->set_temperature(i, j, value);
-                    k++;
+                    assert(false);
+                    //std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
+                    //value.second[0] = -temperature[k];
+                    //geometry_.get()->set_temperature(i, j, value);
+                    //k++;
                 }
             }
         }
@@ -284,21 +286,23 @@ void Computation_solid::fillHeatFlow(double heatFlow[]) {
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
         for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
             if (geometry_.get()->get_temperature(i, j).first == "TPN") {
-                if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
-                    heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) +
-                                         discretization_.get()->t(i - 1, j)); //ist eig Temperatur
-                } else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
-                    heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) +
-                                         discretization_.get()->t(i + 1, j));  //ist eig Temperatur
-                } else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
-                    heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) +
-                                         discretization_.get()->t(i, j - 1));  //ist eig Temperatur
-                } else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
-                    heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) +
-                                         discretization_.get()->t(i, j + 1));  //ist eig Temperatur
-                }
-                k++;
+                assert(false);
+                //if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
+                //    heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) +
+                //                         discretization_.get()->t(i - 1, j)); //ist eig Temperatur
+                //} else if (i <= discretization_.get()->tIEnd() && geometry_.get()->isFluid(i + 1, j)) {
+                //    heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) +
+                //                         discretization_.get()->t(i + 1, j));  //ist eig Temperatur
+                //} else if (j >= discretization_.get()->tJBegin() && geometry_.get()->isFluid(i, j - 1)) {
+                //    heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) +
+                //                         discretization_.get()->t(i, j - 1));  //ist eig Temperatur
+                //} else if (j <= discretization_.get()->tJEnd() && geometry_.get()->isFluid(i, j + 1)) {
+                //    heatFlow[k] = 0.5 * (discretization_.get()->t(i, j) +
+                //                         discretization_.get()->t(i, j + 1));  //ist eig Temperatur
+                //}
+                //k++;
             } else if (geometry_.get()->get_temperature(i, j).first == "TPD") {
+
                 if (i >= discretization_.get()->tIBegin() && geometry_.get()->isFluid(i - 1, j)) {
                     heatFlow[k] = settings_.heatDiffusivity / discretization_.get()->dx() *
                                   (discretization_.get()->t(i - 1, j) - discretization_.get()->t(i, j));
