@@ -161,7 +161,7 @@ void Computation::runSimulation() {
 
         // Save old state and acknowledge checkpoint
         if (solverInterface.isActionRequired(cowic)) {
-            saveOldState(); // save checkpoint
+            //saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
 
@@ -197,7 +197,7 @@ void Computation::runSimulation() {
 
         // reset if required
         if (solverInterface.isActionRequired(coric)) { // timestep not converged
-            reloadOldState(); // set variables back to checkpoint
+            //reloadOldState(); // set variables back to checkpoint
             solverInterface.fulfilledAction(coric);
         } else { // timestep converged
             std::cout << "Fluid: Advancing int time!" << std::endl;
@@ -754,6 +754,11 @@ void Computation::computeVelocities() {
 }
 
 void Computation::computeTemperature() {
+    for (int j = discretization_.get()->tJBegin()-1; j <= discretization_.get()->tJEnd()+1; j++) {
+        for (int i = discretization_.get()->tIBegin()-1; i <= discretization_.get()->tIEnd()+1; i++) {
+                discretization_.get()->tOld(i, j) = discretization_.get()->t(i,j);
+        }
+    }
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
             if (geometry_.get()->isFluid(i, j)) {
@@ -859,7 +864,7 @@ void Computation::readHeatFlow(double *heatFlow) {
                 //k++k
             } else if (geometry_.get()->get_temperature(i, j).first == "TPN") {
                 std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
-                value.second[0] = heatFlow[k];
+                value.second[0] = -heatFlow[k];
                 geometry_.get()->set_temperature(i, j, value);
                 k++;
             }
