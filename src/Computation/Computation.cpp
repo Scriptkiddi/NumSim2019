@@ -77,7 +77,7 @@ void Computation::runSimulation() {
     int writeDataID = solverInterface.getDataID(settings_.writeDataName, meshID);
     int readDataID = solverInterface.getDataID(settings_.readDataName, meshID);
 
-    // Get vertex size
+    // Get vertex size = size of coupling interface
     int vertexSize = 0;
     int dim = solverInterface.getDimensions();
     for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
@@ -549,7 +549,7 @@ void Computation::applyBoundaryValuesVelocities() {
             }
         }
     }
-    //inner cells //TODO korrekt?
+    //inner cells
     for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
         for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
             if (!geometry_.get()->isFluid(i, j)) {
