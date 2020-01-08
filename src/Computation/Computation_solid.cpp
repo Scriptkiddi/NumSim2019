@@ -135,6 +135,7 @@ void Computation_solid::runSimulation() {
     if (solverInterface.isActionRequired(cowid)) {
         // TODO is this needed
         //computeTemperature();
+        calcHeatFlow(heatFlow);
         int k = 0;
         for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
             for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
@@ -345,6 +346,10 @@ void Computation_solid::saveOldState() {
             discretization_.get()->tOld(i, j) = discretization_.get()->t(i, j);
         }
     }
+}
+
+void Computation_solid::calcHeatFlow(double *pDouble) {
+
 }
 
 

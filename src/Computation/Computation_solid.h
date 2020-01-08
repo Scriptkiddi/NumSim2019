@@ -55,6 +55,8 @@ private:
     double dt_;
     
     double tInit;
+
+    void calcHeatFlow(double pDouble[-1]);
 };
 
 
