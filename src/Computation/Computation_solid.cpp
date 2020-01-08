@@ -61,7 +61,6 @@ void Computation_solid::runSimulation() {
     applyInitialConditions();
     double lastOutputTime = 0;
 
-#ifdef WITHPRECICE
     //INIT Precice
     precice::SolverInterface solverInterface(this->settings_.participantName, 0, 1);
     //load precice config
@@ -176,25 +175,16 @@ void Computation_solid::runSimulation() {
 
     solverInterface.initializeData();
         //Do preCICE calls here
-#endif
 
     int timeStepNumber = 0;
-#ifdef WITHPRECICE
     while (solverInterface.isCouplingOngoing()) {
-#else
-    dt_ = 0.001;
-    while (true) {
-#endif
-#ifdef WITHPRECICE
         // Save old state and acknowledge checkpoint
         if (solverInterface.isActionRequired(cowic)) {
             //saveOldState(); // save checkpoint
             solverInterface.fulfilledAction(cowic);
         }
-#endif
 
         // Calculate fluid time step
-#ifdef WITHPRECICE
         dt_ =  precice_dt;
         // Read Temperature
         solverInterface.readBlockScalarData(readDataID, vertexSize, vertexIDs, temperature);
@@ -214,14 +204,12 @@ void Computation_solid::runSimulation() {
                 }
             }
         }
-#endif
         computeTemperature();
         computeRightHandSide();
 
         // Coupling
 
         // write to preCice Buffers
-#ifdef WITHPRECICE
         int k = 0;
         for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
             for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
@@ -254,21 +242,14 @@ void Computation_solid::runSimulation() {
                 }
             }
         }
-        solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, temperature);
+        solverInterface.writeBlockScalarData(writeDataID, vertexSize, vertexIDs, heatFlow);
 
         // Advance fluid solver
         precice_dt = solverInterface.advance(dt_);
-#endif
-
-        // reset if required
-#ifdef WITHPRECICE
         if (solverInterface.isActionRequired(coric)) { // timestep not converged
             //reloadOldState(); // set variables back to checkpoint
             solverInterface.fulfilledAction(coric);
         } else { // timestep converged
-#else
-        if (true) {
-#endif
             std::cout << "Solid: Advancing int time!" << std::endl;
             // e.g. update variables, increment time
             t += dt_;
@@ -289,9 +270,7 @@ void Computation_solid::runSimulation() {
     if (std::fabs(t - lastOutputTime) > 1e-4) {
         outputWriterParaview_->writeFile(t, "solid");
     }
-#ifdef WITHPRECICE
     solverInterface.finalize();
-#endif
 
 
 }
