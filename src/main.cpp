@@ -8,13 +8,10 @@
 using namespace std::chrono;
 
 int main(int argc, char *argv[]) {
-    // Todo parse number of processes
     if (argc == 1 ){
         std::cout << "Please pass settings filename" << std::endl;
         return EXIT_FAILURE;
     }
-    
-    // TODO WIE AUFRUF VON MAIN_SOLID? NOTWENDIG, DASS EIGENE DATEI ODER HIER EINPFLEGEN?
     
     Computation computation;
 

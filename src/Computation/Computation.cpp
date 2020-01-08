@@ -55,10 +55,10 @@ void Computation::initialize(int argc, char **argv) {
         std::cout << "Please select SOR-solver" << std::endl;
     }
     //initialize outputWriters
-    OutputWriterText outText(discretization_, settings);
+    OutputWriterText outText(discretization_, settings_);
     outputWriterText_ = make_unique<OutputWriterText>(outText);
 
-    OutputWriterParaview outPara(discretization_, settings);
+    OutputWriterParaview outPara(discretization_, settings_);
     outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
 }
 
