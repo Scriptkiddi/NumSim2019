@@ -149,6 +149,7 @@ void Computation_solid::runSimulation() {
     //Do preCICE calls here
 
     int timeStepNumber = 0;
+    outputWriterText_->writeFile(t);
     while (solverInterface.isCouplingOngoing()) {
         // Save old state and acknowledge checkpoint
         if (solverInterface.isActionRequired(cowic)) {
@@ -201,9 +202,9 @@ void Computation_solid::runSimulation() {
                 break;
             }
             timeStepNumber++;
-            outputWriterParaview_->writeFile(t, "solid");
             if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
                 cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
+                outputWriterText_->writeFile(t);
                 outputWriterParaview_->writeFile(t, "solid");
                 lastOutputTime = t;
             }

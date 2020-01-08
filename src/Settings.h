@@ -71,8 +71,8 @@ struct Settings {
 
     //TODO add parameters like for fluid solver: participantName, meshName, preciceConfigFile, readDataName, writeDataName
     std::array<double, 2> origin;
-    std::string participantName = "Solid";
-    std::string writeDataName = "HeatFlow";
+    std::string participantName = "SolidSolver";
+    std::string writeDataName = "Heat-Flow";
     std::string readDataName = "Temperature";
     std::string preciceConfigFile; //? standard value? path to the precice-config.xml
     std::string meshName = "SolidMesh";
