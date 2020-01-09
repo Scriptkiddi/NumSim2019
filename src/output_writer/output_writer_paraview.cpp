@@ -16,7 +16,7 @@ void OutputWriterParaview::writeFile(double currentTime, const std::string& type
 {
     // Assemble the filename
     std::stringstream fileName;
-    fileName << "out/output_" << settings_.participantName << std::setw(5) << setfill('0') << fileNo_ << "." << vtkWriter_->GetDefaultFileExtension();
+    fileName << "out_" << settings_.participantName << "/output_"  << std::setw(5) << setfill('0') << fileNo_ << "." << vtkWriter_->GetDefaultFileExtension();
 
     // increment file no.
     fileNo_++;

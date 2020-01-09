@@ -106,6 +106,8 @@ void Computation::runSimulation() {
         for (int i = discretization_.get()->tIBegin() - 1; i <= discretization_.get()->tIEnd() + 1; i++) {
             if (geometry_.get()->get_temperature(i, j).first == "TPD" ||
                 geometry_.get()->get_temperature(i, j).first == "TPN") {
+                // TODO fix interfaces in corners
+                // split between upper and lower also then fix handling of such fields
                 if (j > 0 && geometry_.get()->isFluid(i, j - 1)) {
                     coords[k] = settings_.origin[0] + discretization_.get()->dx() * (i - 1) +
                                 discretization_.get()->dx() / 2;
