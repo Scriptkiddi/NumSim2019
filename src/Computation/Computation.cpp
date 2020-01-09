@@ -807,7 +807,7 @@ void Computation::applyInitialConditions() {
 void Computation::reloadOldState() {
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            discretization_.get()->t(i, j) = discretization_.get()->tOld(i, j);
+            discretization_.get()->t(i, j) = discretization_.get()->tTmp(i, j);
         }
     }
     for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
@@ -849,7 +849,7 @@ void Computation::saveOldState() {
 
     for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
         for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            discretization_.get()->tOld(i, j) = discretization_.get()->t(i, j);
+            discretization_.get()->tTmp(i, j) = discretization_.get()->t(i, j);
         }
     }
 }
@@ -866,7 +866,7 @@ void Computation::readHeatFlow(double *heatFlow) {
                 //k++k
             } else if (geometry_.get()->get_temperature(i, j).first == "TPN") {
                 std::pair<std::string, std::vector<double>> value = geometry_.get()->get_temperature(i, j);
-                value.second[0] = -heatFlow[k];
+                value.second[0] = -heatFlow[k]/2;
                 geometry_.get()->set_temperature(i, j, value);
                 k++;
             }

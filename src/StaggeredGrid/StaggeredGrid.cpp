@@ -19,10 +19,12 @@ StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<doubl
         f_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         g_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         t_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        tOld_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth){
-    }
+        tOld_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+        tTmp_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth) {
 
-    const std::array<double, 2> StaggeredGrid::meshWidth() const {
+}
+
+const std::array<double, 2> StaggeredGrid::meshWidth() const {
     return meshWidth_;
 }
 
@@ -130,6 +132,14 @@ double StaggeredGrid::tOld(int i, int j) const {
     return tOld_(i, j);
 }
 
+double StaggeredGrid::tTmp(int i, int j) const {
+    return tOld_(i, j);
+}
+
+double &StaggeredGrid::tTmp(int i, int j) {
+    return tOld_(i, j);
+}
+
 double &StaggeredGrid::t(int i, int j) {
     return t_(i, j);
 }
@@ -145,6 +155,7 @@ double StaggeredGrid::dx() const {
 double StaggeredGrid::dy() const {
     return meshWidth_[1];
 }
+
 // ncells beinhaltet ghost cells
 // https://numsim-exercises.readthedocs.io/en/latest/exercise1/hints.html
 // 1 weil uIBegin gibt uns die erste nicht ghost cell
@@ -162,7 +173,7 @@ int StaggeredGrid::uJBegin() const {
 }
 
 int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
-    return nCells_[1]-2;
+    return nCells_[1] - 2;
 }
 
 int StaggeredGrid::vIBegin() const {
@@ -170,7 +181,7 @@ int StaggeredGrid::vIBegin() const {
 }
 
 int StaggeredGrid::vIEnd() const {
-    return nCells_[0]-2;
+    return nCells_[0] - 2;
 }
 
 int StaggeredGrid::vJBegin() const {
@@ -186,7 +197,7 @@ int StaggeredGrid::pIBegin() const {
 }
 
 int StaggeredGrid::pIEnd() const {
-    return nCells_[0]-2;
+    return nCells_[0] - 2;
 }
 
 int StaggeredGrid::pJBegin() const {
@@ -194,7 +205,7 @@ int StaggeredGrid::pJBegin() const {
 }
 
 int StaggeredGrid::pJEnd() const {
-    return nCells_[1]-2;
+    return nCells_[1] - 2;
 }
 
 int StaggeredGrid::tIBegin() const {
@@ -202,7 +213,7 @@ int StaggeredGrid::tIBegin() const {
 }
 
 int StaggeredGrid::tIEnd() const {
-    return nCells_[0]-2;
+    return nCells_[0] - 2;
 }
 
 int StaggeredGrid::tJBegin() const {
@@ -210,5 +221,5 @@ int StaggeredGrid::tJBegin() const {
 }
 
 int StaggeredGrid::tJEnd() const {
-    return nCells_[1]-2;
+    return nCells_[1] - 2;
 }

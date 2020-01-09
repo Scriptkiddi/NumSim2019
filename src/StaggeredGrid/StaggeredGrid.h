@@ -24,6 +24,7 @@ protected:
     FieldVariable g_;
     FieldVariable t_;
     FieldVariable tOld_;
+    FieldVariable tTmp_;
 
     //todo: wie werden u,v,p usw. gesetzt?
 
@@ -81,6 +82,10 @@ public:
     double tOld(int i, int j) const;
 
     double &tOld(int i, int j);
+
+    double tTmp(int i, int j) const;
+
+    double &tTmp(int i, int j);
 
     double &rhs(int i, int j);
 
