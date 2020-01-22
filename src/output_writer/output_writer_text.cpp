@@ -28,31 +28,31 @@ void OutputWriterText::writeFile(double currentTime)
   file << "t: " << currentTime << std::endl;
 
   // write mesh width
-  file << "nCells: " << discretization_->nCells()[0] << "x" << discretization_->nCells()[1]
-    << ", dx: " << discretization_->dx() << ", dy: " << discretization_->dy() << std::endl << std::endl;
+  file << "nCells: " << staggeredGrid_->nCells()[0] << "x" << staggeredGrid_->nCells()[1]
+    << ", dx: " << staggeredGrid_->dx() << ", dy: " << staggeredGrid_->dy() << std::endl << std::endl;
 
   const int fieldWidth = 9;   // number of characters to use for a single value
 
   // write u
   // ---------
   // write header lines
-  file << "u (" << discretization_->u().size()[0] << "x" << discretization_->u().size()[1] << "): " << std::endl
+  file << "u (" << staggeredGrid_->u().size()[0] << "x" << staggeredGrid_->u().size()[1] << "): " << std::endl
     << std::string(fieldWidth, ' ')  << "  "<< "|";
-  for (int i = discretization_->uIBegin()-1; i <= discretization_->uIEnd()+2; i++)
+  for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+2; i++)
   {
     file << std::setw(fieldWidth) << i  << "  ";
   }
-  file << std::endl << std::string(fieldWidth*(discretization_->u().size()[0]+2)+1, '-') << std::endl;
+  file << std::endl << std::string(fieldWidth*(staggeredGrid_->u().size()[0]+2)+1, '-') << std::endl;
 
   // write u values
-  for (int j = discretization_->uJEnd()+1; j >= discretization_->uJBegin()-1; j--)
+  for (int j = staggeredGrid_->jEnd()+1; j >= staggeredGrid_->jBegin()-1; j--)
   {
     file << "  "<< std::setw(fieldWidth) << j << "|" <<  "  " ;
-    for (int i = discretization_->uIBegin()-1; i <= discretization_->uIEnd()+2; i++)
+    for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+2; i++)
     {
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << discretization_->u(i,j) << "  ";
+      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->u(i,j) << "  ";
 
-      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->u(i,j);
+      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->u(i,j);
     }
     file << std::endl;
   }
@@ -61,22 +61,22 @@ void OutputWriterText::writeFile(double currentTime)
   // write v
   // ---------
   // write header lines
-  file << "v (" << discretization_->v().size()[0] << "x" << discretization_->v().size()[1] << "): " << std::endl
+  file << "v (" << staggeredGrid_->v().size()[0] << "x" << staggeredGrid_->v().size()[1] << "): " << std::endl
     << std::string(fieldWidth, ' ') << "  "<< "|";
-  for (int i = discretization_->vIBegin()-1; i <= discretization_->vIEnd()+1; i++)
+  for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i <<"  ";
   }
-  file << std::endl << std::string(fieldWidth*(discretization_->v().size()[0]+2)+1, '-') << std::endl;
+  file << std::endl << std::string(fieldWidth*(staggeredGrid_->v().size()[0]+2)+1, '-') << std::endl;
 
   // write v values
-  for (int j = discretization_->vJEnd()+2; j >= discretization_->vJBegin()-1; j--)
+  for (int j = staggeredGrid_->jEnd()+2; j >= staggeredGrid_->jBegin()-1; j--)
   {
     file <<"  "<< std::setw(fieldWidth) << j << "|"<<"  ";
-    for (int i = discretization_->vIBegin()-1; i <= discretization_->vIEnd()+1; i++)
+    for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
     {
-      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->v(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << discretization_->v(i,j)<< "  ";
+      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->v(i,j);
+      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->v(i,j)<< "  ";
     }
     file << std::endl;
   }
@@ -85,22 +85,22 @@ void OutputWriterText::writeFile(double currentTime)
   // write p
   // ---------
   // write header lines
-  file << "p (" << discretization_->p().size()[0] << "x" << discretization_->p().size()[1] << "): " << std::endl
+  file << "p (" << staggeredGrid_->p().size()[0] << "x" << staggeredGrid_->p().size()[1] << "): " << std::endl
     << std::string(fieldWidth, ' ') <<"  "<< "|";
-  for (int i = discretization_->pIBegin()-1; i < discretization_->pIEnd()+1; i++)
+  for (int i = staggeredGrid_->iBegin()-1; i < staggeredGrid_->iEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i<<"  ";
   }
-  file << std::endl << std::string(fieldWidth*(discretization_->p().size()[0]+2)+1, '-') << std::endl;
+  file << std::endl << std::string(fieldWidth*(staggeredGrid_->p().size()[0]+2)+1, '-') << std::endl;
 
   // write p values
-  for (int j = discretization_->pJEnd()+1; j >= discretization_->pJBegin()-1; j--)
+  for (int j = staggeredGrid_->jEnd()+1; j >= staggeredGrid_->jBegin()-1; j--)
   {
     file <<"  " << std::setw(fieldWidth) << j << "|"<<"  ";
-    for (int i = discretization_->pIBegin()-1; i <= discretization_->pIEnd()+1; i++)
+    for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
     {
-      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->p(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << discretization_->p(i,j)<< "  ";
+      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->p(i,j);
+      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->p(i,j)<< "  ";
     }
     file << std::endl;
   }
@@ -109,22 +109,22 @@ void OutputWriterText::writeFile(double currentTime)
   // write T
   // ---------
   // write header lines
-  file << "T (" << discretization_->t().size()[0] << "x" << discretization_->t().size()[1] << "): " << std::endl
+  file << "T (" << staggeredGrid_->t().size()[0] << "x" << staggeredGrid_->t().size()[1] << "): " << std::endl
     << std::string(fieldWidth, ' ') << "|"<<"  ";
-  for (int i = discretization_->tIBegin()-1; i <= discretization_->tIEnd()+1; i++)
+  for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i<<"  ";
   }
-  file << std::endl << std::string(fieldWidth*(discretization_->t().size()[0]+2)+1, '-') << std::endl;
+  file << std::endl << std::string(fieldWidth*(staggeredGrid_->t().size()[0]+2)+1, '-') << std::endl;
 
   // write p values
-  for (int j = discretization_->tJEnd()+1; j >= discretization_->tJBegin()-1; j--)
+  for (int j = staggeredGrid_->jEnd()+1; j >= staggeredGrid_->jBegin()-1; j--)
   {
     file <<"  "<< std::setw(fieldWidth) << j << "|"<<"  ";
-    for (int i = discretization_->tIBegin()-1; i <= discretization_->tIEnd()+1; i++)
+    for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
     {
-      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->T(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << discretization_->t(i,j)<< "  ";
+      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->T(i,j);
+      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->t(i,j)<< "  ";
     }
     file << std::endl;
   }
@@ -133,22 +133,22 @@ void OutputWriterText::writeFile(double currentTime)
   // write f
   // ---------
   // write header lines
-  file << "F (" << discretization_->u().size()[0] << "x" << discretization_->u().size()[1] << "): " << std::endl
+  file << "F (" << staggeredGrid_->u().size()[0] << "x" << staggeredGrid_->u().size()[1] << "): " << std::endl
     << std::string(fieldWidth, ' ') << "|"<<"  ";
-  for (int i = discretization_->uIBegin()-1; i <= discretization_->uIEnd()+2; i++)
+  for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+2; i++)
   {
     file << std::setw(fieldWidth) << i<<"  ";
   }
-  file << std::endl << std::string(fieldWidth*(discretization_->u().size()[0]+2)+1, '-') << std::endl;
+  file << std::endl << std::string(fieldWidth*(staggeredGrid_->u().size()[0]+2)+1, '-') << std::endl;
 
   // write f values
-  for (int j = discretization_->uJEnd()+1; j >= discretization_->uJBegin()-1; j--)
+  for (int j = staggeredGrid_->jEnd()+1; j >= staggeredGrid_->jBegin()-1; j--)
   {
     file <<"  "<< std::setw(fieldWidth) << j << "|"<<"  ";
-    for (int i = discretization_->uIBegin()-1; i <= discretization_->uIEnd()+2; i++)
+    for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+2; i++)
     {
-      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->f(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << discretization_->f(i,j)<< "  ";
+      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->f(i,j);
+      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->f(i,j)<< "  ";
     }
     file << std::endl;
   }
@@ -157,22 +157,22 @@ void OutputWriterText::writeFile(double currentTime)
   // write g
   // ---------
   // write header lines
-  file << "G (" << discretization_->v().size()[0] << "x" << discretization_->v().size()[1] << "): " << std::endl
+  file << "G (" << staggeredGrid_->v().size()[0] << "x" << staggeredGrid_->v().size()[1] << "): " << std::endl
     << std::string(fieldWidth, ' ') << "|"<<"  ";
-  for (int i = discretization_->vIBegin()-1; i <= discretization_->vIEnd()+1; i++)
+  for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i <<"  ";
   }
-  file << std::endl << std::string(fieldWidth*(discretization_->v().size()[0]+2)+1, '-') << std::endl;
+  file << std::endl << std::string(fieldWidth*(staggeredGrid_->v().size()[0]+2)+1, '-') << std::endl;
 
   // write g values
-  for (int j = discretization_->vJEnd()+2; j >= discretization_->vJBegin()-1; j--)
+  for (int j = staggeredGrid_->jEnd()+2; j >= staggeredGrid_->jBegin()-1; j--)
   {
     file<<"  " << std::setw(fieldWidth) << j << "|"<<"  ";
-    for (int i = discretization_->vIBegin()-1; i <= discretization_->vIEnd()+1; i++)
+    for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
     {
-      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->g(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << discretization_->g(i,j)<< "  ";
+      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->g(i,j);
+      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->g(i,j)<< "  ";
     }
     file << std::endl;
   }
@@ -181,22 +181,22 @@ void OutputWriterText::writeFile(double currentTime)
   // write rhs
   // ---------
   // write header lines
-  file << "rhs (" << discretization_->p().size()[0] << "x" << discretization_->p().size()[1] << "): " << std::endl
+  file << "rhs (" << staggeredGrid_->p().size()[0] << "x" << staggeredGrid_->p().size()[1] << "): " << std::endl
     << std::string(fieldWidth, ' ') << "|"<<"  ";
-  for (int i = discretization_->pIBegin()-1; i <= discretization_->pIEnd()+1; i++)
+  for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i<<"  ";
   }
-  file << std::endl << std::string(fieldWidth*(discretization_->p().size()[0]+2)+1, '-') << std::endl;
+  file << std::endl << std::string(fieldWidth*(staggeredGrid_->p().size()[0]+2)+1, '-') << std::endl;
 
   // write rhs values
-  for (int j = discretization_->pJEnd()+1; j >= discretization_->pJBegin()-1; j--)
+  for (int j = staggeredGrid_->jEnd()+1; j >= staggeredGrid_->jBegin()-1; j--)
   {
     file <<"  "<< std::setw(fieldWidth) << j << "|"<<"  ";
-    for (int i = discretization_->pIBegin()-1; i <= discretization_->pIEnd()+1; i++)
+    for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
     {
-      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->rhs(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << discretization_->rhs(i,j)<< "  ";
+      // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->rhs(i,j);
+      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->rhs(i,j)<< "  ";
     }
     file << std::endl;
   }
@@ -223,29 +223,29 @@ void OutputWriterText::writePressureFile()
   }
 
   // write mesh width
-  file << "nCells: " << discretization_->nCells()[0] << "x" << discretization_->nCells()[1]
-    << ", dx: " << discretization_->dx() << ", dy: " << discretization_->dy() << std::endl << std::endl;
+  file << "nCells: " << staggeredGrid_->nCells()[0] << "x" << staggeredGrid_->nCells()[1]
+    << ", dx: " << staggeredGrid_->dx() << ", dy: " << staggeredGrid_->dy() << std::endl << std::endl;
 
   const int fieldWidth = 9;   // number of characters to use for a single value
 
   // write p
   // ---------
   // write header lines
-  file << "p (" << discretization_->p().size()[0] << "x" << discretization_->p().size()[1] << "): " << std::endl
+  file << "p (" << staggeredGrid_->p().size()[0] << "x" << staggeredGrid_->p().size()[1] << "): " << std::endl
     << std::string(fieldWidth, ' ') << "|";
-  for (int i = discretization_->pIBegin()-1; i < discretization_->pIEnd()+1; i++)
+  for (int i = staggeredGrid_->iBegin()-1; i < staggeredGrid_->iEnd()+1; i++)
   {
     file << std::setw(fieldWidth) << i;
   }
-  file << std::endl << std::string(fieldWidth*(discretization_->p().size()[0]+2)+1, '-') << std::endl;
+  file << std::endl << std::string(fieldWidth*(staggeredGrid_->p().size()[0]+2)+1, '-') << std::endl;
 
   // write p values
-  for (int j = discretization_->pJEnd(); j >= discretization_->pJBegin()-1; j--)
+  for (int j = staggeredGrid_->jEnd(); j >= staggeredGrid_->jBegin()-1; j--)
   {
     file << std::setw(fieldWidth) << j << "|";
-    for (int i = discretization_->pIBegin()-1; i < discretization_->pIEnd()+1; i++)
+    for (int i = staggeredGrid_->iBegin()-1; i < staggeredGrid_->iEnd()+1; i++)
     {
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << discretization_->p(i,j);
+      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->p(i,j);
     }
     file << std::endl;
   }

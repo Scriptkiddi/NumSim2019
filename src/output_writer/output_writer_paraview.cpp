@@ -28,13 +28,13 @@ void OutputWriterParaview::writeFile(double currentTime)
     dataSet->SetOrigin(0, 0, 0);
 
     // set spacing of mesh
-    const double dx = discretization_.get()->meshWidth()[0];
-    const double dy = discretization_.get()->meshWidth()[1];
+    const double dx = staggeredGrid_.get()->meshWidth()[0];
+    const double dy = staggeredGrid_.get()->meshWidth()[1];
     const double dz = 1;
     dataSet->SetSpacing(dx, dy, dz);
 
     // set number of points in each dimension, 1 cell in z direction
-    std::array<int,2> nCells = {discretization_.get()->p().size()[0] - 2, discretization_->p().size()[1] - 2};
+    std::array<int,2> nCells = {staggeredGrid_.get()->p().size()[0] - 2, staggeredGrid_->p().size()[1] - 2};
     dataSet->SetDimensions(nCells[0]+1, nCells[1]+1, 1);  // we want to have points at each corner of each cell
     // add temperature field variable
     // ---------------------------
@@ -59,7 +59,7 @@ void OutputWriterParaview::writeFile(double currentTime)
             const double x = i*dx;
             const double y = j*dy;
 
-            arrayTemp->SetValue(index, discretization_->t().interpolateAt(x,y,"t"));
+            arrayTemp->SetValue(index, staggeredGrid_->t().interpolateAt(x,y,"t"));
         }
     }
 
@@ -92,7 +92,7 @@ void OutputWriterParaview::writeFile(double currentTime)
             const double x = i*dx;
             const double y = j*dy;
 
-            arrayPressure->SetValue(index, discretization_->p().interpolateAt(x,y,"p"));
+            arrayPressure->SetValue(index, staggeredGrid_->p().interpolateAt(x,y,"p"));
         }
     }
 
@@ -126,8 +126,8 @@ void OutputWriterParaview::writeFile(double currentTime)
             const double x = i*dx;
 
             std::array<double,3> velocityVector;
-            velocityVector[0] = discretization_->u().interpolateAt(x,y,"u");
-            velocityVector[1] = discretization_->v().interpolateAt(x,y,"v");
+            velocityVector[0] = staggeredGrid_->u().interpolateAt(x,y,"u");
+            velocityVector[1] = staggeredGrid_->v().interpolateAt(x,y,"v");
             velocityVector[2] = 0.0;    // z-direction is 0
 
             arrayVelocity->SetTuple(index, velocityVector.data());
@@ -191,13 +191,13 @@ void OutputWriterParaview::writeFile(double currentTime)
 //  dataSet->SetOrigin(0, 0, 0);
 //
 //  // set spacing of mesh
-//  const double dx = discretization_.get()->meshWidth()[0];
-//  const double dy = discretization_.get()->meshWidth()[1];
+//  const double dx = staggeredGrid_.get()->meshWidth()[0];
+//  const double dy = staggeredGrid_.get()->meshWidth()[1];
 //  const double dz = 1;
 //  dataSet->SetSpacing(dx, dy, dz);
 //
 //  // set number of points in each dimension, 1 cell in z direction
-//  std::array<int,2> nCells = discretization_->nCells();
+//  std::array<int,2> nCells = staggeredGrid_->nCells();
 //  dataSet->SetDimensions(nCells[0]+1, nCells[1]+1, 1);  // we want to have points at each corner of each cell
 //
 //  // add pressure field variable
@@ -223,7 +223,7 @@ void OutputWriterParaview::writeFile(double currentTime)
 //      const double x = i*dx;
 //      const double y = j*dy;
 //
-//      arrayPressure->SetValue(index, discretization_->p().interpolateAt(x,y));
+//      arrayPressure->SetValue(index, staggeredGrid_->p().interpolateAt(x,y));
 //    }
 //  }
 //
@@ -258,8 +258,8 @@ void OutputWriterParaview::writeFile(double currentTime)
 //      const double x = i*dx;
 //
 //      std::array<double,3> velocityVector;
-//      velocityVector[0] = discretization_->u().interpolateAt(x,y);
-//      velocityVector[1] = discretization_->v().interpolateAt(x,y);
+//      velocityVector[0] = staggeredGrid_->u().interpolateAt(x,y);
+//      velocityVector[1] = staggeredGrid_->v().interpolateAt(x,y);
 //      velocityVector[2] = 0.0;    // z-direction is 0
 //
 //      arrayVelocity->SetTuple(index, velocityVector.data());
