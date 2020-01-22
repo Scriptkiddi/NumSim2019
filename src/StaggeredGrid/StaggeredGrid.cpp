@@ -12,10 +12,7 @@ StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<doubl
         u_(nCellsBoundary, {0 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         v_(nCellsBoundary, {-0.5 * meshWidth[0], 0 * meshWidth[1]}, meshWidth),
         p_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        rhs_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        f_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        g_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-    t_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth){
+        t_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth){
     }
 
     const std::array<double, 2> StaggeredGrid::meshWidth() const {
@@ -66,18 +63,6 @@ double &StaggeredGrid::p(int i, int j) {
     return p_(i, j);
 }
 
-double &StaggeredGrid::rhs(int i, int j) {
-    return rhs_(i, j);
-}
-
-double &StaggeredGrid::f(int i, int j) {
-    return f_(i, j);
-}
-
-double &StaggeredGrid::g(int i, int j) {
-    return g_(i, j);
-}
-
 double &StaggeredGrid::t(int i, int j) {
     return t_(i, j);
 }
@@ -89,15 +74,12 @@ double StaggeredGrid::dx() const {
 double StaggeredGrid::dy() const {
     return meshWidth_[1];
 }
-// ncells beinhaltet ghost cells
-// https://numsim-exercises.readthedocs.io/en/latest/exercise1/hints.html
-// 1 weil uIBegin gibt uns die erste nicht ghost cell
+
 int StaggeredGrid::uIBegin() const {
     return 1;
 }
 
-int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direction
-    // minus 1 für size to index und nochmal -1 weil der wert der letzten richtigen zelle auf 0 gesetzt wird anstelle der in der ghost cell
+int StaggeredGrid::uIEnd() const { 
     return nCells_[0] - 3;
 }
 
