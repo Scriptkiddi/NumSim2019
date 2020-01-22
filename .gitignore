@@ -92,3 +92,8 @@ fabric.properties
 .vscode/
 build/
 resources/
+examples/
+
+# Stuff for Julia
+liddrivencavity/
+liddrivencavity_heat/
