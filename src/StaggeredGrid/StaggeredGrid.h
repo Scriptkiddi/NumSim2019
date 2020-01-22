@@ -8,19 +8,28 @@
 
 #include "../Array2D/Array2D.h"
 #include "../Array2D/FieldVariable.h"
+#include "../Array2D/FieldVector.h"
 
 class StaggeredGrid {
 protected:
     const std::array<int, 2> nCells_;
     const std::array<double, 2> meshWidth_;
+    int nVelo_;
     FieldVariable u_;
     FieldVariable v_;
     FieldVariable p_;
+    FieldVariable rho_;
     FieldVariable t_;
+    FieldVector f_;
+    FieldVector feq_;
+    FieldVector ftmp_;
+    std::vector<double> w_;
+    std::vector<std::array<double,2>> c_;
 
+    //todo: wie werden u,v,p usw. gesetzt?
 
 public:
-    StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth); //todo am Ende wieder nach oben nach PROTECTED verschieben
+    StaggeredGrid(std::array<int, 2> nCellsBoundary, int nVelo, std::array<double, 2> meshWidth); //todo am Ende wieder nach oben nach PROTECTED verschieben
 
     const std::array<double, 2> meshWidth() const;
 
@@ -46,45 +55,49 @@ public:
 
     double &p(int i, int j);
 
+    double rho(int i, int j) const;
+
+    double &rho(int i, int j);
+
     double t(int i, int j) const;
 
     double &t(int i, int j);
+
+    double f(int i, int j, int k) const;
+
+    double &f(int i, int j, int k);
+
+    double feq(int i, int j, int k) const;
+
+    double &feq(int i, int j, int k);
+
+    double ftmp(int i, int j, int k) const;
+
+    double &ftmp(int i, int j, int k);
+
+    double w (int k) const;
+
+    double &w (int k);
+
+    double c (int k, int l) const;
+
+    double &c (int k, int l);
 
     double dx() const;
 
     double dy() const;
 
-    int uIBegin() const;
+    int iBegin() const;
 
-    int uIEnd() const;
+    int iEnd() const;
 
-    int uJBegin() const;
+    int jBegin() const;
 
-    int uJEnd() const;
+    int jEnd() const;
 
-    int vIBegin() const;
+    int kBegin() const;
 
-    int vIEnd() const;
-
-    int vJBegin() const;
-
-    int vJEnd() const;
-
-    int pIBegin() const;
-
-    int pIEnd() const;
-
-    int pJBegin() const;
-
-    int pJEnd() const;
-
-    int tIBegin() const;
-
-    int tIEnd() const;
-
-    int tJBegin() const;
-
-    int tJEnd() const;
+    int kEnd() const;
 };
 
 
