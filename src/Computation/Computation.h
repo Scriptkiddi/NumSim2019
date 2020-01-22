@@ -23,30 +23,22 @@ public:
 private:
     void computeTimeStepWidth();
 
-    void applyBoundaryValuesVelocities();
+    void applyBoundaryValuesF();
 
-    void applyBoundaryValuesTemperature();
-
-    void PreliminaryVelocities();
-
-    void computeRightHandSide();
-
-    void computePressure();
-
-    void computeVelocities();
-
-    void computeTemperature();
+    void computeMacroscopicQuantities();
 
     void applyInitialConditions();
+
+    void computeFtempFeq();
+
+    void computeF();
 
     // Attributes
     Settings settings_;
 
     std::shared_ptr<Geometry> geometry_;
 
-    std::shared_ptr <Discretization> discretization_;
-
-    std::unique_ptr <PressureSolver> pressureSolver_;
+    std::shared_ptr <StaggeredGrid> staggeredGrid_;
 
     std::unique_ptr <OutputWriterParaview> outputWriterParaview_;
 
@@ -59,10 +51,7 @@ private:
     double t_c;
     double t_h;
     
-    double uInit;
-    double vInit;
-    double pInit; 
-    double tInit;
+    double fInit;
 };
 
 

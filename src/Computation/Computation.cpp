@@ -7,10 +7,7 @@
 #include "Settings.h"
 #include <cmath>
 #include <iostream>
-#include <StaggeredGrid/CentralDifferences.h>
-#include <StaggeredGrid/DonorCell.h>
-#include <PressureSolver/SOR.h>
-#include <PressureSolver/GaussSeidel.h>
+#include <StaggeredGrid/StaggeredGrid.h>
 
 using namespace std;
 
@@ -21,43 +18,26 @@ void Computation::initialize(int argc, char **argv) {
     settings_.loadFromFile(argv[1]);
     settings_.printSettings();
     array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
+    int nVelo = settings_.nVelo; //TODO in settings
 
     geometry_ = settings_.geometry;
 
     //initialize initial values
-    uInit = settings_.uInit;
-    vInit = settings_.vInit;
-    pInit = settings_.pInit;
-    tInit = settings_.tInit;
+    fInit = settings_.fInit; //TODO in settings
 
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] / (settings_.nCells[0]);
     meshWidth_[1] = settings_.physicalSize[1] / (settings_.nCells[1]);
 
-    //initialize discretization
-    if (!settings_.useDonorCell) {
-        CentralDifferences grid(nCellsBoundary, meshWidth_, settings_.gamma);
-        discretization_ = make_shared<CentralDifferences>(grid);
-    } else {
-        DonorCell grid(nCellsBoundary, meshWidth_, settings_.alpha, settings_.gamma);
-        discretization_ = make_shared<DonorCell>(grid);
-    }
+    //initialize staggeredGrid
+    StaggeredGrid grid(nCellsBoundary, nVelo, meshWidth_);
+    staggeredGrid_ = make_shared<StaggeredGrid>(grid);
 
-    //initialize explicit pressureSolver
-    if (settings_.pressureSolver == "SOR") {
-        SOR pSolver(discretization_, geometry_, settings_.epsilon, settings_.maximumNumberOfIterations,
-                    settings_.omega);
-        pressureSolver_ = make_unique<SOR>(pSolver);
-    } else {
-        //GaussSeidel pSolver(discretization_, settings_.epsilon, settings_.maximumNumberOfIterations);
-        //pressureSolver_ = make_unique<PressureSolver>(pSolver);
-        std::cout << "Please select SOR-solver" << std::endl;
-    }
     //initialize outputWriters
-    OutputWriterText outText(discretization_);
+    OutputWriterText outText(staggeredGrid_);
     outputWriterText_ = make_unique<OutputWriterText>(outText);
 
-    OutputWriterParaview outPara(discretization_);
+    OutputWriterParaview outPara(staggeredGrid_);
     outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
 }
 
@@ -67,18 +47,16 @@ void Computation::runSimulation() {
     double lastOutputTime = 0;
     for (int timeStepNumber = 0;
          std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
-        applyBoundaryValuesTemperature();
-        applyBoundaryValuesVelocities();
+        applyBoundaryValuesF();
         computeTimeStepWidth();
         if (t + dt_ > settings_.endTime) {
             dt_ = settings_.endTime - t;
         }
-        PreliminaryVelocities();
         outputWriterText_->writeFile(t);
-        computeTemperature();
-        computeRightHandSide();
-        computePressure();
-        computeVelocities();
+        computeMacroscopicQuantities(); //DensityPressureAndVelocities
+        computeFtempFeq();
+        computeF();
+
         t += dt_;
         if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
             cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
@@ -95,506 +73,120 @@ void Computation::runSimulation() {
 
 }
 
+void Computation::applyInitialConditions() {
+    for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
+        for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
+                staggeredGrid_.get()->f(i, j) = fInit;
+                staggeredGrid_.get()->t(i, j) = tInit;
+        }
+    }
+}
+
+void Computation::applyBoundaryValuesF()) { //TODO settings: rausschmeißen
+// type: "NSW" (no slip wall)
+
+    //bottom bound
+    j_low = staggeredGrid_.get()->jBegin() - 1; 
+    for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
+            /* 
+            if (geometry_.get()->get_velocity(i, j_low).first == "NSW") {
+                staggeredGrid_.get()->u(i, j_low) = -staggeredGrid_.get()->u(i, j_low + 1); //should be -u(1,j)
+                staggeredGrid_.get()->f(i, j_low) = staggeredGrid_.get()->u(i, j_low);
+                */
+    }
+
+    //top bound
+    j_high = staggeredGrid_.get()->jEnd() + 1; //Schleife kürzer
+    for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
+        if (geometry_.get()->get_velocity(i, j_high).first == "NSW") {
+                staggeredGrid_.get()->u(i, j_high) = -staggeredGrid_.get()->u(i, j_high - 1); //should be -u(1,j)
+                staggeredGrid_.get()->f(i, j_high) = staggeredGrid_.get()->u(i, j_high);
+        }
+    }
+    //left bound
+    i_low = staggeredGrid_.get()->iBegin() - 1;
+    for (int j = staggeredGrid_.get()->jBegin() - 1; j <= staggeredGrid_.get()->jEnd() + 1; j++) {
+        if (geometry_.get()->get_velocity(i_low, j).first == "NSW") {
+                staggeredGrid_.get()->u(i_low, j) = 0;
+                staggeredGrid_.get()->f(i_low, j) = staggeredGrid_.get()->u(i_low, j);
+            }
+    }
+
+    //right bound
+    i_high = staggeredGrid_.get()->iEnd() + 1;
+    for (int j = staggeredGrid_.get()->jBegin() - 1; j <= staggeredGrid_.get()->jEnd() + 1; j++) {
+        if (geometry_.get()->get_velocity(i_high + 1, j).first == "NSW") {
+                staggeredGrid_.get()->u(i_high, j) = 0;
+                staggeredGrid_.get()->f(i_high, j) = staggeredGrid_.get()->u(i_high, j);
+        }
+    }
+}
+
 void Computation::computeTimeStepWidth() {
+    /*
     double uMaximum = 0;
-    for (int j = discretization_.get()->uJBegin() - 1; j <= discretization_.get()->uJEnd() + 1; j++) {
-        for (int i = discretization_.get()->uIBegin() - 1; i <= discretization_.get()->uIEnd() + 1; i++) {
-            if (uMaximum < abs(discretization_.get()->u(i, j))) {
-                uMaximum = abs(discretization_.get()->u(i, j));
+    for (int j = staggeredGrid_.get()->jBegin() - 1; j <= staggeredGrid_.get()->jEnd() + 1; j++) {
+        for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() + 1; i++) {
+            if (uMaximum < abs(staggeredGrid_.get()->u(i, j))) {
+                uMaximum = abs(staggeredGrid_.get()->u(i, j));
             }
         }
     }
     double vMaximum = 0;
-    for (int j = discretization_.get()->vJBegin() - 1; j <= discretization_.get()->vJEnd() + 1; j++) {
-        for (int i = discretization_.get()->vIBegin() - 1; i <= discretization_.get()->vIEnd() + 1; i++) {
-            if (vMaximum < abs(discretization_.get()->v(i, j))) {
-                vMaximum = abs(discretization_.get()->v(i, j));
+    for (int j = staggeredGrid_.get()->jBegin() - 1; j <= staggeredGrid_.get()->jEnd() + 1; j++) {
+        for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() + 1; i++) {
+            if (vMaximum < abs(staggeredGrid_.get()->v(i, j))) {
+                vMaximum = abs(staggeredGrid_.get()->v(i, j));
             }
         }
     }
-    double condition_diffusion = pow(discretization_.get()->dx(), 2) * pow(discretization_.get()->dy(), 2) /
-                                 (pow(discretization_.get()->dx(), 2) + pow(discretization_.get()->dy(), 2)) *
+    double condition_diffusion = pow(staggeredGrid_.get()->dx(), 2) * pow(staggeredGrid_.get()->dy(), 2) /
+                                 (pow(staggeredGrid_.get()->dx(), 2) + pow(staggeredGrid_.get()->dy(), 2)) *
                                  settings_.re /
                                  2;
-    double condition_convection1 = discretization_.get()->dx() / uMaximum;
-    double condition_convection2 = discretization_.get()->dy() / vMaximum;
+    double condition_convection1 = staggeredGrid_.get()->dx() / uMaximum;
+    double condition_convection2 = staggeredGrid_.get()->dy() / vMaximum;
 
     // Min time requirements for temperature
     double condition_temp = settings_.re * settings_.prandtl * 0.5 *
-                            pow((1 / pow(discretization_.get()->dx(), 2) + 1 / pow(discretization_.get()->dy(), 2)),
+                            pow((1 / pow(staggeredGrid_.get()->dx(), 2) + 1 / pow(staggeredGrid_.get()->dy(), 2)),
                                 -1);
 
     dt_ = min(condition_convection1, condition_convection2);
     dt_ = min(condition_diffusion, dt_);
     dt_ = min(condition_temp, dt_);
     dt_ = min(settings_.maximumDt, dt_) * settings_.tau;
+    */
 }
 
-void Computation::applyBoundaryValuesVelocities() {
-// type  options : "Neumann" (Abl = 0) oder "Dirichlet" (Wert = 0)
-// type: input options : "SLW" (slip wall), "NSW" (no slip wall), "IN" (in wall), "OUT" (out wall), "PR" (pressure),
-// "TD"( temperature Dirichlet), "TN" (temperature Neumann), "F" (fluid cell), "S" (solid cell)
-// NoSlip ist komplett dirichlet, slip ist dirichlet in normal- und neumann in tangentialrichtung
+void Computation::computeMacroscopicQuantities(){ //DensityPressureAndVelocities TODO
+    for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
+        for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
+            staggeredGrid_.get()->rho(i, j) = 0; //TODO
+            staggeredGrid_.get()->u(i, j) = 0; //TODO
+            staggeredGrid_.get()->v(i, j) = 0; //TODO
+            staggeredGrid_.get()->p(i, j) = 0; //TODO
+            }
+        }
+}
 
-    // help variables
-    int i_low;
-    int i_high;
-    int j_low;
-    int j_high;
+void Computation::computeFtempFeq(){ // TODO
+    for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
+        for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
+            for (int k = staggeredGrid_get()->kBegin(); k <= staggeredGrid_.get()kEnd(); k++) {
+                staggeredGrid_.get()->f(i,j,k) = 0;
+            }
+        }
+    }
+}
 
-    // u
-    //bottom bound
-    j_low = discretization_.get()->uJBegin() - 1; //Schleife kürzer
-    for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-        if (!geometry_.get()->isFluid(i, j_low)) {
-            if (geometry_.get()->get_velocity(i, j_low).first == "NSW") {
-                discretization_.get()->u(i, j_low) = -discretization_.get()->u(i, j_low + 1); //should be -u(1,j)
-                discretization_.get()->f(i, j_low) = discretization_.get()->u(i, j_low);
-            } else if (geometry_.get()->get_velocity(i, j_low).first == "SLW") {
-                double uOld = discretization_.get()->u(i, j_low);
-                discretization_.get()->u(i, j_low) = discretization_.get()->u(i, j_low + 1); //u(1,j)
-                discretization_.get()->f(i, j_low) = 2 * discretization_.get()->u(i, j_low) - uOld;
-            } else if (geometry_.get()->get_velocity(i, j_low).first == "IN") {
-                discretization_.get()->u(i, j_low) =
-                        2 * geometry_.get()->get_velocity(i, j_low).second[0] - discretization_.get()->u(i, j_low + 1);
-                discretization_.get()->f(i, j_low) = discretization_.get()->u(i, j_low);
-            } else if (geometry_.get()->get_velocity(i, j_low).first == "OUT" ||
-                       geometry_.get()->get_pressure(i, j_low).first == "PR") {
-                double uOld = discretization_.get()->u(i, j_low);
-                discretization_.get()->u(i, j_low) = discretization_.get()->u(i, j_low + 1);
-                discretization_.get()->f(i, j_low) = 2 * discretization_.get()->u(i, j_low) - uOld;
-            }
-        }
-    }
-    //top bound
-    j_high = discretization_.get()->uJEnd() + 1; //Schleife kürzer
-    for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-        if (!geometry_.get()->isFluid(i, j_high)) {
-            if (geometry_.get()->get_velocity(i, j_high).first == "NSW") {
-                discretization_.get()->u(i, j_high) = -discretization_.get()->u(i, j_high - 1); //should be -u(1,j)
-                discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
-            } else if (geometry_.get()->get_velocity(i, j_high).first == "SLW") {
-                double uOld = discretization_.get()->u(i, j_high);
-                discretization_.get()->u(i, j_high) = discretization_.get()->u(i, j_high - 1); //u(1,j)
-                discretization_.get()->f(i, j_high) = 2 * discretization_.get()->u(i, j_high) - uOld;
-            } else if (geometry_.get()->get_velocity(i, j_high).first == "IN") {
-                discretization_.get()->u(i, j_high) = 2 * geometry_.get()->get_velocity(i, j_high).second[0] -
-                                                      discretization_.get()->u(i, j_high - 1);
-                discretization_.get()->f(i, j_high) = discretization_.get()->u(i, j_high);
-            } else if (geometry_.get()->get_velocity(i, j_high).first == "OUT" ||
-                       geometry_.get()->get_pressure(i, j_high).first == "PR") {
-                double uOld = discretization_.get()->u(i, j_high);
-                discretization_.get()->u(i, j_high) = discretization_.get()->u(i, j_high - 1);
-                discretization_.get()->f(i, j_high) = 2 * discretization_.get()->u(i, j_high) - uOld;
-            }
-        }
-    }
-    //left bound
-    i_low = discretization_.get()->uIBegin() - 1;
-    for (int j = discretization_.get()->uJBegin() - 1; j <= discretization_.get()->uJEnd() + 1; j++) {
-        if (!geometry_.get()->isFluid(i_low, j)) {
-            if (geometry_.get()->get_velocity(i_low, j).first == "NSW") {
-                discretization_.get()->u(i_low, j) = 0;
-                discretization_.get()->f(i_low, j) = discretization_.get()->u(i_low, j);
-            } else if (geometry_.get()->get_velocity(i_low, j).first == "SLW") {
-                discretization_.get()->u(i_low, j) = 0;
-                discretization_.get()->f(i_low, j) = discretization_.get()->u(i_low, j);
-            } else if (geometry_.get()->get_velocity(i_low, j).first == "IN") {
-                discretization_.get()->u(i_low, j) = geometry_.get()->get_velocity(i_low, j).second[0];
-                discretization_.get()->f(i_low, j) = discretization_.get()->u(i_low, j);
-            } else if (geometry_.get()->get_velocity(i_low, j).first == "OUT" ||
-                       geometry_.get()->get_pressure(i_low, j).first == "PR") {
-                //richtige Stelle für uOld und Neumann etc?
-                //passt das so mit u(n), u(n+1) statt u(n-1), u(n)??? Indexfehler im Skript oder liegen wir falsch?
-                double uOld = discretization_.get()->u(i_low, j);
-                discretization_.get()->u(i_low, j) = discretization_.get()->u(i_low + 1, j);
-                discretization_.get()->f(i_low, j) = 2 * discretization_.get()->u(i_low, j) - uOld;
-            }
-        }
-    }
-    //right bound
-    i_high = discretization_.get()->uIEnd() + 1;
-    for (int j = discretization_.get()->uJBegin() - 1; j <= discretization_.get()->uJEnd() + 1; j++) {
-        if (!geometry_.get()->isFluid(i_high + 1, j)) {
-            if (geometry_.get()->get_velocity(i_high + 1, j).first == "NSW") {
-                discretization_.get()->u(i_high, j) = 0;
-                discretization_.get()->f(i_high, j) = discretization_.get()->u(i_high, j);
-            } else if (geometry_.get()->get_velocity(i_high + 1, j).first == "SLW") {
-                discretization_.get()->u(i_high, j) = 0;
-                discretization_.get()->f(i_high, j) = discretization_.get()->u(i_high, j);
-            } else if (geometry_.get()->get_velocity(i_high + 1, j).first == "IN") {
-                discretization_.get()->u(i_high, j) = geometry_.get()->get_velocity(i_high + 1, j).second[0];
-                discretization_.get()->f(i_high, j) = discretization_.get()->u(i_high, j);
-            } else if (geometry_.get()->get_velocity(i_high + 1, j).first == "OUT" ||
-                       geometry_.get()->get_pressure(i_high + 1, j).first == "PR") {
-                double uOld = discretization_.get()->u(i_high, j);
-                discretization_.get()->u(i_high, j) = discretization_.get()->u(i_high - 1, j);
-                discretization_.get()->f(i_high, j) = 2 * discretization_.get()->u(i_high, j) - uOld;
-            }
-        }
-    }
-    // inner cells
-    for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-        for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
-            if (!geometry_.get()->isFluid(i, j)) {
-                if (geometry_.get()->isFluid(i + 1, j)) {
-                    discretization_.get()->u(i, j) = 0;
-                    discretization_.get()->f(i, j) = 0;
-                } else if (geometry_.get()->isFluid(i, j + 1)) {
-                    double uOld = discretization_.get()->u(i, j);
-                    discretization_.get()->u(i, j) = -discretization_.get()->u(i, j + 1);
-                    discretization_.get()->f(i, j) = 2 * discretization_.get()->u(i, j) - uOld;
-                } else if (geometry_.get()->isFluid(i, j - 1)) {
-                    double uOld = discretization_.get()->u(i, j);
-                    discretization_.get()->u(i, j) = -discretization_.get()->u(i, j - 1);
-                    discretization_.get()->f(i, j) = 2 * discretization_.get()->u(i, j) - uOld;
+void Computation::computeF(){ // TODO
+    for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
+        for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
+            for (int k = staggeredGrid_get()->kBegin(); k <= staggeredGrid_.get()kEnd(); k++) {
+                if (){
+                    staggeredGrid_.get()->f(i,j,k) = 0;
                 }
-            } else if (!geometry_.get()->isFluid(i + 1, j)) {
-                discretization_.get()->u(i, j) = 0;
-                discretization_.get()->f(i, j) = 0;
-            }
-        }
-    }
-
-
-
-    // v
-    //left bound
-    i_low = discretization_.get()->vIBegin() - 1; //Schleife kürzer
-    for (int j = discretization_.get()->vJBegin() - 1; j <= discretization_.get()->vJEnd() + 1; j++) {
-        if (!geometry_.get()->isFluid(i_low, j)) {
-            if (geometry_.get()->get_velocity(i_low, j).first == "NSW") {
-                discretization_.get()->v(i_low, j) = -discretization_.get()->v(i_low + 1, j); //should be -v(1,j)
-                discretization_.get()->g(i_low, j) = discretization_.get()->v(i_low, j);
-            } else if (geometry_.get()->get_velocity(i_low, j).first == "SLW") {
-                double vOld = discretization_.get()->v(i_low, j);
-                discretization_.get()->v(i_low, j) = discretization_.get()->v(i_low + 1, j); //v(1,j)
-                discretization_.get()->g(i_low, j) = 2 * discretization_.get()->v(i_low, j) - vOld;
-            } else if (geometry_.get()->get_velocity(i_low, j).first == "IN") {
-                discretization_.get()->v(i_low, j) = 2 * geometry_.get()->get_velocity(i_low, j).second[1] -
-                                                     discretization_.get()->v(i_low + 1, j); //2v_in(0,j*h)-v(1,j)
-                discretization_.get()->g(i_low, j) = discretization_.get()->v(i_low, j);
-            } else if (geometry_.get()->get_velocity(i_low, j).first == "OUT" ||
-                       geometry_.get()->get_pressure(i_low, j).first == "PR") {
-                double vOld = discretization_.get()->v(i_low, j);
-                discretization_.get()->v(i_low, j) = discretization_.get()->v(i_low + 1, j);
-                discretization_.get()->g(i_low, j) = 2 * discretization_.get()->v(i_low, j) - vOld;
-            }
-        }
-    }
-    //right bound
-    i_high = discretization_.get()->vIEnd() + 1;//Schleife kürzer
-    for (int j = discretization_.get()->vJBegin() - 1; j <= discretization_.get()->vJEnd() + 1; j++) {
-        if (!geometry_.get()->isFluid(i_high, j)) {
-            if (geometry_.get()->get_velocity(i_high, j).first == "NSW") {
-                discretization_.get()->v(i_high, j) = -discretization_.get()->v(i_high - 1, j); //should be -v(end-1,j)
-                discretization_.get()->g(i_high, j) = discretization_.get()->v(i_high, j);
-            } else if (geometry_.get()->get_velocity(i_high, j).first == "SLW") {
-                double vOld = discretization_.get()->v(i_high, j);
-                discretization_.get()->v(i_high, j) = discretization_.get()->v(i_high - 1, j); //v(end-1,j)
-                discretization_.get()->g(i_high, j) = 2 * discretization_.get()->v(i_high, j) - vOld;
-            } else if (geometry_.get()->get_velocity(i_high, j).first == "IN") {
-                discretization_.get()->v(i_high, j) = 2 * geometry_.get()->get_velocity(i_high, j).second[1] -
-                                                      discretization_.get()->v(i_high - 1, j); //2v_in(0,j*h)-v(1,j)
-                discretization_.get()->g(i_high, j) = discretization_.get()->v(i_high, j);
-            } else if (geometry_.get()->get_velocity(i_high, j).first == "OUT" ||
-                       geometry_.get()->get_pressure(i_high, j).first == "PR") {
-                double vOld = discretization_.get()->v(i_high, j);
-                discretization_.get()->v(i_high, j) = discretization_.get()->v(i_high - 1, j);
-                discretization_.get()->g(i_high, j) = 2 * discretization_.get()->v(i_high, j) - vOld;
-            }
-        }
-    }
-    //bottom bound
-    j_low = discretization_.get()->vJBegin() - 1;
-    for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-        if (!geometry_.get()->isFluid(i, j_low)) {
-            if (geometry_.get()->get_velocity(i, j_low).first == "NSW") {
-                discretization_.get()->v(i, j_low) = 0;
-                discretization_.get()->g(i, j_low) = discretization_.get()->v(i, j_low);
-            } else if (geometry_.get()->get_velocity(i, j_low).first == "SLW") {
-                discretization_.get()->v(i, j_low) = 0;
-                discretization_.get()->g(i, j_low) = discretization_.get()->v(i, j_low);
-            } else if (geometry_.get()->get_velocity(i, j_low).first == "IN") {
-                discretization_.get()->v(i, j_low) = geometry_.get()->get_velocity(i,
-                                                                                   j_low).second[1]; //v_in(0,j*h-h/2) //TODO trafo von li/re und u/v? allg. dafuq?
-                discretization_.get()->g(i, j_low) = discretization_.get()->v(i, j_low);
-            } else if (geometry_.get()->get_velocity(i, j_low).first == "OUT" ||
-                       geometry_.get()->get_pressure(i, j_low).first == "PR") {
-                double vOld = discretization_.get()->v(i, j_low);
-                discretization_.get()->v(i, j_low) = discretization_.get()->v(i, j_low + 1);
-                discretization_.get()->g(i, j_low) = 2 * discretization_.get()->v(i, j_low) - vOld;
-            }
-        }
-    }
-    //top bound
-    j_high = discretization_.get()->vJEnd() + 1;
-    for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-        if (!geometry_.get()->isFluid(i, j_high + 1)) {
-            if (geometry_.get()->get_velocity(i, j_high + 1).first == "NSW") {
-                discretization_.get()->v(i, j_high) = 0;
-                discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
-            } else if (geometry_.get()->get_velocity(i, j_high + 1).first == "SLW") {
-                discretization_.get()->v(i, j_high) = 0;
-                discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
-            } else if (geometry_.get()->get_velocity(i, j_high + 1).first == "IN") {
-                discretization_.get()->v(i, j_high) = geometry_.get()->get_velocity(i,
-                                                                                    j_high +
-                                                                                    1).second[1]; //v_in(0,j*h-h/2) //TODO trafo von li/re und u/v? allg. dafuq?
-                discretization_.get()->g(i, j_high) = discretization_.get()->v(i, j_high);
-            } else if (geometry_.get()->get_velocity(i, j_high + 1).first == "OUT" ||
-                       geometry_.get()->get_pressure(i, j_high + 1).first == "PR") {
-                double vOld = discretization_.get()->v(i, j_high);
-                discretization_.get()->v(i, j_high) = discretization_.get()->v(i, j_high - 1);
-                discretization_.get()->g(i, j_high) = 2 * discretization_.get()->v(i, j_high) - vOld;
-            }
-        }
-    }
-    //inner cells //TODO korrekt?
-    for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-        for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
-            if (!geometry_.get()->isFluid(i, j)) {
-                if (geometry_.get()->isFluid(i, j + 1)) {
-                    discretization_.get()->v(i, j) = 0;
-                    discretization_.get()->g(i, j) = 0;
-                } else if (geometry_.get()->isFluid(i + 1, j)) {
-                    double vOld = discretization_.get()->v(i, j);
-                    discretization_.get()->v(i, j) = -discretization_.get()->v(i + 1, j);
-                    discretization_.get()->g(i, j) = 2 * discretization_.get()->v(i, j) - vOld;
-                } else if (geometry_.get()->isFluid(i - 1, j)) {
-                    double vOld = discretization_.get()->v(i, j);
-                    discretization_.get()->v(i, j) = -discretization_.get()->v(i - 1, j);
-                    discretization_.get()->g(i, j) = 2 * discretization_.get()->v(i, j) - vOld;
-                }
-            } else if (!geometry_.get()->isFluid(i, j + 1)) {
-                discretization_.get()->v(i, j) = 0;
-                discretization_.get()->g(i, j) = 0;
-            }
-        }
-    }
-}
-
-void Computation::applyBoundaryValuesTemperature() {
-    // help variables
-    int i_low;
-    int i_high;
-    int j_low;
-    int j_high;
-
-    //top bound with corners
-    j_high = discretization_.get()->tJEnd() + 1;
-    for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-        if (!geometry_.get()->isFluid(i, j_high)) {
-            if (geometry_.get()->get_temperature(i, j_high).first == "TN") {
-                discretization_.get()->t(i, j_high) = discretization_.get()->t(i, j_high - 1) -
-                                                      discretization_.get()->dy() *
-                                                      geometry_.get()->get_temperature(i, j_high).second[0];
-            } else {
-                discretization_.get()->t(i, j_high) = 2 * geometry_.get()->get_temperature(i, j_high).second[0] -
-                                                      discretization_.get()->t(i, j_high - 1);
-            }
-        }
-    }
-
-    //bottom bound with corners
-    j_low = discretization_.get()->tJBegin() - 1;
-    for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-        if (!geometry_.get()->isFluid(i, j_low)) {
-            if (geometry_.get()->get_temperature(i, j_low).first == "TN") {
-                discretization_.get()->t(i, j_low) = discretization_.get()->t(i, j_low + 1) -
-                                                     discretization_.get()->dy() *
-                                                     geometry_.get()->get_temperature(i, j_low).second[0];
-            } else {
-                discretization_.get()->t(i, j_low) = 2 * geometry_.get()->get_temperature(i, j_low).second[0] -
-                                                     discretization_.get()->t(i, j_low + 1);
-            }
-        }
-    }
-
-    //outer bounds
-    //left bound without corners
-    i_low = discretization_.get()->tIBegin() - 1;
-    for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
-        if (!geometry_.get()->isFluid(i_low, j)) {
-            if (geometry_.get()->get_temperature(i_low, j).first == "TN") {
-                discretization_.get()->t(i_low, j) = discretization_.get()->t(i_low + 1, j) -
-                                                     discretization_.get()->dx() *
-                                                     geometry_.get()->get_temperature(i_low, j).second[0];
-            } else { //"TD"
-                discretization_.get()->t(i_low, j) = 2 * geometry_.get()->get_temperature(i_low, j).second[0] -
-                                                     discretization_.get()->t(i_low + 1, j);
-            }
-        }
-    }
-
-    //right bound without corners
-    i_high = discretization_.get()->tIEnd() + 1;
-    for (int j = discretization_.get()->tJBegin() - 1; j <= discretization_.get()->tJEnd() + 1; j++) {
-        if (!geometry_.get()->isFluid(i_high, j)) {
-            if (geometry_.get()->get_temperature(i_high, j).first == "TN") {
-                discretization_.get()->t(i_high, j) = discretization_.get()->t(i_high - 1, j) -
-                                                      discretization_.get()->dx() *
-                                                      geometry_.get()->get_temperature(i_high, j).second[0];
-            } else {
-                discretization_.get()->t(i_high, j) = 2 * geometry_.get()->get_temperature(i_high, j).second[0] -
-                                                      discretization_.get()->t(i_high - 1, j);
-            }
-        }
-    }
-
-
-
-    //inner cells (obstacles)
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
-        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            if (!geometry_.get()->isFluid(i, j)) {
-                int N = 0; //number of neighbouring fluid cells
-                double tTmp = 0;
-
-                //check left and right neighbours
-                if (geometry_.get()->isFluid(i - 1, j)) {
-                    tTmp += discretization_.get()->t(i - 1, j);
-                    N++;
-                } else if (geometry_.get()->isFluid(i + 1, j)) {
-                    tTmp += discretization_.get()->t(i + 1, j);
-                    N++;
-                }
-                //check top and bottom neighbours
-                if (geometry_.get()->isFluid(i, j - 1)) {
-                    tTmp += discretization_.get()->t(i, j - 1);
-                    N++;
-                } else if (geometry_.get()->isFluid(i, j + 1)) {
-                    tTmp += discretization_.get()->t(i, j + 1);
-                    N++;
-                }
-                //assign average value
-                if (N > 0) {
-                    discretization_.get()->t(i, j) = tTmp / N;
-                }
-            }
-        }
-    }
-}
-
-void Computation::PreliminaryVelocities() {
-    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
-        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j) && geometry_.get()->isFluid(i + 1, j)) {
-                discretization_.get()->f(i, j) =
-                        (discretization_.get()->u(i, j) +
-                         dt_ * (1 / settings_.re * (discretization_.get()->computeD2uDx2(i, j) +
-                                                    discretization_.get()->computeD2uDy2(i, j)) -
-                                discretization_.get()->computeDu2Dx(i, j) -
-                                discretization_.get()->computeDuvDy(i, j) + settings_.g[0]))
-                        - dt_ * settings_.beta * settings_.g[0] *
-                          (discretization_.get()->t(i, j) + discretization_.get()->t(i + 1, j)) * 0.5;
-            }
-        }
-    }
-
-    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
-        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j) && geometry_.get()->isFluid(i, j + 1)) {
-                discretization_.get()->g(i, j) =
-                        (discretization_.get()->v(i, j) +
-                         dt_ * (1 / settings_.re * (discretization_.get()->computeD2vDy2(i, j) +
-                                                    discretization_.get()->computeD2vDx2(i, j)) -
-                                discretization_.get()->computeDv2Dy(i, j) -
-                                discretization_.get()->computeDuvDx(i, j) + settings_.g[1]))
-                        - dt_ * settings_.beta * settings_.g[1] *
-                          (discretization_.get()->t(i, j) + discretization_.get()->t(i, j + 1)) * 0.5;
-            }
-        }
-    }
-}
-
-void Computation::computeRightHandSide() {
-    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j)) {
-                discretization_.get()->rhs(i, j) =
-                        1 / dt_ * (((discretization_.get()->f(i, j) - discretization_.get()->f(i - 1, j)) /
-                                    discretization_.get()->dx()) +
-                                   ((discretization_.get()->g(i, j) - discretization_.get()->g(i, j - 1)) /
-                                    discretization_.get()->dy()));
-            }
-        }
-    }
-}
-
-void Computation::computePressure() {
-
-    pressureSolver_->solve();
-}
-
-void Computation::computeVelocities() {
-    for (int j = discretization_.get()->uJBegin(); j <= discretization_.get()->uJEnd(); j++) {
-        for (int i = discretization_.get()->uIBegin(); i <= discretization_.get()->uIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j) && geometry_.get()->isFluid(i + 1, j)) {
-                discretization_.get()->u(i, j) =
-                        discretization_.get()->f(i, j) - dt_ * discretization_.get()->computeDpDx(i, j);
-            }
-        }
-    }
-
-    for (int j = discretization_.get()->vJBegin(); j <= discretization_.get()->vJEnd(); j++) {
-        for (int i = discretization_.get()->vIBegin(); i <= discretization_.get()->vIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j) && geometry_.get()->isFluid(i, j + 1)) {
-                discretization_.get()->v(i, j) =
-                        discretization_.get()->g(i, j) - dt_ * discretization_.get()->computeDpDy(i, j);
-            }
-        }
-    }
-}
-
-void Computation::computeTemperature() {
-    Array2D tTmp(discretization_.get()->t().size());
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
-        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j)) {
-                tTmp.operator()(i, j) = discretization_.get()->t(i, j) +
-                                        dt_ * (1 / settings_.re * 1 / settings_.prandtl * (
-                                                discretization_.get()->computeD2TDx2(i, j)
-                                                +
-                                                discretization_.get()->computeD2TDy2(i, j)
-                                        )
-                                               - discretization_.get()->computeDuTDx(i, j)
-                                               - discretization_.get()->computeDvTDy(i, j)
-                                        );
-            }
-        }
-    }
-    for (int j = discretization_.get()->tJBegin(); j <= discretization_.get()->tJEnd(); j++) {
-        for (int i = discretization_.get()->tIBegin(); i <= discretization_.get()->tIEnd(); i++) {
-            if (geometry_.get()->isFluid(i, j)) {
-
-                discretization_.get()->t(i, j) = tTmp.operator()(i, j);
-            }
-        }
-    }
-}
-
-void Computation::applyInitialConditions() {
-    for (int j = discretization_.get()->pJBegin(); j <= discretization_.get()->pJEnd(); j++) {
-        for (int i = discretization_.get()->pIBegin(); i <= discretization_.get()->pIEnd(); i++) {
-            if (!geometry_.get()->isFluid(i, j)) {
-                if (!geometry_.get()->isFluid(i + 1, j) && !geometry_.get()->isFluid(i - 1, j) &&
-                    !geometry_.get()->isFluid(i, j + 1) && !geometry_.get()->isFluid(i, j - 1)) {
-                    discretization_.get()->u(i, j) = std::nan("");
-                    discretization_.get()->v(i, j) = std::nan("");
-                    discretization_.get()->p(i, j) = std::nan("");
-                    discretization_.get()->t(i, j) = std::nan("");
-                } else {
-                    discretization_.get()->u(i, j) = uInit;
-                    discretization_.get()->v(i, j) = vInit;
-                    discretization_.get()->p(i, j) = pInit;
-                    discretization_.get()->t(i, j) = tInit;
-                }
-            } else {
-                discretization_.get()->u(i, j) = uInit;
-                discretization_.get()->v(i, j) = vInit;
-                discretization_.get()->p(i, j) = pInit;
-                discretization_.get()->t(i, j) = tInit;
             }
         }
     }
