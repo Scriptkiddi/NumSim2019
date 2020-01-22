@@ -71,18 +71,6 @@ double &StaggeredGrid::p(int i, int j) {
     return p_(i, j);
 }
 
-double &StaggeredGrid::rhs(int i, int j) {
-    return rhs_(i, j);
-}
-
-double &StaggeredGrid::f(int i, int j) {
-    return f_(i, j);
-}
-
-double &StaggeredGrid::g(int i, int j) {
-    return g_(i, j);
-}
-
 double &StaggeredGrid::t(int i, int j) {
     return t_(i, j);
 }
@@ -94,15 +82,12 @@ double StaggeredGrid::dx() const {
 double StaggeredGrid::dy() const {
     return meshWidth_[1];
 }
-// ncells beinhaltet ghost cells
-// https://numsim-exercises.readthedocs.io/en/latest/exercise1/hints.html
-// 1 weil uIBegin gibt uns die erste nicht ghost cell
+
 int StaggeredGrid::uIBegin() const {
     return 1;
 }
 
-int StaggeredGrid::uIEnd() const { //one after last valid index for u in x direction
-    // minus 1 für size to index und nochmal -1 weil der wert der letzten richtigen zelle auf 0 gesetzt wird anstelle der in der ghost cell
+int StaggeredGrid::uIEnd() const { 
     return nCells_[0] - 3;
 }
 
