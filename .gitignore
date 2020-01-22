@@ -91,3 +91,4 @@ fabric.properties
 # Stuff for Fabi
 .vscode/
 build/
+resources/
