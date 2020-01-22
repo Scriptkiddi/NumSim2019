@@ -5,22 +5,22 @@
 #include "StaggeredGrid.h"
 #include "../Array2D/Array2D.h"
 #include "../Array2D/FieldVariable.h"
+#include "../Array2D/FieldVector.h"
+#include <cmath>
 
 StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth, int nVelo) :
         meshWidth_(meshWidth),
         nCells_(nCellsBoundary),
         nVelo_(nVelo),
-        u_(nCellsBoundary, {0 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        v_(nCellsBoundary, {-0.5 * meshWidth[0], 0 * meshWidth[1]}, meshWidth),
+        u_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+        v_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         p_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
-        t_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth){
-            sizeVector = std::array<int,3>;
-            sizeVector[0] = nCellsBoundary[0];
-            sizeVector[1] = nCellsBoundary[1];
-            sizeVector[2] = nVelo;
-            f_ = FieldVector(sizeVector, meshWidth_);
-            feq_ = FieldVector(sizeVector, meshWidth_);
-            ftmp_ = FieldVector(sizeVector, meshWidth_);
+        t_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+        f_(nCellsBoundary, nVelo, meshWidth),
+        feq_(nCellsBoundary, nVelo, meshWidth),
+        ftmp_(nCellsBoundary, nVelo, meshWidth){
+            w_.resize(nVelo);
+            c_.resize(nVelo);
     }
 
     const std::array<double, 2> StaggeredGrid::meshWidth() const {

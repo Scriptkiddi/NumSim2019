@@ -14,14 +14,16 @@ class StaggeredGrid {
 protected:
     const std::array<int, 2> nCells_;
     const std::array<double, 2> meshWidth_;
+    int nVelo_;
     FieldVariable u_;
     FieldVariable v_;
     FieldVariable p_;
     FieldVariable t_;
-
     FieldVector f_;
     FieldVector feq_;
     FieldVector ftmp_;
+    std::vector<double> w_;
+    std::vector<std::array<double,2>> c_;
 
     //todo: wie werden u,v,p usw. gesetzt?
 
