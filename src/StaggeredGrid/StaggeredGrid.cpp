@@ -8,19 +8,20 @@
 #include "../Array2D/FieldVector.h"
 #include <cmath>
 
-StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, std::array<double, 2> meshWidth, int nVelo) :
+StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, int nVelo, std::array<double, 2> meshWidth) :
         meshWidth_(meshWidth),
         nCells_(nCellsBoundary),
         nVelo_(nVelo),
         u_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         v_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         p_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
+        rho_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         t_(nCellsBoundary, {-0.5 * meshWidth[0], -0.5 * meshWidth[1]}, meshWidth),
         f_(nCellsBoundary, nVelo, meshWidth),
         feq_(nCellsBoundary, nVelo, meshWidth),
         ftmp_(nCellsBoundary, nVelo, meshWidth){
-            w_.resize(nVelo);
-            c_.resize(nVelo);
+            w_.resize(nVelo,0.0);
+            c_.resize(nVelo,{0.0,0.0});
     }
 
     const std::array<double, 2> StaggeredGrid::meshWidth() const {
@@ -71,8 +72,56 @@ double &StaggeredGrid::p(int i, int j) {
     return p_(i, j);
 }
 
+double StaggeredGrid::rho(int i, int j) const {
+    return p_(i, j);
+}
+
+double &StaggeredGrid::rho(int i, int j) {
+    return p_(i, j);
+}
+
 double &StaggeredGrid::t(int i, int j) {
     return t_(i, j);
+}
+
+double StaggeredGrid::f(int i, int j, int k) const {
+    return f_(i, j, k);
+}
+
+double &StaggeredGrid::f(int i, int j, int k) {
+    return f_(i, j, k);
+}
+
+double StaggeredGrid::feq(int i, int j, int k) const {
+    return feq_(i, j, k);
+}
+
+double &StaggeredGrid::feq(int i, int j, int k) {
+    return feq_(i, j, k);
+}
+
+double StaggeredGrid::ftmp(int i, int j, int k) const {
+    return ftmp_(i, j, k);
+}
+
+double &StaggeredGrid::ftmp(int i, int j, int k) {
+    return ftmp_(i, j, k);
+}
+
+double &StaggeredGrid::w(int k){
+    return w_[k];
+}
+
+double StaggeredGrid::w(int k) const{
+    return w_[k];
+}
+
+double &StaggeredGrid::c(int k, int l){
+    return c_[k][l];
+}
+
+double StaggeredGrid::c(int k, int l) const{
+    return c_[k][l];
 }
 
 double StaggeredGrid::dx() const {
@@ -83,66 +132,26 @@ double StaggeredGrid::dy() const {
     return meshWidth_[1];
 }
 
-int StaggeredGrid::uIBegin() const {
+int StaggeredGrid::iBegin() const {
     return 1;
 }
 
-int StaggeredGrid::uIEnd() const { 
-    return nCells_[0] - 3;
-}
-
-int StaggeredGrid::uJBegin() const {
-    return 1;
-}
-
-int StaggeredGrid::uJEnd() const { //one after last valid index for u in y direction
-    return nCells_[1]-2;
-}
-
-int StaggeredGrid::vIBegin() const {
-    return 1;
-}
-
-int StaggeredGrid::vIEnd() const {
+int StaggeredGrid::jEnd() const {
     return nCells_[0]-2;
 }
 
-int StaggeredGrid::vJBegin() const {
+int StaggeredGrid::jBegin() const {
     return 1;
 }
 
-int StaggeredGrid::vJEnd() const {
-    return nCells_[1] - 3;
-}
-
-int StaggeredGrid::pIBegin() const {
-    return 1;
-}
-
-int StaggeredGrid::pIEnd() const {
-    return nCells_[0]-2;
-}
-
-int StaggeredGrid::pJBegin() const {
-    return 1;
-}
-
-int StaggeredGrid::pJEnd() const {
+int StaggeredGrid::jEnd() const {
     return nCells_[1]-2;
 }
 
-int StaggeredGrid::tIBegin() const {
-    return 1;
+int StaggeredGrid::kBegin() const {
+    return 0;
 }
 
-int StaggeredGrid::tIEnd() const {
-    return nCells_[0]-2;
-}
-
-int StaggeredGrid::tJBegin() const {
-    return 1;
-}
-
-int StaggeredGrid::tJEnd() const {
-    return nCells_[1]-2;
+int StaggeredGrid::kEnd() const {
+    return nVelo_ - 1;
 }
