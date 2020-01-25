@@ -30,10 +30,6 @@ struct Settings {
 
     std::array<double, 2> g{0., 0.};
 
-    bool useDonorCell = false;
-
-    double alpha = 0.5;
-
     std::array<double, 2> dirichletBcBottom;
 
     std::array<double, 2> dirichletBcTop;
@@ -42,24 +38,12 @@ struct Settings {
 
     std::array<double, 2> dirichletBcRight;
 
-    std::string pressureSolver = "SOR";
-
-    double omega = 1.0;
-
-    double epsilon = 1e-5;
-
-    int maximumNumberOfIterations = 1e5;
-
     double prandtl;
 
-    double beta;
-
-    double gamma = 1;
-
-    double uInit = 0;
-    double vInit = 0;
-    double pInit = 0;
     double tInit = 0;
+    double fInit = 0; //TODO vielleicht in ein Feld ändern
+
+    int nVelo = 9;
 
     std::shared_ptr<Geometry> geometry;
 
