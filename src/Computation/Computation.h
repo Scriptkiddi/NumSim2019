@@ -27,6 +27,10 @@ private:
 
     void applyInitialConditions();
 
+    void applyLatticeVelocities();
+
+    void applyWeights();
+
     void computeFtempFeq();
 
     void computeF();

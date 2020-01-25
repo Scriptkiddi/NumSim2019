@@ -56,6 +56,7 @@ void Computation::runSimulation() {
         outputWriterText_->writeFile(t);
 
         applyLatticeVelocities(); //c_i
+        applyWeights();
 
         computeMacroscopicQuantities(); //DensityPressureAndVelocities
         computeFtempFeq(); //Collision step
@@ -81,15 +82,16 @@ void Computation::runSimulation() {
 void Computation::applyInitialConditions() {
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
-                staggeredGrid_.get()->f(i, j) = fInit;
-                staggeredGrid_.get()->t(i, j) = tInit;
+            for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
+            
+                staggeredGrid_.get()->f(i, j, k) = fInit;
         }
     }
 
-    tau_ = settings_.viscosity/(settings.rhoInit * pow(settings_.cs,2)) + 0.5;
+    tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + 0.5;
 }
 
-void Computation::applyLatticeVelocities(){ //c_i(k,l)
+void Computation::applyLatticeVelocities() { //c_i(k,l)
     staggeredGrid_.get()->c(0,0) = 0;
     staggeredGrid_.get()->c(0,1) = 0;
 
@@ -121,6 +123,22 @@ void Computation::applyLatticeVelocities(){ //c_i(k,l)
         staggeredGrid_.get()->c(k,0) = StaggeredGrid_.get()->c(k,0) * StaggeredGrid_.get()->dx() / dt_; //TODO *meshWidth/dt correct?
         staggeredGrid_.get()->c(k,1) = StaggeredGrid_.get()->c(k,1) * StaggeredGrid_.get()->dy() / dt_;
         }
+    }
+}
+
+void Computation::applyWeights(){ // Für 3D anders!
+    if (settings_.nVelo == 9){
+    staggeredGrid_.get()->w(0) = 4/9;
+    staggeredGrid_.get()->w(1) = 1/9;
+    staggeredGrid_.get()->w(2) = 1/36;
+    staggeredGrid_.get()->w(3) = 1/9;
+    staggeredGrid_.get()->w(4) = 1/36;
+    staggeredGrid_.get()->w(5) = 1/9;
+    staggeredGrid_.get()->w(6) = 1/36;
+    staggeredGrid_.get()->w(7) = 1/9;
+    staggeredGrid_.get()->w(8) = 1/36;
+    } else {
+        System.out.println("Please choose D2Q9.")
     }
 }
 
@@ -158,6 +176,7 @@ void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
             staggeredGrid_.get()->f(i ,j_high, 4) = staggeredGrid_.get()->f(i + 1, j_high - 1, 8);
         }
     }
+
     //left bound
     i_low = staggeredGrid_.get()->iBegin() - 1;
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
