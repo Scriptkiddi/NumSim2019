@@ -52,6 +52,8 @@ private:
     double t_h;
     
     double fInit;
+
+    double tau_;
 };
 
 

@@ -24,7 +24,7 @@ struct Settings {
 
     double endTime = 10.0;
 
-    double tau = 0.5;
+    double timeStepRelaxation = 0.5;
 
     double maximumDt = 0.1;
 
@@ -44,7 +44,9 @@ struct Settings {
     double fInit = 0; //TODO vielleicht in ein Feld ändern
 
     int nVelo = 9;
-
+    
+    double cs = 1481; //Schallgeschwindigkeit in [m/s] von Wasser bei Raumtemperatur
+    
     std::shared_ptr<Geometry> geometry;
 
     double outputFileEveryDt = 0;
