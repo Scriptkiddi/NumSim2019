@@ -4,8 +4,8 @@
 #include <vtkDoubleArray.h>
 #include <vtkPointData.h>
 
-OutputWriterParaview::OutputWriterParaview(std::shared_ptr<Discretization> discretization) :
-        OutputWriter(discretization)
+OutputWriterParaview::OutputWriterParaview(std::shared_ptr<StaggeredGrid> staggeredGrid) :
+        OutputWriter(staggeredGrid)
 {
     // Create a vtkWriter_
     vtkWriter_ = vtkSmartPointer<vtkXMLImageDataWriter>::New();

@@ -124,42 +124,65 @@ void Computation::applyLatticeVelocities(){ //c_i(k,l)
     }
 }
 
-void Computation::applyBoundaryValuesF()) { //TODO settings: rausschmeißen
+void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
 // type: "NSW" (no slip wall)
+    int i_low;
+    int i_high;
+    int j_low;
+    int j_high;
 
     //bottom bound
     j_low = staggeredGrid_.get()->jBegin() - 1; 
-    for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
-            /* 
-            if (geometry_.get()->get_velocity(i, j_low).first == "NSW") {
-                staggeredGrid_.get()->u(i, j_low) = -staggeredGrid_.get()->u(i, j_low + 1); //should be -u(1,j)
-                staggeredGrid_.get()->f(i, j_low) = staggeredGrid_.get()->u(i, j_low);
-                */
+    for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() + 1; i++) {
+        if(i > staggeredGrid_.get()->iBegin()){
+           staggeredGrid_.get()->f(i, j_low, 8) = staggeredGrid_.get()->f(i - 1, j_low + 1, 4);
+        }
+        if(i >= staggeredGrid_.get()->iBegin() && i <= staggeredGrid_.get()->iEnd()){
+            staggeredGrid_.get()->f(i, j_low, 1) = staggeredGrid_.get()->f(i, j_low + 1, 5);
+        }
+        if(i < staggeredGrid_.get()->iEnd()){
+            staggeredGrid_.get()->f(i ,j_low, 2) = staggeredGrid_.get()->f(i + 1, j_low + 1, 6);
+        }
     }
 
     //top bound
     j_high = staggeredGrid_.get()->jEnd() + 1; //Schleife kürzer
-    for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
-        if (geometry_.get()->get_velocity(i, j_high).first == "NSW") {
-                staggeredGrid_.get()->u(i, j_high) = -staggeredGrid_.get()->u(i, j_high - 1); //should be -u(1,j)
-                staggeredGrid_.get()->f(i, j_high) = staggeredGrid_.get()->u(i, j_high);
+    for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() - 1; i++) {
+        if(i > staggeredGrid_.get()->iBegin()){
+           staggeredGrid_.get()->f(i, j_high, 6) = staggeredGrid_.get()->f(i - 1, j_high - 1, 2);
+        }
+        if(i >= staggeredGrid_.get()->iBegin() && i <= staggeredGrid_.get()->iEnd()){
+            staggeredGrid_.get()->f(i, j_high, 5) = staggeredGrid_.get()->f(i, j_high - 1, 1);
+        }
+        if(i < staggeredGrid_.get()->iEnd()){
+            staggeredGrid_.get()->f(i ,j_high, 4) = staggeredGrid_.get()->f(i + 1, j_high - 1, 8);
         }
     }
     //left bound
     i_low = staggeredGrid_.get()->iBegin() - 1;
-    for (int j = staggeredGrid_.get()->jBegin() - 1; j <= staggeredGrid_.get()->jEnd() + 1; j++) {
-        if (geometry_.get()->get_velocity(i_low, j).first == "NSW") {
-                staggeredGrid_.get()->u(i_low, j) = 0;
-                staggeredGrid_.get()->f(i_low, j) = staggeredGrid_.get()->u(i_low, j);
-            }
+    for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
+        if(j > staggeredGrid_.get()->jBegin()){
+           staggeredGrid_.get()->f(i_low, j, 4) = staggeredGrid_.get()->f(i_low + 1, j - 1, 8);
+        }
+        if(j >= staggeredGrid_.get()->iBegin() && j <= staggeredGrid_.get()->iEnd()){
+            staggeredGrid_.get()->f(i_low, j, 3) = staggeredGrid_.get()->f(i_low + 1, j, 7);
+        }
+        if(j < staggeredGrid_.get()->iEnd()){
+            staggeredGrid_.get()->f(i_low, j, 2) = staggeredGrid_.get()->f(i_low + 1, j + 1, 6);
+        }
     }
 
     //right bound
     i_high = staggeredGrid_.get()->iEnd() + 1;
-    for (int j = staggeredGrid_.get()->jBegin() - 1; j <= staggeredGrid_.get()->jEnd() + 1; j++) {
-        if (geometry_.get()->get_velocity(i_high + 1, j).first == "NSW") {
-                staggeredGrid_.get()->u(i_high, j) = 0;
-                staggeredGrid_.get()->f(i_high, j) = staggeredGrid_.get()->u(i_high, j);
+    for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
+        if(j > staggeredGrid_.get()->jBegin()){
+           staggeredGrid_.get()->f(i_high, j, 6) = staggeredGrid_.get()->f(i_high - 1, j - 1, 2);
+        }
+        if(j >= staggeredGrid_.get()->iBegin() && j <= staggeredGrid_.get()->iEnd()){
+            staggeredGrid_.get()->f(i_high, j, 7) = staggeredGrid_.get()->f(i_high - 1, j, 3);
+        }
+        if(j < staggeredGrid_.get()->iEnd()){
+            staggeredGrid_.get()->f(i_high, j, 8) = staggeredGrid_.get()->f(i_high - 1, j + 1, 4);
         }
     }
 }
@@ -223,7 +246,7 @@ void Computation::computeMacroscopicQuantities(){ //DensityPressureAndVelocities
 void Computation::computeFtempFeq(){
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
-            for (int k = staggeredGrid_get()->kBegin(); k <= staggeredGrid_.get()kEnd(); k++) {
+            for (int k = staggeredGrid_get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
                 //omega * rho* (1 + (c0 * u  + c1 * v) / cs^2 + (c0 * u  + c1 * v)^2 / (2 * cs^4) + (u^2  + v^2) / (2 * cs^2))
                 staggeredGrid_.get()->feq(i,j,k) = omega(k) * staggeredGrid_.get->rho(i,j) * ( 1 +  //TODO omega(k), tau
                 (staggeredGrid_.get()->c(k,0) * staggeredGrid_.get()->u(i,j)  + staggeredGrid_.get()->c(k,1) * staggeredGrid_.get()->v(i,j)) / pow(settings_.cs,2) 
@@ -241,7 +264,7 @@ void Computation::computeFtempFeq(){
 void Computation::computeF(){ // TODO
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
-            for (int k = staggeredGrid_get()->kBegin(); k <= staggeredGrid_.get()kEnd(); k++) {
+            for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.->get()kEnd(); k++) {
                 if (){
                     staggeredGrid_.get()->f(i,j,k) = 0;
                 }
