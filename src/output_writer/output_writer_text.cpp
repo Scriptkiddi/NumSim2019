@@ -148,7 +148,7 @@ void OutputWriterText::writeFile(double currentTime)
     for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+2; i++)
     {
       // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->f(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->f(i,j)<< "  ";
+      //file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->f(i,j)<< "  ";
     }
     file << std::endl;
   }
@@ -172,7 +172,7 @@ void OutputWriterText::writeFile(double currentTime)
     for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
     {
       // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->g(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->g(i,j)<< "  ";
+      //file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->g(i,j)<< "  ";
     }
     file << std::endl;
   }
@@ -196,7 +196,7 @@ void OutputWriterText::writeFile(double currentTime)
     for (int i = staggeredGrid_->iBegin()-1; i <= staggeredGrid_->iEnd()+1; i++)
     {
       // file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << staggeredGrid_->rhs(i,j);
-      file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->rhs(i,j)<< "  ";
+      //file << std::setw(fieldWidth) << std::setprecision(fieldWidth-6) << std::scientific << staggeredGrid_->rhs(i,j)<< "  ";
     }
     file << std::endl;
   }
