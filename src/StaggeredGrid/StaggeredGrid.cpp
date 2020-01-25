@@ -136,7 +136,7 @@ int StaggeredGrid::iBegin() const {
     return 1;
 }
 
-int StaggeredGrid::jEnd() const {
+int StaggeredGrid::iEnd() const {
     return nCells_[0]-2;
 }
 

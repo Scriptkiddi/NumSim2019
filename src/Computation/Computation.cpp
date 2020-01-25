@@ -80,18 +80,22 @@ void Computation::runSimulation() {
 }
 
 void Computation::applyInitialConditions() {
+    fInit = 0.5;
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
             for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
             
                 staggeredGrid_.get()->f(i, j, k) = fInit;
+            }
         }
     }
-
-    tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + 0.5;
+    for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
+        staggeredGrid_.get()->f(staggeredGrid_.get()->iBegin() + 1, 9, k) = 2;
+    }
+    tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + 0.5; 
 }
 
-void Computation::applyLatticeVelocities() { //c_i(k,l)
+void Computation::applyLatticeVelocities(){
     staggeredGrid_.get()->c(0,0) = 0;
     staggeredGrid_.get()->c(0,1) = 0;
 
@@ -206,7 +210,7 @@ void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
 }
 
 void Computation::computeTimeStepWidth() {
-    /*
+    
     double uMaximum = 0;
     for (int j = staggeredGrid_.get()->jBegin() - 1; j <= staggeredGrid_.get()->jEnd() + 1; j++) {
         for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() + 1; i++) {
@@ -223,23 +227,25 @@ void Computation::computeTimeStepWidth() {
             }
         }
     }
+    /*
     double condition_diffusion = pow(staggeredGrid_.get()->dx(), 2) * pow(staggeredGrid_.get()->dy(), 2) /
                                  (pow(staggeredGrid_.get()->dx(), 2) + pow(staggeredGrid_.get()->dy(), 2)) *
                                  settings_.re /
                                  2;
+    */   
     double condition_convection1 = staggeredGrid_.get()->dx() / uMaximum;
     double condition_convection2 = staggeredGrid_.get()->dy() / vMaximum;
-
+    /*
     // Min time requirements for temperature
     double condition_temp = settings_.re * settings_.prandtl * 0.5 *
                             pow((1 / pow(staggeredGrid_.get()->dx(), 2) + 1 / pow(staggeredGrid_.get()->dy(), 2)),
                                 -1);
-
-    dt_ = min(condition_convection1, condition_convection2);
-    dt_ = min(condition_diffusion, dt_);
-    dt_ = min(condition_temp, dt_);
-    dt_ = min(settings_.maximumDt, dt_) * settings_.timeStepRelaxation;
     */
+    dt_ = min(condition_convection1, condition_convection2);
+    //dt_ = min(condition_diffusion, dt_);
+    //dt_ = min(condition_temp, dt_);
+    dt_ = min(settings_.maximumDt, dt_) * settings_.timeStepRelaxation;
+    
 }
 
 void Computation::computeMacroscopicQuantities(){ //DensityPressureAndVelocities
@@ -266,7 +272,7 @@ void Computation::computeFtempFeq(){
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
             for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
                 //w * rho* (1 + (c0 * u  + c1 * v) / cs^2 + (c0 * u  + c1 * v)^2 / (2 * cs^4) + (u^2  + v^2) / (2 * cs^2))
-                staggeredGrid_.get()->feq(i,j,k) = staggeredGrid_.get()->w(k) * staggeredGrid_.get->rho(i,j) * ( 1 +
+                staggeredGrid_.get()->feq(i,j,k) = staggeredGrid_.get()->w(k) * staggeredGrid_.get()->rho(i,j) * ( 1 +
                 (staggeredGrid_.get()->c(k,0) * staggeredGrid_.get()->u(i,j)  + staggeredGrid_.get()->c(k,1) * staggeredGrid_.get()->v(i,j)) / pow(settings_.cs,2) 
                 + pow(staggeredGrid_.get()->c(k,0) * staggeredGrid_.get()->u(i,j)  + staggeredGrid_.get()->c(k,1) * staggeredGrid_.get()->v(i,j),2) / (2 * pow(settings_.cs,4))
                 + (staggeredGrid_.get()->u(i,j) * staggeredGrid_.get()->u(i,j)  + staggeredGrid_.get()->v(i,j) * staggeredGrid_.get()->v(i,j)) / (2 * pow(settings_.cs,2)) 
