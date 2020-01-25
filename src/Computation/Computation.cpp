@@ -20,7 +20,7 @@ void Computation::initialize(int argc, char **argv) {
     array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
     int nVelo = settings_.nVelo; //TODO in settings
 
-    geometry_ = settings_.geometry;
+    //geometry_ = settings_.geometry;
 
     //initialize initial values
     fInit = settings_.fInit; //TODO in settings
@@ -65,7 +65,7 @@ void Computation::runSimulation() {
 
         t += dt_;
         if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
-            cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
+            cout << "current time: " << t << " dt: " << dt_ << endl;
             outputWriterParaview_->writeFile(t);
             lastOutputTime = t;
         }
