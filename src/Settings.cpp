@@ -88,50 +88,23 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "nCellsY") {
             this->nCells[1] = atoi(parameterValue);
         }
-        else if ( parameterName == "useDonorCell") {
-            this->useDonorCell = strcmp(parameterValue, "true") == 0;
-        }
-        else if ( parameterName == "alpha") {
-            this->alpha = atof(parameterValue);
-        }
         else if ( parameterName == "tau") {
             this->tau = atof(parameterValue);
         }
         else if ( parameterName == "maximumDt") {
             this->maximumDt = atof(parameterValue);
         }
-        else if ( parameterName == "pressureSolver") {
-            this->pressureSolver = parameterValue;
-        }
-        else if ( parameterName == "omega") {
-            this->omega = atof(parameterValue);
-        }
-        else if ( parameterName == "epsilon") {
-            this->epsilon = atof(parameterValue);
-        }
-        else if ( parameterName == "maximumNumberOfIterations") {
-            this->maximumNumberOfIterations = atof(parameterValue);
-        }
         else if ( parameterName == "prandtl") {
             this->prandtl = atof(parameterValue);
         }
-        else if ( parameterName == "beta") {
-            this->beta = atof(parameterValue);
-        }
-        else if ( parameterName == "uInit") {
-            this->uInit = atof(parameterValue);
-        }
-        else if ( parameterName == "vInit") {
-            this->vInit = atof(parameterValue);
-        }
-        else if ( parameterName == "pInit") {
-            this->pInit = atof(parameterValue);
+        else if ( parameterName == "fInit") {
+            this->fInit = atof(parameterValue);
         }
         else if ( parameterName == "tInit") {
             this->tInit = atof(parameterValue);
         }
-        else if ( parameterName == "gamma") {
-            this->gamma = atof(parameterValue);
+        else if ( parameterName == "nVelo") {
+            this->nVelo = atof(parameterValue);
         }
         else if ( parameterName == "geometryFile"){
             cout << "create parser" << endl;
@@ -159,11 +132,7 @@ void Settings::printSettings() {
               << ", top: (" << dirichletBcTop[0] << "," << dirichletBcTop[1] << ")"
               << ", left: (" << dirichletBcLeft[0] << "," << dirichletBcLeft[1] << ")"
               << ", right: (" << dirichletBcRight[0] << "," << dirichletBcRight[1] << ")" << std::endl
-              << "  useDonorCell: " << std::boolalpha << useDonorCell << ", alpha: " << alpha << std::endl
-              << "  pressureSolver: " << pressureSolver << ", omega: " << omega << ", epsilon: " << epsilon
-              << ", maximumNumberOfIterations: " << maximumNumberOfIterations << std::endl
-              << ", gamma: " << gamma << std::endl
-            << ", initial u: " << uInit << ", initial v: " << vInit << ", initial p: " << pInit << ", initial T: " << tInit << std::endl;             ;
+              << ", number of velocities per cell: " << nVelo << ", initial f: " << fInit << ", initial T: " << tInit << std::endl;
 
 }
 
