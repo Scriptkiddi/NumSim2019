@@ -98,7 +98,7 @@ void Settings::printSettings() {
               << nCells[1] << std::endl
               << "  endTime: " << endTime << " s, timeStepRelaxation: " << timeStepRelaxation
               << ", maximum dt: " << maximumDt << std::endl
-              << ", number of velocities per cell: " << nVelo << ", initial f: " << fInit << ", initial T: " << T << std::endl;
+              << "  number of velocities per cell: " << nVelo << ", initial f: " << fInit << ", initial T: " << T << std::endl;
 
 }
 
