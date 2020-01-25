@@ -50,39 +50,6 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "endTime") {
             this->endTime = atof(parameterValue);
         }
-        else if ( parameterName == "re") {
-            this->re = atof(parameterValue);
-        }
-        else if ( parameterName == "gX") {
-            this->g[0] = atof(parameterValue);
-        }
-        else if ( parameterName == "gY") {
-            this->g[1] = atof(parameterValue);
-        }
-        else if ( parameterName == "dirichletBottomX") {
-            this->dirichletBcBottom[0] = atof(parameterValue);
-        }
-        else if ( parameterName == "dirichletBottomY") {
-            this->dirichletBcBottom[1] = atof(parameterValue);
-        }
-        else if ( parameterName == "dirichletTopX") {
-            this->dirichletBcTop[0] = atof(parameterValue);
-        }
-        else if ( parameterName == "dirichletTopY") {
-            this->dirichletBcTop[1] = atof(parameterValue);
-        }
-        else if ( parameterName == "dirichletLeftX") {
-            this->dirichletBcLeft[0] = atof(parameterValue);
-        }
-        else if ( parameterName == "dirichletLeftY") {
-            this->dirichletBcLeft[1] = atof(parameterValue);
-        }
-        else if ( parameterName == "dirichletRightX") {
-            this->dirichletBcRight[0] = atof(parameterValue);
-        }
-        else if ( parameterName == "dirichletRightY") {
-            this->dirichletBcRight[1] = atof(parameterValue);
-        }
         else if ( parameterName == "nCellsX") {
             this->nCells[0] = atoi(parameterValue);
         }
@@ -95,29 +62,28 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "maximumDt") {
             this->maximumDt = atof(parameterValue);
         }
-        else if ( parameterName == "prandtl") {
-            this->prandtl = atof(parameterValue);
-        }
         else if ( parameterName == "fInit") {
             this->fInit = atof(parameterValue);
         }
-        else if ( parameterName == "tInit") {
-            this->tInit = atof(parameterValue);
+        else if ( parameterName == "Temperature") {
+            this->T = atof(parameterValue);
+        }
+        else if ( parameterName == "molarMass") {
+            this->M = atof(parameterValue);
+        }
+        else if ( parameterName == "adiabaticIndex") {
+            this->gamma = atof(parameterValue);
+        }
+        else if ( parameterName == "initialDensity") {
+            this->rhoInit = atof(parameterValue);
+        }
+        else if ( parameterName == "viscosity") {
+            this->viscosity = atof(parameterValue);
         }
         else if ( parameterName == "nVelo") {
             this->nVelo = atof(parameterValue);
         }
-        else if ( parameterName == "geometryFile"){
-            cout << "create parser" << endl;
-            cout << parameterValue << endl;
-            GeometryParser parser = GeometryParser();
-            //if( strcmp(parameterValue, "free")){
-            //    this->geometry = nullptr;
-            //}else{
-                cout << "start parsing" << endl;
-                this->geometry = parser.parseGeometryFile(parameterValue, this);
-            //}
-        } else if (parameterName == "outputFileEveryDt"){
+        else if (parameterName == "outputFileEveryDt"){
             this->outputFileEveryDt = atof(parameterValue);
         }
     }
@@ -130,13 +96,9 @@ void Settings::printSettings() {
     std::cout << "Settings: " << std::endl
               << "  physicalSize: " << physicalSize[0] << " x " << physicalSize[1] << ", nCells: " << nCells[0] << " x "
               << nCells[1] << std::endl
-              << "  endTime: " << endTime << " s, re: " << re << ", g: (" << g[0] << "," << g[1] << "), timeStepRelaxation: " << timeStepRelaxation
+              << "  endTime: " << endTime << " s, timeStepRelaxation: " << timeStepRelaxation
               << ", maximum dt: " << maximumDt << std::endl
-              << "  dirichletBC: bottom: (" << dirichletBcBottom[0] << "," << dirichletBcBottom[1] << ")"
-              << ", top: (" << dirichletBcTop[0] << "," << dirichletBcTop[1] << ")"
-              << ", left: (" << dirichletBcLeft[0] << "," << dirichletBcLeft[1] << ")"
-              << ", right: (" << dirichletBcRight[0] << "," << dirichletBcRight[1] << ")" << std::endl
-              << ", number of velocities per cell: " << nVelo << ", initial f: " << fInit << ", initial T: " << tInit << std::endl;
+              << ", number of velocities per cell: " << nVelo << ", initial f: " << fInit << ", initial T: " << T << std::endl;
 
 }
 

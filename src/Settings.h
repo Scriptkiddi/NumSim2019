@@ -20,32 +20,29 @@ struct Settings {
 
     std::array<double, 2> physicalSize;
 
-    double re = 1000;
-
     double endTime = 10.0;
 
     double timeStepRelaxation = 0.5;
 
     double maximumDt = 0.1;
-
-    std::array<double, 2> g{0., 0.};
-
-    std::array<double, 2> dirichletBcBottom;
-
-    std::array<double, 2> dirichletBcTop;
-
-    std::array<double, 2> dirichletBcLeft;
-
-    std::array<double, 2> dirichletBcRight;
-
-    double prandtl;
-
-    double tInit = 0;
+    
     double fInit = 0; //TODO vielleicht in ein Feld ändern
 
     int nVelo = 9;
     
-    double cs = 1481; //Schallgeschwindigkeit in [m/s] von Wasser bei Raumtemperatur
+    double cs; //Speed of sound in [m/s]
+
+    double rhoInit; //Density
+
+    double viscosity = 0.0000185; //dynamic viscosity
+
+    double M = 0.0289645; //molar mass
+
+    double T = 293.15; //Temperature
+
+    double R = 8.31446261; //universal Gas constant
+
+    double gamma = 1.4; //adiabatic coefficient
     
     std::shared_ptr<Geometry> geometry;
 
