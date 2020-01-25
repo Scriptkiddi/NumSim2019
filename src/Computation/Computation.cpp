@@ -87,7 +87,7 @@ void Computation::applyInitialConditions() {
                 staggeredGrid_.get()->f(i, j, k) = fInit;
         }
     }
-
+    }
     tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + 0.5;
 }
 
@@ -279,13 +279,19 @@ void Computation::computeFtempFeq(){
 }
 
 
-void Computation::computeF(){ // TODO
+void Computation::computeF(){
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
             for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
-                if (true){
-                    staggeredGrid_.get()->f(i,j,k) = 0;
-                }
+                staggeredGrid_.get()->f(i,j,0) = staggeredGrid_.get()->ftmp(i,j,0);
+                staggeredGrid_.get()->f(i,j,1) = staggeredGrid_.get()->ftmp(i,j-1,1);
+                staggeredGrid_.get()->f(i,j,2) = staggeredGrid_.get()->ftmp(i-1,j-1,2);
+                staggeredGrid_.get()->f(i,j,3) = staggeredGrid_.get()->ftmp(i-1,j,3);
+                staggeredGrid_.get()->f(i,j,4) = staggeredGrid_.get()->ftmp(i-1,j+1,4);
+                staggeredGrid_.get()->f(i,j,5) = staggeredGrid_.get()->ftmp(i,j+1,5);
+                staggeredGrid_.get()->f(i,j,6) = staggeredGrid_.get()->ftmp(i+1,j+1,6);
+                staggeredGrid_.get()->f(i,j,7) = staggeredGrid_.get()->ftmp(i+1,j,7);
+                staggeredGrid_.get()->f(i,j,8) = staggeredGrid_.get()->ftmp(i+1,j-1,8);
             }
         }
     }
