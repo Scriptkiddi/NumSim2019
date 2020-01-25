@@ -120,8 +120,8 @@ void Computation::applyLatticeVelocities() { //c_i(k,l)
     staggeredGrid_.get()->c(8,1) = 1;
 
     for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
-        staggeredGrid_.get()->c(k,0) = StaggeredGrid_.get()->c(k,0) * StaggeredGrid_.get()->dx() / dt_; //TODO *meshWidth/dt correct?
-        staggeredGrid_.get()->c(k,1) = StaggeredGrid_.get()->c(k,1) * StaggeredGrid_.get()->dy() / dt_;
+        staggeredGrid_.get()->c(k,0) = staggeredGrid_.get()->c(k,0) * staggeredGrid_.get()->dx() / dt_; //TODO *meshWidth/dt correct?
+        staggeredGrid_.get()->c(k,1) = staggeredGrid_.get()->c(k,1) * staggeredGrid_.get()->dy() / dt_;
         }
     }
 }
