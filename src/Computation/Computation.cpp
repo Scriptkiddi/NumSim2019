@@ -65,7 +65,7 @@ void Computation::runSimulation() {
 
         t += dt_;
         if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
-            cout << "current time: " << t << " dt: " << dt_ << " pressure solver iterations: " << endl;
+            cout << "current time: " << t << " dt: " << dt_ << endl;
             outputWriterParaview_->writeFile(t);
             lastOutputTime = t;
         }

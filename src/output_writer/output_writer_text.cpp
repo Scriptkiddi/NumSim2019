@@ -106,6 +106,7 @@ void OutputWriterText::writeFile(double currentTime)
   }
   file << std::endl;
 
+/*
   // write T
   // ---------
   // write header lines
@@ -117,7 +118,7 @@ void OutputWriterText::writeFile(double currentTime)
   }
   file << std::endl << std::string(fieldWidth*(staggeredGrid_->t().size()[0]+2)+1, '-') << std::endl;
 
-  // write p values
+  // write t values
   for (int j = staggeredGrid_->jEnd()+1; j >= staggeredGrid_->jBegin()-1; j--)
   {
     file <<"  "<< std::setw(fieldWidth) << j << "|"<<"  ";
@@ -129,6 +130,7 @@ void OutputWriterText::writeFile(double currentTime)
     file << std::endl;
   }
   file << std::endl;
+*/
 
   // write f
   // ---------

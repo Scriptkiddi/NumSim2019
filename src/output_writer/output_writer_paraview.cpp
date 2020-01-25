@@ -34,8 +34,9 @@ void OutputWriterParaview::writeFile(double currentTime)
     dataSet->SetSpacing(dx, dy, dz);
 
     // set number of points in each dimension, 1 cell in z direction
-    std::array<int,2> nCells = {staggeredGrid_.get()->p().size()[0] - 2, staggeredGrid_->p().size()[1] - 2};
+    std::array<int,2> nCells = {staggeredGrid_.get()->p().size()[0] - 2, staggeredGrid_.get()->p().size()[1] - 2};
     dataSet->SetDimensions(nCells[0]+1, nCells[1]+1, 1);  // we want to have points at each corner of each cell
+ /*
     // add temperature field variable
     // ---------------------------
     vtkSmartPointer<vtkDoubleArray> arrayTemp = vtkDoubleArray::New();
@@ -68,7 +69,7 @@ void OutputWriterParaview::writeFile(double currentTime)
 
     // add the field variable to the data set
     dataSet->GetPointData()->AddArray(arrayTemp);
-
+*/
     // add pressure field variable
     // ---------------------------
     vtkSmartPointer<vtkDoubleArray> arrayPressure = vtkDoubleArray::New();
@@ -84,7 +85,7 @@ void OutputWriterParaview::writeFile(double currentTime)
     // loop over the nodes of the mesh and assign the interpolated p values in the vtk data structure
     // we only consider the cells that are the actual computational domain, not the helper values in the "halo"
 
-    index = 0;   // index for the vtk data structure, will be incremented in the inner loop
+    int index = 0;   // index for the vtk data structure, will be incremented in the inner loop
     for (int j = 0; j < nCells[1]+1; j++)
     {
         for (int i = 0; i < nCells[0]+1; i++, index++)
