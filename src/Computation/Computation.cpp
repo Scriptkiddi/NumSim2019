@@ -122,7 +122,6 @@ void Computation::applyLatticeVelocities() { //c_i(k,l)
     for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
         staggeredGrid_.get()->c(k,0) = staggeredGrid_.get()->c(k,0) * staggeredGrid_.get()->dx() / dt_; //TODO *meshWidth/dt correct?
         staggeredGrid_.get()->c(k,1) = staggeredGrid_.get()->c(k,1) * staggeredGrid_.get()->dy() / dt_;
-        }
     }
 }
 
@@ -138,7 +137,7 @@ void Computation::applyWeights(){ // Für 3D anders!
     staggeredGrid_.get()->w(7) = 1/9;
     staggeredGrid_.get()->w(8) = 1/36;
     } else {
-        System.out.println("Please choose D2Q9.")
+        std::cout << "Please choose D2Q9." << std::endl;
     }
 }
 
@@ -265,15 +264,15 @@ void Computation::computeMacroscopicQuantities(){ //DensityPressureAndVelocities
 void Computation::computeFtempFeq(){
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
-            for (int k = staggeredGrid_get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
-                //omega * rho* (1 + (c0 * u  + c1 * v) / cs^2 + (c0 * u  + c1 * v)^2 / (2 * cs^4) + (u^2  + v^2) / (2 * cs^2))
-                staggeredGrid_.get()->feq(i,j,k) = omega(k) * staggeredGrid_.get->rho(i,j) * ( 1 +  //TODO omega(k), tau
+            for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
+                //w * rho* (1 + (c0 * u  + c1 * v) / cs^2 + (c0 * u  + c1 * v)^2 / (2 * cs^4) + (u^2  + v^2) / (2 * cs^2))
+                staggeredGrid_.get()->feq(i,j,k) = staggeredGrid_.get()->w(k) * staggeredGrid_.get->rho(i,j) * ( 1 +
                 (staggeredGrid_.get()->c(k,0) * staggeredGrid_.get()->u(i,j)  + staggeredGrid_.get()->c(k,1) * staggeredGrid_.get()->v(i,j)) / pow(settings_.cs,2) 
                 + pow(staggeredGrid_.get()->c(k,0) * staggeredGrid_.get()->u(i,j)  + staggeredGrid_.get()->c(k,1) * staggeredGrid_.get()->v(i,j),2) / (2 * pow(settings_.cs,4))
                 + (staggeredGrid_.get()->u(i,j) * staggeredGrid_.get()->u(i,j)  + staggeredGrid_.get()->v(i,j) * staggeredGrid_.get()->v(i,j)) / (2 * pow(settings_.cs,2)) 
                 );
 
-                staggeredGrid_.get()->ftmp(i,j,k) = staggeredGrid_.get()->f(i,j,k) + 1 / tau_ * (staggeredGrid_.get()->f(i,j,k) - staggeredGrid_.get()->feq(i,j,k))
+                staggeredGrid_.get()->ftmp(i,j,k) = staggeredGrid_.get()->f(i,j,k) + 1 / tau_ * (staggeredGrid_.get()->f(i,j,k) - staggeredGrid_.get()->feq(i,j,k));
             }
         }
     }
@@ -283,8 +282,8 @@ void Computation::computeFtempFeq(){
 void Computation::computeF(){ // TODO
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
-            for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.->get()kEnd(); k++) {
-                if (){
+            for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
+                if (true){
                     staggeredGrid_.get()->f(i,j,k) = 0;
                 }
             }
