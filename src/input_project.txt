@@ -8,7 +8,7 @@ nCellsX = 20            # number of cells in x and y direction
 nCellsY = 20
 timeStepRelaxation = 0.5  # safety factor for time step width
 maximumDt = 0.1         # maximum values for time step width
-outputFileEveryDt = 10
+outputFileEveryDt = 0.1
 
 # Physical parameters
 # Temperature = 293.15

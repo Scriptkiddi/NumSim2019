@@ -18,13 +18,14 @@ void Computation::initialize(int argc, char **argv) {
     settings_.loadFromFile(argv[1]);
     settings_.printSettings();
     array<int, 2> nCellsBoundary = {settings_.nCells[0] + 2, settings_.nCells[1] + 2}; // Mit Ghost cells
-    int nVelo = settings_.nVelo; //TODO in settings
+    int nVelo = settings_.nVelo; 
+
 
     //geometry_ = settings_.geometry;
 
     //initialize initial values
-    fInit = settings_.fInit; //TODO in settings
-
+    fInit = settings_.fInit; 
+    
     //initialize meshWidth
     meshWidth_[0] = settings_.physicalSize[0] / (settings_.nCells[0]);
     meshWidth_[1] = settings_.physicalSize[1] / (settings_.nCells[1]);
@@ -34,8 +35,8 @@ void Computation::initialize(int argc, char **argv) {
     staggeredGrid_ = make_shared<StaggeredGrid>(grid);
 
     //initialize outputWriters
-    OutputWriterText outText(staggeredGrid_);
-    outputWriterText_ = make_unique<OutputWriterText>(outText);
+    //OutputWriterText outText(staggeredGrid_);
+    //outputWriterText_ = make_unique<OutputWriterText>(outText);
 
     OutputWriterParaview outPara(staggeredGrid_);
     outputWriterParaview_ = make_unique<OutputWriterParaview>(outPara);
@@ -53,7 +54,7 @@ void Computation::runSimulation() {
         if (t + dt_ > settings_.endTime) {
             dt_ = settings_.endTime - t;
         }
-        outputWriterText_->writeFile(t);
+        //outputWriterText_->writeFile(t);
 
         applyLatticeVelocities(); //c_i
         applyWeights();
@@ -70,7 +71,6 @@ void Computation::runSimulation() {
             lastOutputTime = t;
         }
     }
-
 
     if (std::fabs(t - lastOutputTime) > 1e-4) {
         outputWriterParaview_->writeFile(t);

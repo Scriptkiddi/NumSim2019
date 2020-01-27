@@ -11,10 +11,10 @@ FieldVector::FieldVector(std::array<int, 2> nCells, int nVelo,
                              std::array<double, 2> meshWidth) :
         meshWidth_(meshWidth) {
     // allocate data, initialize to 0
-    data_.resize(size_[0]*size_[1]*size_[2], 0.0);
     size_[0] = nCells[0];
     size_[1] = nCells[1];
     size_[2] = nVelo;
+    data_.resize(size_[0]*size_[1]*size_[2], 0.0);
 }
 
 //! get the size
