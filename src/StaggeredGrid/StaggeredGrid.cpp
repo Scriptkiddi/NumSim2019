@@ -73,11 +73,11 @@ double &StaggeredGrid::p(int i, int j) {
 }
 
 double StaggeredGrid::rho(int i, int j) const {
-    return p_(i, j);
+    return rho_(i, j);
 }
 
 double &StaggeredGrid::rho(int i, int j) {
-    return p_(i, j);
+    return rho_(i, j);
 }
 
 double &StaggeredGrid::t(int i, int j) {
