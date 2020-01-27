@@ -45,6 +45,7 @@ void Computation::initialize(int argc, char **argv) {
 void Computation::runSimulation() {
     double t = 0;
     applyInitialConditions();
+    applyWeights(); //w
     double lastOutputTime = 0;
     for (int timeStepNumber = 0;
          std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
@@ -57,7 +58,6 @@ void Computation::runSimulation() {
         //outputWriterText_->writeFile(t);
 
         applyLatticeVelocities(); //c_i
-        applyWeights();
 
         computeMacroscopicQuantities(timeStepNumber); //DensityPressureAndVelocities
         cout << "current time: " << t << " dt: " << dt_ << ", rho = " << staggeredGrid_.get()->rho(10,10) << ", u = " << staggeredGrid_.get()->u(10,10) <<
@@ -133,7 +133,7 @@ void Computation::applyLatticeVelocities(){
 }
 
 void Computation::applyWeights(){ // Für 3D anders!
-    if (settings_.nVelo == 9){
+    //if (settings_.nVelo == 9){
     staggeredGrid_.get()->w(0) = 4.0/9.0;
     staggeredGrid_.get()->w(1) = 1.0/9.0;
     staggeredGrid_.get()->w(2) = 1.0/36.0;
@@ -143,9 +143,9 @@ void Computation::applyWeights(){ // Für 3D anders!
     staggeredGrid_.get()->w(6) = 1.0/36.0;
     staggeredGrid_.get()->w(7) = 1.0/9.0;
     staggeredGrid_.get()->w(8) = 1.0/36.0;
-    } else {
-        std::cout << "Please choose D2Q9." << std::endl;
-    }
+    //} else {
+    //    std::cout << "Please choose D2Q9." << std::endl;
+    //}
 }
 
 void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
@@ -288,6 +288,14 @@ void Computation::computeFtempFeq(int t){
 
                 staggeredGrid_.get()->ftmp(i,j,k) = staggeredGrid_.get()->f(i,j,k) + 1 / tau_ * (staggeredGrid_.get()->f(i,j,k) - staggeredGrid_.get()->feq(i,j,k));
                 if (t <= 1 && i < 5 && j < 5) {
+                    std::cout << "w at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->w(k) << endl;
+                    std::cout << "rho at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->rho(i,j) << endl;
+                    std::cout << "c0 at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->c(k,0) << endl;
+                    std::cout << "c1 at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->c(k,1) << endl;
+                    std::cout << "u at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->u(i,j) << endl;
+                    std::cout << "v at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->v(i,j) << endl;
+                    std::cout << "cs at (" << i << " - " << j << " - " << k << "): " << settings_.cs << endl;
+                
                     //std::cout << "feq at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->feq(i,j,k) << endl;
                     //std::cout << "ftmp at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->ftmp(i,j,k) << endl;
                 }
