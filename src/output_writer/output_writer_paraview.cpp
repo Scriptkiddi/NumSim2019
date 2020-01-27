@@ -93,7 +93,7 @@ void OutputWriterParaview::writeFile(double currentTime)
             const double x = i*dx;
             const double y = j*dy;
 
-            arrayPressure->SetValue(index, staggeredGrid_->p().interpolateAt(x,y,"p"));
+            arrayPressure->SetValue(index, staggeredGrid_.get()->p().interpolateAt(x,y,"p"));
         }
     }
 
@@ -127,8 +127,8 @@ void OutputWriterParaview::writeFile(double currentTime)
             const double x = i*dx;
 
             std::array<double,3> velocityVector;
-            velocityVector[0] = staggeredGrid_->u().interpolateAt(x,y,"u");
-            velocityVector[1] = staggeredGrid_->v().interpolateAt(x,y,"v");
+            velocityVector[0] = staggeredGrid_.get()->u().interpolateAt(x,y,"u");
+            velocityVector[1] = staggeredGrid_.get()->v().interpolateAt(x,y,"v");
             velocityVector[2] = 0.0;    // z-direction is 0
 
             arrayVelocity->SetTuple(index, velocityVector.data());

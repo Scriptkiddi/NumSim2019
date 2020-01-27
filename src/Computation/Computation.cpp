@@ -276,13 +276,12 @@ void Computation::computeMacroscopicQuantities(int t){ //DensityPressureAndVeloc
             }
             staggeredGrid_.get()->rho(i, j) = fSum;
             staggeredGrid_.get()->u(i, j) = fSumWeightedX;
+            staggeredGrid_.get()->p(i, j) = pow(settings_.cs,2) * fSum;
+
             fSum = 0.0;
             fSumWeightedX = 0.0;
             fSumWeightedY = 0.0;
-
-            staggeredGrid_.get()->p(i, j) = pow(settings_.cs,2) * fSum;
-            
-            
+              
             if (t <= 1 && i < 5 && j < 5) {
                 std::cout << "rho: " << fSum << ", u: " << fSumWeightedX << ", v:  " << fSumWeightedY << ", p: " << staggeredGrid_.get()->p(i,j) << endl;
             }
