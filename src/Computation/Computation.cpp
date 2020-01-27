@@ -61,6 +61,8 @@ void Computation::runSimulation() {
         applyLatticeVelocities(); //c_i
 
         computeMacroscopicQuantities(timeStepNumber); //DensityPressureAndVelocities
+        cout << "current time: " << t << " dt: " << dt_ << ", rho = " << staggeredGrid_.get()->rho(10,10) << ", u = " << staggeredGrid_.get()->u(10,10) <<
+        ", v = " << staggeredGrid_.get()->v(10,10) << ", p = " << staggeredGrid_.get()->p(10,10) << endl;
         computeFtempFeq(timeStepNumber); //Collision step
         applyBoundaryValuesF();
         computeF(timeStepNumber); //Streaming step
@@ -83,7 +85,7 @@ void Computation::runSimulation() {
 }
 
 void Computation::applyInitialConditions() {
-    fInit = 0.11;
+    fInit = 0.011;
     settings_.rhoInit = fInit * 9;
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
@@ -94,7 +96,7 @@ void Computation::applyInitialConditions() {
         }
     }
     for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
-        staggeredGrid_.get()->f(staggeredGrid_.get()->iBegin() + 1, 9, k) = 2;
+        staggeredGrid_.get()->f(staggeredGrid_.get()->iBegin() + 1, 9, k) = .11;
     }
     tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + 0.5; 
 }
@@ -276,7 +278,7 @@ void Computation::computeMacroscopicQuantities(int t){ //DensityPressureAndVeloc
             
             /*
             if (t <= 1 && i < 5 && j < 5) {
-                std::cout << "rho: " << fSum << ", u: " << fSumWeightedX << ", v:  " << fSumWeightedY << ", p: " << staggeredGrid_.get()->p(i,j) << endl;
+                //std::cout << "rho: " << fSum << ", u: " << fSumWeightedX << ", v:  " << fSumWeightedY << ", p: " << staggeredGrid_.get()->p(i,j) << endl;
             }
             */
             }
