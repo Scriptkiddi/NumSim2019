@@ -23,7 +23,7 @@ private:
 
     void applyBoundaryValuesF();
 
-    void computeMacroscopicQuantities();
+    void computeMacroscopicQuantities(int t);
 
     void applyInitialConditions();
 
@@ -31,9 +31,9 @@ private:
 
     void applyWeights();
 
-    void computeFtempFeq();
+    void computeFtempFeq(int t);
 
-    void computeF();
+    void computeF(int t);
 
     // Attributes
     Settings settings_;
