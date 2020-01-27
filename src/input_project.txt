@@ -15,4 +15,4 @@ outputFileEveryDt = 0.1
 # molarMass = 0.0289645     # M
 # adiabaticIndex = 1.4      # kappa
 # viscosity = 0.0000185     # mu
-# initialDensity =          # rho
+initialDensity = 1        # rho
