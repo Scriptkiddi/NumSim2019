@@ -45,6 +45,7 @@ void Computation::initialize(int argc, char **argv) {
 void Computation::runSimulation() {
     double t = 0;
     applyInitialConditions();
+    applyWeights(); //w
     double lastOutputTime = 0;
     for (int timeStepNumber = 0;
          std::abs(t - settings_.endTime) > 1e-10 && settings_.endTime - t > 0; timeStepNumber++) {
@@ -57,7 +58,6 @@ void Computation::runSimulation() {
         //outputWriterText_->writeFile(t);
 
         applyLatticeVelocities(); //c_i
-        applyWeights();
 
         computeMacroscopicQuantities(timeStepNumber); //DensityPressureAndVelocities
         computeFtempFeq(timeStepNumber); //Collision step
@@ -131,19 +131,19 @@ void Computation::applyLatticeVelocities(){
 }
 
 void Computation::applyWeights(){ // Für 3D anders!
-    if (settings_.nVelo == 9){
-    staggeredGrid_.get()->w(0) = 4/9;
-    staggeredGrid_.get()->w(1) = 1/9;
-    staggeredGrid_.get()->w(2) = 1/36;
-    staggeredGrid_.get()->w(3) = 1/9;
-    staggeredGrid_.get()->w(4) = 1/36;
-    staggeredGrid_.get()->w(5) = 1/9;
-    staggeredGrid_.get()->w(6) = 1/36;
-    staggeredGrid_.get()->w(7) = 1/9;
-    staggeredGrid_.get()->w(8) = 1/36;
-    } else {
-        std::cout << "Please choose D2Q9." << std::endl;
-    }
+    //if (settings_.nVelo == 9){
+    staggeredGrid_.get()->w(0) = 4.0/9.0;
+    staggeredGrid_.get()->w(1) = 1.0/9.0;
+    staggeredGrid_.get()->w(2) = 1.0/36.0;
+    staggeredGrid_.get()->w(3) = 1.0/9.0;
+    staggeredGrid_.get()->w(4) = 1.0/36.0;
+    staggeredGrid_.get()->w(5) = 1.0/9.0;
+    staggeredGrid_.get()->w(6) = 1.0/36.0;
+    staggeredGrid_.get()->w(7) = 1.0/9.0;
+    staggeredGrid_.get()->w(8) = 1.0/36.0;
+    //} else {
+    //    std::cout << "Please choose D2Q9." << std::endl;
+    //}
 }
 
 void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
@@ -157,13 +157,13 @@ void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
     j_low = staggeredGrid_.get()->jBegin() - 1; 
     for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() + 1; i++) {
         if(i > staggeredGrid_.get()->iBegin()){
-           staggeredGrid_.get()->f(i, j_low, 8) = staggeredGrid_.get()->f(i - 1, j_low + 1, 4);
+           staggeredGrid_.get()->f(i, j_low, 8) = staggeredGrid_.get()->ftmp(i - 1, j_low + 1, 4);
         }
         if(i >= staggeredGrid_.get()->iBegin() && i <= staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->f(i, j_low, 1) = staggeredGrid_.get()->f(i, j_low + 1, 5);
+            staggeredGrid_.get()->f(i, j_low, 1) = staggeredGrid_.get()->ftmp(i, j_low + 1, 5);
         }
         if(i < staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->f(i ,j_low, 2) = staggeredGrid_.get()->f(i + 1, j_low + 1, 6);
+            staggeredGrid_.get()->f(i ,j_low, 2) = staggeredGrid_.get()->ftmp(i + 1, j_low + 1, 6);
         }
     }
 
@@ -171,13 +171,13 @@ void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
     j_high = staggeredGrid_.get()->jEnd() + 1; //Schleife kürzer
     for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() - 1; i++) {
         if(i > staggeredGrid_.get()->iBegin()){
-           staggeredGrid_.get()->f(i, j_high, 6) = staggeredGrid_.get()->f(i - 1, j_high - 1, 2);
+           staggeredGrid_.get()->f(i, j_high, 6) = staggeredGrid_.get()->ftmp(i - 1, j_high - 1, 2);
         }
         if(i >= staggeredGrid_.get()->iBegin() && i <= staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->f(i, j_high, 5) = staggeredGrid_.get()->f(i, j_high - 1, 1);
+            staggeredGrid_.get()->f(i, j_high, 5) = staggeredGrid_.get()->ftmp(i, j_high - 1, 1);
         }
         if(i < staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->f(i ,j_high, 4) = staggeredGrid_.get()->f(i + 1, j_high - 1, 8);
+            staggeredGrid_.get()->f(i ,j_high, 4) = staggeredGrid_.get()->ftmp(i + 1, j_high - 1, 8);
         }
     }
 
@@ -185,13 +185,13 @@ void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
     i_low = staggeredGrid_.get()->iBegin() - 1;
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         if(j > staggeredGrid_.get()->jBegin()){
-           staggeredGrid_.get()->f(i_low, j, 4) = staggeredGrid_.get()->f(i_low + 1, j - 1, 8);
+           staggeredGrid_.get()->f(i_low, j, 4) = staggeredGrid_.get()->ftmp(i_low + 1, j - 1, 8);
         }
         if(j >= staggeredGrid_.get()->iBegin() && j <= staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->f(i_low, j, 3) = staggeredGrid_.get()->f(i_low + 1, j, 7);
+            staggeredGrid_.get()->f(i_low, j, 3) = staggeredGrid_.get()->ftmp(i_low + 1, j, 7);
         }
         if(j < staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->f(i_low, j, 2) = staggeredGrid_.get()->f(i_low + 1, j + 1, 6);
+            staggeredGrid_.get()->f(i_low, j, 2) = staggeredGrid_.get()->ftmp(i_low + 1, j + 1, 6);
         }
     }
 
@@ -199,13 +199,13 @@ void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
     i_high = staggeredGrid_.get()->iEnd() + 1;
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         if(j > staggeredGrid_.get()->jBegin()){
-           staggeredGrid_.get()->f(i_high, j, 6) = staggeredGrid_.get()->f(i_high - 1, j - 1, 2);
+           staggeredGrid_.get()->f(i_high, j, 6) = staggeredGrid_.get()->ftmp(i_high - 1, j - 1, 2);
         }
         if(j >= staggeredGrid_.get()->iBegin() && j <= staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->f(i_high, j, 7) = staggeredGrid_.get()->f(i_high - 1, j, 3);
+            staggeredGrid_.get()->f(i_high, j, 7) = staggeredGrid_.get()->ftmp(i_high - 1, j, 3);
         }
         if(j < staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->f(i_high, j, 8) = staggeredGrid_.get()->f(i_high - 1, j + 1, 4);
+            staggeredGrid_.get()->f(i_high, j, 8) = staggeredGrid_.get()->ftmp(i_high - 1, j + 1, 4);
         }
     }
 }
@@ -286,8 +286,16 @@ void Computation::computeFtempFeq(int t){
 
                 staggeredGrid_.get()->ftmp(i,j,k) = staggeredGrid_.get()->f(i,j,k) + 1 / tau_ * (staggeredGrid_.get()->f(i,j,k) - staggeredGrid_.get()->feq(i,j,k));
                 if (t <= 1 && i < 5 && j < 5) {
-                    std::cout << "feq at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->feq(i,j,k) << endl;
-                    std::cout << "ftmp at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->ftmp(i,j,k) << endl;
+                    std::cout << "w at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->w(k) << endl;
+                    std::cout << "rho at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->rho(i,j) << endl;
+                    std::cout << "c0 at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->c(k,0) << endl;
+                    std::cout << "c1 at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->c(k,1) << endl;
+                    std::cout << "u at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->u(i,j) << endl;
+                    std::cout << "v at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->v(i,j) << endl;
+                    std::cout << "cs at (" << i << " - " << j << " - " << k << "): " << settings_.cs << endl;
+                
+                    //std::cout << "feq at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->feq(i,j,k) << endl;
+                    //std::cout << "ftmp at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->ftmp(i,j,k) << endl;
                 }
             }
         }
