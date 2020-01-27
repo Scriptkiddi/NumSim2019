@@ -1,18 +1,18 @@
 # Problem Description
-physicalSizeX = 1.0     # physical size of the domain
+physicalSizeX = 1.0         # physical size of the domain
 physicalSizeY = 1.0
-endTime = 10.0          # duration of the simulation
+endTime = 10.0              # duration of the simulation
 
 # Discretization parameters
-nCellsX = 20            # number of cells in x and y direction
+nCellsX = 20                # number of cells in x and y direction
 nCellsY = 20
-timeStepRelaxation = 0.5  # safety factor for time step width
-maximumDt = 0.1         # maximum values for time step width
+timeStepRelaxation = 0.5    # safety factor for time step width
+maximumDt = 0.1             # maximum values for time step width
 outputFileEveryDt = 0.1
 
 # Physical parameters
-# Temperature = 293.15
-# molarMass = 0.0289645
-# adiabaticIndex = 1.4
-# viscosity = 0.0000185
-# initialDensity = 
+# Temperature = 293.15      # T
+# molarMass = 0.0289645     # M
+# adiabaticIndex = 1.4      # kappa
+# viscosity = 0.0000185     # mu
+# initialDensity =          # rho

@@ -286,7 +286,7 @@ void Computation::computeFtempFeq(int t){
                 - (staggeredGrid_.get()->u(i,j) * staggeredGrid_.get()->u(i,j)  + staggeredGrid_.get()->v(i,j) * staggeredGrid_.get()->v(i,j)) / (2 * pow(settings_.cs,2)) 
                 );
 
-                staggeredGrid_.get()->ftmp(i,j,k) = staggeredGrid_.get()->f(i,j,k) + 1 / tau_ * (staggeredGrid_.get()->f(i,j,k) - staggeredGrid_.get()->feq(i,j,k));
+                staggeredGrid_.get()->ftmp(i,j,k) = staggeredGrid_.get()->f(i,j,k) + 1 / tau_ * (- staggeredGrid_.get()->f(i,j,k) + staggeredGrid_.get()->feq(i,j,k));
                 if (t <= 1 && i < 5 && j < 5) {
                     std::cout << "w at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->w(k) << endl;
                     std::cout << "rho at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->rho(i,j) << endl;
