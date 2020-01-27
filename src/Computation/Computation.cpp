@@ -63,10 +63,11 @@ void Computation::runSimulation() {
         computeFtempFeq(); //Collision step
         applyBoundaryValuesF();
         computeF(); //Streaming step
-
+        cout << "rho(10,10) = " << staggeredGrid_.get()->rho(10,10) << endl;
+        cout << "current time: " << t << " dt: " << dt_ << endl;
         t += dt_;
         if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
-            cout << "current time: " << t << " dt: " << dt_ << endl;
+            //cout << "current time: " << t << " dt: " << dt_ << endl;
             outputWriterParaview_->writeFile(t);
             lastOutputTime = t;
         }
@@ -92,7 +93,7 @@ void Computation::applyInitialConditions() {
     for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
         staggeredGrid_.get()->f(staggeredGrid_.get()->iBegin() + 1, 9, k) = 2;
     }
-    tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + 0.5; 
+    tau_ = settings_.viscosity/pow(settings_.cs,2) + 0.5; 
 }
 
 void Computation::applyLatticeVelocities(){
