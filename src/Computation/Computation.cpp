@@ -59,10 +59,10 @@ void Computation::runSimulation() {
         applyLatticeVelocities(); //c_i
         applyWeights();
 
-        computeMacroscopicQuantities(); //DensityPressureAndVelocities
-        computeFtempFeq(); //Collision step
+        computeMacroscopicQuantities(timeStepNumber); //DensityPressureAndVelocities
+        computeFtempFeq(timeStepNumber); //Collision step
         applyBoundaryValuesF();
-        computeF(); //Streaming step
+        computeF(timeStepNumber); //Streaming step
 
         t += dt_;
         if (t - lastOutputTime > settings_.outputFileEveryDt - 1e-4) {
@@ -80,7 +80,8 @@ void Computation::runSimulation() {
 }
 
 void Computation::applyInitialConditions() {
-    fInit = 0.5;
+    fInit = 0.11;
+    settings_.rhoInit = fInit * 9;
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
             for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
@@ -248,7 +249,7 @@ void Computation::computeTimeStepWidth() {
     
 }
 
-void Computation::computeMacroscopicQuantities(){ //DensityPressureAndVelocities
+void Computation::computeMacroscopicQuantities(int t){ //DensityPressureAndVelocities
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
             double fSum = 0;
@@ -264,14 +265,15 @@ void Computation::computeMacroscopicQuantities(){ //DensityPressureAndVelocities
             staggeredGrid_.get()->v(i, j) = fSumWeightedY;
             
             staggeredGrid_.get()->p(i, j) = pow(settings_.cs,2) * staggeredGrid_.get()->rho(i,j);
-
-            std::cout << "rho: " << fSum << ", u: " << fSumWeightedX << ", v:  " << fSumWeightedY << ", p: " << staggeredGrid_.get()->p(i,j) << endl;
             
+            if (t <= 1 && i < 5 && j < 5) {
+                std::cout << "rho: " << fSum << ", u: " << fSumWeightedX << ", v:  " << fSumWeightedY << ", p: " << staggeredGrid_.get()->p(i,j) << endl;
+            }
             }
         }
 }
 
-void Computation::computeFtempFeq(){
+void Computation::computeFtempFeq(int t){
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
             for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
@@ -283,15 +285,17 @@ void Computation::computeFtempFeq(){
                 );
 
                 staggeredGrid_.get()->ftmp(i,j,k) = staggeredGrid_.get()->f(i,j,k) + 1 / tau_ * (staggeredGrid_.get()->f(i,j,k) - staggeredGrid_.get()->feq(i,j,k));
-                std::cout << "feq at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->feq(i,j,k) << endl;
-                std::cout << "ftmp at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->ftmp(i,j,k) << endl;
+                if (t <= 1 && i < 5 && j < 5) {
+                    std::cout << "feq at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->feq(i,j,k) << endl;
+                    std::cout << "ftmp at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->ftmp(i,j,k) << endl;
+                }
             }
         }
     }
 }
 
 
-void Computation::computeF(){
+void Computation::computeF(int t){
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         for (int i = staggeredGrid_.get()->iBegin(); i <= staggeredGrid_.get()->iEnd(); i++) {
             for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
@@ -304,6 +308,10 @@ void Computation::computeF(){
                 staggeredGrid_.get()->f(i,j,6) = staggeredGrid_.get()->ftmp(i+1,j+1,6);
                 staggeredGrid_.get()->f(i,j,7) = staggeredGrid_.get()->ftmp(i+1,j,7);
                 staggeredGrid_.get()->f(i,j,8) = staggeredGrid_.get()->ftmp(i+1,j-1,8);
+
+                if (t <= 1 && i < 5 && j < 5) {
+                    std::cout << "f at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->f(i,j,k) << endl;
+                }
             }
         }
     }
