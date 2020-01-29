@@ -25,6 +25,7 @@ protected:
     FieldVector ftmp_;
     std::vector<double> w_;
     std::vector<std::array<double,2>> c_;
+    std::vector<std::array<double,2>> e_;
 
     //todo: wie werden u,v,p usw. gesetzt?
 
@@ -82,6 +83,10 @@ public:
     double c (int k, int l) const;
 
     double &c (int k, int l);
+
+    double e (int k, int l) const;
+
+    double &e (int k, int l);
 
     double dx() const;
 
