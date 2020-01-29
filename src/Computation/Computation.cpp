@@ -8,6 +8,7 @@
 #include <cmath>
 #include <iostream>
 #include <StaggeredGrid/StaggeredGrid.h>
+#include <cassert>
 
 using namespace std;
 
@@ -60,12 +61,12 @@ void Computation::runSimulation() {
         //outputWriterText_->writeFile(t);
 
         applyLatticeVelocities(); //c_i
-        cout << "before compMacro -- current time: " << t << " dt: " << dt_ << ", rho = " << staggeredGrid_.get()->rho(19,19) << ", u = " << staggeredGrid_.get()->u(19,19) <<
-        ", v = " << staggeredGrid_.get()->v(19,19) << ", p = " << staggeredGrid_.get()->p(19,19) << endl;
+        //cout << "before compMacro -- current time: " << t << " dt: " << dt_ << ", rho = " << staggeredGrid_.get()->rho(19,19) << ", u = " << staggeredGrid_.get()->u(19,19) <<
+        //", v = " << staggeredGrid_.get()->v(19,19) << ", p = " << staggeredGrid_.get()->p(19,19) << endl;
         
         computeMacroscopicQuantities(timeStepNumber); //DensityPressureAndVelocities
-        cout << "after compMacro -- current time: " << t << " dt: " << dt_ << ", rho = " << staggeredGrid_.get()->rho(19,19) << ", u = " << staggeredGrid_.get()->u(19,19) <<
-        ", v = " << staggeredGrid_.get()->v(19,19) << ", p = " << staggeredGrid_.get()->p(19,19) << endl;
+        cout << "after compMacro -- current time: " << t << " dt: " << dt_ << ", rho = " << staggeredGrid_.get()->rho(4,4) << ", u = " << staggeredGrid_.get()->u(4,4) <<
+        ", v = " << staggeredGrid_.get()->v(4,4) << ", p = " << staggeredGrid_.get()->p(4,4) << endl;
         computeFtempFeq(timeStepNumber); //Collision step
         applyBoundaryValuesF();
         computeF(timeStepNumber); //Streaming step
@@ -85,21 +86,18 @@ void Computation::runSimulation() {
 }
 
 void Computation::applyInitialConditions() { // für f, tau
-    fInit = 0.1338;
-    settings_.rhoInit = fInit * 9;
     for (int j = staggeredGrid_.get()->jBegin()-1; j <= staggeredGrid_.get()->jEnd()+1; j++) {
         for (int i = staggeredGrid_.get()->iBegin()-1; i <= staggeredGrid_.get()->iEnd()+1; i++) {
             for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
-            
-                staggeredGrid_.get()->f(i, j, k) = fInit;
+                staggeredGrid_.get()->f(i, j, k) = settings_.fInit;
             }
         }
     }
-    for (int j = staggeredGrid_.get()->jBegin()-1; j <= staggeredGrid_.get()->jEnd()+1; j++) {
+    /* for (int j = staggeredGrid_.get()->jBegin()-1; j <= staggeredGrid_.get()->jEnd()+1; j++) {
         for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
             staggeredGrid_.get()->f(5, j, k) = .5;
         }
-    }
+    } */
     /*for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
         staggeredGrid_.get()->f(3, 5, k) = .5;
         staggeredGrid_.get()->f(3, 6, k) = .5;
@@ -172,27 +170,27 @@ void Computation::applyBoundaryValuesF() {
     j_low = staggeredGrid_.get()->jBegin() - 1; 
     for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() + 1; i++) {
         if(i > staggeredGrid_.get()->iBegin()){
-           staggeredGrid_.get()->ftmp(i, j_low, 8) = staggeredGrid_.get()->ftmp(i - 1, j_low + 1, 4);
+           staggeredGrid_.get()->ftmp(i, j_low, 8) = computeBoundaryValue(i - 1, j_low + 1, 4, "bottom");
         }
         if(i >= staggeredGrid_.get()->iBegin() && i <= staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->ftmp(i, j_low, 1) = staggeredGrid_.get()->ftmp(i, j_low + 1, 5);
+            staggeredGrid_.get()->ftmp(i, j_low, 1) = computeBoundaryValue(i, j_low + 1, 5, "bottom");
         }
         if(i < staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->ftmp(i ,j_low, 2) = staggeredGrid_.get()->ftmp(i + 1, j_low + 1, 6);
+            staggeredGrid_.get()->ftmp(i ,j_low, 2) = computeBoundaryValue(i + 1, j_low + 1, 6, "bottom");
         }
     }
 
     //top bound
-    j_high = staggeredGrid_.get()->jEnd() + 1; //Schleife kürzer
+    j_high = staggeredGrid_.get()->jEnd() + 1;
     for (int i = staggeredGrid_.get()->iBegin() - 1; i <= staggeredGrid_.get()->iEnd() + 1; i++) {
         if(i > staggeredGrid_.get()->iBegin()){
-           staggeredGrid_.get()->ftmp(i, j_high, 6) = staggeredGrid_.get()->ftmp(i - 1, j_high - 1, 2);
+           staggeredGrid_.get()->ftmp(i, j_high, 6) = computeBoundaryValue(i - 1, j_high - 1, 2, "top");
         }
         if(i >= staggeredGrid_.get()->iBegin() && i <= staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->ftmp(i, j_high, 5) = staggeredGrid_.get()->ftmp(i, j_high - 1, 1);
+            staggeredGrid_.get()->ftmp(i, j_high, 5) = computeBoundaryValue(i, j_high - 1, 1, "top");
         }
         if(i < staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->ftmp(i ,j_high, 4) = staggeredGrid_.get()->ftmp(i + 1, j_high - 1, 8);
+            staggeredGrid_.get()->ftmp(i ,j_high, 4) = computeBoundaryValue(i + 1, j_high - 1, 8, "top");
         }
     }
 
@@ -200,13 +198,13 @@ void Computation::applyBoundaryValuesF() {
     i_low = staggeredGrid_.get()->iBegin() - 1;
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         if(j > staggeredGrid_.get()->jBegin()){
-           staggeredGrid_.get()->ftmp(i_low, j, 4) = staggeredGrid_.get()->ftmp(i_low + 1, j - 1, 8);
+           staggeredGrid_.get()->ftmp(i_low, j, 4) = computeBoundaryValue(i_low + 1, j - 1, 8, "left");
         }
         if(j >= staggeredGrid_.get()->iBegin() && j <= staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->ftmp(i_low, j, 3) = staggeredGrid_.get()->ftmp(i_low + 1, j, 7);
+            staggeredGrid_.get()->ftmp(i_low, j, 3) = computeBoundaryValue(i_low + 1, j, 7, "left");
         }
         if(j < staggeredGrid_.get()->iEnd()){
-            staggeredGrid_.get()->ftmp(i_low, j, 2) = staggeredGrid_.get()->ftmp(i_low + 1, j + 1, 6);
+            staggeredGrid_.get()->ftmp(i_low, j, 2) = computeBoundaryValue(i_low + 1, j + 1, 6, "left");
         }
     }
 
@@ -214,15 +212,39 @@ void Computation::applyBoundaryValuesF() {
     i_high = staggeredGrid_.get()->iEnd() + 1;
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
         if(j > staggeredGrid_.get()->jBegin()){
-           staggeredGrid_.get()->ftmp(i_high, j, 6) = staggeredGrid_.get()->ftmp(i_high - 1, j - 1, 2);
+           staggeredGrid_.get()->ftmp(i_high, j, 6) = computeBoundaryValue(i_high - 1, j - 1, 2, "right");
         }
         if(j >= staggeredGrid_.get()->jBegin() && j <= staggeredGrid_.get()->jEnd()){
-            staggeredGrid_.get()->ftmp(i_high, j, 7) = staggeredGrid_.get()->ftmp(i_high - 1, j, 3);
+            staggeredGrid_.get()->ftmp(i_high, j, 7) = computeBoundaryValue(i_high - 1, j, 3, "right");
         }
         if(j < staggeredGrid_.get()->jEnd()){
-            staggeredGrid_.get()->ftmp(i_high, j, 8) = staggeredGrid_.get()->ftmp(i_high - 1, j + 1, 4);
+            staggeredGrid_.get()->ftmp(i_high, j, 8) = computeBoundaryValue(i_high - 1, j + 1, 4, "right");
         }
     }
+}
+
+double Computation::computeBoundaryValue(int i, int j, int k, string boundary){
+    double boundaryValueX;
+    double boundaryValueY;
+    if(boundary == "top"){
+        boundaryValueX = settings_.DirichletBCTop[0];
+        boundaryValueY = settings_.DirichletBCTop[1];
+    }else if(boundary == "bottom"){
+        boundaryValueX = settings_.DirichletBCBottom[0];
+        boundaryValueY = settings_.DirichletBCBottom[1];
+    }else if(boundary == "right"){
+        boundaryValueX = settings_.DirichletBCLeft[0];
+        boundaryValueY = settings_.DirichletBCLeft[1];
+    }else if(boundary == "left"){
+        boundaryValueX = settings_.DirichletBCLeft[0];
+        boundaryValueY = settings_.DirichletBCLeft[1];
+    }else{
+        cout << "ERROR: undefined boundary" << endl;
+        assert(false);
+    }
+    return staggeredGrid_.get()->ftmp(i,j,k) - 
+                2 * staggeredGrid_.get()->rho(i,j) * staggeredGrid_.get()->w(k) / pow(settings_.cs,2) *
+                    (staggeredGrid_.get()->c(k,0) * boundaryValueX + staggeredGrid_.get()->c(k,1) * boundaryValueY); 
 }
 
 void Computation::computeTimeStepWidth() {
@@ -290,9 +312,9 @@ void Computation::computeMacroscopicQuantities(int t){ //DensityPressureAndVeloc
             fSumWeightedX = 0.0;
             fSumWeightedY = 0.0;
               
-            if (t <= 1 && i < 5 && j < 5) {
+            /* if (t <= 1 && i < 5 && j < 5) {
                 std::cout << "rho: " << fSum << ", u: " << fSumWeightedX << ", v:  " << fSumWeightedY << ", p: " << staggeredGrid_.get()->p(i,j) << endl;
-            }
+            } */
             
             }
         }
@@ -311,7 +333,7 @@ void Computation::computeFtempFeq(int t){
 
                 staggeredGrid_.get()->ftmp(i,j,k) = staggeredGrid_.get()->f(i,j,k) + 1 / tau_ * (- staggeredGrid_.get()->f(i,j,k) + staggeredGrid_.get()->feq(i,j,k));
                 
-                if (t <= 1 && i == 19 && j == 19) {
+                /* if (t <= 1 && i == 19 && j == 19) {
                     
                     //std::cout << "w at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->w(k) << endl;
                     std::cout << "rho at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->rho(i,j) << endl;
@@ -323,7 +345,7 @@ void Computation::computeFtempFeq(int t){
                 
                     std::cout << "feq at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->feq(i,j,k) << endl;
                     std::cout << "ftmp at (" << i << " - " << j << " - " << k << "): " << staggeredGrid_.get()->ftmp(i,j,k) << endl;
-                }
+                } */
             }
         }
     }

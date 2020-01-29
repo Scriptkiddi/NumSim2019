@@ -47,6 +47,30 @@ void Settings::loadFromFile(std::string filename) {
         else if ( parameterName == "physicalSizeY") {
             this->physicalSize[1] = atof(parameterValue);
         }
+        else if ( parameterName == "DirichletBCTopX") {
+            this->DirichletBCTop[0] = atof(parameterValue);
+        }
+        else if ( parameterName == "DirichletBCTopY") {
+            this->DirichletBCTop[1] = atof(parameterValue);
+        }
+        else if ( parameterName == "DirichletBCBottomX") {
+            this->DirichletBCBottom[0] = atof(parameterValue);
+        }
+        else if ( parameterName == "DirichletBCBottomY") {
+            this->DirichletBCBottom[1] = atof(parameterValue);
+        }
+        else if ( parameterName == "DirichletBCLeftX") {
+            this->DirichletBCLeft[0] = atof(parameterValue);
+        }
+        else if ( parameterName == "DirichletBCLeftY") {
+            this->DirichletBCLeft[1] = atof(parameterValue);
+        }
+        else if ( parameterName == "DirichletBCRghtX") {
+            this->DirichletBCRight[0] = atof(parameterValue);
+        }
+        else if ( parameterName == "DirichletBCRightY") {
+            this->DirichletBCRight[1] = atof(parameterValue);
+        }
         else if ( parameterName == "endTime") {
             this->endTime = atof(parameterValue);
         }
@@ -88,8 +112,8 @@ void Settings::loadFromFile(std::string filename) {
         }
     }
 
-    
     cs = sqrt(gamma * R * T / M);
+    fInit = rhoInit / nVelo;
 };
 
 void Settings::printSettings() {

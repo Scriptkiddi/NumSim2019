@@ -35,6 +35,8 @@ private:
 
     void computeF(int t);
 
+    double computeBoundaryValue(int i, int j, int k, std::string boundary);
+
     // Attributes
     Settings settings_;
 

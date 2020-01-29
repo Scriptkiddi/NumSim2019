@@ -20,6 +20,14 @@ struct Settings {
 
     std::array<double, 2> physicalSize;
 
+    std::array<double, 2> DirichletBCTop = {0.0,0.0};
+
+    std::array<double, 2> DirichletBCRight = {0.0,0.0};
+
+    std::array<double, 2> DirichletBCBottom = {0.0,0.0};
+
+    std::array<double, 2> DirichletBCLeft = {0.0,0.0};
+
     double endTime = 10.0;
 
     double timeStepRelaxation = 0.5;
