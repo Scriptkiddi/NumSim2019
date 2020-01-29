@@ -82,7 +82,6 @@ void Computation::runSimulation() {
         outputWriterParaview_->writeFile(t);
         lastOutputTime = t;
     }
-
 }
 
 void Computation::applyInitialConditions() { // für f, tau
@@ -96,45 +95,53 @@ void Computation::applyInitialConditions() { // für f, tau
             }
         }
     }
-    for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
-        staggeredGrid_.get()->f(3, 5, k) = .2;
+    for (int j = staggeredGrid_.get()->jBegin()-1; j <= staggeredGrid_.get()->jEnd()+1; j++) {
+        for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
+            staggeredGrid_.get()->f(5, j, k) = .5;
+        }
     }
-    tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + 0.5; 
+    /*for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
+        staggeredGrid_.get()->f(3, 5, k) = .5;
+        staggeredGrid_.get()->f(3, 6, k) = .5;
+        staggeredGrid_.get()->f(3, 7, k) = .5;
+    }*/
+
+    tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + .75; //1; // TODO .75; 
     //std::cout << "tau: " << tau_ << endl;
+
+    //einheitsvektoren richtung
+    staggeredGrid_.get()->e(0,0) = 0;
+    staggeredGrid_.get()->e(0,1) = 0;
+
+    staggeredGrid_.get()->e(1,0) = 0;
+    staggeredGrid_.get()->e(1,1) = 1;
+
+    staggeredGrid_.get()->e(2,0) = 1;
+    staggeredGrid_.get()->e(2,1) = 1;
+
+    staggeredGrid_.get()->e(3,0) = 1;
+    staggeredGrid_.get()->e(3,1) = 0;
+
+    staggeredGrid_.get()->e(4,0) = 1;
+    staggeredGrid_.get()->e(4,1) = -1;
+
+    staggeredGrid_.get()->e(5,0) = 0;
+    staggeredGrid_.get()->e(5,1) = -1;
+
+    staggeredGrid_.get()->e(6,0) = -1;
+    staggeredGrid_.get()->e(6,1) = -1;
+
+    staggeredGrid_.get()->e(7,0) = -1;
+    staggeredGrid_.get()->e(7,1) = 0;
+
+    staggeredGrid_.get()->e(8,0) = -1;
+    staggeredGrid_.get()->e(8,1) = 1;
 }
 
 void Computation::applyLatticeVelocities(){
-    staggeredGrid_.get()->c(0,0) = 0;
-    staggeredGrid_.get()->c(0,1) = 0;
-
-    staggeredGrid_.get()->c(1,0) = 0;
-    staggeredGrid_.get()->c(1,1) = 1;
-
-    staggeredGrid_.get()->c(2,0) = 1;
-    staggeredGrid_.get()->c(2,1) = 1;
-
-    staggeredGrid_.get()->c(3,0) = 1;
-    staggeredGrid_.get()->c(3,1) = 0;
-
-    staggeredGrid_.get()->c(4,0) = 1;
-    staggeredGrid_.get()->c(4,1) = -1;
-
-    staggeredGrid_.get()->c(5,0) = 0;
-    staggeredGrid_.get()->c(5,1) = -1;
-
-    staggeredGrid_.get()->c(6,0) = -1;
-    staggeredGrid_.get()->c(6,1) = -1;
-
-    staggeredGrid_.get()->c(7,0) = -1;
-    staggeredGrid_.get()->c(7,1) = 0;
-
-    staggeredGrid_.get()->c(8,0) = -1;
-    staggeredGrid_.get()->c(8,1) = 1;
-
     for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
-        staggeredGrid_.get()->c(k,0) = staggeredGrid_.get()->c(k,0) * staggeredGrid_.get()->dx() / dt_; //TODO *meshWidth/dt correct?
-        staggeredGrid_.get()->c(k,1) = staggeredGrid_.get()->c(k,1) * staggeredGrid_.get()->dy() / dt_;
-        //std::cout << "c nach korrektur durch konstanten term: " << staggeredGrid_.get()->c(k,0) << endl;
+        staggeredGrid_.get()->c(k,0) = staggeredGrid_.get()->e(k,0) * staggeredGrid_.get()->dx() / dt_;
+        staggeredGrid_.get()->c(k,1) = staggeredGrid_.get()->e(k,1) * staggeredGrid_.get()->dy() / dt_;
     }
 }
 
@@ -154,7 +161,7 @@ void Computation::applyWeights(){ // Für 3D anders!
     //}
 }
 
-void Computation::applyBoundaryValuesF() { //TODO settings: rausschmeißen
+void Computation::applyBoundaryValuesF() {
 // type: "NSW" (no slip wall)
     int i_low;
     int i_high;
@@ -276,6 +283,7 @@ void Computation::computeMacroscopicQuantities(int t){ //DensityPressureAndVeloc
             }
             staggeredGrid_.get()->rho(i, j) = fSum;
             staggeredGrid_.get()->u(i, j) = fSumWeightedX;
+            staggeredGrid_.get()->v(i, j) = fSumWeightedY;
             staggeredGrid_.get()->p(i, j) = pow(settings_.cs,2) * fSum;
 
             fSum = 0.0;
@@ -320,7 +328,6 @@ void Computation::computeFtempFeq(int t){
         }
     }
 }
-
 
 void Computation::computeF(int t){
     for (int j = staggeredGrid_.get()->jBegin(); j <= staggeredGrid_.get()->jEnd(); j++) {
