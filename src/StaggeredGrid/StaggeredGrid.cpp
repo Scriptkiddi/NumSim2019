@@ -22,6 +22,7 @@ StaggeredGrid::StaggeredGrid(std::array<int, 2> nCellsBoundary, int nVelo, std::
         ftmp_(nCellsBoundary, nVelo, meshWidth){
             w_.resize(nVelo,0.0);
             c_.resize(nVelo,{0.0,0.0});
+            e_.resize(nVelo,{0.0,0.0});
     }
 
     const std::array<double, 2> StaggeredGrid::meshWidth() const {
@@ -122,6 +123,14 @@ double &StaggeredGrid::c(int k, int l){
 
 double StaggeredGrid::c(int k, int l) const{
     return c_[k][l];
+}
+
+double &StaggeredGrid::e(int k, int l){
+    return e_[k][l];
+}
+
+double StaggeredGrid::e(int k, int l) const{
+    return e_[k][l];
 }
 
 double StaggeredGrid::dx() const {
