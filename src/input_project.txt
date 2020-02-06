@@ -1,8 +1,8 @@
 # Problem Description
-physicalSizeX = 100.0         # physical size of the domain
-physicalSizeY = 100.0
-endTime = 100.0              # duration of the simulation
-DirichletBCTopX = 100         # value for Dirichlet boundary condition
+physicalSizeX = 1.0         # physical size of the domain
+physicalSizeY = 1.0
+endTime = 20.0              # duration of the simulation
+DirichletBCTopX = 10         # value for Dirichlet boundary condition
 DirichletBCTopY = 0
 
 # Discretization parameters
@@ -24,4 +24,4 @@ Temperature = 293.15        # T
 molarMass = .01801528       # M
 adiabaticIndex = 1.33       # kappa
 viscosity = 0.0010016       # mu
-initialDensity = 10          # rho
+initialDensity = 1          # rho

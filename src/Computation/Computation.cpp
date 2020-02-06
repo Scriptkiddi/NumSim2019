@@ -95,14 +95,14 @@ void Computation::applyInitialConditions() { // für f, tau
     }
     /* for (int j = staggeredGrid_.get()->jBegin()-1; j <= staggeredGrid_.get()->jEnd()+1; j++) {
         for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
-            staggeredGrid_.get()->f(5, j, k) = .5;
+            staggeredGrid_.get()->f(6, j, k) = 1.1;
         }
     } */
-    /*for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
+    /* for (int k = staggeredGrid_.get()->kBegin(); k <= staggeredGrid_.get()->kEnd(); k++) {
         staggeredGrid_.get()->f(3, 5, k) = .5;
         staggeredGrid_.get()->f(3, 6, k) = .5;
         staggeredGrid_.get()->f(3, 7, k) = .5;
-    }*/
+    } */
 
     tau_ = settings_.viscosity/(settings_.rhoInit * pow(settings_.cs,2)) + .75; //1; // TODO .75; 
     //std::cout << "tau: " << tau_ << endl;
@@ -233,8 +233,8 @@ double Computation::computeBoundaryValue(int i, int j, int k, string boundary){
         boundaryValueX = settings_.DirichletBCBottom[0];
         boundaryValueY = settings_.DirichletBCBottom[1];
     }else if(boundary == "right"){
-        boundaryValueX = settings_.DirichletBCLeft[0];
-        boundaryValueY = settings_.DirichletBCLeft[1];
+        boundaryValueX = settings_.DirichletBCRight[0];
+        boundaryValueY = settings_.DirichletBCRight[1];
     }else if(boundary == "left"){
         boundaryValueX = settings_.DirichletBCLeft[0];
         boundaryValueY = settings_.DirichletBCLeft[1];
