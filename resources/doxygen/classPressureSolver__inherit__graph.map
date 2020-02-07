@@ -1,4 +1,0 @@
-<map id="PressureSolver" name="PressureSolver">
-<area shape="rect" id="node2" href="$classGaussSeidel.html" title="GaussSeidel" alt="" coords="5,80,101,107"/>
-<area shape="rect" id="node3" href="$classSOR.html" title="SOR" alt="" coords="125,80,176,107"/>
-</map>

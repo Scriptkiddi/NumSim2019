@@ -1,0 +1,558 @@
+\hypertarget{classStaggeredGrid}{}\section{Staggered\+Grid Class Reference}
+\label{classStaggeredGrid}\index{StaggeredGrid@{StaggeredGrid}}
+
+
+{\ttfamily \#include $<$Staggered\+Grid.\+h$>$}
+
+
+
+Inheritance diagram for Staggered\+Grid\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{classStaggeredGrid__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Staggered\+Grid\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{classStaggeredGrid__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classStaggeredGrid_a2d170c6bbd8f7949ded93cdab769d18a}{Staggered\+Grid}} (std\+::array$<$ int, 2 $>$ n\+Cells\+Boundary, std\+::array$<$ double, 2 $>$ \mbox{\hyperlink{classStaggeredGrid_a330856d4efe952771daf0753ef84068e}{mesh\+Width}})
+\item 
+const std\+::array$<$ double, 2 $>$ \mbox{\hyperlink{classStaggeredGrid_a330856d4efe952771daf0753ef84068e}{mesh\+Width}} () const
+\item 
+const std\+::array$<$ int, 2 $>$ \mbox{\hyperlink{classStaggeredGrid_af37816ccb2c46e4a514dedac261897bf}{n\+Cells}} () const
+\item 
+const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& \mbox{\hyperlink{classStaggeredGrid_a87cee12621c641ab143a8b1a61b2ef7e}{u}} () const
+\item 
+const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& \mbox{\hyperlink{classStaggeredGrid_acab136fb25e040d8125c370290864ea5}{u\+Old}} () const
+\item 
+const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& \mbox{\hyperlink{classStaggeredGrid_a26e478abba632554652c9e05a279d1ca}{v}} () const
+\item 
+const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& \mbox{\hyperlink{classStaggeredGrid_a53df6ed75cf3021d50593a04c9d7f390}{v\+Old}} () const
+\item 
+const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& \mbox{\hyperlink{classStaggeredGrid_aafe6e0bb3509f6aad272b94f74e7ffec}{p}} () const
+\item 
+const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& \mbox{\hyperlink{classStaggeredGrid_ae2e215ba6d87dfc41beb42649ba1b799}{p\+Old}} () const
+\item 
+const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& \mbox{\hyperlink{classStaggeredGrid_a04ff9b2c14158e1f75860c8e4ef0a101}{t}} () const
+\item 
+const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& \mbox{\hyperlink{classStaggeredGrid_afd742febc872b98795e2a47835815685}{t\+Old}} () const
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_a0324ce4d1fe2343d8aa9514e460cc556}{u}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_a0ed62d6752b6b2b3ead5f654b515cd12}{u}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_a5368f026b37ca7d8f63e8b805b2b46b9}{u\+Old}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_ac50464d9f8b1ee89eea4ad496e09dfd6}{u\+Old}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_ac052d8803ff950aee04b86ac026c516b}{v}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_a7746f703f32c2f20a4c77246eebac697}{v}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_aa8a51f53c4b02d938bba9485e3708999}{v\+Old}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_a585291cfec3161c849e1cd9fac4199d8}{v\+Old}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_aa6a5d99d9b4fbd9bd9cfa6ec071918f9}{p}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_aa09a4ca67141589bae153797fbc4f3c5}{p}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_abf716a1e38d3c5f96b4d28fec19a35dd}{p\+Old}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_afd6f66c4e032762078b9bc518f0bf478}{p\+Old}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_a477e8942e756cc2baecd1aaa5795bb3d}{t}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_a30c69c5b8e2803a1e4d876f3942cecb1}{t}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_ad195fdf4e1ddb4eaf3a75eae717f7ab6}{t\+Old}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_a9b0a18f93fba7aec2fd57066f67cc3bd}{t\+Old}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_a6fa8586d1216d7632af4af43596755ec}{t\+Tmp}} (int i, int j) const
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_a92970d549989e22eaaa2163c7959043a}{t\+Tmp}} (int i, int j)
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_a761ea51f1e8fd1290b3adfe09942b0d3}{rhs}} (int i, int j)
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_adb05c59512dc8993367e4beddba05785}{f}} (int i, int j)
+\item 
+double \& \mbox{\hyperlink{classStaggeredGrid_aaf849bec40f7fa7c68823038f0877341}{g}} (int i, int j)
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_aec8490affea703cdd73b1febaed68968}{dx}} () const
+\item 
+double \mbox{\hyperlink{classStaggeredGrid_abde2da10e0c130fb0f206de64c9b4956}{dy}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a31e2d3a0b6e03685380810a7c2f323e1}{u\+I\+Begin}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a641e473d72e1d02ba3de1c16e9d0d332}{u\+I\+End}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a9b0e97704e1871441a8e713ecaa2cff5}{u\+J\+Begin}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a3393aa91b17054d2d700de308ae25632}{u\+J\+End}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_ace7bf8cb1d279131739d5d12de302d09}{v\+I\+Begin}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_aa5a44aa088b5a7923fa952af1ecb5778}{v\+I\+End}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a7f8468d672411c0e3a5eeb67788fc826}{v\+J\+Begin}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_ab67e8d9d8d76d34fb02d4d644f0b3795}{v\+J\+End}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a9922c955707f2a31a4a27d1d696f002e}{p\+I\+Begin}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a34f16fdf87971fe84ffc3c84722bb2c7}{p\+I\+End}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_ae4c9ba16c5635dc1ffaa264fbcc3e034}{p\+J\+Begin}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_ad9928ee522eedb7d7fd48ca0b92f2795}{p\+J\+End}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_ae68f4a0afe178db8193c3fc6d7e54ad5}{t\+I\+Begin}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a056b7f4154ca679441d69bf692d7a935}{t\+I\+End}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_adf3e00c08dcd2e35d91577443e4ead1f}{t\+J\+Begin}} () const
+\item 
+int \mbox{\hyperlink{classStaggeredGrid_a7e63766ceb3fd216875a8bfa3154c920}{t\+J\+End}} () const
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::array$<$ int, 2 $>$ \mbox{\hyperlink{classStaggeredGrid_acacffb5739539d9015c986080bb5ed44}{n\+Cells\+\_\+}}
+\item 
+const std\+::array$<$ double, 2 $>$ \mbox{\hyperlink{classStaggeredGrid_a9603c3334440aab082dda48947e5ce6e}{mesh\+Width\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_adcef36b4ce8cc6843a2b6f603b62c763}{u\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_aa3bb4cbb809f61c4ed406d41c1dcda10}{u\+Old\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_a20ec43568fe937b194561e21a0b84ad9}{v\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_ac7e8b1b8a9b054eda5e7c2630d71374a}{v\+Old\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_a2ea3c93dd401ac06461ade9a74e76459}{p\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_a508941dcce592296c421b594adecaa00}{p\+Old\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_a496206955162452a0629a7742fe92a84}{rhs\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_a94933ac0c6e0d2a794f46c7a97d72f75}{f\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_a5f5c88f603d4e503cba4c44ed43de46a}{g\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_a06b3931e80b76e4041fb9218acbbb1c5}{t\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_ad80da5cc1270c723c9545b8a35e0d6b6}{t\+Old\+\_\+}}
+\item 
+\mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \mbox{\hyperlink{classStaggeredGrid_aa3854beee95d66eee193a4b841b7c720}{t\+Tmp\+\_\+}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classStaggeredGrid_a2d170c6bbd8f7949ded93cdab769d18a}\label{classStaggeredGrid_a2d170c6bbd8f7949ded93cdab769d18a}} 
+\index{StaggeredGrid@{StaggeredGrid}!StaggeredGrid@{StaggeredGrid}}
+\index{StaggeredGrid@{StaggeredGrid}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{StaggeredGrid()}{StaggeredGrid()}}
+{\footnotesize\ttfamily Staggered\+Grid\+::\+Staggered\+Grid (\begin{DoxyParamCaption}\item[{std\+::array$<$ int, 2 $>$}]{n\+Cells\+Boundary,  }\item[{std\+::array$<$ double, 2 $>$}]{mesh\+Width }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classStaggeredGrid_aec8490affea703cdd73b1febaed68968}\label{classStaggeredGrid_aec8490affea703cdd73b1febaed68968}} 
+\index{StaggeredGrid@{StaggeredGrid}!dx@{dx}}
+\index{dx@{dx}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{dx()}{dx()}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::dx (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_abde2da10e0c130fb0f206de64c9b4956}\label{classStaggeredGrid_abde2da10e0c130fb0f206de64c9b4956}} 
+\index{StaggeredGrid@{StaggeredGrid}!dy@{dy}}
+\index{dy@{dy}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{dy()}{dy()}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::dy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_adb05c59512dc8993367e4beddba05785}\label{classStaggeredGrid_adb05c59512dc8993367e4beddba05785}} 
+\index{StaggeredGrid@{StaggeredGrid}!f@{f}}
+\index{f@{f}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{f()}{f()}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::f (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_aaf849bec40f7fa7c68823038f0877341}\label{classStaggeredGrid_aaf849bec40f7fa7c68823038f0877341}} 
+\index{StaggeredGrid@{StaggeredGrid}!g@{g}}
+\index{g@{g}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{g()}{g()}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::g (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_a330856d4efe952771daf0753ef84068e}\label{classStaggeredGrid_a330856d4efe952771daf0753ef84068e}} 
+\index{StaggeredGrid@{StaggeredGrid}!meshWidth@{meshWidth}}
+\index{meshWidth@{meshWidth}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{meshWidth()}{meshWidth()}}
+{\footnotesize\ttfamily const std\+::array$<$ double, 2 $>$ Staggered\+Grid\+::mesh\+Width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_af37816ccb2c46e4a514dedac261897bf}\label{classStaggeredGrid_af37816ccb2c46e4a514dedac261897bf}} 
+\index{StaggeredGrid@{StaggeredGrid}!nCells@{nCells}}
+\index{nCells@{nCells}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{nCells()}{nCells()}}
+{\footnotesize\ttfamily const std\+::array$<$ int, 2 $>$ Staggered\+Grid\+::n\+Cells (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_aafe6e0bb3509f6aad272b94f74e7ffec}\label{classStaggeredGrid_aafe6e0bb3509f6aad272b94f74e7ffec}} 
+\index{StaggeredGrid@{StaggeredGrid}!p@{p}}
+\index{p@{p}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{p()}{p()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& Staggered\+Grid\+::p (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_aa6a5d99d9b4fbd9bd9cfa6ec071918f9}\label{classStaggeredGrid_aa6a5d99d9b4fbd9bd9cfa6ec071918f9}} 
+\index{StaggeredGrid@{StaggeredGrid}!p@{p}}
+\index{p@{p}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{p()}{p()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::p (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_aa09a4ca67141589bae153797fbc4f3c5}\label{classStaggeredGrid_aa09a4ca67141589bae153797fbc4f3c5}} 
+\index{StaggeredGrid@{StaggeredGrid}!p@{p}}
+\index{p@{p}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{p()}{p()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::p (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_a9922c955707f2a31a4a27d1d696f002e}\label{classStaggeredGrid_a9922c955707f2a31a4a27d1d696f002e}} 
+\index{StaggeredGrid@{StaggeredGrid}!pIBegin@{pIBegin}}
+\index{pIBegin@{pIBegin}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{pIBegin()}{pIBegin()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::p\+I\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a34f16fdf87971fe84ffc3c84722bb2c7}\label{classStaggeredGrid_a34f16fdf87971fe84ffc3c84722bb2c7}} 
+\index{StaggeredGrid@{StaggeredGrid}!pIEnd@{pIEnd}}
+\index{pIEnd@{pIEnd}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{pIEnd()}{pIEnd()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::p\+I\+End (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_ae4c9ba16c5635dc1ffaa264fbcc3e034}\label{classStaggeredGrid_ae4c9ba16c5635dc1ffaa264fbcc3e034}} 
+\index{StaggeredGrid@{StaggeredGrid}!pJBegin@{pJBegin}}
+\index{pJBegin@{pJBegin}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{pJBegin()}{pJBegin()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::p\+J\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_ad9928ee522eedb7d7fd48ca0b92f2795}\label{classStaggeredGrid_ad9928ee522eedb7d7fd48ca0b92f2795}} 
+\index{StaggeredGrid@{StaggeredGrid}!pJEnd@{pJEnd}}
+\index{pJEnd@{pJEnd}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{pJEnd()}{pJEnd()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::p\+J\+End (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_ae2e215ba6d87dfc41beb42649ba1b799}\label{classStaggeredGrid_ae2e215ba6d87dfc41beb42649ba1b799}} 
+\index{StaggeredGrid@{StaggeredGrid}!pOld@{pOld}}
+\index{pOld@{pOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{pOld()}{pOld()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& Staggered\+Grid\+::p\+Old (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_abf716a1e38d3c5f96b4d28fec19a35dd}\label{classStaggeredGrid_abf716a1e38d3c5f96b4d28fec19a35dd}} 
+\index{StaggeredGrid@{StaggeredGrid}!pOld@{pOld}}
+\index{pOld@{pOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{pOld()}{pOld()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::p\+Old (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_afd6f66c4e032762078b9bc518f0bf478}\label{classStaggeredGrid_afd6f66c4e032762078b9bc518f0bf478}} 
+\index{StaggeredGrid@{StaggeredGrid}!pOld@{pOld}}
+\index{pOld@{pOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{pOld()}{pOld()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::p\+Old (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_a761ea51f1e8fd1290b3adfe09942b0d3}\label{classStaggeredGrid_a761ea51f1e8fd1290b3adfe09942b0d3}} 
+\index{StaggeredGrid@{StaggeredGrid}!rhs@{rhs}}
+\index{rhs@{rhs}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{rhs()}{rhs()}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::rhs (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_a04ff9b2c14158e1f75860c8e4ef0a101}\label{classStaggeredGrid_a04ff9b2c14158e1f75860c8e4ef0a101}} 
+\index{StaggeredGrid@{StaggeredGrid}!t@{t}}
+\index{t@{t}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{t()}{t()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& Staggered\+Grid\+::t (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a477e8942e756cc2baecd1aaa5795bb3d}\label{classStaggeredGrid_a477e8942e756cc2baecd1aaa5795bb3d}} 
+\index{StaggeredGrid@{StaggeredGrid}!t@{t}}
+\index{t@{t}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{t()}{t()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::t (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a30c69c5b8e2803a1e4d876f3942cecb1}\label{classStaggeredGrid_a30c69c5b8e2803a1e4d876f3942cecb1}} 
+\index{StaggeredGrid@{StaggeredGrid}!t@{t}}
+\index{t@{t}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{t()}{t()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::t (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_ae68f4a0afe178db8193c3fc6d7e54ad5}\label{classStaggeredGrid_ae68f4a0afe178db8193c3fc6d7e54ad5}} 
+\index{StaggeredGrid@{StaggeredGrid}!tIBegin@{tIBegin}}
+\index{tIBegin@{tIBegin}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tIBegin()}{tIBegin()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::t\+I\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a056b7f4154ca679441d69bf692d7a935}\label{classStaggeredGrid_a056b7f4154ca679441d69bf692d7a935}} 
+\index{StaggeredGrid@{StaggeredGrid}!tIEnd@{tIEnd}}
+\index{tIEnd@{tIEnd}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tIEnd()}{tIEnd()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::t\+I\+End (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_adf3e00c08dcd2e35d91577443e4ead1f}\label{classStaggeredGrid_adf3e00c08dcd2e35d91577443e4ead1f}} 
+\index{StaggeredGrid@{StaggeredGrid}!tJBegin@{tJBegin}}
+\index{tJBegin@{tJBegin}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tJBegin()}{tJBegin()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::t\+J\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a7e63766ceb3fd216875a8bfa3154c920}\label{classStaggeredGrid_a7e63766ceb3fd216875a8bfa3154c920}} 
+\index{StaggeredGrid@{StaggeredGrid}!tJEnd@{tJEnd}}
+\index{tJEnd@{tJEnd}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tJEnd()}{tJEnd()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::t\+J\+End (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_afd742febc872b98795e2a47835815685}\label{classStaggeredGrid_afd742febc872b98795e2a47835815685}} 
+\index{StaggeredGrid@{StaggeredGrid}!tOld@{tOld}}
+\index{tOld@{tOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tOld()}{tOld()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& Staggered\+Grid\+::t\+Old (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_ad195fdf4e1ddb4eaf3a75eae717f7ab6}\label{classStaggeredGrid_ad195fdf4e1ddb4eaf3a75eae717f7ab6}} 
+\index{StaggeredGrid@{StaggeredGrid}!tOld@{tOld}}
+\index{tOld@{tOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tOld()}{tOld()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::t\+Old (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a9b0a18f93fba7aec2fd57066f67cc3bd}\label{classStaggeredGrid_a9b0a18f93fba7aec2fd57066f67cc3bd}} 
+\index{StaggeredGrid@{StaggeredGrid}!tOld@{tOld}}
+\index{tOld@{tOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tOld()}{tOld()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::t\+Old (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_a6fa8586d1216d7632af4af43596755ec}\label{classStaggeredGrid_a6fa8586d1216d7632af4af43596755ec}} 
+\index{StaggeredGrid@{StaggeredGrid}!tTmp@{tTmp}}
+\index{tTmp@{tTmp}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tTmp()}{tTmp()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::t\+Tmp (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a92970d549989e22eaaa2163c7959043a}\label{classStaggeredGrid_a92970d549989e22eaaa2163c7959043a}} 
+\index{StaggeredGrid@{StaggeredGrid}!tTmp@{tTmp}}
+\index{tTmp@{tTmp}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tTmp()}{tTmp()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::t\+Tmp (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_a87cee12621c641ab143a8b1a61b2ef7e}\label{classStaggeredGrid_a87cee12621c641ab143a8b1a61b2ef7e}} 
+\index{StaggeredGrid@{StaggeredGrid}!u@{u}}
+\index{u@{u}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{u()}{u()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& Staggered\+Grid\+::u (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a0324ce4d1fe2343d8aa9514e460cc556}\label{classStaggeredGrid_a0324ce4d1fe2343d8aa9514e460cc556}} 
+\index{StaggeredGrid@{StaggeredGrid}!u@{u}}
+\index{u@{u}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{u()}{u()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::u (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a0ed62d6752b6b2b3ead5f654b515cd12}\label{classStaggeredGrid_a0ed62d6752b6b2b3ead5f654b515cd12}} 
+\index{StaggeredGrid@{StaggeredGrid}!u@{u}}
+\index{u@{u}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{u()}{u()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::u (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_a31e2d3a0b6e03685380810a7c2f323e1}\label{classStaggeredGrid_a31e2d3a0b6e03685380810a7c2f323e1}} 
+\index{StaggeredGrid@{StaggeredGrid}!uIBegin@{uIBegin}}
+\index{uIBegin@{uIBegin}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{uIBegin()}{uIBegin()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::u\+I\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a641e473d72e1d02ba3de1c16e9d0d332}\label{classStaggeredGrid_a641e473d72e1d02ba3de1c16e9d0d332}} 
+\index{StaggeredGrid@{StaggeredGrid}!uIEnd@{uIEnd}}
+\index{uIEnd@{uIEnd}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{uIEnd()}{uIEnd()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::u\+I\+End (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a9b0e97704e1871441a8e713ecaa2cff5}\label{classStaggeredGrid_a9b0e97704e1871441a8e713ecaa2cff5}} 
+\index{StaggeredGrid@{StaggeredGrid}!uJBegin@{uJBegin}}
+\index{uJBegin@{uJBegin}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{uJBegin()}{uJBegin()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::u\+J\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a3393aa91b17054d2d700de308ae25632}\label{classStaggeredGrid_a3393aa91b17054d2d700de308ae25632}} 
+\index{StaggeredGrid@{StaggeredGrid}!uJEnd@{uJEnd}}
+\index{uJEnd@{uJEnd}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{uJEnd()}{uJEnd()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::u\+J\+End (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_acab136fb25e040d8125c370290864ea5}\label{classStaggeredGrid_acab136fb25e040d8125c370290864ea5}} 
+\index{StaggeredGrid@{StaggeredGrid}!uOld@{uOld}}
+\index{uOld@{uOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{uOld()}{uOld()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& Staggered\+Grid\+::u\+Old (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a5368f026b37ca7d8f63e8b805b2b46b9}\label{classStaggeredGrid_a5368f026b37ca7d8f63e8b805b2b46b9}} 
+\index{StaggeredGrid@{StaggeredGrid}!uOld@{uOld}}
+\index{uOld@{uOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{uOld()}{uOld()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::u\+Old (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_ac50464d9f8b1ee89eea4ad496e09dfd6}\label{classStaggeredGrid_ac50464d9f8b1ee89eea4ad496e09dfd6}} 
+\index{StaggeredGrid@{StaggeredGrid}!uOld@{uOld}}
+\index{uOld@{uOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{uOld()}{uOld()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::u\+Old (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_a26e478abba632554652c9e05a279d1ca}\label{classStaggeredGrid_a26e478abba632554652c9e05a279d1ca}} 
+\index{StaggeredGrid@{StaggeredGrid}!v@{v}}
+\index{v@{v}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{v()}{v()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& Staggered\+Grid\+::v (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_ac052d8803ff950aee04b86ac026c516b}\label{classStaggeredGrid_ac052d8803ff950aee04b86ac026c516b}} 
+\index{StaggeredGrid@{StaggeredGrid}!v@{v}}
+\index{v@{v}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{v()}{v()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::v (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a7746f703f32c2f20a4c77246eebac697}\label{classStaggeredGrid_a7746f703f32c2f20a4c77246eebac697}} 
+\index{StaggeredGrid@{StaggeredGrid}!v@{v}}
+\index{v@{v}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{v()}{v()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::v (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classStaggeredGrid_ace7bf8cb1d279131739d5d12de302d09}\label{classStaggeredGrid_ace7bf8cb1d279131739d5d12de302d09}} 
+\index{StaggeredGrid@{StaggeredGrid}!vIBegin@{vIBegin}}
+\index{vIBegin@{vIBegin}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{vIBegin()}{vIBegin()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::v\+I\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_aa5a44aa088b5a7923fa952af1ecb5778}\label{classStaggeredGrid_aa5a44aa088b5a7923fa952af1ecb5778}} 
+\index{StaggeredGrid@{StaggeredGrid}!vIEnd@{vIEnd}}
+\index{vIEnd@{vIEnd}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{vIEnd()}{vIEnd()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::v\+I\+End (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a7f8468d672411c0e3a5eeb67788fc826}\label{classStaggeredGrid_a7f8468d672411c0e3a5eeb67788fc826}} 
+\index{StaggeredGrid@{StaggeredGrid}!vJBegin@{vJBegin}}
+\index{vJBegin@{vJBegin}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{vJBegin()}{vJBegin()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::v\+J\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_ab67e8d9d8d76d34fb02d4d644f0b3795}\label{classStaggeredGrid_ab67e8d9d8d76d34fb02d4d644f0b3795}} 
+\index{StaggeredGrid@{StaggeredGrid}!vJEnd@{vJEnd}}
+\index{vJEnd@{vJEnd}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{vJEnd()}{vJEnd()}}
+{\footnotesize\ttfamily int Staggered\+Grid\+::v\+J\+End (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a53df6ed75cf3021d50593a04c9d7f390}\label{classStaggeredGrid_a53df6ed75cf3021d50593a04c9d7f390}} 
+\index{StaggeredGrid@{StaggeredGrid}!vOld@{vOld}}
+\index{vOld@{vOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{vOld()}{vOld()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} \& Staggered\+Grid\+::v\+Old (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_aa8a51f53c4b02d938bba9485e3708999}\label{classStaggeredGrid_aa8a51f53c4b02d938bba9485e3708999}} 
+\index{StaggeredGrid@{StaggeredGrid}!vOld@{vOld}}
+\index{vOld@{vOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{vOld()}{vOld()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily double Staggered\+Grid\+::v\+Old (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classStaggeredGrid_a585291cfec3161c849e1cd9fac4199d8}\label{classStaggeredGrid_a585291cfec3161c849e1cd9fac4199d8}} 
+\index{StaggeredGrid@{StaggeredGrid}!vOld@{vOld}}
+\index{vOld@{vOld}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{vOld()}{vOld()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily double \& Staggered\+Grid\+::v\+Old (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classStaggeredGrid_a94933ac0c6e0d2a794f46c7a97d72f75}\label{classStaggeredGrid_a94933ac0c6e0d2a794f46c7a97d72f75}} 
+\index{StaggeredGrid@{StaggeredGrid}!f\_@{f\_}}
+\index{f\_@{f\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{f\_}{f\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::f\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_a5f5c88f603d4e503cba4c44ed43de46a}\label{classStaggeredGrid_a5f5c88f603d4e503cba4c44ed43de46a}} 
+\index{StaggeredGrid@{StaggeredGrid}!g\_@{g\_}}
+\index{g\_@{g\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{g\_}{g\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::g\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_a9603c3334440aab082dda48947e5ce6e}\label{classStaggeredGrid_a9603c3334440aab082dda48947e5ce6e}} 
+\index{StaggeredGrid@{StaggeredGrid}!meshWidth\_@{meshWidth\_}}
+\index{meshWidth\_@{meshWidth\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{meshWidth\_}{meshWidth\_}}
+{\footnotesize\ttfamily const std\+::array$<$double, 2$>$ Staggered\+Grid\+::mesh\+Width\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_acacffb5739539d9015c986080bb5ed44}\label{classStaggeredGrid_acacffb5739539d9015c986080bb5ed44}} 
+\index{StaggeredGrid@{StaggeredGrid}!nCells\_@{nCells\_}}
+\index{nCells\_@{nCells\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{nCells\_}{nCells\_}}
+{\footnotesize\ttfamily const std\+::array$<$int, 2$>$ Staggered\+Grid\+::n\+Cells\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_a2ea3c93dd401ac06461ade9a74e76459}\label{classStaggeredGrid_a2ea3c93dd401ac06461ade9a74e76459}} 
+\index{StaggeredGrid@{StaggeredGrid}!p\_@{p\_}}
+\index{p\_@{p\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{p\_}{p\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::p\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_a508941dcce592296c421b594adecaa00}\label{classStaggeredGrid_a508941dcce592296c421b594adecaa00}} 
+\index{StaggeredGrid@{StaggeredGrid}!pOld\_@{pOld\_}}
+\index{pOld\_@{pOld\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{pOld\_}{pOld\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::p\+Old\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_a496206955162452a0629a7742fe92a84}\label{classStaggeredGrid_a496206955162452a0629a7742fe92a84}} 
+\index{StaggeredGrid@{StaggeredGrid}!rhs\_@{rhs\_}}
+\index{rhs\_@{rhs\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{rhs\_}{rhs\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::rhs\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_a06b3931e80b76e4041fb9218acbbb1c5}\label{classStaggeredGrid_a06b3931e80b76e4041fb9218acbbb1c5}} 
+\index{StaggeredGrid@{StaggeredGrid}!t\_@{t\_}}
+\index{t\_@{t\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{t\_}{t\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::t\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_ad80da5cc1270c723c9545b8a35e0d6b6}\label{classStaggeredGrid_ad80da5cc1270c723c9545b8a35e0d6b6}} 
+\index{StaggeredGrid@{StaggeredGrid}!tOld\_@{tOld\_}}
+\index{tOld\_@{tOld\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tOld\_}{tOld\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::t\+Old\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_aa3854beee95d66eee193a4b841b7c720}\label{classStaggeredGrid_aa3854beee95d66eee193a4b841b7c720}} 
+\index{StaggeredGrid@{StaggeredGrid}!tTmp\_@{tTmp\_}}
+\index{tTmp\_@{tTmp\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{tTmp\_}{tTmp\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::t\+Tmp\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_adcef36b4ce8cc6843a2b6f603b62c763}\label{classStaggeredGrid_adcef36b4ce8cc6843a2b6f603b62c763}} 
+\index{StaggeredGrid@{StaggeredGrid}!u\_@{u\_}}
+\index{u\_@{u\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{u\_}{u\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::u\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_aa3bb4cbb809f61c4ed406d41c1dcda10}\label{classStaggeredGrid_aa3bb4cbb809f61c4ed406d41c1dcda10}} 
+\index{StaggeredGrid@{StaggeredGrid}!uOld\_@{uOld\_}}
+\index{uOld\_@{uOld\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{uOld\_}{uOld\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::u\+Old\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_a20ec43568fe937b194561e21a0b84ad9}\label{classStaggeredGrid_a20ec43568fe937b194561e21a0b84ad9}} 
+\index{StaggeredGrid@{StaggeredGrid}!v\_@{v\_}}
+\index{v\_@{v\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{v\_}{v\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::v\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classStaggeredGrid_ac7e8b1b8a9b054eda5e7c2630d71374a}\label{classStaggeredGrid_ac7e8b1b8a9b054eda5e7c2630d71374a}} 
+\index{StaggeredGrid@{StaggeredGrid}!vOld\_@{vOld\_}}
+\index{vOld\_@{vOld\_}!StaggeredGrid@{StaggeredGrid}}
+\subsubsection{\texorpdfstring{vOld\_}{vOld\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFieldVariable}{Field\+Variable}} Staggered\+Grid\+::v\+Old\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Staggered\+Grid/\mbox{\hyperlink{StaggeredGrid_8h}{Staggered\+Grid.\+h}}\item 
+src/\+Staggered\+Grid/\mbox{\hyperlink{StaggeredGrid_8cpp}{Staggered\+Grid.\+cpp}}\end{DoxyCompactItemize}

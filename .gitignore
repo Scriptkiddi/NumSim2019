@@ -1,4 +1,6 @@
 # stuff
+doxygen/html
+doxygen/latex
 connect.sh
 .idea/deployment.xml
 .idea/webServers.xml

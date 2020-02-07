@@ -1,0 +1,6 @@
+<map id="StaggeredGrid" name="StaggeredGrid">
+<area shape="rect" id="node1" title=" " alt="" coords="82,5,187,32"/>
+<area shape="rect" id="node2" href="$classDiscretization.html" title=" " alt="" coords="83,80,186,107"/>
+<area shape="rect" id="node3" href="$classCentralDifferences.html" title=" " alt="" coords="5,155,136,181"/>
+<area shape="rect" id="node4" href="$classDonorCell.html" title=" " alt="" coords="160,155,240,181"/>
+</map>
