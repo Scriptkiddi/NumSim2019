@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['main',['main',['../main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main.cpp'],['../main__solid_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main_solid.cpp']]],
-  ['meshwidth',['meshWidth',['../classStaggeredGrid.html#a330856d4efe952771daf0753ef84068e',1,'StaggeredGrid']]]
+  ['jbegin',['jBegin',['../classGrid.html#a78da682731d063b0e041a053456d2c30',1,'Grid']]],
+  ['jend',['jEnd',['../classGrid.html#aa473f09be8478195a01a5c1d6979ab53',1,'Grid']]]
 ];

@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['g',['g',['../structSettings.html#a1a21237c7f5b7585e5a3545c7d4a4e8c',1,'Settings']]],
-  ['g_5f',['g_',['../classStaggeredGrid.html#a5f5c88f603d4e503cba4c44ed43de46a',1,'StaggeredGrid']]],
-  ['gamma',['gamma',['../structSettings.html#a626bd5aa12e49526b8a87ae6df5db79c',1,'Settings']]],
-  ['geometry',['geometry',['../structSettings.html#ad8be2c34e77ce3ef9eb995a28eac3b3e',1,'Settings']]],
-  ['geometry_5f',['geometry_',['../classPressureSolver.html#af3df3def08159cc002f5f963f7e8be27',1,'PressureSolver::geometry_()'],['../classTemperatureSolver.html#a823c14cccaba3b220b782a639adeda90',1,'TemperatureSolver::geometry_()']]]
+  ['m',['M',['../structSettings.html#a36ab17aa9afc92ec22ac23f453572e57',1,'Settings']]],
+  ['maximumdt',['maximumDt',['../structSettings.html#a988b93fdeb6c91932043b3f746b45e86',1,'Settings']]],
+  ['meshwidth_5f',['meshWidth_',['../classGrid.html#a691849391741e29690f98584a3d6afa1',1,'Grid::meshWidth_()'],['../FieldVariable_8cpp.html#aecb644bdf6078fc7f566626d4b0c1897',1,'meshWidth_():&#160;FieldVariable.cpp'],['../FieldVector_8cpp.html#aecb644bdf6078fc7f566626d4b0c1897',1,'meshWidth_():&#160;FieldVector.cpp']]]
 ];

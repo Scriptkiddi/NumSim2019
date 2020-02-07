@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['ncells',['nCells',['../structSettings.html#a43a0d2ee903496bfb86693a43a891a69',1,'Settings::nCells()'],['../classStaggeredGrid.html#af37816ccb2c46e4a514dedac261897bf',1,'StaggeredGrid::nCells()']]],
-  ['ncells_5f',['nCells_',['../classStaggeredGrid.html#acacffb5739539d9015c986080bb5ed44',1,'StaggeredGrid']]],
-  ['ncellsfluid',['nCellsFluid',['../classGeometry.html#aab2e9744e6d686399d39ceb578aaa8dc',1,'Geometry']]]
+  ['ncells',['nCells',['../structSettings.html#a43a0d2ee903496bfb86693a43a891a69',1,'Settings::nCells()'],['../classGrid.html#aca440c493b2d3dbba721895142e4f90a',1,'Grid::nCells()']]],
+  ['ncells_5f',['nCells_',['../classGrid.html#adc43b67b6bdc23a0ffe1356edfcf376b',1,'Grid']]],
+  ['nvelo',['nVelo',['../structSettings.html#aefbc364c73123eacd4904e6429729013',1,'Settings']]],
+  ['nvelo_5f',['nVelo_',['../classGrid.html#a487bbcb2bc479d3e4a969986d03b0faf',1,'Grid']]]
 ];

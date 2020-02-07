@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ncells',['nCells',['../classStaggeredGrid.html#af37816ccb2c46e4a514dedac261897bf',1,'StaggeredGrid']]],
-  ['ncellsfluid',['nCellsFluid',['../classGeometry.html#aab2e9744e6d686399d39ceb578aaa8dc',1,'Geometry']]]
+  ['kbegin',['kBegin',['../classGrid.html#a35a6f9558be573278983eab353d9f5df',1,'Grid']]],
+  ['kend',['kEnd',['../classGrid.html#a53d12f3b47d856127098c99ee7ea27b7',1,'Grid']]]
 ];

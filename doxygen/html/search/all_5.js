@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['f',['f',['../classStaggeredGrid.html#adb05c59512dc8993367e4beddba05785',1,'StaggeredGrid']]],
-  ['f_5f',['f_',['../classStaggeredGrid.html#a94933ac0c6e0d2a794f46c7a97d72f75',1,'StaggeredGrid']]],
-  ['fieldvariable',['FieldVariable',['../classFieldVariable.html',1,'FieldVariable'],['../classFieldVariable.html#aa0985778bc6331b74904a03c3ef67a98',1,'FieldVariable::FieldVariable()']]],
-  ['fieldvariable_2ecpp',['FieldVariable.cpp',['../FieldVariable_8cpp.html',1,'']]],
-  ['fieldvariable_2eh',['FieldVariable.h',['../FieldVariable_8h.html',1,'']]],
-  ['fileno_5f',['fileNo_',['../classOutputWriter.html#a69d167e2526407602dce26ca7a2b9248',1,'OutputWriter']]]
+  ['gamma',['gamma',['../structSettings.html#a626bd5aa12e49526b8a87ae6df5db79c',1,'Settings']]],
+  ['grid',['Grid',['../classGrid.html',1,'Grid'],['../classGrid.html#a08d89052ebaa3e88dd71d428d8245347',1,'Grid::Grid()']]],
+  ['grid_2ecpp',['Grid.cpp',['../Grid_8cpp.html',1,'']]],
+  ['grid_2eh',['Grid.h',['../Grid_8h.html',1,'']]]
 ];

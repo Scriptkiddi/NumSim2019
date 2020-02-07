@@ -72,129 +72,93 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="StaggeredGrid_8h_source.html">StaggeredGrid.h</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for StaggeredGrid:</div>
-<div class="dyncontent">
-<div class="center"><img src="classStaggeredGrid__inherit__graph.png" border="0" usemap="#StaggeredGrid_inherit__map" alt="Inheritance graph"/></div>
-<map name="StaggeredGrid_inherit__map" id="StaggeredGrid_inherit__map">
-<area shape="rect"  title=" " alt="" coords="82,5,187,32"/>
-<area shape="rect"  href="classDiscretization.html" title=" " alt="" coords="83,80,186,107"/>
-<area shape="rect"  href="classCentralDifferences.html" title=" " alt="" coords="5,155,136,181"/>
-<area shape="rect"  href="classDonorCell.html" title=" " alt="" coords="160,155,240,181"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
 Collaboration diagram for StaggeredGrid:</div>
 <div class="dyncontent">
 <div class="center"><img src="classStaggeredGrid__coll__graph.png" border="0" usemap="#StaggeredGrid_coll__map" alt="Collaboration graph"/></div>
 <map name="StaggeredGrid_coll__map" id="StaggeredGrid_coll__map">
-<area shape="rect"  title=" " alt="" coords="5,317,111,344"/>
-<area shape="rect"  href="classFieldVariable.html" title=" " alt="" coords="10,81,106,108"/>
-<area shape="rect"  href="classArray2D.html" title=" " alt="" coords="23,5,93,32"/>
+<area shape="rect"  title=" " alt="" coords="29,229,135,256"/>
+<area shape="rect"  href="classFieldVector.html" title=" " alt="" coords="5,81,92,108"/>
+<area shape="rect"  href="classFieldVariable.html" title=" " alt="" coords="117,81,213,108"/>
+<area shape="rect"  href="classArray2D.html" title=" " alt="" coords="129,5,200,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2d170c6bbd8f7949ded93cdab769d18a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a2d170c6bbd8f7949ded93cdab769d18a">StaggeredGrid</a> (std::array&lt; int, 2 &gt; nCellsBoundary, std::array&lt; double, 2 &gt; <a class="el" href="classStaggeredGrid.html#a330856d4efe952771daf0753ef84068e">meshWidth</a>)</td></tr>
-<tr class="separator:a2d170c6bbd8f7949ded93cdab769d18a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12ac13158f4c9c267ca00c8f4af5e359"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a12ac13158f4c9c267ca00c8f4af5e359">StaggeredGrid</a> (std::array&lt; int, 2 &gt; nCellsBoundary, int nVelo, std::array&lt; double, 2 &gt; <a class="el" href="classStaggeredGrid.html#a330856d4efe952771daf0753ef84068e">meshWidth</a>)</td></tr>
+<tr class="separator:a12ac13158f4c9c267ca00c8f4af5e359"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a330856d4efe952771daf0753ef84068e"><td class="memItemLeft" align="right" valign="top">const std::array&lt; double, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a330856d4efe952771daf0753ef84068e">meshWidth</a> () const</td></tr>
 <tr class="separator:a330856d4efe952771daf0753ef84068e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af37816ccb2c46e4a514dedac261897bf"><td class="memItemLeft" align="right" valign="top">const std::array&lt; int, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#af37816ccb2c46e4a514dedac261897bf">nCells</a> () const</td></tr>
 <tr class="separator:af37816ccb2c46e4a514dedac261897bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87cee12621c641ab143a8b1a61b2ef7e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a87cee12621c641ab143a8b1a61b2ef7e">u</a> () const</td></tr>
 <tr class="separator:a87cee12621c641ab143a8b1a61b2ef7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acab136fb25e040d8125c370290864ea5"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#acab136fb25e040d8125c370290864ea5">uOld</a> () const</td></tr>
-<tr class="separator:acab136fb25e040d8125c370290864ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26e478abba632554652c9e05a279d1ca"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a26e478abba632554652c9e05a279d1ca">v</a> () const</td></tr>
 <tr class="separator:a26e478abba632554652c9e05a279d1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53df6ed75cf3021d50593a04c9d7f390"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a53df6ed75cf3021d50593a04c9d7f390">vOld</a> () const</td></tr>
-<tr class="separator:a53df6ed75cf3021d50593a04c9d7f390"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafe6e0bb3509f6aad272b94f74e7ffec"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aafe6e0bb3509f6aad272b94f74e7ffec">p</a> () const</td></tr>
 <tr class="separator:aafe6e0bb3509f6aad272b94f74e7ffec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2e215ba6d87dfc41beb42649ba1b799"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ae2e215ba6d87dfc41beb42649ba1b799">pOld</a> () const</td></tr>
-<tr class="separator:ae2e215ba6d87dfc41beb42649ba1b799"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04ff9b2c14158e1f75860c8e4ef0a101"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a04ff9b2c14158e1f75860c8e4ef0a101">t</a> () const</td></tr>
 <tr class="separator:a04ff9b2c14158e1f75860c8e4ef0a101"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd742febc872b98795e2a47835815685"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#afd742febc872b98795e2a47835815685">tOld</a> () const</td></tr>
-<tr class="separator:afd742febc872b98795e2a47835815685"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0324ce4d1fe2343d8aa9514e460cc556"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a0324ce4d1fe2343d8aa9514e460cc556">u</a> (int i, int j) const</td></tr>
 <tr class="separator:a0324ce4d1fe2343d8aa9514e460cc556"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ed62d6752b6b2b3ead5f654b515cd12"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a0ed62d6752b6b2b3ead5f654b515cd12">u</a> (int i, int j)</td></tr>
 <tr class="separator:a0ed62d6752b6b2b3ead5f654b515cd12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5368f026b37ca7d8f63e8b805b2b46b9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a5368f026b37ca7d8f63e8b805b2b46b9">uOld</a> (int i, int j) const</td></tr>
-<tr class="separator:a5368f026b37ca7d8f63e8b805b2b46b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac50464d9f8b1ee89eea4ad496e09dfd6"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ac50464d9f8b1ee89eea4ad496e09dfd6">uOld</a> (int i, int j)</td></tr>
-<tr class="separator:ac50464d9f8b1ee89eea4ad496e09dfd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac052d8803ff950aee04b86ac026c516b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ac052d8803ff950aee04b86ac026c516b">v</a> (int i, int j) const</td></tr>
 <tr class="separator:ac052d8803ff950aee04b86ac026c516b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7746f703f32c2f20a4c77246eebac697"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a7746f703f32c2f20a4c77246eebac697">v</a> (int i, int j)</td></tr>
 <tr class="separator:a7746f703f32c2f20a4c77246eebac697"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8a51f53c4b02d938bba9485e3708999"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aa8a51f53c4b02d938bba9485e3708999">vOld</a> (int i, int j) const</td></tr>
-<tr class="separator:aa8a51f53c4b02d938bba9485e3708999"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a585291cfec3161c849e1cd9fac4199d8"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a585291cfec3161c849e1cd9fac4199d8">vOld</a> (int i, int j)</td></tr>
-<tr class="separator:a585291cfec3161c849e1cd9fac4199d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6a5d99d9b4fbd9bd9cfa6ec071918f9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aa6a5d99d9b4fbd9bd9cfa6ec071918f9">p</a> (int i, int j) const</td></tr>
 <tr class="separator:aa6a5d99d9b4fbd9bd9cfa6ec071918f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa09a4ca67141589bae153797fbc4f3c5"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aa09a4ca67141589bae153797fbc4f3c5">p</a> (int i, int j)</td></tr>
 <tr class="separator:aa09a4ca67141589bae153797fbc4f3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf716a1e38d3c5f96b4d28fec19a35dd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#abf716a1e38d3c5f96b4d28fec19a35dd">pOld</a> (int i, int j) const</td></tr>
-<tr class="separator:abf716a1e38d3c5f96b4d28fec19a35dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd6f66c4e032762078b9bc518f0bf478"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#afd6f66c4e032762078b9bc518f0bf478">pOld</a> (int i, int j)</td></tr>
-<tr class="separator:afd6f66c4e032762078b9bc518f0bf478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a5893e93d39443f13e13d05c139a8fc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a5a5893e93d39443f13e13d05c139a8fc">rho</a> (int i, int j) const</td></tr>
+<tr class="separator:a5a5893e93d39443f13e13d05c139a8fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73fd2714e8ce9af369c2dc3b3301369c"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a73fd2714e8ce9af369c2dc3b3301369c">rho</a> (int i, int j)</td></tr>
+<tr class="separator:a73fd2714e8ce9af369c2dc3b3301369c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a477e8942e756cc2baecd1aaa5795bb3d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a477e8942e756cc2baecd1aaa5795bb3d">t</a> (int i, int j) const</td></tr>
 <tr class="separator:a477e8942e756cc2baecd1aaa5795bb3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30c69c5b8e2803a1e4d876f3942cecb1"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a30c69c5b8e2803a1e4d876f3942cecb1">t</a> (int i, int j)</td></tr>
 <tr class="separator:a30c69c5b8e2803a1e4d876f3942cecb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad195fdf4e1ddb4eaf3a75eae717f7ab6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ad195fdf4e1ddb4eaf3a75eae717f7ab6">tOld</a> (int i, int j) const</td></tr>
-<tr class="separator:ad195fdf4e1ddb4eaf3a75eae717f7ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b0a18f93fba7aec2fd57066f67cc3bd"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a9b0a18f93fba7aec2fd57066f67cc3bd">tOld</a> (int i, int j)</td></tr>
-<tr class="separator:a9b0a18f93fba7aec2fd57066f67cc3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fa8586d1216d7632af4af43596755ec"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a6fa8586d1216d7632af4af43596755ec">tTmp</a> (int i, int j) const</td></tr>
-<tr class="separator:a6fa8586d1216d7632af4af43596755ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92970d549989e22eaaa2163c7959043a"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a92970d549989e22eaaa2163c7959043a">tTmp</a> (int i, int j)</td></tr>
-<tr class="separator:a92970d549989e22eaaa2163c7959043a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a761ea51f1e8fd1290b3adfe09942b0d3"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a761ea51f1e8fd1290b3adfe09942b0d3">rhs</a> (int i, int j)</td></tr>
-<tr class="separator:a761ea51f1e8fd1290b3adfe09942b0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb05c59512dc8993367e4beddba05785"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#adb05c59512dc8993367e4beddba05785">f</a> (int i, int j)</td></tr>
-<tr class="separator:adb05c59512dc8993367e4beddba05785"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf849bec40f7fa7c68823038f0877341"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aaf849bec40f7fa7c68823038f0877341">g</a> (int i, int j)</td></tr>
-<tr class="separator:aaf849bec40f7fa7c68823038f0877341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9f3c3dc78482fc452920b5bbb2792e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a2a9f3c3dc78482fc452920b5bbb2792e">f</a> (int i, int j, int k) const</td></tr>
+<tr class="separator:a2a9f3c3dc78482fc452920b5bbb2792e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4ac0ad1aa8623609c4843c2ae10c37c"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ad4ac0ad1aa8623609c4843c2ae10c37c">f</a> (int i, int j, int k)</td></tr>
+<tr class="separator:ad4ac0ad1aa8623609c4843c2ae10c37c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2473c046774f2e69a876187b574880a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ac2473c046774f2e69a876187b574880a">feq</a> (int i, int j, int k) const</td></tr>
+<tr class="separator:ac2473c046774f2e69a876187b574880a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0e3f62488a6dff7ce73d75f589c71cd"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ac0e3f62488a6dff7ce73d75f589c71cd">feq</a> (int i, int j, int k)</td></tr>
+<tr class="separator:ac0e3f62488a6dff7ce73d75f589c71cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04771274659141abf54e2ea1946a5a34"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a04771274659141abf54e2ea1946a5a34">ftmp</a> (int i, int j, int k) const</td></tr>
+<tr class="separator:a04771274659141abf54e2ea1946a5a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af34086dde8f882682b1be25bbf785b26"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#af34086dde8f882682b1be25bbf785b26">ftmp</a> (int i, int j, int k)</td></tr>
+<tr class="separator:af34086dde8f882682b1be25bbf785b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa47f5ae98fed436b57457d8ff40fc74b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aa47f5ae98fed436b57457d8ff40fc74b">w</a> (int k) const</td></tr>
+<tr class="separator:aa47f5ae98fed436b57457d8ff40fc74b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a44f2af5f65826b69d499383938ad53"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a4a44f2af5f65826b69d499383938ad53">w</a> (int k)</td></tr>
+<tr class="separator:a4a44f2af5f65826b69d499383938ad53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1e5cee09668b3d2c693989f42ca3c8d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#af1e5cee09668b3d2c693989f42ca3c8d">c</a> (int k, int l) const</td></tr>
+<tr class="separator:af1e5cee09668b3d2c693989f42ca3c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73f563888c48febcbe71bcaaed297b49"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a73f563888c48febcbe71bcaaed297b49">c</a> (int k, int l)</td></tr>
+<tr class="separator:a73f563888c48febcbe71bcaaed297b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab897f162fde80ab6163a2ba6782ac1fa"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ab897f162fde80ab6163a2ba6782ac1fa">e</a> (int k, int l) const</td></tr>
+<tr class="separator:ab897f162fde80ab6163a2ba6782ac1fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae397f47eb73d9e4a92303ed3eb02bb2"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aae397f47eb73d9e4a92303ed3eb02bb2">e</a> (int k, int l)</td></tr>
+<tr class="separator:aae397f47eb73d9e4a92303ed3eb02bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec8490affea703cdd73b1febaed68968"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aec8490affea703cdd73b1febaed68968">dx</a> () const</td></tr>
 <tr class="separator:aec8490affea703cdd73b1febaed68968"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abde2da10e0c130fb0f206de64c9b4956"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#abde2da10e0c130fb0f206de64c9b4956">dy</a> () const</td></tr>
 <tr class="separator:abde2da10e0c130fb0f206de64c9b4956"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31e2d3a0b6e03685380810a7c2f323e1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a31e2d3a0b6e03685380810a7c2f323e1">uIBegin</a> () const</td></tr>
-<tr class="separator:a31e2d3a0b6e03685380810a7c2f323e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a641e473d72e1d02ba3de1c16e9d0d332"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a641e473d72e1d02ba3de1c16e9d0d332">uIEnd</a> () const</td></tr>
-<tr class="separator:a641e473d72e1d02ba3de1c16e9d0d332"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b0e97704e1871441a8e713ecaa2cff5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a9b0e97704e1871441a8e713ecaa2cff5">uJBegin</a> () const</td></tr>
-<tr class="separator:a9b0e97704e1871441a8e713ecaa2cff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3393aa91b17054d2d700de308ae25632"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a3393aa91b17054d2d700de308ae25632">uJEnd</a> () const</td></tr>
-<tr class="separator:a3393aa91b17054d2d700de308ae25632"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace7bf8cb1d279131739d5d12de302d09"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ace7bf8cb1d279131739d5d12de302d09">vIBegin</a> () const</td></tr>
-<tr class="separator:ace7bf8cb1d279131739d5d12de302d09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5a44aa088b5a7923fa952af1ecb5778"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aa5a44aa088b5a7923fa952af1ecb5778">vIEnd</a> () const</td></tr>
-<tr class="separator:aa5a44aa088b5a7923fa952af1ecb5778"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f8468d672411c0e3a5eeb67788fc826"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a7f8468d672411c0e3a5eeb67788fc826">vJBegin</a> () const</td></tr>
-<tr class="separator:a7f8468d672411c0e3a5eeb67788fc826"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab67e8d9d8d76d34fb02d4d644f0b3795"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ab67e8d9d8d76d34fb02d4d644f0b3795">vJEnd</a> () const</td></tr>
-<tr class="separator:ab67e8d9d8d76d34fb02d4d644f0b3795"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9922c955707f2a31a4a27d1d696f002e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a9922c955707f2a31a4a27d1d696f002e">pIBegin</a> () const</td></tr>
-<tr class="separator:a9922c955707f2a31a4a27d1d696f002e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34f16fdf87971fe84ffc3c84722bb2c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a34f16fdf87971fe84ffc3c84722bb2c7">pIEnd</a> () const</td></tr>
-<tr class="separator:a34f16fdf87971fe84ffc3c84722bb2c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4c9ba16c5635dc1ffaa264fbcc3e034"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ae4c9ba16c5635dc1ffaa264fbcc3e034">pJBegin</a> () const</td></tr>
-<tr class="separator:ae4c9ba16c5635dc1ffaa264fbcc3e034"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9928ee522eedb7d7fd48ca0b92f2795"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ad9928ee522eedb7d7fd48ca0b92f2795">pJEnd</a> () const</td></tr>
-<tr class="separator:ad9928ee522eedb7d7fd48ca0b92f2795"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae68f4a0afe178db8193c3fc6d7e54ad5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ae68f4a0afe178db8193c3fc6d7e54ad5">tIBegin</a> () const</td></tr>
-<tr class="separator:ae68f4a0afe178db8193c3fc6d7e54ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a056b7f4154ca679441d69bf692d7a935"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a056b7f4154ca679441d69bf692d7a935">tIEnd</a> () const</td></tr>
-<tr class="separator:a056b7f4154ca679441d69bf692d7a935"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf3e00c08dcd2e35d91577443e4ead1f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#adf3e00c08dcd2e35d91577443e4ead1f">tJBegin</a> () const</td></tr>
-<tr class="separator:adf3e00c08dcd2e35d91577443e4ead1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e63766ceb3fd216875a8bfa3154c920"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a7e63766ceb3fd216875a8bfa3154c920">tJEnd</a> () const</td></tr>
-<tr class="separator:a7e63766ceb3fd216875a8bfa3154c920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc4722bdd3f4d0a727c198caa95c2ac1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#afc4722bdd3f4d0a727c198caa95c2ac1">iBegin</a> () const</td></tr>
+<tr class="separator:afc4722bdd3f4d0a727c198caa95c2ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3e5ae6bc27c81cf85db63a03d762643"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ae3e5ae6bc27c81cf85db63a03d762643">iEnd</a> () const</td></tr>
+<tr class="separator:ae3e5ae6bc27c81cf85db63a03d762643"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab33ced44fb78f4168ffdfd8f7d1ab28e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ab33ced44fb78f4168ffdfd8f7d1ab28e">jBegin</a> () const</td></tr>
+<tr class="separator:ab33ced44fb78f4168ffdfd8f7d1ab28e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96a400e04182e422c2dfc6b2d2aabaf1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a96a400e04182e422c2dfc6b2d2aabaf1">jEnd</a> () const</td></tr>
+<tr class="separator:a96a400e04182e422c2dfc6b2d2aabaf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bb93be87d23ec6dbba5e082f4b24757"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a7bb93be87d23ec6dbba5e082f4b24757">kBegin</a> () const</td></tr>
+<tr class="separator:a7bb93be87d23ec6dbba5e082f4b24757"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6e4fdf936f14934a0995cef74042fc1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ae6e4fdf936f14934a0995cef74042fc1">kEnd</a> () const</td></tr>
+<tr class="separator:ae6e4fdf936f14934a0995cef74042fc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -202,34 +166,34 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:acacffb5739539d9015c986080bb5ed44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9603c3334440aab082dda48947e5ce6e"><td class="memItemLeft" align="right" valign="top">const std::array&lt; double, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a9603c3334440aab082dda48947e5ce6e">meshWidth_</a></td></tr>
 <tr class="separator:a9603c3334440aab082dda48947e5ce6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98c37d413d6633432bf7eca8d26b03b3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a98c37d413d6633432bf7eca8d26b03b3">nVelo_</a></td></tr>
+<tr class="separator:a98c37d413d6633432bf7eca8d26b03b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcef36b4ce8cc6843a2b6f603b62c763"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#adcef36b4ce8cc6843a2b6f603b62c763">u_</a></td></tr>
 <tr class="separator:adcef36b4ce8cc6843a2b6f603b62c763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3bb4cbb809f61c4ed406d41c1dcda10"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aa3bb4cbb809f61c4ed406d41c1dcda10">uOld_</a></td></tr>
-<tr class="separator:aa3bb4cbb809f61c4ed406d41c1dcda10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20ec43568fe937b194561e21a0b84ad9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a20ec43568fe937b194561e21a0b84ad9">v_</a></td></tr>
 <tr class="separator:a20ec43568fe937b194561e21a0b84ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7e8b1b8a9b054eda5e7c2630d71374a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ac7e8b1b8a9b054eda5e7c2630d71374a">vOld_</a></td></tr>
-<tr class="separator:ac7e8b1b8a9b054eda5e7c2630d71374a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ea3c93dd401ac06461ade9a74e76459"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a2ea3c93dd401ac06461ade9a74e76459">p_</a></td></tr>
 <tr class="separator:a2ea3c93dd401ac06461ade9a74e76459"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a508941dcce592296c421b594adecaa00"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a508941dcce592296c421b594adecaa00">pOld_</a></td></tr>
-<tr class="separator:a508941dcce592296c421b594adecaa00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a496206955162452a0629a7742fe92a84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a496206955162452a0629a7742fe92a84">rhs_</a></td></tr>
-<tr class="separator:a496206955162452a0629a7742fe92a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94933ac0c6e0d2a794f46c7a97d72f75"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a94933ac0c6e0d2a794f46c7a97d72f75">f_</a></td></tr>
-<tr class="separator:a94933ac0c6e0d2a794f46c7a97d72f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f5c88f603d4e503cba4c44ed43de46a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a5f5c88f603d4e503cba4c44ed43de46a">g_</a></td></tr>
-<tr class="separator:a5f5c88f603d4e503cba4c44ed43de46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0567bc9d5eebc252814c72cbcb46e43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ab0567bc9d5eebc252814c72cbcb46e43">rho_</a></td></tr>
+<tr class="separator:ab0567bc9d5eebc252814c72cbcb46e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06b3931e80b76e4041fb9218acbbb1c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a06b3931e80b76e4041fb9218acbbb1c5">t_</a></td></tr>
 <tr class="separator:a06b3931e80b76e4041fb9218acbbb1c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad80da5cc1270c723c9545b8a35e0d6b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ad80da5cc1270c723c9545b8a35e0d6b6">tOld_</a></td></tr>
-<tr class="separator:ad80da5cc1270c723c9545b8a35e0d6b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3854beee95d66eee193a4b841b7c720"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVariable.html">FieldVariable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#aa3854beee95d66eee193a4b841b7c720">tTmp_</a></td></tr>
-<tr class="separator:aa3854beee95d66eee193a4b841b7c720"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a025c007e37c470881d08947dfa312008"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVector.html">FieldVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a025c007e37c470881d08947dfa312008">f_</a></td></tr>
+<tr class="separator:a025c007e37c470881d08947dfa312008"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a575e1c6d6a60776ce0bc8d3cf47db43b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVector.html">FieldVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a575e1c6d6a60776ce0bc8d3cf47db43b">feq_</a></td></tr>
+<tr class="separator:a575e1c6d6a60776ce0bc8d3cf47db43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88163ce524495c545c4883c59ab9bc0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldVector.html">FieldVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a88163ce524495c545c4883c59ab9bc0c">ftmp_</a></td></tr>
+<tr class="separator:a88163ce524495c545c4883c59ab9bc0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c8f5be0e5eb034f27073575cde1b2b4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a4c8f5be0e5eb034f27073575cde1b2b4">w_</a></td></tr>
+<tr class="separator:a4c8f5be0e5eb034f27073575cde1b2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80ad23c7cd78a2d032e3c42c5f63a793"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::array&lt; double, 2 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#a80ad23c7cd78a2d032e3c42c5f63a793">c_</a></td></tr>
+<tr class="separator:a80ad23c7cd78a2d032e3c42c5f63a793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae47c17d79b71fc451ed4b7ec1aaae0c2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::array&lt; double, 2 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStaggeredGrid.html#ae47c17d79b71fc451ed4b7ec1aaae0c2">e_</a></td></tr>
+<tr class="separator:ae47c17d79b71fc451ed4b7ec1aaae0c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a2d170c6bbd8f7949ded93cdab769d18a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d170c6bbd8f7949ded93cdab769d18a">&#9670;&nbsp;</a></span>StaggeredGrid()</h2>
+<a id="a12ac13158f4c9c267ca00c8f4af5e359"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12ac13158f4c9c267ca00c8f4af5e359">&#9670;&nbsp;</a></span>StaggeredGrid()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,6 +203,12 @@ Protected Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramtype">std::array&lt; int, 2 &gt;&#160;</td>
           <td class="paramname"><em>nCellsBoundary</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nVelo</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -257,6 +227,62 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="af1e5cee09668b3d2c693989f42ca3c8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1e5cee09668b3d2c693989f42ca3c8d">&#9670;&nbsp;</a></span>c() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double StaggeredGrid::c </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a73f563888c48febcbe71bcaaed297b49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73f563888c48febcbe71bcaaed297b49">&#9670;&nbsp;</a></span>c() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double &amp; StaggeredGrid::c </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aec8490affea703cdd73b1febaed68968"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aec8490affea703cdd73b1febaed68968">&#9670;&nbsp;</a></span>dx()</h2>
 
@@ -291,8 +317,98 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="adb05c59512dc8993367e4beddba05785"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb05c59512dc8993367e4beddba05785">&#9670;&nbsp;</a></span>f()</h2>
+<a id="ab897f162fde80ab6163a2ba6782ac1fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab897f162fde80ab6163a2ba6782ac1fa">&#9670;&nbsp;</a></span>e() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double StaggeredGrid::e </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae397f47eb73d9e4a92303ed3eb02bb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae397f47eb73d9e4a92303ed3eb02bb2">&#9670;&nbsp;</a></span>e() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double &amp; StaggeredGrid::e </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a9f3c3dc78482fc452920b5bbb2792e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9f3c3dc78482fc452920b5bbb2792e">&#9670;&nbsp;</a></span>f() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double StaggeredGrid::f </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4ac0ad1aa8623609c4843c2ae10c37c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4ac0ad1aa8623609c4843c2ae10c37c">&#9670;&nbsp;</a></span>f() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -307,7 +423,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -319,14 +441,14 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aaf849bec40f7fa7c68823038f0877341"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf849bec40f7fa7c68823038f0877341">&#9670;&nbsp;</a></span>g()</h2>
+<a id="ac2473c046774f2e69a876187b574880a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2473c046774f2e69a876187b574880a">&#9670;&nbsp;</a></span>feq() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double &amp; StaggeredGrid::g </td>
+          <td class="memname">double StaggeredGrid::feq </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>i</em>, </td>
@@ -335,12 +457,222 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac0e3f62488a6dff7ce73d75f589c71cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0e3f62488a6dff7ce73d75f589c71cd">&#9670;&nbsp;</a></span>feq() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double &amp; StaggeredGrid::feq </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a04771274659141abf54e2ea1946a5a34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04771274659141abf54e2ea1946a5a34">&#9670;&nbsp;</a></span>ftmp() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double StaggeredGrid::ftmp </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af34086dde8f882682b1be25bbf785b26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af34086dde8f882682b1be25bbf785b26">&#9670;&nbsp;</a></span>ftmp() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double &amp; StaggeredGrid::ftmp </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afc4722bdd3f4d0a727c198caa95c2ac1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc4722bdd3f4d0a727c198caa95c2ac1">&#9670;&nbsp;</a></span>iBegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int StaggeredGrid::iBegin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae3e5ae6bc27c81cf85db63a03d762643"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3e5ae6bc27c81cf85db63a03d762643">&#9670;&nbsp;</a></span>iEnd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int StaggeredGrid::iEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab33ced44fb78f4168ffdfd8f7d1ab28e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab33ced44fb78f4168ffdfd8f7d1ab28e">&#9670;&nbsp;</a></span>jBegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int StaggeredGrid::jBegin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a96a400e04182e422c2dfc6b2d2aabaf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96a400e04182e422c2dfc6b2d2aabaf1">&#9670;&nbsp;</a></span>jEnd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int StaggeredGrid::jEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7bb93be87d23ec6dbba5e082f4b24757"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb93be87d23ec6dbba5e082f4b24757">&#9670;&nbsp;</a></span>kBegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int StaggeredGrid::kBegin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6e4fdf936f14934a0995cef74042fc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6e4fdf936f14934a0995cef74042fc1">&#9670;&nbsp;</a></span>kEnd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int StaggeredGrid::kEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -454,99 +786,14 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a9922c955707f2a31a4a27d1d696f002e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9922c955707f2a31a4a27d1d696f002e">&#9670;&nbsp;</a></span>pIBegin()</h2>
+<a id="a5a5893e93d39443f13e13d05c139a8fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a5893e93d39443f13e13d05c139a8fc">&#9670;&nbsp;</a></span>rho() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int StaggeredGrid::pIBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a34f16fdf87971fe84ffc3c84722bb2c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34f16fdf87971fe84ffc3c84722bb2c7">&#9670;&nbsp;</a></span>pIEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::pIEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae4c9ba16c5635dc1ffaa264fbcc3e034"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4c9ba16c5635dc1ffaa264fbcc3e034">&#9670;&nbsp;</a></span>pJBegin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::pJBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad9928ee522eedb7d7fd48ca0b92f2795"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9928ee522eedb7d7fd48ca0b92f2795">&#9670;&nbsp;</a></span>pJEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::pJEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae2e215ba6d87dfc41beb42649ba1b799"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2e215ba6d87dfc41beb42649ba1b799">&#9670;&nbsp;</a></span>pOld() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp; StaggeredGrid::pOld </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abf716a1e38d3c5f96b4d28fec19a35dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf716a1e38d3c5f96b4d28fec19a35dd">&#9670;&nbsp;</a></span>pOld() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double StaggeredGrid::pOld </td>
+          <td class="memname">double StaggeredGrid::rho </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>i</em>, </td>
@@ -567,42 +814,14 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="afd6f66c4e032762078b9bc518f0bf478"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd6f66c4e032762078b9bc518f0bf478">&#9670;&nbsp;</a></span>pOld() <span class="overload">[3/3]</span></h2>
+<a id="a73fd2714e8ce9af369c2dc3b3301369c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73fd2714e8ce9af369c2dc3b3301369c">&#9670;&nbsp;</a></span>rho() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double &amp; StaggeredGrid::pOld </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a761ea51f1e8fd1290b3adfe09942b0d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a761ea51f1e8fd1290b3adfe09942b0d3">&#9670;&nbsp;</a></span>rhs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double &amp; StaggeredGrid::rhs </td>
+          <td class="memname">double &amp; StaggeredGrid::rho </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>i</em>, </td>
@@ -696,203 +915,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae68f4a0afe178db8193c3fc6d7e54ad5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae68f4a0afe178db8193c3fc6d7e54ad5">&#9670;&nbsp;</a></span>tIBegin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::tIBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a056b7f4154ca679441d69bf692d7a935"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a056b7f4154ca679441d69bf692d7a935">&#9670;&nbsp;</a></span>tIEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::tIEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="adf3e00c08dcd2e35d91577443e4ead1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf3e00c08dcd2e35d91577443e4ead1f">&#9670;&nbsp;</a></span>tJBegin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::tJBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7e63766ceb3fd216875a8bfa3154c920"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e63766ceb3fd216875a8bfa3154c920">&#9670;&nbsp;</a></span>tJEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::tJEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afd742febc872b98795e2a47835815685"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd742febc872b98795e2a47835815685">&#9670;&nbsp;</a></span>tOld() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp; StaggeredGrid::tOld </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad195fdf4e1ddb4eaf3a75eae717f7ab6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad195fdf4e1ddb4eaf3a75eae717f7ab6">&#9670;&nbsp;</a></span>tOld() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double StaggeredGrid::tOld </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9b0a18f93fba7aec2fd57066f67cc3bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b0a18f93fba7aec2fd57066f67cc3bd">&#9670;&nbsp;</a></span>tOld() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double &amp; StaggeredGrid::tOld </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6fa8586d1216d7632af4af43596755ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6fa8586d1216d7632af4af43596755ec">&#9670;&nbsp;</a></span>tTmp() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double StaggeredGrid::tTmp </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a92970d549989e22eaaa2163c7959043a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92970d549989e22eaaa2163c7959043a">&#9670;&nbsp;</a></span>tTmp() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double &amp; StaggeredGrid::tTmp </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a87cee12621c641ab143a8b1a61b2ef7e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a87cee12621c641ab143a8b1a61b2ef7e">&#9670;&nbsp;</a></span>u() <span class="overload">[1/3]</span></h2>
 
@@ -946,147 +968,6 @@ Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">double &amp; StaggeredGrid::u </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a31e2d3a0b6e03685380810a7c2f323e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31e2d3a0b6e03685380810a7c2f323e1">&#9670;&nbsp;</a></span>uIBegin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::uIBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a641e473d72e1d02ba3de1c16e9d0d332"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a641e473d72e1d02ba3de1c16e9d0d332">&#9670;&nbsp;</a></span>uIEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::uIEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9b0e97704e1871441a8e713ecaa2cff5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b0e97704e1871441a8e713ecaa2cff5">&#9670;&nbsp;</a></span>uJBegin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::uJBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3393aa91b17054d2d700de308ae25632"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3393aa91b17054d2d700de308ae25632">&#9670;&nbsp;</a></span>uJEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::uJEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="acab136fb25e040d8125c370290864ea5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acab136fb25e040d8125c370290864ea5">&#9670;&nbsp;</a></span>uOld() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp; StaggeredGrid::uOld </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5368f026b37ca7d8f63e8b805b2b46b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5368f026b37ca7d8f63e8b805b2b46b9">&#9670;&nbsp;</a></span>uOld() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double StaggeredGrid::uOld </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac50464d9f8b1ee89eea4ad496e09dfd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac50464d9f8b1ee89eea4ad496e09dfd6">&#9670;&nbsp;</a></span>uOld() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double &amp; StaggeredGrid::uOld </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>i</em>, </td>
@@ -1180,141 +1061,36 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ace7bf8cb1d279131739d5d12de302d09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace7bf8cb1d279131739d5d12de302d09">&#9670;&nbsp;</a></span>vIBegin()</h2>
+<a id="aa47f5ae98fed436b57457d8ff40fc74b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa47f5ae98fed436b57457d8ff40fc74b">&#9670;&nbsp;</a></span>w() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int StaggeredGrid::vIBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa5a44aa088b5a7923fa952af1ecb5778"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5a44aa088b5a7923fa952af1ecb5778">&#9670;&nbsp;</a></span>vIEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::vIEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7f8468d672411c0e3a5eeb67788fc826"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f8468d672411c0e3a5eeb67788fc826">&#9670;&nbsp;</a></span>vJBegin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::vJBegin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab67e8d9d8d76d34fb02d4d644f0b3795"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab67e8d9d8d76d34fb02d4d644f0b3795">&#9670;&nbsp;</a></span>vJEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int StaggeredGrid::vJEnd </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a53df6ed75cf3021d50593a04c9d7f390"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53df6ed75cf3021d50593a04c9d7f390">&#9670;&nbsp;</a></span>vOld() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classFieldVariable.html">FieldVariable</a> &amp; StaggeredGrid::vOld </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa8a51f53c4b02d938bba9485e3708999"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8a51f53c4b02d938bba9485e3708999">&#9670;&nbsp;</a></span>vOld() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double StaggeredGrid::vOld </td>
+          <td class="memname">double StaggeredGrid::w </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
+          <td class="paramname"><em>k</em></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a585291cfec3161c849e1cd9fac4199d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a585291cfec3161c849e1cd9fac4199d8">&#9670;&nbsp;</a></span>vOld() <span class="overload">[3/3]</span></h2>
+<a id="a4a44f2af5f65826b69d499383938ad53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a44f2af5f65826b69d499383938ad53">&#9670;&nbsp;</a></span>w() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double &amp; StaggeredGrid::vOld </td>
+          <td class="memname">double &amp; StaggeredGrid::w </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>k</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1322,8 +1098,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a94933ac0c6e0d2a794f46c7a97d72f75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94933ac0c6e0d2a794f46c7a97d72f75">&#9670;&nbsp;</a></span>f_</h2>
+<a id="a80ad23c7cd78a2d032e3c42c5f63a793"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80ad23c7cd78a2d032e3c42c5f63a793">&#9670;&nbsp;</a></span>c_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1332,7 +1108,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::f_</td>
+          <td class="memname">std::vector&lt;std::array&lt;double,2&gt; &gt; StaggeredGrid::c_</td>
         </tr>
       </table>
   </td>
@@ -1344,8 +1120,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5f5c88f603d4e503cba4c44ed43de46a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f5c88f603d4e503cba4c44ed43de46a">&#9670;&nbsp;</a></span>g_</h2>
+<a id="ae47c17d79b71fc451ed4b7ec1aaae0c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae47c17d79b71fc451ed4b7ec1aaae0c2">&#9670;&nbsp;</a></span>e_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1354,7 +1130,73 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::g_</td>
+          <td class="memname">std::vector&lt;std::array&lt;double,2&gt; &gt; StaggeredGrid::e_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a025c007e37c470881d08947dfa312008"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a025c007e37c470881d08947dfa312008">&#9670;&nbsp;</a></span>f_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFieldVector.html">FieldVector</a> StaggeredGrid::f_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a575e1c6d6a60776ce0bc8d3cf47db43b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a575e1c6d6a60776ce0bc8d3cf47db43b">&#9670;&nbsp;</a></span>feq_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFieldVector.html">FieldVector</a> StaggeredGrid::feq_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a88163ce524495c545c4883c59ab9bc0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88163ce524495c545c4883c59ab9bc0c">&#9670;&nbsp;</a></span>ftmp_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFieldVector.html">FieldVector</a> StaggeredGrid::ftmp_</td>
         </tr>
       </table>
   </td>
@@ -1410,6 +1252,28 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a98c37d413d6633432bf7eca8d26b03b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98c37d413d6633432bf7eca8d26b03b3">&#9670;&nbsp;</a></span>nVelo_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int StaggeredGrid::nVelo_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2ea3c93dd401ac06461ade9a74e76459"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ea3c93dd401ac06461ade9a74e76459">&#9670;&nbsp;</a></span>p_</h2>
 
@@ -1432,8 +1296,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a508941dcce592296c421b594adecaa00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a508941dcce592296c421b594adecaa00">&#9670;&nbsp;</a></span>pOld_</h2>
+<a id="ab0567bc9d5eebc252814c72cbcb46e43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0567bc9d5eebc252814c72cbcb46e43">&#9670;&nbsp;</a></span>rho_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1442,29 +1306,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::pOld_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a496206955162452a0629a7742fe92a84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a496206955162452a0629a7742fe92a84">&#9670;&nbsp;</a></span>rhs_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::rhs_</td>
+          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::rho_</td>
         </tr>
       </table>
   </td>
@@ -1498,50 +1340,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad80da5cc1270c723c9545b8a35e0d6b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad80da5cc1270c723c9545b8a35e0d6b6">&#9670;&nbsp;</a></span>tOld_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::tOld_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa3854beee95d66eee193a4b841b7c720"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3854beee95d66eee193a4b841b7c720">&#9670;&nbsp;</a></span>tTmp_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::tTmp_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="adcef36b4ce8cc6843a2b6f603b62c763"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adcef36b4ce8cc6843a2b6f603b62c763">&#9670;&nbsp;</a></span>u_</h2>
 
@@ -1553,28 +1351,6 @@ Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::u_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa3bb4cbb809f61c4ed406d41c1dcda10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3bb4cbb809f61c4ed406d41c1dcda10">&#9670;&nbsp;</a></span>uOld_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::uOld_</td>
         </tr>
       </table>
   </td>
@@ -1608,8 +1384,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac7e8b1b8a9b054eda5e7c2630d71374a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7e8b1b8a9b054eda5e7c2630d71374a">&#9670;&nbsp;</a></span>vOld_</h2>
+<a id="a4c8f5be0e5eb034f27073575cde1b2b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c8f5be0e5eb034f27073575cde1b2b4">&#9670;&nbsp;</a></span>w_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1618,7 +1394,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classFieldVariable.html">FieldVariable</a> StaggeredGrid::vOld_</td>
+          <td class="memname">std::vector&lt;double&gt; StaggeredGrid::w_</td>
         </tr>
       </table>
   </td>

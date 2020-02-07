@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['re',['re',['../structSettings.html#a8b8330dfa04fe849291d68eacbc8dfec',1,'Settings']]],
-  ['readdataname',['readDataName',['../structSettings.html#a85b8414e900d5c5f43b5eab64c0f10d6',1,'Settings']]],
-  ['rhs_5f',['rhs_',['../classStaggeredGrid.html#a496206955162452a0629a7742fe92a84',1,'StaggeredGrid']]]
+  ['t',['T',['../structSettings.html#a255c7c5f048ccaeb00206462d3530240',1,'Settings']]],
+  ['t_5f',['t_',['../classGrid.html#a6cf194502db904e707adb421e84dd42e',1,'Grid']]],
+  ['timesteprelaxation',['timeStepRelaxation',['../structSettings.html#ab186bb6f0f6ce1f234e5ab5a221c838d',1,'Settings']]]
 ];

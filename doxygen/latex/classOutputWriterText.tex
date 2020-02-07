@@ -15,8 +15,7 @@ Inheritance diagram for Output\+Writer\+Text\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Output\+Writer\+Text\+:
-\nopagebreak
+Collaboration diagram for Output\+Writer\+Text\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -26,13 +25,11 @@ Collaboration diagram for Output\+Writer\+Text\+:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classOutputWriterText_a9ab79a49a916441fdeb11215515c9ca1}{Output\+Writer\+Text}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$ discretization, \mbox{\hyperlink{structSettings}{Settings}} settings)
-\item 
 void \mbox{\hyperlink{classOutputWriterText_a25a12ea2524fc34e9acb19ef1f4c7431}{write\+File}} (double current\+Time)
 \begin{DoxyCompactList}\small\item\em write current velocities to file, filename is output\+\_\+$<$count$>$.\+vti \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classOutputWriterText_a3480b58a23fd158f16d0ef9c1b67cbfd}{write\+Pressure\+File}} ()
 \begin{DoxyCompactList}\small\item\em write only current values of pressure to file, filename is pressure\+\_\+$<$count$>$.\+txt \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classOutputWriterText_a07a48bbf23f44147dce2ea3548f1d8e0}{Output\+Writer}} (shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$ discretization, \mbox{\hyperlink{structSettings}{Settings}} settings)
+\mbox{\hyperlink{classOutputWriterText_aa42fc9f21e7a107080c94c413b6b713b}{Output\+Writer}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classGrid}{Grid}} $>$ staggered\+Grid)
 \begin{DoxyCompactList}\small\item\em use constructor of base class \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
@@ -40,17 +37,8 @@ void \mbox{\hyperlink{classOutputWriterText_a3480b58a23fd158f16d0ef9c1b67cbfd}{w
 \subsection{Detailed Description}
 Write $\ast$.txt files that are useful for debugging. All values are written to the file as they are stored in the field variables, no interpolation takes place. 
 
-\subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classOutputWriterText_a9ab79a49a916441fdeb11215515c9ca1}\label{classOutputWriterText_a9ab79a49a916441fdeb11215515c9ca1}} 
-\index{OutputWriterText@{OutputWriterText}!OutputWriterText@{OutputWriterText}}
-\index{OutputWriterText@{OutputWriterText}!OutputWriterText@{OutputWriterText}}
-\subsubsection{\texorpdfstring{OutputWriterText()}{OutputWriterText()}}
-{\footnotesize\ttfamily Output\+Writer\+Text\+::\+Output\+Writer\+Text (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$}]{discretization,  }\item[{\mbox{\hyperlink{structSettings}{Settings}}}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{classOutputWriterText_a07a48bbf23f44147dce2ea3548f1d8e0}\label{classOutputWriterText_a07a48bbf23f44147dce2ea3548f1d8e0}} 
+\mbox{\Hypertarget{classOutputWriterText_aa42fc9f21e7a107080c94c413b6b713b}\label{classOutputWriterText_aa42fc9f21e7a107080c94c413b6b713b}} 
 \index{OutputWriterText@{OutputWriterText}!OutputWriter@{OutputWriter}}
 \index{OutputWriter@{OutputWriter}!OutputWriterText@{OutputWriterText}}
 \subsubsection{\texorpdfstring{OutputWriter()}{OutputWriter()}}

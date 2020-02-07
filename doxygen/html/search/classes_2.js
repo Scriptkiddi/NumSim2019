@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['discretization',['Discretization',['../classDiscretization.html',1,'']]],
-  ['donorcell',['DonorCell',['../classDonorCell.html',1,'']]]
+  ['fieldvariable',['FieldVariable',['../classFieldVariable.html',1,'']]],
+  ['fieldvector',['FieldVector',['../classFieldVector.html',1,'']]]
 ];

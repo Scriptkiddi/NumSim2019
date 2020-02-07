@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['f',['f',['../classStaggeredGrid.html#adb05c59512dc8993367e4beddba05785',1,'StaggeredGrid']]],
-  ['fieldvariable',['FieldVariable',['../classFieldVariable.html#aa0985778bc6331b74904a03c3ef67a98',1,'FieldVariable']]]
+  ['e',['e',['../classGrid.html#ae0cf276fde3988f2cf483a9bc5616a96',1,'Grid::e(int k, int l) const'],['../classGrid.html#a035959a1f868b5b4dd7b77933981aabd',1,'Grid::e(int k, int l)']]]
 ];

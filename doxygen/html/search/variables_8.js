@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ncells',['nCells',['../structSettings.html#a43a0d2ee903496bfb86693a43a891a69',1,'Settings']]],
-  ['ncells_5f',['nCells_',['../classStaggeredGrid.html#acacffb5739539d9015c986080bb5ed44',1,'StaggeredGrid']]]
+  ['p_5f',['p_',['../classGrid.html#ac934e365d7cd7eb572f654e4175d2b0f',1,'Grid']]],
+  ['physicalsize',['physicalSize',['../structSettings.html#a372a1549c306b12ca7bb0ed84f8a4cef',1,'Settings']]]
 ];

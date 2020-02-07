@@ -81,38 +81,27 @@ Inheritance diagram for OutputWriter:</div>
 <area shape="rect"  href="classOutputWriterText.html" title=" " alt="" coords="180,80,301,107"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for OutputWriter:</div>
-<div class="dyncontent">
-<div class="center"><img src="classOutputWriter__coll__graph.png" border="0" usemap="#OutputWriter_coll__map" alt="Collaboration graph"/></div>
-<map name="OutputWriter_coll__map" id="OutputWriter_coll__map">
-<area shape="rect"  title=" " alt="" coords="5,95,101,121"/>
-<area shape="rect"  href="structSettings.html" title=" " alt="" coords="18,5,89,32"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a07a48bbf23f44147dce2ea3548f1d8e0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOutputWriter.html#a07a48bbf23f44147dce2ea3548f1d8e0">OutputWriter</a> (shared_ptr&lt; <a class="el" href="classDiscretization.html">Discretization</a> &gt; discretization, <a class="el" href="structSettings.html">Settings</a> settings)</td></tr>
-<tr class="separator:a07a48bbf23f44147dce2ea3548f1d8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa42fc9f21e7a107080c94c413b6b713b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOutputWriter.html#aa42fc9f21e7a107080c94c413b6b713b">OutputWriter</a> (std::shared_ptr&lt; <a class="el" href="classGrid.html">Grid</a> &gt; staggeredGrid)</td></tr>
+<tr class="separator:aa42fc9f21e7a107080c94c413b6b713b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac625c204affdc05919388a3549c2e945"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOutputWriter.html#ac625c204affdc05919388a3549c2e945">writeFile</a> (double currentTime)=0</td></tr>
 <tr class="memdesc:ac625c204affdc05919388a3549c2e945"><td class="mdescLeft">&#160;</td><td class="mdescRight">write current velocities to file, filename is output_&lt;count&gt;.vti  <a href="#ac625c204affdc05919388a3549c2e945">More...</a><br /></td></tr>
 <tr class="separator:ac625c204affdc05919388a3549c2e945"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a0587b2dc160a9b1393411433dfc23b68"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classDiscretization.html">Discretization</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOutputWriter.html#a0587b2dc160a9b1393411433dfc23b68">discretization_</a></td></tr>
-<tr class="separator:a0587b2dc160a9b1393411433dfc23b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71372511003897a3c29d0e80cfbb12be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structSettings.html">Settings</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOutputWriter.html#a71372511003897a3c29d0e80cfbb12be">settings_</a></td></tr>
-<tr class="separator:a71372511003897a3c29d0e80cfbb12be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cfc5734d2c819d75fbe39a98b1e0d31"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classGrid.html">Grid</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOutputWriter.html#a6cfc5734d2c819d75fbe39a98b1e0d31">staggeredGrid_</a></td></tr>
+<tr class="separator:a6cfc5734d2c819d75fbe39a98b1e0d31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69d167e2526407602dce26ca7a2b9248"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOutputWriter.html#a69d167e2526407602dce26ca7a2b9248">fileNo_</a></td></tr>
 <tr class="separator:a69d167e2526407602dce26ca7a2b9248"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Inteface class for writing simulation data output. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a07a48bbf23f44147dce2ea3548f1d8e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07a48bbf23f44147dce2ea3548f1d8e0">&#9670;&nbsp;</a></span>OutputWriter()</h2>
+<a id="aa42fc9f21e7a107080c94c413b6b713b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa42fc9f21e7a107080c94c413b6b713b">&#9670;&nbsp;</a></span>OutputWriter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -120,19 +109,9 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">OutputWriter::OutputWriter </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classDiscretization.html">Discretization</a> &gt;&#160;</td>
-          <td class="paramname"><em>discretization</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classGrid.html">Grid</a> &gt;&#160;</td>
+          <td class="paramname"><em>staggeredGrid</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structSettings.html">Settings</a>&#160;</td>
-          <td class="paramname"><em>settings</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -177,28 +156,6 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a0587b2dc160a9b1393411433dfc23b68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0587b2dc160a9b1393411433dfc23b68">&#9670;&nbsp;</a></span>discretization_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="classDiscretization.html">Discretization</a>&gt; OutputWriter::discretization_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a69d167e2526407602dce26ca7a2b9248"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a69d167e2526407602dce26ca7a2b9248">&#9670;&nbsp;</a></span>fileNo_</h2>
 
@@ -221,8 +178,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a71372511003897a3c29d0e80cfbb12be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71372511003897a3c29d0e80cfbb12be">&#9670;&nbsp;</a></span>settings_</h2>
+<a id="a6cfc5734d2c819d75fbe39a98b1e0d31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cfc5734d2c819d75fbe39a98b1e0d31">&#9670;&nbsp;</a></span>staggeredGrid_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -231,7 +188,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structSettings.html">Settings</a> OutputWriter::settings_</td>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classGrid.html">Grid</a>&gt; OutputWriter::staggeredGrid_</td>
         </tr>
       </table>
   </td>
