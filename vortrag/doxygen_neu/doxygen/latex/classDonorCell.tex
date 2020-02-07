@@ -1,0 +1,98 @@
+\hypertarget{classDonorCell}{}\section{Donor\+Cell Class Reference}
+\label{classDonorCell}\index{DonorCell@{DonorCell}}
+
+
+{\ttfamily \#include $<$Donor\+Cell.\+h$>$}
+
+
+
+Inheritance diagram for Donor\+Cell\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{classDonorCell__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Donor\+Cell\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{classDonorCell__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classDonorCell_acea7bc69414ae6534ffc93960e047704}{Donor\+Cell}} (std\+::array$<$ int, 2 $>$ \mbox{\hyperlink{classStaggeredGrid_af37816ccb2c46e4a514dedac261897bf}{n\+Cells}}, std\+::array$<$ double, 2 $>$ \mbox{\hyperlink{classStaggeredGrid_a330856d4efe952771daf0753ef84068e}{mesh\+Width}}, double alpha, double gamma)
+\item 
+virtual double \mbox{\hyperlink{classDonorCell_a191338f4c9d03f2fcf202ab865f28446}{compute\+Du2\+Dx}} (int i, int j) const
+\item 
+virtual double \mbox{\hyperlink{classDonorCell_a7b3026b85f60709b52742cb672af81c1}{compute\+Dv2\+Dy}} (int i, int j) const
+\item 
+virtual double \mbox{\hyperlink{classDonorCell_a15d34de5bfaf3ef3bb8713f7b5474b56}{compute\+Duv\+Dx}} (int i, int j) const
+\item 
+virtual double \mbox{\hyperlink{classDonorCell_a9255ed63d7d334c01be6204fcd457699}{compute\+Duv\+Dy}} (int i, int j) const
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classDonorCell_acea7bc69414ae6534ffc93960e047704}\label{classDonorCell_acea7bc69414ae6534ffc93960e047704}} 
+\index{DonorCell@{DonorCell}!DonorCell@{DonorCell}}
+\index{DonorCell@{DonorCell}!DonorCell@{DonorCell}}
+\subsubsection{\texorpdfstring{DonorCell()}{DonorCell()}}
+{\footnotesize\ttfamily Donor\+Cell\+::\+Donor\+Cell (\begin{DoxyParamCaption}\item[{std\+::array$<$ int, 2 $>$}]{n\+Cells,  }\item[{std\+::array$<$ double, 2 $>$}]{mesh\+Width,  }\item[{double}]{alpha,  }\item[{double}]{gamma }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classDonorCell_a191338f4c9d03f2fcf202ab865f28446}\label{classDonorCell_a191338f4c9d03f2fcf202ab865f28446}} 
+\index{DonorCell@{DonorCell}!computeDu2Dx@{computeDu2Dx}}
+\index{computeDu2Dx@{computeDu2Dx}!DonorCell@{DonorCell}}
+\subsubsection{\texorpdfstring{computeDu2Dx()}{computeDu2Dx()}}
+{\footnotesize\ttfamily double Donor\+Cell\+::compute\+Du2\+Dx (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classDiscretization_acca6bf193e0e91f645d292527299254b}{Discretization}}.
+
+\mbox{\Hypertarget{classDonorCell_a15d34de5bfaf3ef3bb8713f7b5474b56}\label{classDonorCell_a15d34de5bfaf3ef3bb8713f7b5474b56}} 
+\index{DonorCell@{DonorCell}!computeDuvDx@{computeDuvDx}}
+\index{computeDuvDx@{computeDuvDx}!DonorCell@{DonorCell}}
+\subsubsection{\texorpdfstring{computeDuvDx()}{computeDuvDx()}}
+{\footnotesize\ttfamily double Donor\+Cell\+::compute\+Duv\+Dx (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classDiscretization_ab1c2aa237e13e7c4c9edd429de656795}{Discretization}}.
+
+\mbox{\Hypertarget{classDonorCell_a9255ed63d7d334c01be6204fcd457699}\label{classDonorCell_a9255ed63d7d334c01be6204fcd457699}} 
+\index{DonorCell@{DonorCell}!computeDuvDy@{computeDuvDy}}
+\index{computeDuvDy@{computeDuvDy}!DonorCell@{DonorCell}}
+\subsubsection{\texorpdfstring{computeDuvDy()}{computeDuvDy()}}
+{\footnotesize\ttfamily double Donor\+Cell\+::compute\+Duv\+Dy (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classDiscretization_a0bab86aef10a72e01b4f8102a3c91f84}{Discretization}}.
+
+\mbox{\Hypertarget{classDonorCell_a7b3026b85f60709b52742cb672af81c1}\label{classDonorCell_a7b3026b85f60709b52742cb672af81c1}} 
+\index{DonorCell@{DonorCell}!computeDv2Dy@{computeDv2Dy}}
+\index{computeDv2Dy@{computeDv2Dy}!DonorCell@{DonorCell}}
+\subsubsection{\texorpdfstring{computeDv2Dy()}{computeDv2Dy()}}
+{\footnotesize\ttfamily double Donor\+Cell\+::compute\+Dv2\+Dy (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classDiscretization_a69ba136ab7f8c09d805afca159cab428}{Discretization}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Staggered\+Grid/\mbox{\hyperlink{DonorCell_8h}{Donor\+Cell.\+h}}\item 
+src/\+Staggered\+Grid/\mbox{\hyperlink{DonorCell_8cpp}{Donor\+Cell.\+cpp}}\end{DoxyCompactItemize}

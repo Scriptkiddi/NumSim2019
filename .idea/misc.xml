@@ -4,8 +4,8 @@
   <component name="CidrRootsConfiguration">
     <sourceRoots>
       <file path="$PROJECT_DIR$/src/Array2D" />
+      <file path="$PROJECT_DIR$/src/Grid" />
       <file path="$PROJECT_DIR$/src/PressureSolver" />
-      <file path="$PROJECT_DIR$/src/StaggeredGrid" />
       <file path="$PROJECT_DIR$/src/Util" />
       <file path="$PROJECT_DIR$/src/output_writer" />
     </sourceRoots>

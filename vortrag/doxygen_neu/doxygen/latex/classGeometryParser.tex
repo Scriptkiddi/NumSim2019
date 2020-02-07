@@ -1,0 +1,42 @@
+\hypertarget{classGeometryParser}{}\section{Geometry\+Parser Class Reference}
+\label{classGeometryParser}\index{GeometryParser@{GeometryParser}}
+
+
+{\ttfamily \#include $<$Geometry\+Parser.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classGeometry}{Geometry}} $>$ \mbox{\hyperlink{classGeometryParser_a5a77e5ba1386bcf195de4b241f169464}{parse\+Geometry\+File}} (std\+::string file\+Path, \mbox{\hyperlink{structSettings}{Settings}} $\ast$settings)
+\item 
+void \mbox{\hyperlink{classGeometryParser_a2245b52d12835aafad6b3bd67914215b}{parse\+Mesh\+Line}} (string line, int line\+Number)
+\item 
+void \mbox{\hyperlink{classGeometryParser_a599d22091fded7248c6d0bfd8a70caf0}{parse\+Mesh\+Cell}} (string basic\+String, int line\+Number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classGeometryParser_a5a77e5ba1386bcf195de4b241f169464}\label{classGeometryParser_a5a77e5ba1386bcf195de4b241f169464}} 
+\index{GeometryParser@{GeometryParser}!parseGeometryFile@{parseGeometryFile}}
+\index{parseGeometryFile@{parseGeometryFile}!GeometryParser@{GeometryParser}}
+\subsubsection{\texorpdfstring{parseGeometryFile()}{parseGeometryFile()}}
+{\footnotesize\ttfamily shared\+\_\+ptr$<$ \mbox{\hyperlink{classGeometry}{Geometry}} $>$ Geometry\+Parser\+::parse\+Geometry\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Path,  }\item[{\mbox{\hyperlink{structSettings}{Settings}} $\ast$}]{settings }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classGeometryParser_a599d22091fded7248c6d0bfd8a70caf0}\label{classGeometryParser_a599d22091fded7248c6d0bfd8a70caf0}} 
+\index{GeometryParser@{GeometryParser}!parseMeshCell@{parseMeshCell}}
+\index{parseMeshCell@{parseMeshCell}!GeometryParser@{GeometryParser}}
+\subsubsection{\texorpdfstring{parseMeshCell()}{parseMeshCell()}}
+{\footnotesize\ttfamily void Geometry\+Parser\+::parse\+Mesh\+Cell (\begin{DoxyParamCaption}\item[{string}]{basic\+String,  }\item[{int}]{line\+Number }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classGeometryParser_a2245b52d12835aafad6b3bd67914215b}\label{classGeometryParser_a2245b52d12835aafad6b3bd67914215b}} 
+\index{GeometryParser@{GeometryParser}!parseMeshLine@{parseMeshLine}}
+\index{parseMeshLine@{parseMeshLine}!GeometryParser@{GeometryParser}}
+\subsubsection{\texorpdfstring{parseMeshLine()}{parseMeshLine()}}
+{\footnotesize\ttfamily void Geometry\+Parser\+::parse\+Mesh\+Line (\begin{DoxyParamCaption}\item[{string}]{line,  }\item[{int}]{line\+Number }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Util/\mbox{\hyperlink{GeometryParser_8h}{Geometry\+Parser.\+h}}\item 
+src/\+Util/\mbox{\hyperlink{GeometryParser_8cpp}{Geometry\+Parser.\+cpp}}\end{DoxyCompactItemize}

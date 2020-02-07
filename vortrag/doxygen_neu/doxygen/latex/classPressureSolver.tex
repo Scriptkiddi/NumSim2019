@@ -1,0 +1,100 @@
+\hypertarget{classPressureSolver}{}\section{Pressure\+Solver Class Reference}
+\label{classPressureSolver}\index{PressureSolver@{PressureSolver}}
+
+
+{\ttfamily \#include $<$Pressure\+Solver.\+h$>$}
+
+
+
+Inheritance diagram for Pressure\+Solver\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=163pt]{classPressureSolver__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPressureSolver_a0b18d1b4b728c717acb60e17d8afc2e9}{Pressure\+Solver}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$ discretization, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classGeometry}{Geometry}} $>$ geometry, double epsilon, int maximum\+Number\+Of\+Iterations)
+\item 
+virtual void \mbox{\hyperlink{classPressureSolver_a504ac61a1317650e0eb70d6a93212ca0}{solve}} ()=0
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classPressureSolver_a458c383fcacaf54c1a333a271049ca93}{set\+Boundary\+Values}} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$ \mbox{\hyperlink{classPressureSolver_af579ecebaaa8b11914293ef18af5fdc6}{discretization\+\_\+}}
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classGeometry}{Geometry}} $>$ \mbox{\hyperlink{classPressureSolver_af3df3def08159cc002f5f963f7e8be27}{geometry\+\_\+}}
+\item 
+double \mbox{\hyperlink{classPressureSolver_a22b723f3b3ba54e47f36cfc2b9576749}{epsilon\+\_\+}}
+\item 
+int \mbox{\hyperlink{classPressureSolver_af3b02d29bf1b21ad8b7e6edf8c2f4e87}{maximum\+Number\+Of\+Iterations\+\_\+}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPressureSolver_a0b18d1b4b728c717acb60e17d8afc2e9}\label{classPressureSolver_a0b18d1b4b728c717acb60e17d8afc2e9}} 
+\index{PressureSolver@{PressureSolver}!PressureSolver@{PressureSolver}}
+\index{PressureSolver@{PressureSolver}!PressureSolver@{PressureSolver}}
+\subsubsection{\texorpdfstring{PressureSolver()}{PressureSolver()}}
+{\footnotesize\ttfamily Pressure\+Solver\+::\+Pressure\+Solver (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$}]{discretization,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classGeometry}{Geometry}} $>$}]{geometry,  }\item[{double}]{epsilon,  }\item[{int}]{maximum\+Number\+Of\+Iterations }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classPressureSolver_a458c383fcacaf54c1a333a271049ca93}\label{classPressureSolver_a458c383fcacaf54c1a333a271049ca93}} 
+\index{PressureSolver@{PressureSolver}!setBoundaryValues@{setBoundaryValues}}
+\index{setBoundaryValues@{setBoundaryValues}!PressureSolver@{PressureSolver}}
+\subsubsection{\texorpdfstring{setBoundaryValues()}{setBoundaryValues()}}
+{\footnotesize\ttfamily void Pressure\+Solver\+::set\+Boundary\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPressureSolver_a504ac61a1317650e0eb70d6a93212ca0}\label{classPressureSolver_a504ac61a1317650e0eb70d6a93212ca0}} 
+\index{PressureSolver@{PressureSolver}!solve@{solve}}
+\index{solve@{solve}!PressureSolver@{PressureSolver}}
+\subsubsection{\texorpdfstring{solve()}{solve()}}
+{\footnotesize\ttfamily virtual void Pressure\+Solver\+::solve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classSOR_a860992d85d8aacf114a3a02b5831f728}{S\+OR}}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classPressureSolver_af579ecebaaa8b11914293ef18af5fdc6}\label{classPressureSolver_af579ecebaaa8b11914293ef18af5fdc6}} 
+\index{PressureSolver@{PressureSolver}!discretization\_@{discretization\_}}
+\index{discretization\_@{discretization\_}!PressureSolver@{PressureSolver}}
+\subsubsection{\texorpdfstring{discretization\_}{discretization\_}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classDiscretization}{Discretization}}$>$ Pressure\+Solver\+::discretization\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPressureSolver_a22b723f3b3ba54e47f36cfc2b9576749}\label{classPressureSolver_a22b723f3b3ba54e47f36cfc2b9576749}} 
+\index{PressureSolver@{PressureSolver}!epsilon\_@{epsilon\_}}
+\index{epsilon\_@{epsilon\_}!PressureSolver@{PressureSolver}}
+\subsubsection{\texorpdfstring{epsilon\_}{epsilon\_}}
+{\footnotesize\ttfamily double Pressure\+Solver\+::epsilon\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPressureSolver_af3df3def08159cc002f5f963f7e8be27}\label{classPressureSolver_af3df3def08159cc002f5f963f7e8be27}} 
+\index{PressureSolver@{PressureSolver}!geometry\_@{geometry\_}}
+\index{geometry\_@{geometry\_}!PressureSolver@{PressureSolver}}
+\subsubsection{\texorpdfstring{geometry\_}{geometry\_}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classGeometry}{Geometry}}$>$ Pressure\+Solver\+::geometry\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPressureSolver_af3b02d29bf1b21ad8b7e6edf8c2f4e87}\label{classPressureSolver_af3b02d29bf1b21ad8b7e6edf8c2f4e87}} 
+\index{PressureSolver@{PressureSolver}!maximumNumberOfIterations\_@{maximumNumberOfIterations\_}}
+\index{maximumNumberOfIterations\_@{maximumNumberOfIterations\_}!PressureSolver@{PressureSolver}}
+\subsubsection{\texorpdfstring{maximumNumberOfIterations\_}{maximumNumberOfIterations\_}}
+{\footnotesize\ttfamily int Pressure\+Solver\+::maximum\+Number\+Of\+Iterations\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Pressure\+Solver/\mbox{\hyperlink{PressureSolver_8h}{Pressure\+Solver.\+h}}\item 
+src/\+Pressure\+Solver/\mbox{\hyperlink{PressureSolver_8cpp}{Pressure\+Solver.\+cpp}}\end{DoxyCompactItemize}

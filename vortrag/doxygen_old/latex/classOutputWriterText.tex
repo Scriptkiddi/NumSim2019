@@ -1,0 +1,92 @@
+\hypertarget{classOutputWriterText}{}\section{Output\+Writer\+Text Class Reference}
+\label{classOutputWriterText}\index{OutputWriterText@{OutputWriterText}}
+
+
+{\ttfamily \#include $<$output\+\_\+writer\+\_\+text.\+h$>$}
+
+
+
+Inheritance diagram for Output\+Writer\+Text\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=171pt]{classOutputWriterText__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Output\+Writer\+Text\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=171pt]{classOutputWriterText__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classOutputWriterText_a9ab79a49a916441fdeb11215515c9ca1}{Output\+Writer\+Text}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$ discretization, \mbox{\hyperlink{structSettings}{Settings}} settings)
+\item 
+void \mbox{\hyperlink{classOutputWriterText_a25a12ea2524fc34e9acb19ef1f4c7431}{write\+File}} (double current\+Time)
+\begin{DoxyCompactList}\small\item\em write current velocities to file, filename is output\+\_\+$<$count$>$.\+vti \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classOutputWriterText_a3480b58a23fd158f16d0ef9c1b67cbfd}{write\+Pressure\+File}} ()
+\begin{DoxyCompactList}\small\item\em write only current values of pressure to file, filename is pressure\+\_\+$<$count$>$.\+txt \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classOutputWriterText_a07a48bbf23f44147dce2ea3548f1d8e0}{Output\+Writer}} (shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$ discretization, \mbox{\hyperlink{structSettings}{Settings}} settings)
+\begin{DoxyCompactList}\small\item\em use constructor of base class \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Write $\ast$.txt files that are useful for debugging. All values are written to the file as they are stored in the field variables, no interpolation takes place. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classOutputWriterText_a9ab79a49a916441fdeb11215515c9ca1}\label{classOutputWriterText_a9ab79a49a916441fdeb11215515c9ca1}} 
+\index{OutputWriterText@{OutputWriterText}!OutputWriterText@{OutputWriterText}}
+\index{OutputWriterText@{OutputWriterText}!OutputWriterText@{OutputWriterText}}
+\subsubsection{\texorpdfstring{OutputWriterText()}{OutputWriterText()}}
+{\footnotesize\ttfamily Output\+Writer\+Text\+::\+Output\+Writer\+Text (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classDiscretization}{Discretization}} $>$}]{discretization,  }\item[{\mbox{\hyperlink{structSettings}{Settings}}}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classOutputWriterText_a07a48bbf23f44147dce2ea3548f1d8e0}\label{classOutputWriterText_a07a48bbf23f44147dce2ea3548f1d8e0}} 
+\index{OutputWriterText@{OutputWriterText}!OutputWriter@{OutputWriter}}
+\index{OutputWriter@{OutputWriter}!OutputWriterText@{OutputWriterText}}
+\subsubsection{\texorpdfstring{OutputWriter()}{OutputWriter()}}
+{\footnotesize\ttfamily Output\+Writer\+::\+Output\+Writer}
+
+
+
+use constructor of base class 
+
+\mbox{\Hypertarget{classOutputWriterText_a25a12ea2524fc34e9acb19ef1f4c7431}\label{classOutputWriterText_a25a12ea2524fc34e9acb19ef1f4c7431}} 
+\index{OutputWriterText@{OutputWriterText}!writeFile@{writeFile}}
+\index{writeFile@{writeFile}!OutputWriterText@{OutputWriterText}}
+\subsubsection{\texorpdfstring{writeFile()}{writeFile()}}
+{\footnotesize\ttfamily void Output\+Writer\+Text\+::write\+File (\begin{DoxyParamCaption}\item[{double}]{current\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+write current velocities to file, filename is output\+\_\+$<$count$>$.\+vti 
+
+
+
+Implements \mbox{\hyperlink{classOutputWriter_ac625c204affdc05919388a3549c2e945}{Output\+Writer}}.
+
+\mbox{\Hypertarget{classOutputWriterText_a3480b58a23fd158f16d0ef9c1b67cbfd}\label{classOutputWriterText_a3480b58a23fd158f16d0ef9c1b67cbfd}} 
+\index{OutputWriterText@{OutputWriterText}!writePressureFile@{writePressureFile}}
+\index{writePressureFile@{writePressureFile}!OutputWriterText@{OutputWriterText}}
+\subsubsection{\texorpdfstring{writePressureFile()}{writePressureFile()}}
+{\footnotesize\ttfamily void Output\+Writer\+Text\+::write\+Pressure\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+write only current values of pressure to file, filename is pressure\+\_\+$<$count$>$.\+txt 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/output\+\_\+writer/\mbox{\hyperlink{output__writer__text_8h}{output\+\_\+writer\+\_\+text.\+h}}\item 
+src/output\+\_\+writer/\mbox{\hyperlink{output__writer__text_8cpp}{output\+\_\+writer\+\_\+text.\+cpp}}\end{DoxyCompactItemize}
