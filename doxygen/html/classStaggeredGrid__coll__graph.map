@@ -1,6 +1,0 @@
-<map id="StaggeredGrid" name="StaggeredGrid">
-<area shape="rect" id="node1" title=" " alt="" coords="29,229,135,256"/>
-<area shape="rect" id="node2" href="$classFieldVector.html" title=" " alt="" coords="5,81,92,108"/>
-<area shape="rect" id="node3" href="$classFieldVariable.html" title=" " alt="" coords="117,81,213,108"/>
-<area shape="rect" id="node4" href="$classArray2D.html" title=" " alt="" coords="129,5,200,32"/>
-</map>
